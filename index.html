@@ -80,7 +80,6 @@
   .skill-label span:last-child{color:var(--accent3);font-family:var(--mono);font-size:11px;}
   .skill-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
   .skill-fill{height:100%;background:var(--accent);border-radius:2px;}
-  .resume-section{max-width:1100px;margin:0 auto;padding:4rem 2rem;}
   .resume-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
   .resume-info h3{font-size:1.1rem;font-weight:600;margin-bottom:6px;}
   .resume-info p{font-size:13px;color:var(--text2);}
@@ -106,6 +105,7 @@
   .modal-highlights{display:flex;flex-direction:column;gap:8px;}
   .highlight-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);}
   .highlight-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px;}
+  .email-clickable{cursor:pointer;}
   @media(max-width:700px){
     .about-grid{grid-template-columns:1fr;}
     .contact-grid{grid-template-columns:1fr;}
@@ -219,7 +219,7 @@
       <div class="contact-title">LinkedIn</div>
       <div class="contact-sub">andres-moreno-navarro27</div>
     </a>
-    <div class="contact-card" id="emailCard" onclick="copyEmail()" style="cursor:pointer;">
+    <div class="contact-card email-clickable" id="emailCard" onclick="copyEmail()">
       <div class="contact-icon">✉️</div>
       <div class="contact-title">Email</div>
       <div class="contact-sub" id="emailLabel">andres.moreno2702@gmail.com</div>
@@ -250,7 +250,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const projects=[
   {icon:"🔌",title:"ESP32-S3-MINI Dev Board",desc:"Custom 4-layer development board designed from scratch in KiCad with USB-C, impedance-controlled traces, and decoupling network.",status:"done",tags:["KiCad","ESP32-S3","4-Layer PCB","USB-C","JLCPCB"],meta:"PCB Design · 2026",fullDesc:"A fully custom 4-layer development board for the ESP32-S3-MINI-1-N8 module, designed entirely from scratch in KiCad 9. Features a USB-C interface, proper impedance matching on RF traces, decoupling capacitors on all power pins, a WS2812B RGB LED, reset and boot buttons, and breakout headers for all GPIO. Manufactured at JLCPCB.",highlights:["4-layer stack-up with dedicated GND and V+ planes","Impedance-controlled 50Ω traces for RF section","USB-C with proper CC resistors for power negotiation","Full BOM and CPL generated for JLCPCB assembly","3D model verified in KiCad and Fusion 360"]},
   {icon:"🚗",title:"Wireless RC Car",desc:"Lightweight 3D-printed RC car with ESP-NOW wireless control, TB6612FNG motor driver, and servo steering.",status:"wip",tags:["ESP32","ESP-NOW","TB6612FNG","PWM","Fusion 360","3D Print"],meta:"Embedded Systems · Ongoing",fullDesc:"A custom RC car built around ESP32 boards communicating via ESP-NOW protocol. The chassis is 3D-printed in Fusion 360, with a TB6612FNG motor driver for precise PWM speed control and a servo for front-wheel steering. The controller uses a joystick with dead zones and explicit pin mapping.",highlights:["ESP-NOW peer-to-peer wireless communication","TB6612FNG dual H-bridge with PWM motor control","3D-printed chassis designed in Fusion 360","Joystick input with configurable dead zones","Custom LEDC PWM for ESP32 Arduino core v3+"]},
@@ -287,21 +287,29 @@ function copyEmail(){
   const label=document.getElementById('emailLabel');
   const card=document.getElementById('emailCard');
   function showCopied(){
-    label.textContent='Copied!';
+    label.textContent='Copied! ✓';
     card.style.borderColor='var(--accent)';
-    setTimeout(()=>{ label.textContent=email; card.style.borderColor=''; },2000);
+    setTimeout(()=>{label.textContent=email;card.style.borderColor='';},2000);
   }
-  if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(email).then(showCopied).catch(()=>fallback());
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(email).then(showCopied).catch(fallback);
   } else { fallback(); }
   function fallback(){
     const ta=document.createElement('textarea');
-    ta.value=email; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.focus(); ta.select();
-    try{ document.execCommand('copy'); showCopied(); } catch(e){ label.textContent='andres.moreno2702@gmail.com'; }
+    ta.value=email;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.focus();ta.select();
+    try{document.execCommand('copy');showCopied();}catch(e){}
     document.body.removeChild(ta);
   }
 }
 
 let dark=true;
 document.documentElement.setAttribute('data-theme','dark');
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+});
+</script>
+</body>
+</html>
