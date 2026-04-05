@@ -219,11 +219,11 @@
       <div class="contact-title">LinkedIn</div>
       <div class="contact-sub">andres-moreno-navarro27</div>
     </a>
-    <a href="mailto:andres.moreno2702@gmail.com" class="contact-card">
+    <div class="contact-card" id="emailCard" onclick="copyEmail()" style="cursor:pointer;">
       <div class="contact-icon">✉️</div>
       <div class="contact-title">Email</div>
-      <div class="contact-sub">andres.moreno2702@gmail.com</div>
-    </a>
+      <div class="contact-sub" id="emailLabel">andres.moreno2702@gmail.com</div>
+    </div>
     <a href="https://github.com/andresmoreno2702-gif" class="contact-card" target="_blank">
       <div class="contact-icon">🐙</div>
       <div class="contact-title">GitHub</div>
@@ -250,7 +250,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const projects=[
   {icon:"🔌",title:"ESP32-S3-MINI Dev Board",desc:"Custom 4-layer development board designed from scratch in KiCad with USB-C, impedance-controlled traces, and decoupling network.",status:"done",tags:["KiCad","ESP32-S3","4-Layer PCB","USB-C","JLCPCB"],meta:"PCB Design · 2026",fullDesc:"A fully custom 4-layer development board for the ESP32-S3-MINI-1-N8 module, designed entirely from scratch in KiCad 9. Features a USB-C interface, proper impedance matching on RF traces, decoupling capacitors on all power pins, a WS2812B RGB LED, reset and boot buttons, and breakout headers for all GPIO. Manufactured at JLCPCB.",highlights:["4-layer stack-up with dedicated GND and V+ planes","Impedance-controlled 50Ω traces for RF section","USB-C with proper CC resistors for power negotiation","Full BOM and CPL generated for JLCPCB assembly","3D model verified in KiCad and Fusion 360"]},
   {icon:"🚗",title:"Wireless RC Car",desc:"Lightweight 3D-printed RC car with ESP-NOW wireless control, TB6612FNG motor driver, and servo steering.",status:"wip",tags:["ESP32","ESP-NOW","TB6612FNG","PWM","Fusion 360","3D Print"],meta:"Embedded Systems · Ongoing",fullDesc:"A custom RC car built around ESP32 boards communicating via ESP-NOW protocol. The chassis is 3D-printed in Fusion 360, with a TB6612FNG motor driver for precise PWM speed control and a servo for front-wheel steering. The controller uses a joystick with dead zones and explicit pin mapping.",highlights:["ESP-NOW peer-to-peer wireless communication","TB6612FNG dual H-bridge with PWM motor control","3D-printed chassis designed in Fusion 360","Joystick input with configurable dead zones","Custom LEDC PWM for ESP32 Arduino core v3+"]},
@@ -282,13 +282,18 @@ function openModal(i){
 document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('modalOverlay').classList.remove('open'));
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))document.getElementById('modalOverlay').classList.remove('open');});
 
+function copyEmail(){
+  navigator.clipboard.writeText('andres.moreno2702@gmail.com').then(()=>{
+    const label=document.getElementById('emailLabel');
+    const card=document.getElementById('emailCard');
+    label.textContent='Copied!';
+    card.style.borderColor='var(--accent)';
+    setTimeout(()=>{
+      label.textContent='andres.moreno2702@gmail.com';
+      card.style.borderColor='';
+    },2000);
+  });
+}
+
 let dark=true;
 document.documentElement.setAttribute('data-theme','dark');
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  dark=!dark;
-  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
-});
-</script>
-</body>
-</html>
