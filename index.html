@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0046)file:///C:/Users/andre/Downloads/index_10.html -->
+<html lang="en" data-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andrés Moreno Navarro — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
   :root {
     --bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--card:#131b2e;
@@ -13,6 +13,8 @@
     --accent:#2563eb;--accent2:#3b82f6;--accent3:#60a5fa;
     --accent-glow:rgba(37,99,235,0.15);--accent-subtle:rgba(37,99,235,0.08);
     --tag-bg:rgba(37,99,235,0.12);--tag-text:#60a5fa;
+    --name-color:#3b82f6;
+    --wip-bg:rgba(245,158,11,0.15);--wip-text:#fbbf24;
     --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
     --transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
   }
@@ -23,29 +25,29 @@
     --accent:#1d4ed8;--accent2:#2563eb;--accent3:#3b82f6;
     --accent-glow:rgba(37,99,235,0.08);--accent-subtle:rgba(37,99,235,0.05);
     --tag-bg:rgba(37,99,235,0.08);--tag-text:#1d4ed8;
+    --name-color:#1d4ed8;
+    --wip-bg:rgba(180,83,9,0.12);--wip-text:#92400e;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{font-family:var(--sans);background:var(--bg);color:var(--text);transition:var(--transition);min-height:100vh;overflow-x:hidden;}
   nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--border);transition:var(--transition);}
-  .nav-logo{font-family:var(--mono);font-size:14px;color:var(--accent3);letter-spacing:0.05em;}
   .nav-links{display:flex;align-items:center;gap:2rem;}
   .nav-links a{font-size:13px;color:var(--text2);text-decoration:none;transition:color 0.2s;}
   .nav-links a:hover{color:var(--text);}
   .theme-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--transition);}
   .theme-btn:hover{background:var(--bg2);color:var(--text);}
-  .hero{padding:120px 2rem 80px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;}
+  .hero{padding:120px 2rem 80px;max-width:1100px;margin:0 auto;}
   .hero-label{font-family:var(--mono);font-size:12px;color:var(--accent3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
   .hero-label::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent3);}
   .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:700;line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.25rem;}
-  .hero h1 span{color:var(--accent3);}
+  .hero h1 .name-highlight{color:var(--name-color);}
   .hero-desc{font-size:16px;color:var(--text2);line-height:1.7;max-width:520px;margin-bottom:2rem;}
   .hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
   .btn-primary{padding:10px 22px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:var(--transition);}
   .btn-primary:hover{background:var(--accent2);transform:translateY(-1px);}
   .btn-outline{padding:10px 22px;background:transparent;color:var(--text);border:1px solid var(--border2);border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:var(--transition);}
   .btn-outline:hover{background:var(--bg3);transform:translateY(-1px);}
-  .hero-avatar{width:160px;height:160px;border-radius:50%;border:3px solid var(--accent);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;color:var(--accent3);flex-shrink:0;box-shadow:0 0 40px var(--accent-glow);}
   .hero-stats{display:flex;gap:2rem;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);}
   .stat-num{font-size:1.5rem;font-weight:700;color:var(--accent3);}
   .stat-label{font-size:12px;color:var(--text3);margin-top:2px;}
@@ -53,7 +55,6 @@
   .section-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;}
   .section-header h2{font-size:1.5rem;font-weight:600;letter-spacing:-0.01em;}
   .section-line{flex:1;height:1px;background:var(--border);}
-  .section-num{font-family:var(--mono);font-size:12px;color:var(--accent3);}
   .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;}
   .project-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:var(--transition);position:relative;}
   .project-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 30px var(--accent-glow);}
@@ -61,7 +62,8 @@
   .project-img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-subtle),transparent);}
   .project-status{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;font-weight:500;letter-spacing:0.05em;}
   .status-done{background:rgba(16,185,129,0.15);color:#34d399;}
-  .status-wip{background:rgba(245,158,11,0.15);color:#fbbf24;}
+  [data-theme="light"] .status-done{background:rgba(4,120,87,0.1);color:#065f46;}
+  .status-wip{background:var(--wip-bg);color:var(--wip-text);}
   .project-body{padding:1.25rem;}
   .project-title{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--text);}
   .project-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1rem;}
@@ -78,6 +80,11 @@
   .skill-label span:last-child{color:var(--accent3);font-family:var(--mono);font-size:11px;}
   .skill-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
   .skill-fill{height:100%;background:var(--accent);border-radius:2px;}
+  .resume-section{max-width:1100px;margin:0 auto;padding:4rem 2rem;}
+  .resume-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .resume-info h3{font-size:1.1rem;font-weight:600;margin-bottom:6px;}
+  .resume-info p{font-size:13px;color:var(--text2);}
+  .resume-btns{display:flex;gap:12px;flex-wrap:wrap;}
   .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
   .contact-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-decoration:none;color:inherit;transition:var(--transition);display:flex;flex-direction:column;gap:8px;}
   .contact-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px var(--accent-glow);}
@@ -100,79 +107,76 @@
   .highlight-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);}
   .highlight-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px;}
   @media(max-width:700px){
-    .hero{grid-template-columns:1fr;}.hero-avatar{display:none;}
-    .about-grid{grid-template-columns:1fr;}.contact-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .resume-card{flex-direction:column;align-items:flex-start;}
     nav .nav-links{display:none;}
   }
 </style>
 </head>
 <body>
 <nav>
-  <div class="nav-logo">AMN.dev</div>
+  <div></div>
   <div class="nav-links">
-    <a href="#projects">Projects</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+    <a href="file:///C:/Users/andre/Downloads/index_10.html#projects">Projects</a>
+    <a href="file:///C:/Users/andre/Downloads/index_10.html#about">About</a>
+    <a href="file:///C:/Users/andre/Downloads/index_10.html#resume">Resume</a>
+    <a href="file:///C:/Users/andre/Downloads/index_10.html#contact">Contact</a>
   </div>
   <button class="theme-btn" id="themeBtn">🌙</button>
 </nav>
 
 <div class="hero">
-  <div>
-    <div class="hero-label">Electrical & Electronics Engineer</div>
-    <h1>Andrés <span>Moreno Navarro</span></h1>
-    <p class="hero-desc">Engineering student at the University of Western Australia, building embedded systems, custom PCBs, and RC projects. Turning ideas into real hardware.</p>
-    <div class="hero-btns">
-      <a href="resume.pdf" class="btn-primary" download>⬇ Download Resume</a>
-      <a href="#projects" class="btn-outline">View Projects →</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Projects</div></div>
-      <div class="stat-item"><div class="stat-num">4L</div><div class="stat-label">First PCB</div></div>
-      <div class="stat-item"><div class="stat-num">UWA</div><div class="stat-label">Engineering</div></div>
-    </div>
+  <div class="hero-label">Electrical &amp; Electronics Engineer (Student)</div>
+  <h1>Andrés <span class="name-highlight">Moreno Navarro</span></h1>
+  <p class="hero-desc">Engineering student at the University of Western Australia, building embedded systems, custom PCBs, and RC projects. Turning ideas into real hardware.</p>
+  <div class="hero-btns">
+    <a href="file:///C:/Users/andre/Downloads/index_10.html#projects" class="btn-primary">View Projects →</a>
+    <a href="file:///C:/Users/andre/Downloads/index_10.html#resume" class="btn-outline">📄 Resume</a>
   </div>
-  <div class="hero-avatar">AMN</div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Projects</div></div>
+    <div class="stat-item"><div class="stat-num">4L</div><div class="stat-label">First PCB</div></div>
+    <div class="stat-item"><div class="stat-num">UWA</div><div class="stat-label">Engineering</div></div>
+  </div>
 </div>
 
 <section id="projects">
   <div class="section-header">
-    <span class="section-num">01</span>
     <h2>Projects</h2>
     <div class="section-line"></div>
   </div>
-  <div class="projects-grid" id="projectsGrid"></div>
+  <div class="projects-grid" id="projectsGrid"><div class="project-card"><div class="project-img"><span>🔌</span><div class="project-img-overlay"></div><div class="project-status status-done">COMPLETE</div></div><div class="project-body"><div class="project-title">ESP32-S3-MINI Dev Board</div><div class="project-desc">Custom 4-layer development board designed from scratch in KiCad with USB-C, impedance-controlled traces, and decoupling network.</div><div class="project-tags"><span class="tag">KiCad</span><span class="tag">ESP32-S3</span><span class="tag">4-Layer PCB</span><span class="tag">USB-C</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🚗</span><div class="project-img-overlay"></div><div class="project-status status-wip">IN PROGRESS</div></div><div class="project-body"><div class="project-title">Wireless RC Car</div><div class="project-desc">Lightweight 3D-printed RC car with ESP-NOW wireless control, TB6612FNG motor driver, and servo steering.</div><div class="project-tags"><span class="tag">ESP32</span><span class="tag">ESP-NOW</span><span class="tag">TB6612FNG</span><span class="tag">PWM</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🎮</span><div class="project-img-overlay"></div><div class="project-status status-wip">IN PROGRESS</div></div><div class="project-body"><div class="project-title">ESP32 NES Emulator Console</div><div class="project-desc">Retro handheld gaming console based on ESP32-WROOM-32E running a NES emulator with ST7789 display and I2S audio.</div><div class="project-tags"><span class="tag">ESP32</span><span class="tag">ST7789</span><span class="tag">MAX98357A</span><span class="tag">NES</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🔧</span><div class="project-img-overlay"></div><div class="project-status status-done">COMPLETE</div></div><div class="project-body"><div class="project-title">Exhaust Cutout Controller</div><div class="project-desc">Arduino Nano Every based dual exhaust cutout controller with factory-style rocker switch and 3D-printed enclosure.</div><div class="project-tags"><span class="tag">Arduino</span><span class="tag">Relay</span><span class="tag">Firmware</span><span class="tag">Fusion 360</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>⚡</span><div class="project-img-overlay"></div><div class="project-status status-done">COMPLETE</div></div><div class="project-body"><div class="project-title">Power &amp; Machines Lab Work</div><div class="project-desc">University lab work covering transformers, synchronous machines, and induction motors with real hardware testing.</div><div class="project-tags"><span class="tag">ELEC3016</span><span class="tag">Transformers</span><span class="tag">Induction Motors</span><span class="tag">MATLAB</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🖥️</span><div class="project-img-overlay"></div><div class="project-status status-done">COMPLETE</div></div><div class="project-body"><div class="project-title">VHDL Digital Systems (DE10-Lite)</div><div class="project-desc">Digital system designs in VHDL on the DE10-Lite FPGA board including state machines, counters, and ALU components.</div><div class="project-tags"><span class="tag">VHDL</span><span class="tag">FPGA</span><span class="tag">DE10-Lite</span><span class="tag">Quartus</span></div></div><div class="project-arrow">→</div></div></div>
 </section>
 
 <section id="about">
   <div class="section-header">
-    <span class="section-num">02</span>
     <h2>About</h2>
     <div class="section-line"></div>
   </div>
   <div class="about-grid">
     <div class="about-text">
-      <p>I'm a second-year <strong>Electrical and Electronics Engineering</strong> student at the University of Western Australia, based in Perth, WA.</p>
+      <p>I'm a third-year <strong>part-time Electrical and Electronics Engineering</strong> student at the University of Western Australia, based in Perth, WA.</p>
       <p>I love the full stack of hardware — from <strong>schematic design and PCB layout</strong> in KiCad, to <strong>3D-printed enclosures</strong> in Fusion 360, to <strong>embedded firmware</strong> running on ESP32 and Arduino platforms.</p>
       <p>My projects span wireless communication, motor control, retro gaming consoles, and custom development boards — all designed and built from scratch.</p>
     </div>
     <div>
       <div class="skills-list">
         <div class="skill-item">
-          <div class="skill-label"><span>KiCad / PCB Design</span><span>85%</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+          <div class="skill-label"><span>KiCad / PCB Design</span><span>65%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>ESP32 / Arduino Firmware</span><span>90%</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+          <div class="skill-label"><span>ESP32 / Arduino Firmware</span><span>60%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
         </div>
         <div class="skill-item">
           <div class="skill-label"><span>Fusion 360 / CAD</span><span>75%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>VHDL / Digital Design</span><span>70%</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+          <div class="skill-label"><span>VHDL / Digital Design</span><span>60%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
         </div>
         <div class="skill-item">
           <div class="skill-label"><span>3D Printing / Slicing</span><span>80%</span></div>
@@ -187,9 +191,25 @@
   </div>
 </section>
 
+<section id="resume">
+  <div class="section-header">
+    <h2>Resume</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="resume-card">
+    <div class="resume-info">
+      <h3>Andrés Moreno Navarro</h3>
+      <p>Electrical &amp; Electronics Engineering Student · UWA · Perth, WA</p>
+    </div>
+    <div class="resume-btns">
+      <a href="file:///C:/Users/andre/Downloads/resume.pdf" target="_blank" class="btn-outline">👁 View Resume</a>
+      <a href="file:///C:/Users/andre/Downloads/resume.pdf" download="Andres_Moreno_Navarro_Resume.pdf" class="btn-primary">⬇ Download Resume</a>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
   <div class="section-header">
-    <span class="section-num">03</span>
     <h2>Contact</h2>
     <div class="section-line"></div>
   </div>
@@ -270,5 +290,6 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
 });
 </script>
-</body>
-</html>
+
+
+</body></html>
