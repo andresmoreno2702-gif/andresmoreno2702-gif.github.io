@@ -283,16 +283,24 @@ document.getElementById('modalClose').addEventListener('click',()=>document.getE
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))document.getElementById('modalOverlay').classList.remove('open');});
 
 function copyEmail(){
-  navigator.clipboard.writeText('andres.moreno2702@gmail.com').then(()=>{
-    const label=document.getElementById('emailLabel');
-    const card=document.getElementById('emailCard');
+  const email='andres.moreno2702@gmail.com';
+  const label=document.getElementById('emailLabel');
+  const card=document.getElementById('emailCard');
+  function showCopied(){
     label.textContent='Copied!';
     card.style.borderColor='var(--accent)';
-    setTimeout(()=>{
-      label.textContent='andres.moreno2702@gmail.com';
-      card.style.borderColor='';
-    },2000);
-  });
+    setTimeout(()=>{ label.textContent=email; card.style.borderColor=''; },2000);
+  }
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(email).then(showCopied).catch(()=>fallback());
+  } else { fallback(); }
+  function fallback(){
+    const ta=document.createElement('textarea');
+    ta.value=email; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); showCopied(); } catch(e){ label.textContent='andres.moreno2702@gmail.com'; }
+    document.body.removeChild(ta);
+  }
 }
 
 let dark=true;
