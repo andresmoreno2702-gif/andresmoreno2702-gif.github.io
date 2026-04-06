@@ -332,6 +332,11 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
       color:#fff;padding:6px 14px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;pointer-events:none;}
     body.edit-mode [data-etxt]:hover{outline:2px dashed rgba(37,99,235,.5);outline-offset:2px;cursor:text;}
     body.edit-mode [contenteditable="true"]{outline:2px solid #2563eb;outline-offset:2px;}
+    .eb-sec-handle{display:none;height:12px;cursor:ns-resize;position:relative;margin:0 -2rem;z-index:50;}
+    body.edit-mode .eb-sec-handle{display:block;}
+    .eb-sec-handle::after{content:'';display:block;height:2px;background:rgba(37,99,235,.35);margin:5px 0;transition:background .15s;}
+    .eb-sec-handle:hover::after{background:#2563eb;}
+    .eb-sec-handle::before{content:'· · · · ·';position:absolute;left:50%;transform:translateX(-50%);top:-1px;font-size:9px;color:rgba(37,99,235,.5);letter-spacing:3px;}
   `;
   document.head.appendChild(style);
 
@@ -348,21 +353,34 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   let editMode=false;
   const undoStack=[];
 
+  // Sync skill bar width when percentage span changes
+  function syncSkillBar(span){
+    const item=span.closest('.skill-item');
+    if(!item)return;
+    const fill=item.querySelector('.skill-fill');
+    if(!fill)return;
+    const pct=parseInt(span.textContent);
+    if(!isNaN(pct))fill.style.width=Math.min(100,Math.max(0,pct))+'%';
+  }
+
   // Per-element undo — no DOM swap needed, preserves all event listeners
   function enableText(){
     const TSEL='h1,.hero-label,.hero-desc,.stat-num,.stat-label,.about-text p,.skill-label span,.contact-title,.contact-sub,footer span,.resume-info h3,.resume-info p';
     document.querySelectorAll(TSEL).forEach(el=>{
       if(el.dataset.etxt)return;
       el.dataset.etxt='1';
+      const isSkillPct=el.matches('.skill-label span:last-child');
       el.addEventListener('click',e=>{
         if(!editMode)return;
         e.stopPropagation();
         const saved=el.textContent;
         el.contentEditable='true';el.focus();
+        if(isSkillPct)el.addEventListener('input',()=>syncSkillBar(el));
         el.addEventListener('blur',()=>{
           el.contentEditable='false';
+          if(isSkillPct)syncSkillBar(el);
           if(el.textContent!==saved){
-            undoStack.push({el,text:saved});
+            undoStack.push({type:'text',el,text:saved});
             if(undoStack.length>50)undoStack.shift();
             btnUndo.disabled=false;
           }
@@ -373,16 +391,22 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
 
   btnUndo.addEventListener('click',()=>{
     if(!undoStack.length)return;
-    const {el,text}=undoStack.pop();
-    el.textContent=text;
+    const entry=undoStack.pop();
+    if(entry.type==='pad'){
+      entry.el.style.paddingTop=entry.value;
+    } else {
+      entry.el.textContent=entry.text;
+      syncSkillBar(entry.el);
+    }
     if(!undoStack.length)btnUndo.disabled=true;
   });
 
   // ── Clean full-page HTML for save/export ──
   function fullPageClean(){
     const clone=document.documentElement.cloneNode(true);
-    clone.querySelectorAll('#edit-toolbar,#save-flash-i').forEach(el=>el.remove());
+    clone.querySelectorAll('#edit-toolbar,#save-flash-i,.eb-sec-handle').forEach(el=>el.remove());
     clone.querySelectorAll('[data-etxt]').forEach(el=>{el.contentEditable='false';el.removeAttribute('data-etxt');});
+    clone.querySelectorAll('[data-handle-init]').forEach(el=>el.removeAttribute('data-handle-init'));
     clone.querySelector('body').classList.remove('edit-mode');
     return '<!DOCTYPE html>\n'+clone.outerHTML;
   }
@@ -440,6 +464,37 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
     URL.revokeObjectURL(a.href);
   });
 
+  // ── Section spacing handles ──
+  function initSectionHandles(){
+    document.querySelectorAll('section').forEach(sec=>{
+      if(sec.dataset.handleInit)return;
+      sec.dataset.handleInit='1';
+      const handle=document.createElement('div');
+      handle.className='eb-sec-handle';
+      sec.insertBefore(handle,sec.firstChild);
+      handle.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        const startY=e.clientY;
+        const startPad=parseInt(getComputedStyle(sec).paddingTop)||64;
+        function onMove(e){
+          sec.style.paddingTop=Math.max(8,startPad+(e.clientY-startY))+'px';
+        }
+        function onUp(){
+          document.removeEventListener('mousemove',onMove);
+          document.removeEventListener('mouseup',onUp);
+          const finalPad=parseInt(sec.style.paddingTop)||startPad;
+          if(finalPad!==startPad){
+            undoStack.push({type:'pad',el:sec,value:startPad+'px'});
+            if(undoStack.length>50)undoStack.shift();
+            btnUndo.disabled=false;
+          }
+        }
+        document.addEventListener('mousemove',onMove);
+        document.addEventListener('mouseup',onUp);
+      });
+    });
+  }
+
   // ── Ctrl+Shift+E → password ──
   const EDIT_PASS='morenavaa321';
   document.addEventListener('keydown',e=>{
@@ -447,7 +502,7 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
       e.preventDefault();
       if(editMode){editMode=false;document.body.classList.remove('edit-mode');return;}
       const pw=prompt('Enter password to enable edit mode:');
-      if(pw===EDIT_PASS){editMode=true;document.body.classList.add('edit-mode');enableText();}
+      if(pw===EDIT_PASS){editMode=true;document.body.classList.add('edit-mode');enableText();initSectionHandles();}
     }
   });
 })();
