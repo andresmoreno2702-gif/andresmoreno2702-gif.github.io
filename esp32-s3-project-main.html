@@ -150,7 +150,7 @@ body{transition:background 0.35s cubic-bezier(0.4,0,0.2,1),color 0.35s cubic-bez
 </style>
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 <style>
-model-viewer{width:100%;height:160px;background:transparent;border-radius:0;}
+model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-radius:0;display:block;}
 .gallery-item model-viewer{display:block;}
 [data-theme="light"] model-viewer{--progress-bar-color:var(--accent);}
 </style>
@@ -328,7 +328,7 @@ model-viewer{width:100%;height:160px;background:transparent;border-radius:0;}
 </div>
 <div class="gallery" data-drag-setup="1" data-add-setup="1">
   <div class="gallery-item wide" draggable="true" style="width: 714px; height: 409px; min-height: unset;">
-    <model-viewer src="IMAGES/board.glb" alt="ESP32-S3 Dev Module — Interactive 3D View" camera-controls="" auto-rotate="" auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" ar-status="not-presenting" style="width: 100%; height: 160px; background: transparent;"></model-viewer>
+    <model-viewer src="IMAGES/board.glb" alt="ESP32-S3 Dev Module — Interactive 3D View" camera-controls="" auto-rotate="" auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" ar-status="not-presenting" style="width:100%;flex:1;min-height:320px;background:transparent;"></model-viewer>
     <div class="gallery-caption">Interactive 3D viewer — drag to rotate, scroll to zoom</div>
   </div>
   <div class="gallery-item screenshot" draggable="true" style="width: 164px; height: 410px; min-height: unset;">
@@ -605,7 +605,7 @@ document.addEventListener('DOMContentLoaded',function(){
       mv.setAttribute('shadow-intensity','1');
       mv.setAttribute('exposure','1.1');
       mv.setAttribute('environment-image','neutral');
-      mv.style.cssText='width:100%;height:160px;background:transparent;';
+      mv.style.cssText='width:100%;flex:1;min-height:320px;background:transparent;';
       img.replaceWith(mv);
       // Update caption
       const cap=item.querySelector('.gallery-caption');
@@ -983,6 +983,15 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
     a.download='esp32-s3-project-main.html';a.click();
     URL.revokeObjectURL(a.href);
   });
+  // Prevent gallery drag from hijacking model-viewer rotation
+  document.querySelectorAll('model-viewer').forEach(mv=>{
+    const parent=mv.closest('.gallery-item');
+    if(!parent)return;
+    mv.addEventListener('mousedown',()=>parent.setAttribute('draggable','false'));
+    mv.addEventListener('mouseup',()=>parent.setAttribute('draggable','true'));
+    mv.addEventListener('mouseleave',()=>parent.setAttribute('draggable','true'));
+  });
+
   let dragEl=null,placeholder=null;
 
   // ── Grid-snapping drag (puzzle style) ──
