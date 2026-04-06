@@ -328,7 +328,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 </div>
 <div class="gallery" data-drag-setup="1" data-add-setup="1">
   <div class="gallery-item wide" draggable="true" style="width: 714px; height: 409px; min-height: unset;">
-    <model-viewer src="IMAGES/board.glb" alt="ESP32-S3 Dev Module — Interactive 3D View" camera-controls="" auto-rotate="" auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" ar-status="not-presenting" style="width:100%;flex:1;min-height:320px;background:transparent;"></model-viewer>
+    <model-viewer src="IMAGES/board.glb" alt="ESP32-S3 Dev Module — Interactive 3D View" camera-controls="" auto-rotate="" auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="0.6" shadow-softness="1" exposure="1" tone-mapping="commerce" environment-image="legacy" camera-orbit="0deg 70deg 105%" style="width:100%;flex:1;min-height:320px;background:transparent;"></model-viewer>
     <div class="gallery-caption">Interactive 3D viewer — drag to rotate, scroll to zoom</div>
   </div>
   <div class="gallery-item screenshot" draggable="true" style="width: 164px; height: 410px; min-height: unset;">
@@ -602,9 +602,12 @@ document.addEventListener('DOMContentLoaded',function(){
       mv.setAttribute('auto-rotate','');
       mv.setAttribute('auto-rotate-delay','1500');
       mv.setAttribute('rotation-per-second','18deg');
-      mv.setAttribute('shadow-intensity','1');
-      mv.setAttribute('exposure','1.1');
-      mv.setAttribute('environment-image','neutral');
+      mv.setAttribute('shadow-intensity','0.6');
+      mv.setAttribute('shadow-softness','1');
+      mv.setAttribute('exposure','1');
+      mv.setAttribute('tone-mapping','commerce');
+      mv.setAttribute('environment-image','legacy');
+      mv.setAttribute('camera-orbit','0deg 70deg 105%');
       mv.style.cssText='width:100%;flex:1;min-height:320px;background:transparent;';
       img.replaceWith(mv);
       // Update caption
