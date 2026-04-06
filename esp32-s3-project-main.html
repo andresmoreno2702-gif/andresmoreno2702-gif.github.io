@@ -636,14 +636,8 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
 // ── EDIT MODE ──────────────────────────────────────────────────────────────
 (function(){
   const style=document.createElement('style');style.textContent=`
-    #edit-toggle{
-      position:fixed;bottom:24px;right:24px;z-index:9000;
-      background:#2563eb;color:#fff;border:none;border-radius:50px;
-      padding:10px 22px;font-family:'DM Mono',monospace;font-size:12px;
-      cursor:pointer;box-shadow:0 4px 20px rgba(37,99,235,.5);transition:background .2s;
-    }
-    #edit-toggle:hover{background:#1d4ed8;}
-    #edit-toggle.active{background:#ef4444;box-shadow:0 4px 20px rgba(239,68,68,.5);}
+    #edit-toggle{display:none;}
+    #edit-toggle.active{display:none;}
     #edit-toolbar{
       display:none;position:fixed;bottom:24px;right:180px;z-index:9000;
       gap:8px;align-items:center;
@@ -831,7 +825,7 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   (()=>{const saved=localStorage.getItem(SAVE_KEY);if(saved)document.querySelector('.content').innerHTML=saved;})();
 
   // ── GitHub API save ──
-  const GH_REPO='andresmoreno2702/andresmoreno2702-gif.github.io';
+  const GH_REPO='andresmoreno2702-gif/andresmoreno2702-gif.github.io';
   const GH_FILE='esp32-s3-project-main.html';
   const GH_BRANCH='main';
   const PAT_KEY='gh_pat';
@@ -1048,12 +1042,10 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
     makeResizable(block);
   }
 
-  // ── Main toggle ──
-  toggleBtn.addEventListener('click',()=>{
+  // ── Main toggle (internal) ──
+  function activateEditMode(){
     editMode=!editMode;
     document.body.classList.toggle('edit-mode',editMode);
-    toggleBtn.textContent=editMode?'✕ Exit Edit':'✏️ Edit Mode';
-    toggleBtn.classList.toggle('active',editMode);
     if(!editMode){imgTip.style.display='none';return;}
     const gallery=document.querySelector('.gallery');
     if(gallery&&!gallery.dataset.dragSetup){gallery.dataset.dragSetup='1';setupGridDrag(gallery);}
@@ -1062,6 +1054,17 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
     attachImgSwap();
     enableText();
     setupAddBox();
+  }
+
+  // ── Secret shortcut: Ctrl+Shift+E → password prompt ──
+  const EDIT_PASS='morenavaa321';
+  document.addEventListener('keydown',e=>{
+    if(e.ctrlKey&&e.shiftKey&&e.key==='E'){
+      e.preventDefault();
+      if(editMode){activateEditMode();return;}
+      const pw=prompt('Enter password to enable edit mode:');
+      if(pw===EDIT_PASS)activateEditMode();
+    }
   });
 })();
 </script>
