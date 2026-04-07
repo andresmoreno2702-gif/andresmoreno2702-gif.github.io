@@ -17,7 +17,7 @@
   --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
 }
 [data-theme="light"]{
-  --bg:#f5f7ff;--surface:#ffffff;--surface2:#eef1fb;--card:#ffffff;
+  --bg:#faf7f2;--surface:#fffcf5;--surface2:#f3ede5;--card:#fffcf5;
   --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.12);
   --accent:#1d4ed8;--accent2:#2563eb;--accent3:#3b82f6;
   --text:#0d1526;--text-muted:#4a5a78;--text-dim:#4a5a78;
@@ -835,12 +835,14 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 
-let dark=true;
-document.documentElement.setAttribute('data-theme','dark');
+let dark=localStorage.getItem('theme')!=='light';
+document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
 document.getElementById('themeBtn').addEventListener('click',()=>{
   dark=!dark;
   document.documentElement.setAttribute('data-theme',dark?'dark':'light');
   document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+  localStorage.setItem('theme',dark?'dark':'light');
 });
 
 // ── EDIT MODE ──────────────────────────────────────────────────────────────

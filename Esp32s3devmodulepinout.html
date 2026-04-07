@@ -76,12 +76,14 @@ svg{max-width:100%;height:auto;border-radius:8px;}
 <rect x="234" y="820" width="10" height="10" rx="2" fill="#c0392b"></rect><text x="247" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">Power</text><rect x="290" y="820" width="10" height="10" rx="2" fill="#555"></rect><text x="303" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">GND</text><rect x="334" y="820" width="10" height="10" rx="2" fill="#27ae60"></rect><text x="347" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">ADC1</text><rect x="384" y="820" width="10" height="10" rx="2" fill="#1a6fa8"></rect><text x="397" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">ADC2</text><rect x="434" y="820" width="10" height="10" rx="2" fill="#e67e22"></rect><text x="447" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">Touch</text><rect x="490" y="820" width="10" height="10" rx="2" fill="#2980b9"></rect><text x="503" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">RTC</text><rect x="534" y="820" width="10" height="10" rx="2" fill="#8e44ad"></rect><text x="547" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">I²C</text><rect x="578" y="820" width="10" height="10" rx="2" fill="#d35400"></rect><text x="591" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">UART</text><rect x="628" y="820" width="10" height="10" rx="2" fill="#7d3c98"></rect><text x="641" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">JTAG</text><rect x="678" y="820" width="10" height="10" rx="2" fill="#1a5276"></rect><text x="691" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">SPI/FSPI</text><rect x="752" y="820" width="10" height="10" rx="2" fill="#6c3483"></rect><text x="765" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">Clock</text><rect x="808" y="820" width="10" height="10" rx="2" fill="#117a65"></rect><text x="821" y="828" font-family="DM Sans,sans-serif" font-size="9" fill="#8b949e">On-board</text>
 </svg></div>
 <script>
-let dark=true;
-document.documentElement.setAttribute('data-theme','dark');
+let dark=localStorage.getItem('theme')!=='light';
+document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
 document.getElementById('themeBtn').addEventListener('click',()=>{
   dark=!dark;
   document.documentElement.setAttribute('data-theme',dark?'dark':'light');
   document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+  localStorage.setItem('theme',dark?'dark':'light');
 });
 
 document.addEventListener('DOMContentLoaded',function(){
