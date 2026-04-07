@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&family=DM+Mono:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -233,6 +234,23 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="spec-row"><span class="spec-key">Layer height (steering)</span><span class="spec-val">0.15 mm</span></div>
     <div class="spec-row"><span class="spec-key">Support material</span><span class="spec-val warn">Minimised by orientation</span></div>
   </div>
+</div>
+</div>
+
+<div style="margin-top:28px">
+  <model-viewer
+    src="IMAGES/RC%20mini%20Car/CHASIS%20MINI%20CAR.glb"
+    alt="Mini RC Car Chassis — Interactive 3D View"
+    camera-controls
+    auto-rotate
+    auto-rotate-delay="1500"
+    rotation-per-second="18deg"
+    shadow-intensity="1"
+    exposure="1.1"
+    environment-image="neutral"
+    style="width:100%;height:420px;border-radius:12px;background:var(--surface);border:1px solid var(--border);">
+  </model-viewer>
+  <div class="gallery-caption" style="margin-top:8px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);">Interactive 3D model — drag to rotate · scroll to zoom</div>
 </div>
 </div>
 
