@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#f0f4ff;--text2:#8b9bb8;--accent:#2563eb;--accent2:#3b82f6;--accent3:#60a5fa;--transition:all 0.35s cubic-bezier(0.4,0,0.2,1);}
-[data-theme="light"]{--bg:#f5f7ff;--bg2:#eef1fb;--bg3:#e4e9f7;--border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.12);--text:#0d1526;--text2:#4a5a78;--accent:#1d4ed8;--accent2:#2563eb;--accent3:#3b82f6;}
+[data-theme="light"]{--bg:#faf7f2;--bg2:#f3ede5;--bg3:#ece5d8;--border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.12);--text:#0d1526;--text2:#4a5a78;--accent:#1d4ed8;--accent2:#2563eb;--accent3:#3b82f6;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);transition:var(--transition);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0;}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--bg);border-bottom:1px solid var(--border);transition:var(--transition);}
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded',function(){
       });
     }
     if(darkFillEls){
-      darkFillEls.forEach(({el,orig})=>el.setAttribute('fill',isLight?'#f5f7ff':orig));
+      darkFillEls.forEach(({el,orig})=>el.setAttribute('fill',isLight?'#faf7f2':orig));
     }
   }
   applyTextTheme();
