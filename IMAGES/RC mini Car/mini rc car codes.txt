@@ -1,0 +1,379 @@
+//RC CAR SMALL
+// small rc car sender
+#include <Arduino.h>
+#include <WiFi.h>
+#include <esp_now.h>
+#include "esp_wifi.h"   // for esp_wifi_set_channel + wifi_tx_info_t
+#include <cstring>
+
+// ===== Joystick pins (change if needed) =====
+#define JOY_X 0   // steering (ADC)
+#define JOY_Y 1   // throttle (ADC)
+
+// ===== Receiver MAC (YOUR XIAO) =====
+uint8_t peerMac[] = {0x58, 0x8C, 0x81, 0xB0, 0xB9, 0xA4};
+
+// ===== Packet =====
+typedef struct __attribute__((packed)) {
+  uint16_t ax;   // 0..4095
+  uint16_t ay;   // 0..4095
+  uint16_t seq;
+} JoyPacket;
+
+const int WIFI_CH = 1;     // must match receiver
+uint16_t seqNo = 0;
+
+// ✅ NEW callback signature for ESP32 Arduino 3.x
+void onSent(const wifi_tx_info_t* info, esp_now_send_status_t status) {
+  (void)info;
+  static uint32_t last = 0;
+  if (millis() - last > 250) {
+    last = millis();
+    Serial.printf("sent_cb: %s\n", status == ESP_NOW_SEND_SUCCESS ? "OK" : "FAIL");
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  delay(800);
+  Serial.println("\n=== SENDER START (ESP32-C3 / Arduino 3.x) ===");
+
+  // ADC
+  analogReadResolution(12);
+  pinMode(JOY_X, INPUT);
+  pinMode(JOY_Y, INPUT);
+  analogSetPinAttenuation(JOY_X, ADC_11db);
+  analogSetPinAttenuation(JOY_Y, ADC_11db);
+
+  // WiFi / ESPNOW
+  WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false);
+
+  // Force channel
+  esp_wifi_set_channel(WIFI_CH, WIFI_SECOND_CHAN_NONE);
+
+  Serial.print("Sender MAC: ");
+  Serial.println(WiFi.macAddress());
+
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("ESP-NOW init failed");
+    while (true) delay(200);
+  }
+
+  esp_now_register_send_cb(onSent);
+
+  esp_now_peer_info_t peer = {};
+  memcpy(peer.peer_addr, peerMac, 6);
+  peer.channel = WIFI_CH;
+  peer.encrypt = false;
+
+  esp_now_del_peer(peerMac);
+  if (esp_now_add_peer(&peer) != ESP_OK) {
+    Serial.println("add_peer failed");
+    while (true) delay(200);
+  }
+
+  Serial.println("Peer added. Sending packets...");
+}
+
+void loop() {
+  JoyPacket p;
+  p.ax = (uint16_t)analogRead(JOY_X);
+  p.ay = (uint16_t)analogRead(JOY_Y);
+  p.seq = seqNo++;
+
+  esp_err_t err = esp_now_send(peerMac, (uint8_t*)&p, sizeof(p));
+
+  static uint32_t last = 0;
+  if (millis() - last > 150) {
+    last = millis();
+    Serial.printf("seq=%u ax=%u ay=%u send_err=%d\n",
+                  p.seq, p.ax, p.ay, (int)err);
+  }
+
+  delay(20); // 50 Hz
+}
+
+
+
+
+// small rc car receiver
+#include <Arduino.h>
+#include <WiFi.h>
+#include <esp_now.h>
+#include "esp_wifi.h"
+#include "driver/ledc.h"
+#include <cstring>
+
+// ===================== PINS =====================
+// TB6612 (Channel B)
+#define BIN1  6      // GPIO6
+#define BIN2  7      // GPIO7
+#define PWMB  10     // GPIO10
+// STBY: tie to 3V3 (HIGH)
+
+// Servo
+#define SERVO_PIN 20 // GPIO20
+
+// ===================== ESPNOW PACKET =====================
+typedef struct __attribute__((packed)) {
+  uint16_t ax;   // 0..4095 steering
+  uint16_t ay;   // 0..4095 throttle
+  uint16_t seq;
+} JoyPacket;
+
+// Shared RX state
+static JoyPacket rxBuf = {2048, 2048, 0};
+static uint32_t  rxMs = 0;
+static uint32_t  rxCount = 0;
+portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+
+// ===================== SETTINGS =====================
+const int WIFI_CH = 1;
+const uint32_t FAILSAFE_MS = 400;
+
+// Auto center calibration (from packets)
+bool centersReady = false;
+uint32_t calCount = 0;
+uint32_t calSumX = 0, calSumY = 0;
+const uint32_t CAL_SAMPLES = 60;   // ~60 packets @50Hz ≈ 1.2s
+
+int centerX = 2048;
+int centerY = 2048;
+
+// Mapping
+const int DEADZONE = 140;          // motor deadzone around learned center
+const int ARM_DEADZONE = 180;      // how close to center counts as "zero throttle"
+const int MAX_SPAN = 1800;         // mapping span
+const uint16_t ARM_PACKETS_REQUIRED = 20; // 20 packets @50Hz ≈ 0.4s
+
+// Arm logic
+bool armed = false;
+uint16_t armCount = 0;
+
+// ===================== MOTOR PWM (LEDC) =====================
+constexpr ledc_timer_t     M_TIMER = LEDC_TIMER_0;
+constexpr ledc_mode_t      M_MODE  = LEDC_LOW_SPEED_MODE;
+constexpr ledc_channel_t   M_CH    = LEDC_CHANNEL_0;
+constexpr ledc_timer_bit_t M_BITS  = LEDC_TIMER_11_BIT;  // 0..2047
+constexpr uint32_t         M_FREQ  = 20000;
+const int PWM_MAX = (1 << 11) - 1;
+
+// ===================== SERVO PWM (LEDC) =====================
+constexpr ledc_timer_t     S_TIMER = LEDC_TIMER_1;
+constexpr ledc_mode_t      S_MODE  = LEDC_LOW_SPEED_MODE;
+constexpr ledc_channel_t   S_CH    = LEDC_CHANNEL_1;
+constexpr ledc_timer_bit_t S_BITS  = LEDC_TIMER_11_BIT;
+constexpr uint32_t         S_FREQ  = 50;
+
+const int SERVO_PERIOD_US  = 20000;
+const int SERVO_US_MIN     = 1000;
+const int SERVO_US_MAX     = 2000;
+
+uint32_t servoUsToDuty(int us) {
+  uint32_t maxDuty = (1u << S_BITS) - 1u;
+  return (uint32_t)((uint64_t)us * maxDuty / SERVO_PERIOD_US);
+}
+
+void setServoUs(int us) {
+  us = constrain(us, SERVO_US_MIN, SERVO_US_MAX);
+  ledc_set_duty(S_MODE, S_CH, servoUsToDuty(us));
+  ledc_update_duty(S_MODE, S_CH);
+}
+
+void motorSet(int cmd) {
+  cmd = constrain(cmd, -PWM_MAX, PWM_MAX);
+
+  if (cmd > 0) {
+    digitalWrite(BIN1, HIGH);
+    digitalWrite(BIN2, LOW);
+    ledc_set_duty(M_MODE, M_CH, cmd);
+    ledc_update_duty(M_MODE, M_CH);
+  } else if (cmd < 0) {
+    digitalWrite(BIN1, LOW);
+    digitalWrite(BIN2, HIGH);
+    ledc_set_duty(M_MODE, M_CH, -cmd);
+    ledc_update_duty(M_MODE, M_CH);
+  } else {
+    digitalWrite(BIN1, LOW);
+    digitalWrite(BIN2, LOW);
+    ledc_set_duty(M_MODE, M_CH, 0);
+    ledc_update_duty(M_MODE, M_CH);
+  }
+}
+
+// ESPNOW receive callback
+void onDataRecv(const esp_now_recv_info_t*, const uint8_t* data, int len) {
+  if (len != (int)sizeof(JoyPacket)) return;
+  portENTER_CRITICAL(&mux);
+  memcpy(&rxBuf, data, sizeof(JoyPacket));
+  rxMs = millis();
+  rxCount++;
+  portEXIT_CRITICAL(&mux);
+}
+
+void setup() {
+  Serial.begin(115200);
+  delay(800);
+  Serial.println("\n=== RECEIVER START (AUTO-CENTER + ARM) ===");
+
+  pinMode(BIN1, OUTPUT);
+  pinMode(BIN2, OUTPUT);
+
+  // Motor LEDC timer
+  ledc_timer_config_t mt = {};
+  mt.speed_mode = M_MODE;
+  mt.timer_num = M_TIMER;
+  mt.duty_resolution = M_BITS;
+  mt.freq_hz = M_FREQ;
+  mt.clk_cfg = LEDC_AUTO_CLK;
+  ledc_timer_config(&mt);
+
+  // Motor LEDC channel
+  ledc_channel_config_t mc = {};
+  mc.gpio_num = PWMB;
+  mc.speed_mode = M_MODE;
+  mc.channel = M_CH;
+  mc.timer_sel = M_TIMER;
+  mc.duty = 0;
+  mc.hpoint = 0;
+  mc.intr_type = LEDC_INTR_DISABLE;
+  ledc_channel_config(&mc);
+
+  // Servo LEDC timer
+  ledc_timer_config_t st = {};
+  st.speed_mode = S_MODE;
+  st.timer_num = S_TIMER;
+  st.duty_resolution = S_BITS;
+  st.freq_hz = S_FREQ;
+  st.clk_cfg = LEDC_AUTO_CLK;
+  ledc_timer_config(&st);
+
+  // Servo LEDC channel
+  ledc_channel_config_t sc = {};
+  sc.gpio_num = SERVO_PIN;
+  sc.speed_mode = S_MODE;
+  sc.channel = S_CH;
+  sc.timer_sel = S_TIMER;
+  sc.duty = servoUsToDuty(1500);
+  sc.hpoint = 0;
+  sc.intr_type = LEDC_INTR_DISABLE;
+  ledc_channel_config(&sc);
+
+  // Safe at boot
+  motorSet(0);
+  setServoUs(1500);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false);
+  esp_wifi_set_channel(WIFI_CH, WIFI_SECOND_CHAN_NONE);
+
+  Serial.print("Receiver MAC: ");
+  Serial.println(WiFi.macAddress());
+  Serial.printf("Channel forced to %d\n", WIFI_CH);
+
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("ESP-NOW init failed");
+    while (true) delay(200);
+  }
+  esp_now_register_recv_cb(onDataRecv);
+
+  Serial.println("Waiting for packets... keep joystick RELEASED for auto-center.");
+}
+
+void loop() {
+  JoyPacket p;
+  uint32_t t, count;
+  portENTER_CRITICAL(&mux);
+  memcpy(&p, &rxBuf, sizeof(JoyPacket));
+  t = rxMs;
+  count = rxCount;
+  portEXIT_CRITICAL(&mux);
+
+  uint32_t age = millis() - t;
+  bool linkOk = (count > 0) && (age < FAILSAFE_MS);
+
+  // Link lost -> disarm + reset calibration
+  if (!linkOk) {
+    motorSet(0);
+    setServoUs(1500);
+
+    armed = false;
+    armCount = 0;
+
+    centersReady = false;
+    calCount = 0;
+    calSumX = 0;
+    calSumY = 0;
+    delay(5);
+    return;
+  }
+
+  // ===== 1) AUTO-CENTER FROM PACKETS =====
+  if (!centersReady) {
+    calSumX += p.ax;
+    calSumY += p.ay;
+    calCount++;
+
+    motorSet(0);        // keep motor OFF while calibrating
+    setServoUs(1500);   // keep servo centered while calibrating (optional)
+
+    if (calCount >= CAL_SAMPLES) {
+      centerX = (int)(calSumX / calCount);
+      centerY = (int)(calSumY / calCount);
+      centersReady = true;
+      armed = false;
+      armCount = 0;
+      Serial.printf(">>> CENTERS READY: centerX=%d centerY=%d <<<\n", centerX, centerY);
+      Serial.println("Now keep throttle centered briefly to ARM.");
+    }
+
+    delay(5);
+    return;
+  }
+
+  // Deviations from learned centers
+  int dx = (int)p.ax - centerX;
+  int dy = (int)p.ay - centerY;
+
+  // ===== 2) SERVO CONTROL (from X) =====
+  dx = constrain(dx, -MAX_SPAN, MAX_SPAN);
+  float x = (float)dx / (float)MAX_SPAN;
+  int us = SERVO_US_MIN + (int)((x + 1.0f) * 0.5f * (SERVO_US_MAX - SERVO_US_MIN));
+  setServoUs(us);
+
+  // ===== 3) ARM LOGIC (prevents startup spin) =====
+  if (!armed) {
+    if (abs(dy) < ARM_DEADZONE) armCount++;
+    else armCount = 0;
+
+    motorSet(0);
+
+    if (armCount >= ARM_PACKETS_REQUIRED) {
+      armed = true;
+      Serial.println(">>> ARMED <<<");
+    }
+
+    delay(5);
+    return;
+  }
+
+  // ===== 4) MOTOR CONTROL (from Y) =====
+  int cmd = 0;
+  if (abs(dy) > DEADZONE) {
+    dy = constrain(dy, -MAX_SPAN, MAX_SPAN);
+    cmd = map(dy, -MAX_SPAN, MAX_SPAN, -PWM_MAX, PWM_MAX);
+  }
+  motorSet(cmd);
+
+  // Debug
+  static uint32_t last = 0;
+  if (millis() - last > 200) {
+    last = millis();
+    Serial.printf("link=OK age=%lu centers(%d,%d) armed=%d seq=%u ax=%u ay=%u dx=%d dy=%d cmd=%d\n",
+                  (unsigned long)age, centerX, centerY, armed ? 1 : 0,
+                  p.seq, p.ax, p.ay, dx, dy, cmd);
+  }
+
+  delay(5);
+}
