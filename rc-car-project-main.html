@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32 Mini RC Car · Andres Moreno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&family=DM+Mono:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;--surface:#111827;--surface2:#1a2235;--card:#131b2e;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --accent:#2563eb;--accent2:#3b82f6;--accent3:#60a5fa;
+  --text:#f0f4ff;--text-muted:#8b9bb8;--text-dim:#8b9bb8;
+  --red:#ef4444;--green:#22c55e;
+  --transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;
+}
+[data-theme="light"]{
+  --bg:#faf7f2;--surface:#fffcf5;--surface2:#f3ede5;--card:#fffcf5;
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.12);
+  --accent:#1d4ed8;--accent2:#2563eb;--accent3:#3b82f6;
+  --text:#0d1526;--text-muted:#4a5a78;--text-dim:#4a5a78;
+  --red:#dc2626;--green:#16a34a;
+}
+[data-theme="light"] .hero::before{background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(37,99,235,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(37,99,235,.04) 0%,transparent 60%);}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .stat-card{background:var(--surface);border-color:var(--border);}
+[data-theme="light"] .spec-block{background:var(--surface);}
+[data-theme="light"] .decision{background:var(--surface);}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.7;transition:background 0.35s cubic-bezier(0.4,0,0.2,1),color 0.35s cubic-bezier(0.4,0,0.2,1);}
+.hero{position:relative;padding:112px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(37,99,235,.07) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(59,130,246,.05) 0%,transparent 60%);pointer-events:none}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto}
+.hero-tag{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,54px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-bottom:10px}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.badge{font-family:'DM Mono',monospace;font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.badge-blue{color:var(--accent2);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.badge-amber{color:var(--accent3);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.badge-teal{color:var(--accent);border-color:rgba(37,99,235,.3);background:rgba(37,99,235,.06)}
+.content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.section{margin-top:64px;scroll-margin-top:72px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;letter-spacing:-.01em}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
+.gallery-item{flex:0 0 auto;width:calc(33.333% - 12px);min-width:120px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;box-sizing:border-box;display:flex;flex-direction:column}
+.gallery-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.gallery-item img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover;max-height:160px}
+.gallery-item.wide{width:calc(66.666% - 8px)}
+.gallery-item.screenshot img{object-fit:contain;background:var(--surface2)}
+.gallery-caption{padding:10px 14px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
+.stat-card.blue::after{background:var(--accent2)}
+.stat-card.amber::after{background:var(--accent3)}
+.stat-card.red::after{background:var(--red)}
+.stat-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-sub{font-size:12px;color:var(--text-muted)}
+.prose{color:var(--text-dim);line-height:1.85}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--text);font-weight:500}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px}
+.comp-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.comp-table td{padding:12px 16px;border-bottom:1px solid rgba(30,45,61,.6);color:var(--text-dim);vertical-align:top}
+.comp-table tr:hover td{background:rgba(37,99,235,.02)}
+.ref{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent)}
+.part{font-family:'DM Mono',monospace;font-size:11px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(37,99,235,.04)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid rgba(30,45,61,.5);gap:20px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:13px;color:var(--text-muted);flex:1}
+.spec-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);text-align:right}
+.spec-val.ok{color:var(--green)}
+.spec-val.warn{color:var(--accent3)}
+.decision-list{display:flex;flex-direction:column;gap:16px}
+.decision{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px}
+.decision.blue{border-left-color:var(--accent2)}
+.decision.amber{border-left-color:var(--accent3)}
+.decision-title{font-weight:500;color:var(--text);margin-bottom:6px;font-size:14px}
+.decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+.decision-body code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent)}
+.timeline-item{position:relative;margin-bottom:36px}
+.timeline-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
+.timeline-dot.amber{background:var(--accent3);box-shadow:0 0 0 2px var(--accent3)}
+.timeline-step{font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.timeline-step.blue{color:var(--accent2)}
+.timeline-step.amber{color:var(--accent3)}
+.timeline-heading{font-weight:500;color:var(--text);margin-bottom:6px;font-size:15px}
+.timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
+.timeline-body code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border);max-width:640px}
+.timeline-img img{width:100%;display:block}
+.timeline-img-cap{padding:8px 14px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
+.footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left,.footer-right{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-right{text-align:right}
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
+#lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;line-height:1;background:none;border:none}
+#lb-close:hover{opacity:1}
+.gallery-item img,.timeline-img img{cursor:zoom-in}
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--bg);border-bottom:1px solid var(--border);transition:background 0.35s cubic-bezier(0.4,0,0.2,1),border-color 0.35s cubic-bezier(0.4,0,0.2,1)}
+.site-nav a{font-size:13px;color:var(--text-muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color 0.2s}
+.site-nav a:hover{color:var(--text)}
+.nav-section-links{display:flex;align-items:center;gap:1.75rem}
+.nav-section-links a{font-size:12px;font-family:'DM Mono',monospace;letter-spacing:.04em;color:var(--text-muted);text-decoration:none;transition:color 0.2s;display:inline}
+.nav-section-links a:hover{color:var(--text)}
+@media(max-width:860px){.nav-section-links{display:none}}
+.theme-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background 0.35s,color 0.35s,border-color 0.35s}
+.theme-btn:hover{background:var(--surface);color:var(--text)}
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}
+  .footer{padding:20px 24px}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html">← Portfolio</a>
+  <div class="nav-section-links">
+    <a href="#overview">Overview</a>
+    <a href="#cad">CAD</a>
+    <a href="#electronics">Electronics</a>
+    <a href="#build">Build</a>
+    <a href="#next">Next Steps</a>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+</nav>
+
+<div class="hero">
+<div class="hero-inner">
+  <div>
+    <div class="hero-tag">Engineering Design Portfolio — Embedded Systems &amp; Mechanical</div>
+    <h1>ESP32 Mini <span>RC Car</span></h1>
+    <div class="hero-sub">3D-Printed Chassis · ESP-NOW Wireless · Custom PCB · Feb–Mar 2026</div>
+    <div class="hero-meta">
+      <span class="badge badge-teal">XIAO ESP32-C3</span>
+      <span class="badge badge-blue">TB6612FNG Dual H-Bridge</span>
+      <span class="badge badge-amber">SG90 Servo Steering</span>
+      <span class="badge badge-teal">ESP-NOW · ~2 ms RTT</span>
+      <span class="badge badge-green">Assembled &amp; Tested</span>
+    </div>
+    <div class="hero-meta">
+      <span class="badge badge-blue">Fusion 360 Chassis</span>
+      <span class="badge badge-amber">Creality Ender-3 S1 Pro</span>
+      <span class="badge badge-blue">Custom PCB — EasyEDA</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="content">
+
+<div class="section" id="overview">
+<div class="section-header"><h2 class="section-title">Project Overview</h2><div class="section-line"></div></div>
+<div class="overview-grid">
+  <div class="stat-card"><div class="stat-label">MCU</div><div class="stat-value" style="font-size:18px;">XIAO</div><div class="stat-sub">Seeed ESP32-C3</div></div>
+  <div class="stat-card blue"><div class="stat-label">Motor Driver</div><div class="stat-value" style="font-size:18px;">H-Bridge</div><div class="stat-sub">TB6612FNG dual channel</div></div>
+  <div class="stat-card amber"><div class="stat-label">Wireless RTT</div><div class="stat-value">~2</div><div class="stat-sub">ms via ESP-NOW P2P</div></div>
+  <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Built</div><div class="stat-sub">Assembled &amp; bench-tested</div></div>
+</div>
+<div class="prose">
+  <p>A fully custom-designed and 3D-printed remote-controlled car built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed on a Creality Ender-3 S1 Pro. Drive is handled by a small 3 V hobby DC motor controlled via a <strong>TB6612FNG dual H-bridge</strong>, while steering uses an SG90-class servo for Ackermann-style front-wheel control.</p>
+  <p>Wireless control is achieved via <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on the handheld controller (transmitter). PWM motor control uses the LEDC API with joystick dead zones for precise low-speed handling.</p>
+  <p>A full custom PCB was designed in <strong>EasyEDA</strong> consolidating the XIAO ESP32-C3, TB6612FNG motor driver, servo connector, power switch, decoupling capacitors, and an LED power indicator onto a single board sized to fit the chassis. PCB is designed and ready for JLCPCB manufacture.</p>
+</div>
+<div class="gallery">
+  <div class="gallery-item wide">
+    <img src="" alt="Assembled RC car top-down view" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
+    <div class="gallery-caption">Assembled car — LiPo, TB6612FNG, XIAO ESP32-C3 mounted on chassis</div>
+  </div>
+  <div class="gallery-item">
+    <img src="" alt="Three-quarter view of RC car" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
+    <div class="gallery-caption">Three-quarter angle — front servo steering and 3D-printed wheel mounts</div>
+  </div>
+  <div class="gallery-item">
+    <img src="" alt="Bench test setup" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
+    <div class="gallery-caption">Bench test — XIAO, TB6612FNG, servo and motor validated before mounting</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="cad">
+<div class="section-header"><h2 class="section-title">CAD Design &amp; 3D Printing</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>The full chassis was designed parametrically in <strong>Fusion 360</strong> as a multi-body assembly with separate components for the main body, front steering knuckles, wheel mounts, motor bracket, and servo bracket. All geometry was designed to integrate directly with the SG90 servo geometry and standard RC hobby wheels.</p>
+</div>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step">Phase 1 — Fusion 360 Design</div>
+    <div class="timeline-heading">Full chassis assembly with 4 wheels, motor mount, servo bracket, and electronics bay</div>
+    <div class="timeline-body">The chassis was designed as a complete parametric assembly in Fusion 360. Components include: main chassis plate, front axle steering knuckles for Ackermann geometry, rear motor bracket sized to the 3 V hobby DC motor, SG90 servo bracket with horn clearance, four wheel mounts, and a top electronics bay for the PCB and LiPo cell. All tolerances were set to account for FDM dimensional variation on the Ender-3 S1 Pro.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot blue"></div>
+    <div class="timeline-step blue">Phase 2 — 3D Printing on Ender-3 S1 Pro</div>
+    <div class="timeline-heading">PLA print with focus on front steering section and wheel cutout geometry</div>
+    <div class="timeline-body">All chassis parts printed in PLA on the Creality Ender-3 S1 Pro. The front steering section with wheel cutouts required careful orientation to print without supports while maintaining dimensional accuracy for the servo horn interface. Layer height set to 0.2 mm for structural parts, 0.15 mm for steering knuckles requiring tighter tolerances. Parts were test-fitted before electronics installation.</div>
+  </div>
+</div>
+<div class="two-col">
+  <div class="spec-block">
+    <div class="spec-block-header">CAD — Fusion 360</div>
+    <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360 parametric</span></div>
+    <div class="spec-row"><span class="spec-key">Chassis type</span><span class="spec-val">Multi-body assembly</span></div>
+    <div class="spec-row"><span class="spec-key">Steering geometry</span><span class="spec-val ok">Ackermann front-wheel</span></div>
+    <div class="spec-row"><span class="spec-key">Servo clearance</span><span class="spec-val ok">Modelled for SG90</span></div>
+    <div class="spec-row"><span class="spec-key">Motor mount</span><span class="spec-val">3 V hobby DC motor</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">3D Printing — Ender-3 S1 Pro</div>
+    <div class="spec-row"><span class="spec-key">Printer</span><span class="spec-val">Creality Ender-3 S1 Pro</span></div>
+    <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PLA filament</span></div>
+    <div class="spec-row"><span class="spec-key">Layer height (body)</span><span class="spec-val">0.2 mm</span></div>
+    <div class="spec-row"><span class="spec-key">Layer height (steering)</span><span class="spec-val">0.15 mm</span></div>
+    <div class="spec-row"><span class="spec-key">Support material</span><span class="spec-val warn">Minimised by orientation</span></div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="electronics">
+<div class="section-header"><h2 class="section-title">Electronics &amp; PCB Design</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>The electronics stack is built around the <strong>XIAO ESP32-C3</strong> paired with a <strong>TB6612FNG dual H-bridge</strong> motor driver. A complete custom PCB was designed in <strong>EasyEDA</strong>, integrating all components onto a single board sized to fit within the chassis electronics bay. The PCB design is complete and ready for manufacture via JLCPCB.</p>
+</div>
+<table class="comp-table" style="margin-bottom:28px">
+<thead><tr><th>TB6612FNG Pin</th><th>ESP32-C3 GPIO</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td class="part">PWMA</td><td class="ref">D10</td><td style="font-size:12px;color:var(--text-muted)">Motor A speed control (PWM / LEDC)</td></tr>
+<tr><td class="part">AIN1</td><td class="ref">D4</td><td style="font-size:12px;color:var(--text-muted)">Motor A direction bit 1</td></tr>
+<tr><td class="part">AIN2</td><td class="ref">D5</td><td style="font-size:12px;color:var(--text-muted)">Motor A direction bit 2</td></tr>
+<tr><td class="part">PWMB</td><td class="ref">D9</td><td style="font-size:12px;color:var(--text-muted)">Motor B speed control (PWM / LEDC)</td></tr>
+<tr><td class="part">BIN1</td><td class="ref">D3</td><td style="font-size:12px;color:var(--text-muted)">Motor B direction bit 1</td></tr>
+<tr><td class="part">BIN2</td><td class="ref">D2</td><td style="font-size:12px;color:var(--text-muted)">Motor B direction bit 2</td></tr>
+<tr><td class="part">STBY</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Standby — pulled high to enable driver</td></tr>
+<tr><td class="part">VM</td><td class="ref">3.7 V LiPo</td><td style="font-size:12px;color:var(--text-muted)">Motor power supply (direct from LiPo)</td></tr>
+<tr><td class="part">VCC</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Logic power supply</td></tr>
+<tr><td class="part">Servo Signal</td><td class="ref">D1</td><td style="font-size:12px;color:var(--text-muted)">PWM steering servo (SG90)</td></tr>
+</tbody>
+</table>
+
+<div class="two-col">
+  <div class="spec-block">
+    <div class="spec-block-header">Firmware — Motor Control</div>
+    <div class="spec-row"><span class="spec-key">Framework</span><span class="spec-val">Arduino / ESP32-C3 Core</span></div>
+    <div class="spec-row"><span class="spec-key">PWM API</span><span class="spec-val">LEDC (ESP32-Arduino v3+)</span></div>
+    <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">Configurable</span></div>
+    <div class="spec-row"><span class="spec-key">Direction control</span><span class="spec-val">AIN1/AIN2 + PWMA</span></div>
+    <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">SG90 servo via D1</span></div>
+    <div class="spec-row"><span class="spec-key">Wireless</span><span class="spec-val">ESP-NOW P2P · ~2 ms RTT</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">PCB — EasyEDA Design</div>
+    <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">EasyEDA schematic + layout</span></div>
+    <div class="spec-row"><span class="spec-key">Board layers</span><span class="spec-val">2-layer</span></div>
+    <div class="spec-row"><span class="spec-key">MCU footprint</span><span class="spec-val">XIAO ESP32-C3</span></div>
+    <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val">TB6612FNG breakout</span></div>
+    <div class="spec-row"><span class="spec-key">Connectors</span><span class="spec-val">Servo header · power switch</span></div>
+    <div class="spec-row"><span class="spec-key">Manufacture status</span><span class="spec-val warn">Pending — JLCPCB</span></div>
+  </div>
+</div>
+<div class="gallery" style="margin-top:20px">
+  <div class="gallery-item wide screenshot">
+    <img src="" alt="EasyEDA schematic" style="aspect-ratio:16/9;object-fit:contain;background:var(--surface2)">
+    <div class="gallery-caption">EasyEDA schematic — ESP32-C3, TB6612FNG, servo header, power switch and decoupling</div>
+  </div>
+  <div class="gallery-item screenshot">
+    <img src="" alt="PCB layout" style="aspect-ratio:16/9;object-fit:contain;background:var(--surface2)">
+    <div class="gallery-caption">PCB layout — ready for JLCPCB manufacture</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="build">
+<div class="section-header"><h2 class="section-title">Build &amp; Assembly</h2><div class="section-line"></div></div>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step">Phase 1 — Bench Testing</div>
+    <div class="timeline-heading">Motor, servo, and driver validated independently before chassis mounting</div>
+    <div class="timeline-body">Before final assembly, each subsystem was bench-tested independently. The TB6612FNG motor driver was tested for bidirectional PWM control with the XIAO ESP32-C3 using both LEDC channels. The SG90 servo was validated for full range of motion on GPIO D1. Drive motor direction and speed control were confirmed functional at varying PWM duty cycles. All bench tests used LiPo power through a bench PSU current limiter for safety.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot blue"></div>
+    <div class="timeline-step blue">Phase 2 — Chassis Assembly</div>
+    <div class="timeline-heading">3D-printed chassis assembled with motor, servo, and wheel mounts</div>
+    <div class="timeline-body">All 3D-printed chassis parts assembled in sequence: rear motor bracket press-fitted and secured, front steering knuckles inserted with press-fit axle pins, SG90 servo mounted in its bracket with horn connected to the steering linkage, and all four wheels attached. Mechanical fit and steering range of motion verified before electronics installation.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot amber"></div>
+    <div class="timeline-step amber">Phase 3 — Electronics Mounting</div>
+    <div class="timeline-heading">XIAO ESP32-C3, TB6612FNG breakout, and LiPo mounted to chassis top plate</div>
+    <div class="timeline-body">Electronics mounted directly to the chassis top plate using double-sided tape and standoffs. XIAO ESP32-C3 positioned for USB-C access. TB6612FNG breakout wired to all motor and GPIO pins per pin mapping table. LiPo cell positioned for centre-of-gravity balance. Full wireless control test confirmed with ESP-NOW transmitter board — car drives and steers correctly in both directions.</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="next">
+<div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
+<div class="decision-list">
+  <div class="decision">
+    <div class="decision-title">PCB Manufacture &amp; Testing — JLCPCB</div>
+    <div class="decision-body">Submit the completed EasyEDA PCB design to <strong>JLCPCB for 2-layer fabrication</strong>. Assemble the custom PCB and validate all subsystems: motor driver PWM, servo control, power supply, and ESP-NOW wireless link. Replace the current breakout-board wiring with the clean PCB-mounted solution.</div>
+  </div>
+  <div class="decision blue">
+    <div class="decision-title">Handheld Transmitter Controller Build</div>
+    <div class="decision-body">Build a handheld joystick transmitter using a second <strong>XIAO ESP32-C3</strong> with the ESP-NOW TX firmware. The controller will feature an analog joystick for throttle/steering and a 3D-printed ergonomic enclosure designed in Fusion 360 to fit the hand comfortably.</div>
+  </div>
+  <div class="decision amber">
+    <div class="decision-title">Body Shell — Fusion 360 &amp; 3D Print</div>
+    <div class="decision-body">Design a <strong>full body shell enclosure</strong> in Fusion 360 that mounts over the electronics chassis — styled to look like a scaled car body. The shell clips onto the chassis top plate and includes ventilation slots for the motor and power electronics. Printed in PLA with optional colour accent pieces.</div>
+  </div>
+  <div class="decision">
+    <div class="decision-title">PWM &amp; Dead Zone Tuning</div>
+    <div class="decision-body">Profile optimal <strong>PWM frequency and dead zone parameters</strong> for low-speed control precision and reliable direction switching. Current firmware uses hardcoded dead zones — a runtime tuning mode will allow configuring these via the transmitter joystick with values stored in EEPROM.</div>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+<div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>ESP32 Mini RC Car &nbsp;·&nbsp; Fusion 360 &nbsp;·&nbsp; EasyEDA &amp; JLCPCB &nbsp;·&nbsp; Feb–Mar 2026</div>
+<div class="footer-right">ESP32 Mini RC Car<br>Revision 1.0 &nbsp;·&nbsp; 2026</div>
+</div>
+
+<div id="lb"><button id="lb-close">✕</button><img id="lb-img" src="" alt=""></div>
+
+<script>
+const lb=document.getElementById('lb');
+const lbImg=document.getElementById('lb-img');
+document.getElementById('lb-close').addEventListener('click',()=>lb.style.display='none');
+lb.addEventListener('click',e=>{if(e.target===lb||e.target===document.getElementById('lb-close'))lb.style.display='none';});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.style.display='none';});
+function addLightbox(img){img.style.cursor='zoom-in';img.addEventListener('click',e=>{lbImg.src=img.src;lb.style.display='flex';e.stopPropagation();});}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.gallery-item img,.timeline-img img').forEach(img=>{
+    if(img.src&&!img.src.endsWith('/')){addLightbox(img);}
+  });
+});
+
+let dark=localStorage.getItem('theme')!=='light';
+document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
+  localStorage.setItem('theme',dark?'dark':'light');
+});
+
+(function(){
+  const toolbar=document.createElement('div');toolbar.id='edit-toolbar';
+  toolbar.style.cssText='display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;flex-wrap:wrap;';
+  const btnStyle='background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:10px 18px;font-family:\'DM Mono\',monospace;font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;';
+  const btnUndo=document.createElement('button');btnUndo.textContent='↩ Undo';btnUndo.style.cssText=btnStyle+'color:#8b9bb8;';btnUndo.disabled=true;
+  const btnSave=document.createElement('button');btnSave.textContent='💾 Save';btnSave.style.cssText=btnStyle+'background:#16a34a;border-color:#16a34a;';
+  const btnExport=document.createElement('button');btnExport.textContent='⬇ Export';btnExport.style.cssText=btnStyle+'background:rgba(37,99,235,.25);border-color:rgba(37,99,235,.5);';
+  const btnConnect=document.createElement('button');btnConnect.textContent='⚙ GitHub';btnConnect.style.cssText=btnStyle;
+  toolbar.append(btnUndo,btnSave,btnExport,btnConnect);
+  document.body.appendChild(toolbar);
+  const saveFlash=document.createElement('div');saveFlash.style.cssText='display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'DM Mono\',monospace;font-size:11px;pointer-events:none;';
+  saveFlash.textContent='✓ Saved!';document.body.appendChild(saveFlash);
+  const imgTip=document.createElement('div');imgTip.style.cssText='display:none;position:fixed;background:rgba(37,99,235,.92);color:#fff;font-family:\'DM Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
+  imgTip.textContent='Click to swap image';document.body.appendChild(imgTip);
+
+  let editMode=false;
+  const SAVE_KEY='rccar_page_content';
+  const GH_REPO='andresmoreno2702-gif/andresmoreno2702-gif.github.io';
+  const GH_FILE='rc-car-project-main.html';
+  const GH_BRANCH='main';
+  const PAT_KEY='gh_pat';
+
+  function cleanSnap(){
+    const clone=document.querySelector('.content').cloneNode(true);
+    ['data-eb-init','data-txt','data-ies'].forEach(a=>clone.querySelectorAll('['+a+']').forEach(el=>el.removeAttribute(a)));
+    return clone.innerHTML;
+  }
+  async function blobsToBase64(){
+    for(const img of [...document.querySelectorAll('img[src^="blob:"]')]){
+      try{const c=document.createElement('canvas');c.width=img.naturalWidth||300;c.height=img.naturalHeight||200;c.getContext('2d').drawImage(img,0,0);img.src=c.toDataURL();}catch(e){}
+    }
+  }
+  function fullPageClean(){
+    const clone=document.documentElement.cloneNode(true);
+    clone.querySelectorAll('#edit-toolbar,#save-flash').forEach(el=>el.remove());
+    ['data-eb-init','data-txt','data-ies'].forEach(a=>clone.querySelectorAll('['+a+']').forEach(el=>el.removeAttribute(a)));
+    clone.querySelector('body').classList.remove('edit-mode');
+    return '<!DOCTYPE html>\n'+clone.outerHTML;
+  }
+  const undoStack=[];
+  function snapshot(){undoStack.push(cleanSnap());if(undoStack.length>50)undoStack.shift();btnUndo.disabled=false;}
+  btnUndo.addEventListener('click',()=>{if(!undoStack.length)return;document.querySelector('.content').innerHTML=undoStack.pop();if(!undoStack.length)btnUndo.disabled=true;attachImgSwap();enableText();});
+  (()=>{const saved=localStorage.getItem(SAVE_KEY);if(saved)document.querySelector('.content').innerHTML=saved;})();
+
+  function updateConnectBtn(){const tok=localStorage.getItem(PAT_KEY);btnConnect.textContent=tok?'● Connected':'⚙ GitHub';if(tok)btnConnect.style.color='#4ade80';else btnConnect.style.color='';}
+  updateConnectBtn();
+  btnConnect.addEventListener('click',()=>{const cur=localStorage.getItem(PAT_KEY)||'';const tok=prompt('Paste your GitHub Personal Access Token:',cur);if(tok!==null){localStorage.setItem(PAT_KEY,tok.trim());updateConnectBtn();}});
+
+  btnSave.addEventListener('click',async()=>{
+    await blobsToBase64();
+    localStorage.setItem(SAVE_KEY,cleanSnap());
+    const token=localStorage.getItem(PAT_KEY);
+    if(!token){saveFlash.textContent='✓ Saved locally';saveFlash.style.background='#16a34a';saveFlash.style.display='block';setTimeout(()=>saveFlash.style.display='none',2500);return;}
+    const orig=btnSave.textContent;btnSave.textContent='Saving…';btnSave.disabled=true;
+    try{
+      const html=fullPageClean();const enc=btoa(unescape(encodeURIComponent(html)));
+      const r=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,{headers:{Authorization:`token ${token}`}});
+      if(!r.ok)throw new Error('GET '+r.status);
+      const {sha}=await r.json();
+      const w=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{method:'PUT',headers:{Authorization:`token ${token}`,'Content-Type':'application/json'},body:JSON.stringify({message:'Page update via edit mode',content:enc,sha,branch:GH_BRANCH})});
+      if(!w.ok)throw new Error('PUT '+w.status);
+      saveFlash.textContent='✓ Saved to GitHub!';saveFlash.style.background='#16a34a';
+    }catch(e){saveFlash.textContent='⚠ '+e.message;saveFlash.style.background='#ef4444';}
+    btnSave.textContent=orig;btnSave.disabled=false;
+    saveFlash.style.display='block';setTimeout(()=>saveFlash.style.display='none',3500);
+  });
+
+  btnExport.addEventListener('click',async()=>{
+    await blobsToBase64();
+    const blob=new Blob([fullPageClean()],{type:'text/html'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rc-car-project-main.html';a.click();URL.revokeObjectURL(a.href);
+  });
+
+  function pickImage(img){
+    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.addEventListener('change',()=>{if(!inp.files[0])return;snapshot();img.src=URL.createObjectURL(inp.files[0]);img.style.cssText='aspect-ratio:auto;height:auto;max-height:none;width:100%;object-fit:cover;';});
+    inp.click();
+  }
+  function attachImgSwap(){
+    document.querySelectorAll('img:not([data-no-edit]):not([data-ies])').forEach(img=>{
+      img.dataset.ies='1';
+      img.addEventListener('click',e=>{if(!editMode)return;e.stopPropagation();pickImage(img);});
+      img.addEventListener('mousemove',e=>{if(!editMode)return;imgTip.style.display='block';imgTip.style.left=(e.clientX+12)+'px';imgTip.style.top=(e.clientY+12)+'px';});
+      img.addEventListener('mouseleave',()=>imgTip.style.display='none');
+    });
+  }
+  const TSEL='h1,h2,h3,p,li,span,a,.hero-tag,.hero-sub,.badge,.section-title,.gallery-caption,.timeline-step,.timeline-heading,.timeline-body,.stat-value,.stat-label,.stat-sub,.prose p,.decision-title,.decision-body,.spec-key,.spec-val,.footer-left,.footer-right,td,th,.timeline-img-cap,.part,.ref';
+  function enableText(){
+    document.querySelectorAll(TSEL).forEach(el=>{
+      if(el.dataset.txt)return;
+      if(el.querySelector('div,section,article,nav'))return;
+      el.dataset.txt='1';
+      el.addEventListener('click',e=>{if(!editMode)return;e.stopPropagation();snapshot();el.contentEditable='true';el.focus();});
+      el.addEventListener('blur',()=>el.contentEditable='false');
+      el.addEventListener('keydown',e=>{if(e.key==='Escape'){el.contentEditable='false';el.blur();}});
+    });
+  }
+  function activateEditMode(){
+    editMode=!editMode;
+    if(editMode){
+      toolbar.style.display='flex';
+      document.querySelectorAll('img:not([data-no-edit])').forEach(img=>{img.style.outline='1px dashed rgba(37,99,235,.35)';});
+      attachImgSwap();enableText();
+    } else {
+      toolbar.style.display='none';imgTip.style.display='none';
+      document.querySelectorAll('img').forEach(img=>{img.style.outline='';});
+    }
+  }
+  const EDIT_PASS='morenavaa321';
+  document.addEventListener('keydown',e=>{
+    if(e.ctrlKey&&e.shiftKey&&e.key==='E'){
+      e.preventDefault();
+      if(editMode){activateEditMode();return;}
+      const pw=prompt('Enter password to enable edit mode:');
+      if(pw===EDIT_PASS)activateEditMode();
+    }
+  });
+})();
+</script>
+</body></html>
