@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(isLight&&!darkFillEls){
       darkFillEls=[];
       svg.querySelectorAll('[fill]').forEach(el=>{
+        if(el===titleEl||el===subtitleEl)return;
         const f=el.getAttribute('fill');
         if(!f||!f.startsWith('#'))return;
         let h=f.replace('#','');
