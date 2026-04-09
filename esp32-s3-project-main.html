@@ -418,7 +418,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     </div>
     <div class="hero-meta">
       <span class="badge badge-amber">JLCPCB JLC04161H-3313</span>
-      <span class="badge badge-green">IPC-2141 Impedance Controlled</span>
+      <span class="badge badge-green">IPC-2141 Impedance Analysed</span>
     </div>
   </div>
   <div class="hero-board" style="position: relative; width: 408px; height: 345px; min-height: unset;">
@@ -433,7 +433,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 <div class="section-header"><h2 class="section-title">Project Overview</h2><div class="section-line"></div></div>
 <div class="overview-grid">
   <div class="stat-card"><div class="stat-label">PCB Layers</div><div class="stat-value">4</div><div class="stat-sub">Signal / GND / PWR / Signal</div></div>
-  <div class="stat-card blue"><div class="stat-label">Form Factor</div><div class="stat-value">~55mm</div><div class="stat-sub">× 22mm compact module</div></div>
+  <div class="stat-card blue"><div class="stat-label">Form Factor</div><div class="stat-value">~57mm</div><div class="stat-sub">× 26mm compact module</div></div>
   <div class="stat-card amber"><div class="stat-label">Components</div><div class="stat-value">25</div><div class="stat-sub">Unique references, all SMD</div></div>
   <div class="stat-card red"><div class="stat-label">DRC Errors</div><div class="stat-value">0</div><div class="stat-sub">0 violations, 0 unconnected</div></div>
 </div>
@@ -469,7 +469,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 </div>
 <div class="two-col">
   <div class="spec-block">
-    <div class="spec-block-header">Left Header (J1) — 22 pins</div>
+    <div class="spec-block-header">Left Header (J2) — 22 pins</div>
     <div class="spec-row"><span class="spec-key">3V3, GND</span><span class="spec-val">Power rails</span></div>
     <div class="spec-row"><span class="spec-key">GPIO1–10</span><span class="spec-val ok">ADC1 + Touch + RTC</span></div>
     <div class="spec-row"><span class="spec-key">GPIO11–14</span><span class="spec-val warn">ADC2 + Touch + RTC</span></div>
@@ -511,13 +511,13 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 <tr><td colspan="5" style="padding:8px 16px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(37,99,235,.04);border-bottom:1px solid var(--border);">USB &amp; Protection</td></tr>
 <tr><td class="ref">J1</td><td class="part">USB4105-GF-A</td><td>USB-C Receptacle — 16P Top Mount</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">CC1/CC2 pulled to GND via 5.1kΩ for host detection.</td></tr>
 <tr><td class="ref">U1</td><td class="part">D3V3XA4B10LP</td><td>4-line USB TVS ESD protection</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">UDFN-10. Protects VBUS, D+, D−.</td></tr>
-<tr><td class="ref">R1, R2</td><td class="part">RC0603FR-075K1L</td><td>5.1kΩ USB-C CC Resistors</td><td>2</td><td style="font-size:12px;color:var(--text-muted)">Required for USB-C power delivery negotiation.</td></tr>
+<tr><td class="ref">R1, R2</td><td class="part">RC0603FR-075K1L</td><td>5.1kΩ USB-C CC Resistors</td><td>2</td><td style="font-size:12px;color:var(--text-muted)">Required for USB-C host detection.</td></tr>
 </tbody>
 
 <tbody>
 <tr><td colspan="5" style="padding:8px 16px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(37,99,235,.04);border-bottom:1px solid var(--border);">Sensors &amp; Indicators</td></tr>
 <tr><td class="ref">U3</td><td class="part">ENS210-LQFM</td><td>Temperature &amp; Humidity Sensor — I²C</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">QFN-4. SCL→GPIO17, SDA→GPIO18.</td></tr>
-<tr><td class="ref">D1</td><td class="part">WS2812B</td><td>Addressable RGB LED — PLCC4</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">GPIO48 data line. 3.3V powered.</td></tr>
+<tr><td class="ref">D1</td><td class="part">WS2812B</td><td>Addressable RGB LED — PLCC4</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">GPIO48 data line. 3.3V powered (see Rev 2 note).</td></tr>
 <tr><td class="ref">D2</td><td class="part">150060RS75000</td><td>Red Status LED — 0603</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">Power-on indicator. Current limited by R5.</td></tr>
 <tr><td class="ref">R5</td><td class="part">RC0603FR-075K1L</td><td>5.1kΩ LED Current Limiter</td><td>1</td><td style="font-size:12px;color:var(--text-muted)">Series resistor for D2 status LED.</td></tr>
 </tbody>
@@ -602,7 +602,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <div class="timeline-body">Used JLCPCB stackup JLC04161H-3313: PP prepreg 3313×1 with h = 0.0994 mm and Dk = 4.4. Applied IPC-2141 edge-coupled microstrip formula — the calculated target trace width for exactly 90 Ω differential is 0.18 mm at 0.15 mm spacing. The USB D± pair was routed at 0.15 mm (default netclass width), which gives a slightly higher impedance but remains within USB 2.0 Full Speed tolerance of 90 Ω ±15%. Note: stackup values updated from original PCBWay calculation (h = 0.1855 mm, Dk = 4.74, w = 0.2251 mm).</div>
     <div class="timeline-img" style="position: relative; width: 507px; height: 353px; min-height: unset;"><img src="IMAGES/USB Signal Impedance CHeck.png" alt="Impedance Calculator" style="cursor: zoom-in; max-height: 460px; height: auto; aspect-ratio: auto;"><div class="timeline-img-cap">IPC-2141 impedance calculation — recalculated for JLCPCB stackup</div></div>
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-weight:500;color:var(--text);font-size:15px;margin-bottom:6px;">Design constraints — JLCPCB manufacturing rules</div>
-    <div class="timeline-body">Before routing, design rules were configured to match JLCPCB's JLC04161H-3313 stackup requirements: minimum trace width 0.09 mm, minimum via diameter 0.45 mm (drill 0.3 mm), hole-to-hole clearance 0.5 mm, copper-to-board-edge clearance 0.3 mm, and minimum annular ring 0.1 mm. Rules were applied as a KiCad DRC constraint file and a clean DRC pass was confirmed before routing began.</div>
+    <div class="timeline-body">Before routing, design rules were configured to match JLCPCB's JLC04161H-3313 stackup requirements: minimum trace width 0.15 mm (JLCPCB's manufacturing capability is 0.09 mm — a more conservative limit was set in KiCad), minimum via diameter 0.45 mm (drill 0.3 mm), hole-to-hole clearance 0.5 mm, copper-to-board-edge clearance 0.3 mm, and minimum annular ring 0.1 mm. Rules were applied as a KiCad DRC constraint file and a clean DRC pass was confirmed before routing began.</div>
     <div class="timeline-img" style="position:relative;min-height:unset;"><img src="IMAGES/constraintsJLCPCB.png" alt="JLCPCB Constraints" style="cursor:zoom-in;max-height:460px;height:auto;aspect-ratio:auto;"><div class="timeline-img-cap">JLCPCB manufacturing constraints configured in KiCad design rules</div></div>
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-weight:500;color:var(--text);font-size:15px;margin-bottom:6px;">Netclasses — power and signal net classification</div>
     <div class="timeline-body">Nets were grouped into custom netclasses before routing: <strong>PWR</strong> (VBUS, VCC, GND) assigned 0.3 mm minimum trace width to handle higher current paths; <strong>SIG</strong> (GPIO, SPI, I2C, UART) kept at default 0.15 mm. The USB differential pair (D+/D−) was routed at 0.15 mm width and 0.15 mm spacing using the default netclass — within USB 2.0 Full Speed tolerance.</div>
@@ -649,14 +649,14 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 <div class="drc-grid">
   <div class="drc-card"><div class="drc-num pass">0</div><div class="drc-label">DRC Errors</div></div>
   <div class="drc-card"><div class="drc-num pass">0</div><div class="drc-label">Unconnected Pads</div></div>
-  <div class="drc-card"><div class="drc-num pass">0</div><div class="drc-label">Footprint Errors<br><span style="font-size:11px;opacity:.6">(6 warnings excluded)</span></div></div>
+  <div class="drc-card"><div class="drc-num pass">0</div><div class="drc-label">Footprint Errors<br><span style="font-size:11px;opacity:.6">(1 warning excluded)</span></div></div>
 </div>
 <div class="two-col">
   <div class="spec-block">
     <div class="spec-block-header">Schematic Checks</div>
     <div class="spec-row"><span class="spec-key">USB-C CC resistors (5.1kΩ each)</span><span class="spec-val ok">✓ Correct</span></div>
     <div class="spec-row"><span class="spec-key">EN pin pull-up (10kΩ to 3V3)</span><span class="spec-val ok">✓ Present</span></div>
-    <div class="spec-row"><span class="spec-key">GPIO0 boot pull-up (10kΩ)</span><span class="spec-val ok">✓ Present</span></div>
+    <div class="spec-row"><span class="spec-key">GPIO0 boot pull-up</span><span class="spec-val ok">✓ Internal (ESP32-S3)</span></div>
     <div class="spec-row"><span class="spec-key">I²C pull-ups on SDA/SCL</span><span class="spec-val ok">✓ 10kΩ each</span></div>
     <div class="spec-row"><span class="spec-key">Decoupling caps — all ICs</span><span class="spec-val ok">✓ 100nF + 10µF</span></div>
     <div class="spec-row"><span class="spec-key">Strapping pins excluded from header</span><span class="spec-val ok">✓ GPIO0 protected</span></div>
