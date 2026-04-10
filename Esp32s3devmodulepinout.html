@@ -15,13 +15,23 @@ nav a{font-size:13px;color:var(--text2);text-decoration:none;transition:color 0.
 nav a:hover{color:var(--text);}
 .theme-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--transition);}
 .theme-btn:hover{background:var(--bg2);color:var(--text);}
-.svg-wrap{margin-top:72px;padding:16px;width:100%;display:flex;justify-content:center;}
-svg{max-width:100%;height:auto;border-radius:8px;}
+.svg-wrap{margin-top:72px;padding:16px;width:100%;overflow:auto;display:flex;justify-content:center;}
+svg{max-width:100%;height:auto;border-radius:8px;transition:width 0.15s ease;}
+.zoom-controls{display:flex;align-items:center;gap:8px;}
+.zoom-btn{font-family:'DM Mono',monospace;font-size:13px;padding:5px 13px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);cursor:pointer;transition:background 0.2s,color 0.2s;line-height:1;}
+.zoom-btn:hover{background:var(--bg2);color:var(--text);}
+#zoom-label{font-family:'DM Mono',monospace;font-size:12px;color:var(--text2);min-width:44px;text-align:center;}
 </style>
 </head>
 <body>
 <nav>
   <a href="esp32-s3-project-main.html">← Back to Project</a>
+  <div class="zoom-controls">
+    <button class="zoom-btn" id="zoomOut">−</button>
+    <span id="zoom-label">100%</span>
+    <button class="zoom-btn" id="zoomIn">+</button>
+    <button class="zoom-btn" id="zoomReset">Reset</button>
+  </div>
   <button class="theme-btn" id="themeBtn">🌙</button>
 </nav>
 <div class="svg-wrap"><svg width="1117" height="840" viewBox="0 0 1117 840" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -140,6 +150,32 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   applyTextTheme();
   document.getElementById('themeBtn').addEventListener('click',applyTextTheme);
+
+  // ── Zoom controls ──
+  const SVG_BASE = 1117;
+  let zoomLevel = 1.0;
+  function applyZoom(){
+    if(zoomLevel === 1.0){
+      svg.style.width = '';
+      svg.style.maxWidth = '100%';
+    } else {
+      svg.style.width = Math.round(SVG_BASE * zoomLevel) + 'px';
+      svg.style.maxWidth = 'none';
+    }
+    document.getElementById('zoom-label').textContent = Math.round(zoomLevel * 100) + '%';
+  }
+  document.getElementById('zoomIn').addEventListener('click', () => {
+    zoomLevel = Math.min(3.0, parseFloat((zoomLevel + 0.2).toFixed(1)));
+    applyZoom();
+  });
+  document.getElementById('zoomOut').addEventListener('click', () => {
+    zoomLevel = Math.max(0.4, parseFloat((zoomLevel - 0.2).toFixed(1)));
+    applyZoom();
+  });
+  document.getElementById('zoomReset').addEventListener('click', () => {
+    zoomLevel = 1.0;
+    applyZoom();
+  });
 });
 </script>
 </body></html>
