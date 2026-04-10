@@ -714,7 +714,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <div class="timeline-step">Phase 1 — Schematic Capture</div>
     <div class="timeline-heading">Component selection and schematic design in KiCad 9</div>
     <div class="timeline-body">Selected components referencing Espressif application notes and IC datasheets. Designed full schematic including USB-C with CC pull-downs, TLV75801 LDO, ENS210 I²C sensor, WS2812B RGB LED, and GPIO breakout. ERC verified with 0 errors.</div>
-    <div class="timeline-img" style="max-width: 100%; position: relative; width: 633px; height: 466px; min-height: unset;"><img src="IMAGES/schematicPicture.png" alt="Schematic" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: none; width: 100%;"><div class="timeline-img-cap">Full schematic — KiCad 9 schematic editor</div></div>
+    <div class="timeline-img" style="max-width: 100%; position: relative; width: 633px; height: 466px; min-height: unset;"><img src="IMAGES/Schematic Pic.png" alt="Schematic" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: none; width: 100%;"><div class="timeline-img-cap">Full schematic — KiCad 9 schematic editor</div></div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
@@ -882,7 +882,7 @@ document.addEventListener('DOMContentLoaded',function(){
       img.style.aspectRatio='auto';img.style.height='auto';img.style.objectFit='contain';
       item.classList.add('screenshot');
     } else if(t.includes('schematic')){
-      trySwap(img,'IMAGES/schematicPicture.png');
+      trySwap(img,'IMAGES/Schematic Pic.png');
       img.style.objectFit='contain';
       item.classList.add('screenshot');
     } else if(t.includes('netclass')){
@@ -919,7 +919,7 @@ document.addEventListener('DOMContentLoaded',function(){
     const img=imgWrap?imgWrap.querySelector('img'):null;
     const t=step.textContent;
     if(img&&(t.includes('Phase 1')||t.includes('Schematic'))){
-      trySwap(img,'IMAGES/schematicPicture.png');
+      trySwap(img,'IMAGES/Schematic Pic.png');
       img.style.aspectRatio='auto';img.style.height='auto';img.style.objectFit='contain';
       if(imgWrap){imgWrap.style.maxWidth='100%';}
       addLightbox(img);
