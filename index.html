@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" data-theme="dark" jd-enabled="true"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andrés Moreno Navarro — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--card:#131b2e;
@@ -115,8 +114,31 @@
     nav .nav-links{display:none;}
   }
 </style>
-</head>
-<body>
+<style>
+    #edit-toolbar{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;}
+    body.edit-mode #edit-toolbar{display:flex;}
+    #edit-toolbar button{
+      background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;
+      padding:10px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;
+      cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;
+    }
+    #btn-undo-i{color:#8b9bb8;}#btn-undo-i:hover{background:#1a2235;color:#fff;}
+    #btn-undo-i:disabled{opacity:.3;cursor:not-allowed;}
+    #btn-save-i{background:#16a34a;border-color:#16a34a;}#btn-save-i:hover{background:#15803d;}
+    #btn-export-i{background:rgba(37,99,235,.25);border-color:rgba(37,99,235,.5);}#btn-export-i:hover{background:#2563eb;}
+    #btn-connect-i{background:rgba(10,14,26,.95);}#btn-connect-i:hover{background:#1a2235;}
+    #btn-connect-i.connected{border-color:#16a34a;color:#4ade80;}
+    #save-flash-i{display:none;position:fixed;bottom:70px;right:24px;z-index:9001;
+      color:#fff;padding:6px 14px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;pointer-events:none;}
+    body.edit-mode [data-etxt]:hover{outline:2px dashed rgba(37,99,235,.5);outline-offset:2px;cursor:text;}
+    body.edit-mode [contenteditable="true"]{outline:2px solid #2563eb;outline-offset:2px;}
+    .eb-sec-handle{display:none;height:12px;cursor:ns-resize;position:relative;margin:0 -2rem;z-index:50;}
+    body.edit-mode .eb-sec-handle{display:block;}
+    .eb-sec-handle::after{content:'';display:block;height:2px;background:rgba(37,99,235,.35);margin:5px 0;transition:background .15s;}
+    .eb-sec-handle:hover::after{background:#2563eb;}
+    .eb-sec-handle::before{content:'· · · · ·';position:absolute;left:50%;transform:translateX(-50%);top:-1px;font-size:9px;color:rgba(37,99,235,.5);letter-spacing:3px;}
+  </style><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><style data-styled="active" data-styled-version="5.3.11"></style></head>
+<body data-new-gr-c-s-check-loaded="14.1282.0" data-gr-ext-installed="" class="">
 <nav>
   <div></div>
   <div class="nav-links">
@@ -129,17 +151,17 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-label">Electrical & Electronics Engineer (Student)</div>
-  <h1>Andrés <span class="name-highlight">Moreno Navarro</span></h1>
-  <p class="hero-desc">Engineering student at the University of Western Australia, building embedded systems, custom PCBs, and RC projects. Turning ideas into real hardware.</p>
+  <div class="hero-label" contenteditable="false">Electrical &amp; Electronics Engineer (Student)</div>
+  <h1 contenteditable="false">Andrés <span class="name-highlight">Moreno Navarro</span></h1>
+  <p class="hero-desc" contenteditable="false">Engineering student at the University of Western Australia, building embedded systems, custom PCBs, and RC projects. Turning ideas into real hardware.</p>
   <div class="hero-btns">
     <a href="#projects" class="btn-primary">View Projects →</a>
     <a href="#resume" class="btn-outline">📄 Resume</a>
   </div>
   <div class="hero-stats">
-    <div class="stat-item"><div class="stat-num">6+</div><div class="stat-label">Projects</div></div>
-    <div class="stat-item"><div class="stat-num">4L</div><div class="stat-label">First PCB</div></div>
-    <div class="stat-item"><div class="stat-num">UWA</div><div class="stat-label">Engineering</div></div>
+    <div class="stat-item"><div class="stat-num" contenteditable="false">6+</div><div class="stat-label" contenteditable="false">Projects</div></div>
+    <div class="stat-item"><div class="stat-num" contenteditable="false">4L</div><div class="stat-label" contenteditable="false">First PCB</div></div>
+    <div class="stat-item"><div class="stat-num" contenteditable="false">UWA</div><div class="stat-label" contenteditable="false">Engineering</div></div>
   </div>
 </div>
 
@@ -148,7 +170,7 @@
     <h2>Projects</h2>
     <div class="section-line"></div>
   </div>
-  <div class="projects-grid" id="projectsGrid"></div>
+  <div class="projects-grid" id="projectsGrid"><div class="project-card"><div class="project-img" style="background:url('IMAGES/horizontal3dview.png') center/cover no-repeat;"><div class="project-img-overlay"></div><div class="project-status status-wip">IN PROGRESS</div></div><div class="project-body"><div class="project-title">ESP32-S3-MINI Dev Board</div><div class="project-desc">Custom 4-layer development board designed from scratch in KiCad with USB-C, impedance-controlled traces, and decoupling network.</div><div class="project-tags"><span class="tag">KiCad</span><span class="tag">ESP32-S3</span><span class="tag">4-Layer PCB</span><span class="tag">USB-C</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🚗</span><div class="project-img-overlay"></div><div class="project-status status-wip">IN PROGRESS</div></div><div class="project-body"><div class="project-title">Small Wireless RC Car</div><div class="project-desc">Lightweight 3D-printed RC car with ESP-NOW wireless control, TB6612FNG motor driver, and servo steering.</div><div class="project-tags"><span class="tag">ESP32</span><span class="tag">ESP-NOW</span><span class="tag">TB6612FNG</span><span class="tag">PWM</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🎮</span><div class="project-img-overlay"></div><div class="project-status status-wip">IN PROGRESS</div></div><div class="project-body"><div class="project-title">ESP32 NES Emulator Console</div><div class="project-desc">Retro handheld gaming console based on ESP32-WROOM-32E running a NES emulator with ST7789 display and I2S audio.</div><div class="project-tags"><span class="tag">ESP32</span><span class="tag">ST7789</span><span class="tag">PCM5102</span><span class="tag">NES</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🔧</span><div class="project-img-overlay"></div><div class="project-status status-pending">PAGE SOON</div></div><div class="project-body"><div class="project-title">Exhaust Cutout Controller</div><div class="project-desc">Arduino Nano Every based dual exhaust cutout controller with factory-style rocker switch and 3D-printed enclosure.</div><div class="project-tags"><span class="tag">Arduino</span><span class="tag">Relay</span><span class="tag">Firmware</span><span class="tag">Fusion 360</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🏎️</span><div class="project-img-overlay"></div><div class="project-status status-pending">PAGE SOON</div></div><div class="project-body"><div class="project-title">Large-Scale RC Car &amp; Controller</div><div class="project-desc">Full-scale RC car with custom 3D-printed chassis, brushless motor drive, and a handheld wireless controller built from scratch.</div><div class="project-tags"><span class="tag">ESP32</span><span class="tag">ESP-NOW</span><span class="tag">Brushless</span><span class="tag">Fusion 360</span></div></div><div class="project-arrow">→</div></div><div class="project-card"><div class="project-img"><span>🖥️</span><div class="project-img-overlay"></div><div class="project-status status-pending">PAGE SOON</div></div><div class="project-body"><div class="project-title">VHDL Digital Systems (DE10-Lite)</div><div class="project-desc">Digital system designs in VHDL on the DE10-Lite FPGA board including state machines, counters, and ALU components.</div><div class="project-tags"><span class="tag">VHDL</span><span class="tag">FPGA</span><span class="tag">DE10-Lite</span><span class="tag">Quartus</span></div></div><div class="project-arrow">→</div></div></div>
 </section>
 
 <section id="about">
@@ -158,34 +180,34 @@
   </div>
   <div class="about-grid">
     <div class="about-text">
-      <p>I'm a third-year <strong>part-time Electrical and Electronics Engineering</strong> student at the University of Western Australia, based in Perth, WA.</p>
-      <p>I love the full stack of hardware — from <strong>schematic design and PCB layout</strong> in KiCad, to <strong>3D-printed enclosures</strong> in Fusion 360, to <strong>embedded firmware</strong> running on ESP32 and Arduino platforms.</p>
-      <p>My projects span wireless communication, motor control, retro gaming consoles, and custom development boards — all designed and built from scratch.</p>
+      <p contenteditable="false">I'm a third-year <strong>part-time Electrical and Electronics Engineering</strong> student at the University of Western Australia, based in Perth, WA.</p>
+      <p contenteditable="false">I love the full stack of hardware — from <strong>schematic design and PCB layout</strong> in KiCad, to <strong>3D-printed enclosures</strong> in Fusion 360, to <strong>embedded firmware</strong> running on ESP32 and Arduino platforms.</p>
+      <p contenteditable="false">My projects span wireless communication, motor control, retro gaming consoles, and custom development boards — all designed and built from scratch.</p>
     </div>
     <div>
       <div class="skills-list">
         <div class="skill-item">
-          <div class="skill-label"><span>KiCad / PCB Design</span><span>65%</span></div>
+          <div class="skill-label"><span contenteditable="false">KiCad / PCB Design</span><span contenteditable="false">65%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>ESP32 / Arduino Firmware</span><span>60%</span></div>
+          <div class="skill-label"><span contenteditable="false">ESP32 / Arduino Firmware</span><span contenteditable="false">60%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>Fusion 360 / CAD</span><span>75%</span></div>
+          <div class="skill-label"><span contenteditable="false">Fusion 360 / CAD</span><span contenteditable="false">75%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>VHDL / Digital Design</span><span>60%</span></div>
+          <div class="skill-label"><span contenteditable="false">VHDL / Digital Design</span><span contenteditable="false">60%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>3D Printing / Slicing</span><span>80%</span></div>
+          <div class="skill-label"><span contenteditable="false">3D Printing / Slicing</span><span contenteditable="false">80%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-label"><span>Power Electronics</span><span>65%</span></div>
+          <div class="skill-label"><span contenteditable="false">Power Electronics</span><span contenteditable="false">65%</span></div>
           <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
         </div>
       </div>
@@ -200,8 +222,8 @@
   </div>
   <div class="resume-card">
     <div class="resume-info">
-      <h3>Andrés Moreno Navarro</h3>
-      <p>Electrical & Electronics Engineering Student · UWA · Perth, WA</p>
+      <h3 contenteditable="false">Andrés Moreno Navarro</h3>
+      <p contenteditable="false">Electrical &amp; Electronics Engineering Student · UWA · Perth, WA</p>
     </div>
     <div class="resume-btns">
       <a href="resume.pdf" target="_blank" class="btn-outline">👁 View Resume</a>
@@ -218,24 +240,24 @@
   <div class="contact-grid">
     <a href="https://www.linkedin.com/in/andres-moreno-navarro27" class="contact-card" target="_blank">
       <div class="contact-icon">💼</div>
-      <div class="contact-title">LinkedIn</div>
-      <div class="contact-sub">andres-moreno-navarro27</div>
+      <div class="contact-title" contenteditable="false">LinkedIn</div>
+      <div class="contact-sub" contenteditable="false">andres-moreno-navarro27</div>
     </a>
     <div class="contact-card email-clickable" id="emailCard" onclick="copyEmail()">
       <div class="contact-icon">✉️</div>
-      <div class="contact-title">Email</div>
-      <div class="contact-sub" id="emailLabel">andres.moreno2702@gmail.com</div>
+      <div class="contact-title" contenteditable="false">Email</div>
+      <div class="contact-sub" id="emailLabel" contenteditable="false">andres.moreno2702@gmail.com</div>
     </div>
     <a href="https://github.com/andresmoreno2702-gif" class="contact-card" target="_blank">
       <div class="contact-icon">🐙</div>
-      <div class="contact-title">GitHub</div>
-      <div class="contact-sub">andresmoreno2702-gif</div>
+      <div class="contact-title" contenteditable="false">GitHub</div>
+      <div class="contact-sub" contenteditable="false">andresmoreno2702-gif</div>
     </a>
   </div>
 </section>
 
 <footer>
-  <span>© 2026 Andrés Moreno Navarro · Perth, Western Australia</span>
+  <span contenteditable="false">© 2026 Andrés Moreno Navarro · Perth, Western Australia</span>
 </footer>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -511,5 +533,6 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   });
 })();
 </script>
-</body>
-</html>
+
+
+<div id="jsExtensionEmbedder"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="StyledViewport-sc-1famsgu-1 dLRKDU"></ol></div><div id="jsExtensionMenuParent"></div></div></body><justdone-content-app id="justdone-content-app" style="z-index: 2147483647; position: fixed;"></justdone-content-app><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
