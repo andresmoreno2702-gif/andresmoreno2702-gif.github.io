@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(python -c ':*)",
-      "Bash(grep -v '^\\\\s*$')"
+      "Bash(grep -v '^\\\\s*$')",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\andre\\\\OneDrive\\\\Documents\\\\GitHub\\\\andresmoreno2702-gif.github.io\\\\esp32-s3-project-main.html' | Select-Object -Index 612,649\")",
+      "Bash(findstr /N \"IPC-2141\\\\|edge-coupled microstrip\\\\|narrower than\" \"C:\\\\Users\\\\andre\\\\OneDrive\\\\Documents\\\\GitHub\\\\andresmoreno2702-gif.github.io\\\\esp32-s3-project-main.html\")"
     ]
   }
 }
