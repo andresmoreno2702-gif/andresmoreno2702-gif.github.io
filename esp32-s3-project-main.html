@@ -477,23 +477,28 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 <div class="two-col">
   <div class="spec-block">
     <div class="spec-block-header">Left Header (J2) — 22 pins</div>
-    <div class="spec-row"><span class="spec-key">3V3, GND</span><span class="spec-val">Power rails</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 1 — 3V3</span><span class="spec-val">3.3V regulated</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 2 — GND</span><span class="spec-val">Ground</span></div>
     <div class="spec-row"><span class="spec-key">GPIO1–10</span><span class="spec-val ok">ADC1 + Touch + RTC</span></div>
     <div class="spec-row"><span class="spec-key">GPIO11–14</span><span class="spec-val warn">ADC2 + Touch + RTC</span></div>
     <div class="spec-row"><span class="spec-key">GPIO15–16</span><span class="spec-val warn">ADC2 + RTC + 32kHz</span></div>
     <div class="spec-row"><span class="spec-key">GPIO17 (SCL)</span><span class="spec-val">I²C — ENS210</span></div>
     <div class="spec-row"><span class="spec-key">GPIO18 (SDA)</span><span class="spec-val">I²C — ENS210</span></div>
-    <div class="spec-row"><span class="spec-key">GND, 5V</span><span class="spec-val">Ground + USB VBUS</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 21 — GND</span><span class="spec-val">Ground</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 22 — 5V</span><span class="spec-val">USB VBUS</span></div>
+    <div class="spec-row"><span class="spec-key">GPIO0, EN, USB D±</span><span class="spec-val warn">Not exposed — see decisions</span></div>
   </div>
   <div class="spec-block">
     <div class="spec-block-header">Right Header (J3) — 22 pins</div>
-    <div class="spec-row"><span class="spec-key">3V3, GND</span><span class="spec-val">Power rails</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 1 — 3V3</span><span class="spec-val">3.3V regulated</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 2 — GND</span><span class="spec-val">Ground</span></div>
     <div class="spec-row"><span class="spec-key">GPIO45, GPIO46</span><span class="spec-val warn">⚠ Strapping pins</span></div>
     <div class="spec-row"><span class="spec-key">GPIO43 (TX), GPIO44 (RX)</span><span class="spec-val">UART0</span></div>
     <div class="spec-row"><span class="spec-key">GPIO39–42</span><span class="spec-val">JTAG TCK/TDO/TDI/TMS</span></div>
     <div class="spec-row"><span class="spec-key">GPIO33–38</span><span class="spec-val">FSPI / SPI2</span></div>
     <div class="spec-row"><span class="spec-key">GPIO48</span><span class="spec-val ok">On-board RGB LED</span></div>
-    <div class="spec-row"><span class="spec-key">GND, 5V</span><span class="spec-val">Ground + USB VBUS</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 21 — GND</span><span class="spec-val">Ground</span></div>
+    <div class="spec-row"><span class="spec-key">Pin 22 — 5V</span><span class="spec-val">USB VBUS</span></div>
   </div>
 </div>
 </div>
@@ -646,6 +651,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
   <div class="decision"><div class="decision-title">Native USB over USB-to-UART bridge</div><div class="decision-body">Uses the ESP32-S3 built-in USB Serial/JTAG controller via <code>GPIO19 (D−)</code> and <code>GPIO20 (D+)</code> instead of a CP2102N bridge. Eliminates one IC and reduces BOM cost without sacrificing programming or debug capability.</div></div>
   <div class="decision blue"><div class="decision-title">USB D± impedance — IPC-2141 calculation for JLCPCB JLC04161H-3313</div><div class="decision-body">IPC-2141 edge-coupled microstrip calculation for the JLCPCB 3313 stackup (<code>h = 0.0994 mm</code>, <code>Dk = 4.4</code>) gives a target width of <code>0.18 mm</code> at <code>0.15 mm spacing</code> for exactly 90 Ω. The pair was routed at <code>0.15 mm</code> using the default netclass — slightly narrower than the ideal target but within the USB 2.0 Full Speed tolerance of 90 Ω ±15%. Rev 2 will apply a dedicated USB DP netclass to hit the 0.18 mm target precisely.</div></div>
   <div class="decision amber"><div class="decision-title">GPIO0 excluded from header — strapping pin protection</div><div class="decision-body">GPIO0 determines boot mode. Reserved exclusively for the BOOT button to prevent external circuitry accidentally pulling it low. GPIO45 and GPIO46 are exposed but flagged as strapping pins on the silkscreen and pinout reference.</div></div>
+  <div class="decision amber"><div class="decision-title">GPIO0, EN, and USB D± excluded from headers — replaced with power pins</div><div class="decision-body"><code>GPIO0</code> is reserved for the BOOT button, <code>EN</code> for the RESET button, and <code>GPIO19 (D−)</code> / <code>GPIO20 (D+)</code> are routed directly to the USB-C connector — none of these are safe or useful to expose on a general-purpose header. The four positions freed up are replaced with additional power and ground pins: each header provides <code>3V3</code> and <code>GND</code> at the top (pins 1–2) and a second <code>GND</code> and <code>5V VBUS</code> at the bottom (pins 21–22). This gives two ground references per header, which is practical for breadboard use and reduces the chance of floating grounds when connecting peripherals.</div></div>
   <div class="decision"><div class="decision-title">4-layer stackup with dedicated GND plane on L2</div><div class="decision-body">Provides continuous GND reference directly beneath the signal layer, enabling impedance control for USB D±, reducing EMI from the ESP32-S3 Wi-Fi/BT radio, and providing a low-inductance return path for high-frequency signals.</div></div>
   <div class="decision blue"><div class="decision-title">LDO package selection based on thermal analysis</div><div class="decision-body">TLV75801 WSON-6 selected over SOT-23: <code>RθJA = 80.3°C/W</code> vs <code>176.9°C/W</code>. At 300mA load (P = 0.51W), WSON-6 gives only +41°C junction rise vs +90°C for SOT-23. Thermal pad soldered to GND copper pour.</div></div>
   <div class="decision amber"><div class="decision-title">LDO feedback resistors — R3/R4 set Vout to 3.3V</div><div class="decision-body">R3 (1MΩ) and R4 (200kΩ) form the TLV75801 output voltage feedback divider. The 1:5 ratio sets the regulated output to 3.3V. Values chosen to minimise quiescent current through the divider while staying within the LDO's feedback input impedance spec.</div></div>
