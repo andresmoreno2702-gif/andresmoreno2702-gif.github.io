@@ -148,6 +148,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <a href="#firmware">Firmware</a>
     <a href="#build">Build</a>
     <a href="#challenges">Challenges</a>
+    <a href="#pcb">PCB</a>
     <a href="#next">Next Steps</a>
   </div>
   <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
@@ -158,18 +159,19 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
   <div>
     <div class="hero-tag">Engineering Design Portfolio — Embedded Systems</div>
     <h1>RetroDS — ESP32 <span>NES</span><br>Handheld Console</h1>
-    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb–Mar 2026</div>
+    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 – Present</div>
     <div class="hero-meta">
       <span class="badge badge-teal">ESP32-WROOM-32E · 240 MHz</span>
       <span class="badge badge-blue">ST7789 · 240×240 SPI</span>
       <span class="badge badge-amber">PCM5102 · I2S DAC</span>
       <span class="badge badge-teal">MicroSD · FAT32</span>
-      <span class="badge badge-green">Functional Prototype</span>
+      <span class="badge badge-green">Prototype ✓ · PCB In Progress</span>
     </div>
     <div class="hero-meta">
       <span class="badge badge-blue">8× GPIO Buttons</span>
       <span class="badge badge-amber">LiPo · USB-C Charge</span>
-      <span class="badge badge-green">44.1 kHz I2S Audio</span>
+      <span class="badge badge-green">24 kHz I2S Audio</span>
+      <span class="badge badge-amber">KiCAD PCB · In Progress</span>
     </div>
   </div>
 </div>
@@ -182,13 +184,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="overview-grid">
   <div class="stat-card"><div class="stat-label">CPU Speed</div><div class="stat-value">240</div><div class="stat-sub">MHz dual-core ESP32</div></div>
   <div class="stat-card blue"><div class="stat-label">Display</div><div class="stat-value">240×240</div><div class="stat-sub">ST7789 SPI @ 40 MHz</div></div>
-  <div class="stat-card amber"><div class="stat-label">Audio</div><div class="stat-value">44.1</div><div class="stat-sub">kHz I2S via PCM5102</div></div>
+  <div class="stat-card amber"><div class="stat-label">Audio</div><div class="stat-value">24</div><div class="stat-sub">kHz I2S via PCM5102</div></div>
   <div class="stat-card"><div class="stat-label">Input Buttons</div><div class="stat-value">8×</div><div class="stat-sub">D-pad + A/B + Start/Sel</div></div>
 </div>
 <div class="prose">
   <p>RetroDS is a self-designed, battery-powered handheld gaming console built from scratch using the <strong>ESP32-WROOM-32E</strong> microcontroller. The device emulates NES / retro games using a ported emulation engine, outputs stereo-quality audio via a <strong>PCM5102 I2S DAC</strong>, renders to a <strong>240×240 SPI TFT display</strong>, and accepts player input through a custom-laid 8-button interface.</p>
   <p>All hardware — from breadboard prototype through to hand-soldered perfboard — was designed, assembled, and debugged in-house at the University of Western Australia. The front panel board carries the display, D-pad, and action buttons. The back board carries the ESP32, audio module, MicroSD breakout, and power management IC.</p>
-  <p>The project demonstrates full-stack embedded systems development: hardware architecture, subsystem integration, firmware written in C++ on the Arduino-ESP32 framework, FAT32 ROM loading, I2S DMA audio management, and battery-backed power design.</p>
+  <p>The project demonstrates full-stack embedded systems development: hardware architecture, subsystem integration, firmware written in C++ on the Arduino-ESP32 framework, FAT32 ROM loading, I2S DMA audio management, and battery-backed power design. A custom 2-layer KiCAD PCB is currently in design to replace the hand-wired perfboard build — consolidating all subsystems onto a single professional board.</p>
 </div>
 <div class="gallery" id="overviewGallery">
   <div class="gallery-item wide">
@@ -215,7 +217,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <thead><tr><th>Subsystem</th><th>Component</th><th>Interface</th><th>Key Notes</th></tr></thead>
 <tbody>
 <tr><td class="part">Microcontroller</td><td class="part">ESP32-WROOM-32E</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">240 MHz dual-core, 4 MB Flash, 520 kB SRAM</td></tr>
-<tr><td class="part">Display</td><td class="part">ST7789 1.3" TFT 240×240</td><td>SPI @ 40 MHz</td><td style="font-size:12px;color:var(--text-muted)">DC GPIO35 · CS GPIO5 · RST GPIO17</td></tr>
+<tr><td class="part">Display</td><td class="part">ST7789 1.3" TFT 240×240</td><td>SPI @ 40 MHz</td><td style="font-size:12px;color:var(--text-muted)">Pins configured in TFT_eSPI User_Setup.h</td></tr>
 <tr><td class="part">Audio DAC</td><td class="part">PCM5102 I2S Module</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">BCK GPIO27 · LRC GPIO32 · DIN GPIO25</td></tr>
 <tr><td class="part">Storage</td><td class="part">MicroSD Breakout</td><td>Soft-SPI</td><td style="font-size:12px;color:var(--text-muted)">MOSI GPIO17 · MISO GPIO13 · SCK GPIO14 · CS GPIO22</td></tr>
 <tr><td class="part">User Input</td><td class="part">8× Tactile Buttons</td><td>GPIO Pull-up</td><td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + Start/Select — internal pull-ups enabled</td></tr>
@@ -227,9 +229,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="two-col">
   <div class="spec-block">
     <div class="spec-block-header">Display &amp; Audio Pins</div>
-    <div class="spec-row"><span class="spec-key">TFT DC</span><span class="spec-val">GPIO 35</span></div>
-    <div class="spec-row"><span class="spec-key">TFT CS</span><span class="spec-val">GPIO 5</span></div>
-    <div class="spec-row"><span class="spec-key">TFT RST</span><span class="spec-val">GPIO 17</span></div>
+    <div class="spec-row"><span class="spec-key">TFT DC / CS / RST</span><span class="spec-val warn">See User_Setup.h</span></div>
     <div class="spec-row"><span class="spec-key">I2S BCK (Bit Clock)</span><span class="spec-val">GPIO 27</span></div>
     <div class="spec-row"><span class="spec-key">I2S LRC (Word Select)</span><span class="spec-val">GPIO 32</span></div>
     <div class="spec-row"><span class="spec-key">I2S DIN (Data Out)</span><span class="spec-val">GPIO 25</span></div>
@@ -273,14 +273,20 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Audio Subsystem</div>
-    <div class="timeline-heading">PCM5102 I2S DAC — 16-bit stereo at 44.1 kHz with DMA ring buffer</div>
-    <div class="timeline-body">The PCM5102 I2S DAC module outputs 16-bit stereo audio at 44.1 kHz. An I2S DMA ring buffer keeps audio smooth and independent of CPU emulation load. The audio task runs at higher FreeRTOS priority than the PPU rendering loop to prevent dropouts under heavy emulation load.</div>
+    <div class="timeline-heading">PCM5102 I2S DAC — 16-bit stereo at 24 kHz with DMA ring buffer</div>
+    <div class="timeline-body">The PCM5102 I2S DAC module outputs 16-bit stereo audio at 24 kHz (<code>DEFAULT_SAMPLERATE 24000</code>). An I2S DMA ring buffer keeps audio smooth and independent of CPU emulation load. The audio task runs at higher FreeRTOS priority than the PPU rendering loop to prevent dropouts under heavy emulation load.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
     <div class="timeline-step red">Input Handling</div>
     <div class="timeline-heading">8 GPIO pins with internal pull-ups, polled every emulation frame</div>
-    <div class="timeline-body">Eight GPIO pins use internal pull-up resistors. Inputs are polled every emulation frame (~16 ms), eliminating the need for interrupt-driven edge detection. Button reads are debounced by sampling over consecutive frames. The 8-bit input state maps directly to the NES controller byte format expected by the emulator core.</div>
+    <div class="timeline-body">Eight GPIO pins use internal pull-up resistors. Inputs are polled every emulation frame (~20 ms at 50 Hz PAL), eliminating the need for interrupt-driven edge detection. Button reads are debounced by sampling over consecutive frames. The 8-bit input state maps directly to the NES controller byte format expected by the emulator core.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot blue"></div>
+    <div class="timeline-step blue">ROM Mapper Support</div>
+    <div class="timeline-heading">Mapper 0 (NROM) and Mapper 1 (MMC1) implemented</div>
+    <div class="timeline-body">Two NES ROM mappers are implemented: <code>Mapper 0</code> (NROM — no bank switching, used by Donkey Kong, Super Mario Bros.) and <code>Mapper 1</code> (MMC1 — switchable PRG/CHR banks, used by Mega Man 2, Metroid, Zelda). Together these cover the large majority of classic NES titles. ROMs up to <code>512 kB</code> are supported via SPI flash memory-mapping.</div>
   </div>
 </div>
 <div class="code-block">
@@ -321,7 +327,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Phase 2 — Breadboard Prototype</div>
     <div class="timeline-heading">First boot — display confirmed, SD card detected, subsystems validated</div>
-    <div class="timeline-body">Built the first breadboard prototype with ESP32-WROOM-32E, ST7789 display, MicroSD module, PCM5102 audio module, and button matrix. Achieved first boot with display showing a test screen and SD card detected at 30 GB. Audio output confirmed at 44.1 kHz. Button GPIO reads validated with serial monitor. SPI bus conflict between display and SD card was identified and resolved at this stage.</div>
+    <div class="timeline-body">Built the first breadboard prototype with ESP32-WROOM-32E, ST7789 display, MicroSD module, PCM5102 audio module, and button matrix. Achieved first boot with display showing a test screen and SD card detected at 30 GB. Audio output confirmed at 24 kHz. Button GPIO reads validated with serial monitor. SPI bus conflict between display and SD card was identified and resolved at this stage.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
@@ -365,9 +371,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="two-col">
   <div class="spec-block">
     <div class="spec-block-header">System Performance</div>
-    <div class="spec-row"><span class="spec-key">Display refresh rate</span><span class="spec-val ok">~60 fps</span></div>
+    <div class="spec-row"><span class="spec-key">Display refresh rate</span><span class="spec-val ok">50 fps (PAL)</span></div>
     <div class="spec-row"><span class="spec-key">SPI display clock</span><span class="spec-val">40 MHz</span></div>
-    <div class="spec-row"><span class="spec-key">Audio sample rate</span><span class="spec-val ok">44.1 kHz</span></div>
+    <div class="spec-row"><span class="spec-key">Audio sample rate</span><span class="spec-val ok">24 kHz</span></div>
     <div class="spec-row"><span class="spec-key">Audio bit depth</span><span class="spec-val">16-bit stereo</span></div>
     <div class="spec-row"><span class="spec-key">ROM size support</span><span class="spec-val">Up to 512 kB</span></div>
     <div class="spec-row"><span class="spec-key">MicroSD capacity tested</span><span class="spec-val">Up to 30 GB</span></div>
@@ -388,8 +394,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">Custom PCB Design — EasyEDA / JLCPCB</div>
-    <div class="decision-body">Full schematic capture in EasyEDA targeting a <strong>2-layer PCB manufactured via JLCPCB</strong>. The PCB will integrate all modules onto a single board with proper ground plane, power rails, and a dedicated connector for the LiPo cell. Eliminates point-to-point perfboard wiring and reduces assembly time.</div>
+    <div class="decision-title">Custom PCB Design — KiCAD · In Progress</div>
+    <div class="decision-body">Schematic capture and PCB layout underway in <strong>KiCAD</strong> (<code>NESPCBSchematic.kicad_sch</code> + <code>.kicad_pcb</code>). The 2-layer board integrates all modules with a dedicated ground plane, proper power rails, and a LiPo connector — eliminating all point-to-point perfboard wiring.</div>
   </div>
   <div class="decision blue">
     <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
@@ -403,6 +409,33 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="decision-title">ROM Selection Menu UI</div>
     <div class="decision-body">Build an on-device ROM selection menu rendered on the ST7789 display, reading available <code>.nes</code> files from MicroSD and presenting a scrollable list. Navigation via D-pad with A to confirm. This replaces the current method of hardcoding a single ROM filename in firmware.</div>
   </div>
+</div>
+</div>
+
+
+<div class="section" id="pcb">
+<div class="section-header"><h2 class="section-title">PCB Design</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>With the perfboard prototype fully validated, the next build phase is a <strong>custom 2-layer PCB designed in KiCAD</strong>. The goal is to consolidate every subsystem — MCU, display connector, audio DAC, MicroSD, power management, and button matrix — onto a single compact board with a proper ground plane and clean power rails.</p>
+  <p>The schematic and layout files (<code>NESPCBSchematic.kicad_sch</code> / <code>.kicad_pcb</code>) capture every connection validated on the perfboard prototype, with improvements: dedicated LiPo connector, USB-C charge port cutout, silkscreened button labels, and separated analog/digital ground zones for cleaner audio output.</p>
+</div>
+<div class="decision-list">
+  <div class="decision">
+    <div class="decision-title">Ground Plane & Power Rails</div>
+    <div class="decision-body">A continuous copper pour on the bottom layer acts as the ground reference for all subsystems. The 3.3 V logic rail and 5 V boost rail are routed as dedicated power polygons, keeping impedance low and reducing supply noise that caused audio glitches on the perfboard build.</div>
+  </div>
+  <div class="decision blue">
+    <div class="decision-title">Single-Board Integration</div>
+    <div class="decision-body">The current two-board perfboard design (front panel + back board) is consolidated into one PCB. Display and button footprints are placed on the top face with the ESP32 and audio module on the back, reducing assembly complexity and improving mechanical rigidity.</div>
+  </div>
+  <div class="decision amber">
+    <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
+    <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint, with screen cutout, button holes aligned to D-pad and action buttons, USB-C port cutout, and headphone outlet. Printed in PLA on a Creality Ender-3 S1 Pro.</div>
+  </div>
+</div>
+<div class="pinout-preview" style="margin-top:24px">
+  <p>Full project documentation including schematic, hardware overview, and build log</p>
+  <a href="IMAGES/NES%20emulator/RetroDS_Portfolio_AndresMoreno.pdf" target="_blank">⬇ Download RetroDS Portfolio PDF</a>
 </div>
 </div>
 
