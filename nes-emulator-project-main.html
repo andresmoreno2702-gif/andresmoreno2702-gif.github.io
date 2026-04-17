@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark"><head>
+<html lang="en" data-theme="dark">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RetroDS — ESP32 NES Handheld · Andres Moreno</title>
@@ -29,16 +30,19 @@
 [data-theme="light"] .stat-card{background:var(--surface);border-color:var(--border);}
 [data-theme="light"] .spec-block{background:var(--surface);}
 [data-theme="light"] .decision{background:var(--surface);}
+[data-theme="light"] .hero-board img{border-color:var(--border2);}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.7;transition:background 0.35s cubic-bezier(0.4,0,0.2,1),color 0.35s cubic-bezier(0.4,0,0.2,1);}
 .hero{position:relative;padding:112px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(37,99,235,.07) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(59,130,246,.05) 0%,transparent 60%);pointer-events:none}
-.hero-inner{position:relative;max-width:1200px;margin:0 auto}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:56px;align-items:center}
+.hero-board{display:flex;justify-content:center;align-items:center}
+.hero-board img{max-height:360px;width:100%;object-fit:cover;border-radius:12px;filter:drop-shadow(0 0 32px rgba(37,99,235,.18));border:1px solid var(--border2)}
 .hero-tag{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
 .hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,54px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-bottom:10px}
 .hero h1 span{color:var(--accent)}
 .hero-sub{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
-.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
 .badge{font-family:'DM Mono',monospace;font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
 .badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
 .badge-blue{color:var(--accent2);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
@@ -47,6 +51,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
 .section{margin-top:64px;scroll-margin-top:72px}
 .section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.1em;min-width:28px}
 .section-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;letter-spacing:-.01em}
 .section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
 .gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
@@ -62,6 +67,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .stat-card.blue::after{background:var(--accent2)}
 .stat-card.amber::after{background:var(--accent3)}
 .stat-card.red::after{background:var(--red)}
+.stat-card.green::after{background:var(--green)}
 .stat-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
 .stat-value{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
 .stat-sub{font-size:12px;color:var(--text-muted)}
@@ -83,11 +89,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .spec-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);text-align:right}
 .spec-val.ok{color:var(--green)}
 .spec-val.warn{color:var(--accent3)}
+.spec-val.changed{color:var(--accent)}
 .decision-list{display:flex;flex-direction:column;gap:16px}
 .decision{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px}
 .decision.blue{border-left-color:var(--accent2)}
 .decision.amber{border-left-color:var(--accent3)}
 .decision.red{border-left-color:var(--red)}
+.decision.green{border-left-color:var(--green)}
 .decision-title{font-weight:500;color:var(--text);margin-bottom:6px;font-size:14px}
 .decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
 .decision-body code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
@@ -98,10 +106,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
 .timeline-dot.amber{background:var(--accent3);box-shadow:0 0 0 2px var(--accent3)}
 .timeline-dot.red{background:var(--red);box-shadow:0 0 0 2px var(--red)}
+.timeline-dot.green{background:var(--green);box-shadow:0 0 0 2px var(--green)}
 .timeline-step{font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .timeline-step.blue{color:var(--accent2)}
 .timeline-step.amber{color:var(--accent3)}
 .timeline-step.red{color:var(--red)}
+.timeline-step.green{color:var(--green)}
 .timeline-heading{font-weight:500;color:var(--text);margin-bottom:6px;font-size:15px}
 .timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
 .timeline-body code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
@@ -113,6 +123,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .code-block .kw{color:var(--accent2)}
 .code-block .cm{color:#4a5a78}
 .code-block .def{color:var(--accent3)}
+.code-block .str{color:var(--green)}
+.pinout-preview{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-top:24px}
+.pinout-preview p{font-size:13px;color:var(--text-muted);margin-bottom:16px}
+.pinout-preview a{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);border:1px solid rgba(37,99,235,.3);padding:8px 18px;border-radius:4px;text-decoration:none;background:rgba(37,99,235,.06);display:inline-block}
+.pinout-preview a:hover{background:rgba(37,99,235,.12)}
 .footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .footer-left,.footer-right{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);line-height:1.8}
 .footer-right{text-align:right}
@@ -130,167 +145,333 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 @media(max-width:860px){.nav-section-links{display:none}}
 .theme-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background 0.35s,color 0.35s,border-color 0.35s}
 .theme-btn:hover{background:var(--surface);color:var(--text)}
+.notes-btn{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.3);border-radius:4px;padding:6px 12px;cursor:pointer;transition:background 0.2s;letter-spacing:.04em;white-space:nowrap}
+.notes-btn:hover{background:rgba(37,99,235,.18)}
+#notes-modal{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);align-items:flex-start;justify-content:center;padding:40px 24px;overflow-y:auto}
+#notes-modal.open{display:flex}
+#notes-inner{background:var(--surface);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:860px;flex-shrink:0;overflow:hidden}
+#notes-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:rgba(37,99,235,.04)}
+#notes-header span{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);letter-spacing:.06em}
+#notes-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1;padding:4px}
+#notes-close:hover{color:var(--text)}
+#notes-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.notes-tab{font-family:'DM Mono',monospace;font-size:11px;padding:12px 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:color 0.2s,border-color 0.2s;letter-spacing:.04em}
+.notes-tab:hover{color:var(--text)}
+.notes-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.notes-pane{display:none;padding:24px}
+.notes-pane.active{display:block}
+.notes-pane h3{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.notes-pane p{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:16px}
+.notes-pane .code-block{margin-top:0}
+.inline-code{font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
 @media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}.hero-board{display:none}
   .overview-grid{grid-template-columns:repeat(2,1fr)}
   .two-col{grid-template-columns:1fr}
   .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}
   .footer{padding:20px 24px}
   .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
 }
+/* ── Edit Mode ───────────────────────────────────────────── */
+body.edit-mode .gallery-item{outline:2px dashed rgba(37,99,235,.55);cursor:grab;position:relative}
+body.edit-mode .gallery-item:active{cursor:grabbing}
+body.edit-mode .gallery-item.eb-dragging{opacity:.35;transform:scale(.96)}
+body.edit-mode .gallery-item.eb-over{outline:2px solid #2563eb;background:rgba(37,99,235,.08);transform:scale(1.02)}
+.eb-placeholder{border-radius:8px;border:2px dashed #2563eb;background:rgba(37,99,235,.07);pointer-events:none}
+.eb-bar{display:none;position:absolute;top:0;left:0;right:0;background:rgba(10,14,26,.9);z-index:500;flex-wrap:wrap;gap:2px;padding:3px 5px;border-bottom:1px solid rgba(37,99,235,.3);border-radius:7px 7px 0 0}
+body.edit-mode .eb-bar{display:flex}
+.eb-bar button{background:rgba(37,99,235,.2);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 8px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.eb-bar button:hover{background:#2563eb}
+.eb-bar button.red:hover{background:#ef4444}
+.eb-drag-handle{margin-left:auto;font-size:13px;padding:0 4px;cursor:grab;color:#4a5a78;user-select:none;line-height:1}
+.eb-corner{display:none;position:absolute;bottom:0;right:0;width:18px;height:18px;cursor:se-resize;z-index:600;background:linear-gradient(135deg,transparent 50%,#2563eb 50%);border-bottom-right-radius:8px}
+body.edit-mode .eb-corner{display:block}
+body.edit-mode img:not([data-no-edit]){outline:1px dashed rgba(37,99,235,.35);cursor:pointer}
+body.edit-mode [data-txt]:hover{outline:1px dashed rgba(96,165,250,.45);cursor:text;border-radius:2px}
+body.edit-mode [data-txt][contenteditable="true"]{outline:2px solid #3b82f6;border-radius:2px}
+.eb-add-btn{display:none;width:100%;margin:10px 0 0;padding:8px;font-family:'DM Mono',monospace;font-size:11px;background:rgba(37,99,235,.1);color:var(--accent2);border:1px dashed rgba(37,99,235,.4);border-radius:6px;cursor:pointer}
+body.edit-mode .eb-add-btn{display:block}
+.eb-add-btn:hover{background:rgba(37,99,235,.2)}
+#eb-hint{display:none;position:fixed;bottom:68px;right:24px;z-index:9000;background:rgba(10,14,26,.97);border:1px solid rgba(37,99,235,.4);border-radius:10px;padding:14px 18px;font-family:'DM Mono',monospace;font-size:11px;color:#8b9bb8;line-height:2.2;pointer-events:none}
+body.edit-mode #eb-hint{display:block}
 </style>
 </head>
 <body>
+
 <nav class="site-nav">
   <a href="index.html">← Portfolio</a>
   <div class="nav-section-links">
     <a href="#overview">Overview</a>
+    <a href="#components">Components</a>
     <a href="#hardware">Hardware</a>
     <a href="#firmware">Firmware</a>
     <a href="#build">Build</a>
     <a href="#challenges">Challenges</a>
-    <a href="#pcb">PCB</a>
-    <a href="#next">Next Steps</a>
+    <a href="#pcb">PCB &amp; Next</a>
   </div>
-  <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+  <div style="display:flex;align-items:center;gap:10px">
+    <button class="notes-btn" id="notesBtn">&#128203; Code Notes</button>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">&#127769;</button>
+  </div>
 </nav>
 
 <div class="hero">
 <div class="hero-inner">
   <div>
-    <div class="hero-tag">Engineering Design Portfolio — Embedded Systems</div>
-    <h1>RetroDS — ESP32 <span>NES</span><br>Handheld Console</h1>
-    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 – Present</div>
+    <div class="hero-tag">Engineering Design Portfolio &mdash; Embedded Systems</div>
+    <h1>RetroDS &mdash; ESP32 <span>NES</span><br>Handheld Console</h1>
+    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 &ndash; Present</div>
     <div class="hero-meta">
-      <span class="badge badge-teal">ESP32-WROOM-32E · 240 MHz</span>
-      <span class="badge badge-blue">ST7789 · 240×240 SPI</span>
-      <span class="badge badge-amber">PCM5102 · I2S DAC</span>
-      <span class="badge badge-teal">MicroSD · FAT32</span>
-      <span class="badge badge-green">Prototype ✓ · PCB In Progress</span>
+      <span class="badge badge-teal">ESP32-WROOM-32E &middot; 240 MHz</span>
+      <span class="badge badge-blue">ST7789 &middot; 240&times;240 IPS</span>
+      <span class="badge badge-amber">PCM5102A &middot; I2S DAC</span>
+      <span class="badge badge-teal">MicroSD &middot; FAT32</span>
     </div>
     <div class="hero-meta">
-      <span class="badge badge-blue">8× GPIO Buttons</span>
-      <span class="badge badge-amber">LiPo · USB-C Charge</span>
-      <span class="badge badge-green">24 kHz I2S Audio</span>
-      <span class="badge badge-amber">KiCAD PCB · In Progress</span>
+      <span class="badge badge-blue">8&times; GPIO Buttons</span>
+      <span class="badge badge-amber">LiPo &middot; USB-C Charge</span>
+      <span class="badge badge-green">Prototype &#10003; &middot; PCB In Progress</span>
+      <span class="badge badge-amber">KiCAD PCB &middot; In Progress</span>
     </div>
+  </div>
+  <div class="hero-board">
+    <img src="IMAGES/NES%20emulator/hero-board.png" alt="RetroDS handheld console — completed perfboard build running Pac-Man" data-no-edit style="object-fit:contain;background:transparent;border:none">
   </div>
 </div>
 </div>
 
 <div class="content">
 
+<!-- ── 01  OVERVIEW ─────────────────────────────────────── -->
 <div class="section" id="overview">
-<div class="section-header"><h2 class="section-title">Project Overview</h2><div class="section-line"></div></div>
+<div class="section-header">
+  <span class="section-num">01</span>
+  <h2 class="section-title">Project Overview</h2>
+  <div class="section-line"></div>
+</div>
 <div class="overview-grid">
-  <div class="stat-card"><div class="stat-label">CPU Speed</div><div class="stat-value">240</div><div class="stat-sub">MHz dual-core ESP32</div></div>
-  <div class="stat-card blue"><div class="stat-label">Display</div><div class="stat-value">240×240</div><div class="stat-sub">ST7789 SPI @ 40 MHz</div></div>
-  <div class="stat-card amber"><div class="stat-label">Audio</div><div class="stat-value">24</div><div class="stat-sub">kHz I2S via PCM5102</div></div>
-  <div class="stat-card"><div class="stat-label">Input Buttons</div><div class="stat-value">8×</div><div class="stat-sub">D-pad + A/B + Start/Sel</div></div>
+  <div class="stat-card">
+    <div class="stat-label">CPU Speed</div>
+    <div class="stat-value">240</div>
+    <div class="stat-sub">MHz dual-core ESP32</div>
+  </div>
+  <div class="stat-card blue">
+    <div class="stat-label">Display</div>
+    <div class="stat-value">240&times;240</div>
+    <div class="stat-sub">ST7789 IPS @ 27 MHz SPI</div>
+  </div>
+  <div class="stat-card amber">
+    <div class="stat-label">Audio</div>
+    <div class="stat-value">24</div>
+    <div class="stat-sub">kHz I2S via PCM5102A</div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-label">Mapper Support</div>
+    <div class="stat-value">6+</div>
+    <div class="stat-sub">NROM, MMC1&ndash;3, UNROM, VRC</div>
+  </div>
 </div>
 <div class="prose">
-  <p>RetroDS is a self-designed, battery-powered handheld gaming console built from scratch using the <strong>ESP32-WROOM-32E</strong> microcontroller. The device emulates NES / retro games using a ported emulation engine, outputs stereo-quality audio via a <strong>PCM5102 I2S DAC</strong>, renders to a <strong>240×240 SPI TFT display</strong>, and accepts player input through a custom-laid 8-button interface.</p>
-  <p>All hardware — from breadboard prototype through to hand-soldered perfboard — was designed, assembled, and debugged in-house at the University of Western Australia. The front panel board carries the display, D-pad, and action buttons. The back board carries the ESP32, audio module, MicroSD breakout, and power management IC.</p>
-  <p>The project demonstrates full-stack embedded systems development: hardware architecture, subsystem integration, firmware written in C++ on the Arduino-ESP32 framework, FAT32 ROM loading, I2S DMA audio management, and battery-backed power design. A custom 2-layer KiCAD PCB is currently in design to replace the hand-wired perfboard build — consolidating all subsystems onto a single professional board.</p>
+  <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240&times;240 IPS TFT display</strong>, with stereo audio through a <strong>PCM5102A I2S DAC</strong>. ROMs are loaded from a MicroSD card at runtime.</p>
+  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, audio DAC, MicroSD breakout, and power management ICs. A custom 2-layer KiCAD PCB is currently in progress to consolidate everything onto a single compact board.</p>
 </div>
 <div class="gallery" id="overviewGallery">
   <div class="gallery-item wide">
-    <img src="IMAGES/NES%20emulator/image-1773987503810.jpg" alt="RetroDS breadboard prototype" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
-    <div class="gallery-caption">Breadboard prototype — ESP32, ST7789 display, SD card and button rows</div>
+    <img src="IMAGES/NES%20emulator/image-1773987503810.jpg" alt="RetroDS breadboard prototype" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Breadboard prototype &mdash; ESP32, ST7789 display, SD card reader and button rows</div>
   </div>
   <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260325_183135.jpg" alt="Perfboard assembly" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
-    <div class="gallery-caption">Back board — hand-soldered perfboard with ESP32 and audio module</div>
+    <img src="IMAGES/NES%20emulator/20260325_183135.jpg" alt="Perfboard back board" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Back board &mdash; hand-soldered perfboard with ESP32 and audio module</div>
   </div>
   <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260323_212754.jpg" alt="Soldering workstation" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
-    <div class="gallery-caption">Soldering workstation — temperature-controlled iron and paste flux</div>
+    <img src="IMAGES/NES%20emulator/20260325_195616.jpg" alt="Completed RetroDS device" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Completed prototype &mdash; front panel with display and button layout</div>
   </div>
 </div>
 </div>
 
-<div class="section" id="hardware">
-<div class="section-header"><h2 class="section-title">Hardware Architecture</h2><div class="section-line"></div></div>
-<div class="prose">
-  <p>The system integrates <strong>five hardware subsystems</strong> on a single perfboard, interconnected via point-to-point soldered wiring. All subsystem interfaces were first validated on breadboard before final assembly on perfboard.</p>
+<!-- ── 02  COMPONENTS ───────────────────────────────────── -->
+<div class="section" id="components">
+<div class="section-header">
+  <span class="section-num">02</span>
+  <h2 class="section-title">Components</h2>
+  <div class="section-line"></div>
 </div>
-<table class="comp-table" style="margin-bottom:28px">
-<thead><tr><th>Subsystem</th><th>Component</th><th>Interface</th><th>Key Notes</th></tr></thead>
+<div class="prose" style="margin-bottom:24px">
+  <p>All components are off-the-shelf breakout modules wired onto perfboard. The ESP32 operates at 3.3&thinsp;V logic throughout, with the power management chain stepping up from the LiPo cell and regulating down to logic level.</p>
+</div>
+<table class="comp-table">
+<thead>
+  <tr>
+    <th>Ref</th>
+    <th>Component</th>
+    <th>Part / Value</th>
+    <th>Interface</th>
+    <th>Notes</th>
+  </tr>
+</thead>
 <tbody>
-<tr><td class="part">Microcontroller</td><td class="part">ESP32-WROOM-32E</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">240 MHz dual-core, 4 MB Flash, 520 kB SRAM</td></tr>
-<tr><td class="part">Display</td><td class="part">ST7789 1.3" TFT 240×240</td><td>SPI @ 40 MHz</td><td style="font-size:12px;color:var(--text-muted)">Pins configured in TFT_eSPI User_Setup.h</td></tr>
-<tr><td class="part">Audio DAC</td><td class="part">PCM5102 I2S Module</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">BCK GPIO27 · LRC GPIO32 · DIN GPIO25</td></tr>
-<tr><td class="part">Storage</td><td class="part">MicroSD Breakout</td><td>Soft-SPI</td><td style="font-size:12px;color:var(--text-muted)">MOSI GPIO17 · MISO GPIO13 · SCK GPIO14 · CS GPIO22</td></tr>
-<tr><td class="part">User Input</td><td class="part">8× Tactile Buttons</td><td>GPIO Pull-up</td><td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + Start/Select — internal pull-ups enabled</td></tr>
-<tr><td class="part">Power</td><td class="part">LiPo 3.7 V + IP5306</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">USB-C charge via TP4056 · 5 V boost · 3.3 V regulated logic</td></tr>
-<tr><td class="part">Decoupling</td><td class="part">100 nF + 10 µF</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">Per VDD rail, placed adjacent to MCU power pins</td></tr>
+  <tr>
+    <td class="ref">U1</td>
+    <td class="part">Microcontroller</td>
+    <td class="part">ESP32-WROOM-32E</td>
+    <td>&mdash;</td>
+    <td style="font-size:12px;color:var(--text-muted)">240&thinsp;MHz dual-core Xtensa LX6, 4&thinsp;MB Flash, 520&thinsp;kB SRAM</td>
+  </tr>
+  <tr>
+    <td class="ref">U2</td>
+    <td class="part">Display</td>
+    <td class="part">ST7789 1.3&Prime; IPS TFT 240&times;240</td>
+    <td>SPI @ 27&thinsp;MHz</td>
+    <td style="font-size:12px;color:var(--text-muted)">TFT_eSPI library &mdash; requires User_Setup.h edit (Section 05)</td>
+  </tr>
+  <tr>
+    <td class="ref">U3</td>
+    <td class="part">Audio DAC</td>
+    <td class="part">PCM5102A I2S Module</td>
+    <td>I2S</td>
+    <td style="font-size:12px;color:var(--text-muted)">16-bit stereo, 24&thinsp;kHz sample rate, DMA-driven output</td>
+  </tr>
+  <tr>
+    <td class="ref">U4</td>
+    <td class="part">SD Card Module</td>
+    <td class="part">MicroSD SPI Breakout</td>
+    <td>Soft-SPI</td>
+    <td style="font-size:12px;color:var(--text-muted)">FAT32, tested up to 30&thinsp;GB; software SPI avoids display bus conflict</td>
+  </tr>
+  <tr>
+    <td class="ref">U5</td>
+    <td class="part">Power Management IC</td>
+    <td class="part">IP5306</td>
+    <td>I&sup2;C</td>
+    <td style="font-size:12px;color:var(--text-muted)">5&thinsp;V boost converter with USB-C charge indicator LEDs</td>
+  </tr>
+  <tr>
+    <td class="ref">U6</td>
+    <td class="part">Charge Controller</td>
+    <td class="part">TP4056 USB-C Module</td>
+    <td>&mdash;</td>
+    <td style="font-size:12px;color:var(--text-muted)">1&thinsp;A LiPo charge controller, over-current and over-voltage protection</td>
+  </tr>
+  <tr>
+    <td class="ref">BT1</td>
+    <td class="part">Battery</td>
+    <td class="part">LiPo 3.7&thinsp;V cell</td>
+    <td>&mdash;</td>
+    <td style="font-size:12px;color:var(--text-muted)">Rechargeable lithium polymer; capacity sized for portable use</td>
+  </tr>
+  <tr>
+    <td class="ref">SW1&ndash;8</td>
+    <td class="part">Input Buttons</td>
+    <td class="part">Tactile push switches &times;8</td>
+    <td>GPIO pull-up</td>
+    <td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + START/SELECT; internal pull-ups, software debounce</td>
+  </tr>
+  <tr>
+    <td class="ref">C1&ndash;C4</td>
+    <td class="part">Decoupling Capacitors</td>
+    <td class="part">100&thinsp;nF + 10&thinsp;&mu;F</td>
+    <td>&mdash;</td>
+    <td style="font-size:12px;color:var(--text-muted)">Per VDD rail, placed adjacent to MCU power pins</td>
+  </tr>
 </tbody>
 </table>
+</div>
 
+<!-- ── 03  HARDWARE ARCHITECTURE ───────────────────────── -->
+<div class="section" id="hardware">
+<div class="section-header">
+  <span class="section-num">03</span>
+  <h2 class="section-title">Hardware Architecture</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose">
+  <p>Five subsystems are interconnected on perfboard via point-to-point soldered wiring. The hardware SPI bus is reserved exclusively for the display &mdash; CS is tied permanently low, so no other device can share it. The SD card uses a separate set of GPIO pins running software SPI. All subsystems were validated on breadboard before final perfboard assembly.</p>
+</div>
+<table class="comp-table" style="margin-bottom:28px">
+<thead>
+  <tr><th>Subsystem</th><th>Component</th><th>Interface</th><th>Key Notes</th></tr>
+</thead>
+<tbody>
+  <tr><td class="part">Microcontroller</td><td class="part">ESP32-WROOM-32E</td><td>&mdash;</td><td style="font-size:12px;color:var(--text-muted)">240&thinsp;MHz dual-core, 4&thinsp;MB Flash, 520&thinsp;kB SRAM</td></tr>
+  <tr><td class="part">Display</td><td class="part">ST7789 1.3&Prime; IPS 240&times;240</td><td>HW SPI @ 27&thinsp;MHz</td><td style="font-size:12px;color:var(--text-muted)">CS tied low (always active); pins defined in TFT_eSPI User_Setup.h</td></tr>
+  <tr><td class="part">Audio DAC</td><td class="part">PCM5102A I2S Module</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">BCK GPIO&thinsp;27 &middot; LRC GPIO&thinsp;32 &middot; DIN GPIO&thinsp;25</td></tr>
+  <tr><td class="part">Storage</td><td class="part">MicroSD Breakout</td><td>Soft-SPI</td><td style="font-size:12px;color:var(--text-muted)">MOSI GPIO&thinsp;17 &middot; MISO GPIO&thinsp;13 &middot; SCK GPIO&thinsp;14 &middot; CS GPIO&thinsp;22</td></tr>
+  <tr><td class="part">User Input</td><td class="part">8&times; Tactile Buttons</td><td>GPIO Pull-up</td><td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + Start/Select &mdash; internal pull-ups enabled</td></tr>
+  <tr><td class="part">Power</td><td class="part">LiPo 3.7&thinsp;V + IP5306</td><td>&mdash;</td><td style="font-size:12px;color:var(--text-muted)">USB-C charge via TP4056 &middot; 5&thinsp;V boost &middot; 3.3&thinsp;V regulated logic</td></tr>
+  <tr><td class="part">Decoupling</td><td class="part">100&thinsp;nF + 10&thinsp;&mu;F</td><td>&mdash;</td><td style="font-size:12px;color:var(--text-muted)">Per VDD rail, placed adjacent to MCU power pins</td></tr>
+</tbody>
+</table>
 <div class="two-col">
   <div class="spec-block">
     <div class="spec-block-header">Display &amp; Audio Pins</div>
-    <div class="spec-row"><span class="spec-key">TFT DC / CS / RST</span><span class="spec-val warn">See User_Setup.h</span></div>
+    <div class="spec-row"><span class="spec-key">TFT MOSI</span><span class="spec-val">GPIO 23</span></div>
+    <div class="spec-row"><span class="spec-key">TFT SCLK</span><span class="spec-val">GPIO 18</span></div>
+    <div class="spec-row"><span class="spec-key">TFT DC</span><span class="spec-val">GPIO 5</span></div>
+    <div class="spec-row"><span class="spec-key">TFT RST</span><span class="spec-val">GPIO 19</span></div>
+    <div class="spec-row"><span class="spec-key">TFT CS</span><span class="spec-val warn">&ndash;1 (always active)</span></div>
     <div class="spec-row"><span class="spec-key">I2S BCK (Bit Clock)</span><span class="spec-val">GPIO 27</span></div>
     <div class="spec-row"><span class="spec-key">I2S LRC (Word Select)</span><span class="spec-val">GPIO 32</span></div>
     <div class="spec-row"><span class="spec-key">I2S DIN (Data Out)</span><span class="spec-val">GPIO 25</span></div>
-    <div class="spec-row"><span class="spec-key">SD MOSI</span><span class="spec-val">GPIO 17</span></div>
-    <div class="spec-row"><span class="spec-key">SD MISO</span><span class="spec-val">GPIO 13</span></div>
-    <div class="spec-row"><span class="spec-key">SD SCK</span><span class="spec-val">GPIO 14</span></div>
-    <div class="spec-row"><span class="spec-key">SD CS</span><span class="spec-val">GPIO 22</span></div>
   </div>
   <div class="spec-block">
-    <div class="spec-block-header">Button Input Pins</div>
+    <div class="spec-block-header">Storage &amp; Input Pins</div>
+    <div class="spec-row"><span class="spec-key">SD MOSI / MISO / SCK / CS</span><span class="spec-val">17 / 13 / 14 / 22</span></div>
     <div class="spec-row"><span class="spec-key">D-Pad UP</span><span class="spec-val ok">GPIO 2</span></div>
     <div class="spec-row"><span class="spec-key">D-Pad DOWN</span><span class="spec-val ok">GPIO 15</span></div>
     <div class="spec-row"><span class="spec-key">D-Pad LEFT</span><span class="spec-val ok">GPIO 33</span></div>
     <div class="spec-row"><span class="spec-key">D-Pad RIGHT</span><span class="spec-val ok">GPIO 34</span></div>
-    <div class="spec-row"><span class="spec-key">Button A</span><span class="spec-val ok">GPIO 21</span></div>
-    <div class="spec-row"><span class="spec-key">Button B</span><span class="spec-val ok">GPIO 26</span></div>
-    <div class="spec-row"><span class="spec-key">START</span><span class="spec-val ok">GPIO 35</span></div>
-    <div class="spec-row"><span class="spec-key">SELECT</span><span class="spec-val ok">GPIO 4</span></div>
+    <div class="spec-row"><span class="spec-key">Button A / B</span><span class="spec-val ok">GPIO 21 / 26</span></div>
+    <div class="spec-row"><span class="spec-key">START / SELECT</span><span class="spec-val ok">GPIO 35 / 4</span></div>
   </div>
 </div>
 </div>
 
+<!-- ── 04  FIRMWARE ─────────────────────────────────────── -->
 <div class="section" id="firmware">
-<div class="section-header"><h2 class="section-title">Firmware Architecture</h2><div class="section-line"></div></div>
+<div class="section-header">
+  <span class="section-num">04</span>
+  <h2 class="section-title">Firmware</h2>
+  <div class="section-line"></div>
+</div>
 <div class="prose">
-  <p>The firmware is written in <strong>C++ using the Arduino-ESP32 framework</strong>. The NES emulation engine runs on Core 0 while I2S audio DMA and display SPI transfers are managed with careful timing to avoid frame tears and audio dropouts.</p>
+  <p>Written in <strong>C++ using the Arduino-ESP32 framework</strong>. The NES emulation engine handles CPU, graphics, and audio synthesis in a coordinated loop. The I2S audio DMA task runs at elevated FreeRTOS priority to prevent dropouts, while a dedicated video task on Core&thinsp;0 handles frame conversion and SPI push.</p>
 </div>
 <div class="timeline">
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-step">NES Emulation Core</div>
-    <div class="timeline-heading">Full 6502 CPU emulation with cycle-accurate timing and PPU rendering</div>
-    <div class="timeline-body">Implements a full 6502 CPU emulator with cycle-accurate timing. The PPU (Picture Processing Unit) renders to a 240×240 frame buffer. NES ROMs are loaded from MicroSD via FAT32 filesystem (up to 512 kB). SPI Flash memory-mapped ROM access via the <code>esp_spi_flash mmap API</code> provides faster read throughput without copying ROM data into DRAM.</div>
+    <div class="timeline-heading">Full 6502 CPU + PPU graphics with cycle-accurate timing</div>
+    <div class="timeline-body">Implements a complete 6502 CPU emulator with cycle-accurate timing and interrupt handling (NMI, IRQ). The PPU renders background tiles and sprites to a 256&times;240 framebuffer using the NES 64-colour palette. ROM data is loaded from MicroSD into SPI Flash at address <code>0x00300000</code> and memory-mapped via <code>spi_flash_mmap()</code> &mdash; the emulator reads ROM as a <code>const uint8_t*</code> pointer without consuming DRAM.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Display Subsystem</div>
-    <div class="timeline-heading">ST7789 driven over hardware SPI at 40 MHz with double-buffer DMA</div>
-    <div class="timeline-body">The ST7789 1.3" TFT is driven over hardware SPI at 40 MHz. A double-buffer strategy builds each frame in RAM and pushes it via DMA, preventing screen tearing. A custom init sequence corrects colour ordering (BGR swap). Backlight brightness is controlled via the LEDC PWM peripheral.</div>
+    <div class="timeline-heading">ST7789 IPS over hardware SPI with double-buffer frame push</div>
+    <div class="timeline-body">The ST7789 display is driven at 27&thinsp;MHz SPI using the <strong>TFT_eSPI</strong> library. A video task running on Core&thinsp;0 converts the PPU&rsquo;s 8-bit palette indices to 16-bit RGB565 colour, then pushes each frame via <code>tft.pushImage()</code>. A FreeRTOS queue syncs frames between the emulation loop and the display task. <code>tft.setSwapBytes(true)</code> corrects the byte-order expected by the ST7789 panel. Backlight brightness is controlled via the LEDC PWM peripheral.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Audio Subsystem</div>
-    <div class="timeline-heading">PCM5102 I2S DAC — 16-bit stereo at 24 kHz with DMA ring buffer</div>
-    <div class="timeline-body">The PCM5102 I2S DAC module outputs 16-bit stereo audio at 24 kHz (<code>DEFAULT_SAMPLERATE 24000</code>). An I2S DMA ring buffer keeps audio smooth and independent of CPU emulation load. The audio task runs at higher FreeRTOS priority than the PPU rendering loop to prevent dropouts under heavy emulation load.</div>
+    <div class="timeline-heading">PCM5102A I2S DAC &mdash; 16-bit stereo at 24&thinsp;kHz with DMA ring buffer</div>
+    <div class="timeline-body">The PCM5102A outputs 16-bit stereo audio at 24&thinsp;kHz (<code>DEFAULT_SAMPLERATE 24000</code>). The NES APU synthesises square, triangle, noise, and DMC channels and writes samples into an I2S DMA ring buffer (6 buffers &times; <code>DEFAULT_FRAGSIZE</code> samples). The audio task runs at higher FreeRTOS priority than the PPU loop to ensure the buffer never runs dry under heavy emulation load.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
     <div class="timeline-step red">Input Handling</div>
-    <div class="timeline-heading">8 GPIO pins with internal pull-ups, polled every emulation frame</div>
-    <div class="timeline-body">Eight GPIO pins use internal pull-up resistors. Inputs are polled every emulation frame (~20 ms at 50 Hz PAL), eliminating the need for interrupt-driven edge detection. Button reads are debounced by sampling over consecutive frames. The 8-bit input state maps directly to the NES controller byte format expected by the emulator core.</div>
+    <div class="timeline-heading">8 GPIO buttons polled per frame with software debouncing</div>
+    <div class="timeline-body">All eight GPIO inputs use internal pull-up resistors. Buttons are polled once per emulation frame (~20&thinsp;ms at 50&thinsp;Hz PAL). Debouncing is applied by requiring consistent reads across consecutive frames. The result maps directly to the standard NES controller byte format: A, B, SELECT, START, UP, DOWN, LEFT, RIGHT (bits 0&ndash;7).</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
-    <div class="timeline-step blue">ROM Mapper Support</div>
-    <div class="timeline-heading">Mapper 0 (NROM) and Mapper 1 (MMC1) implemented</div>
-    <div class="timeline-body">Two NES ROM mappers are implemented: <code>Mapper 0</code> (NROM — no bank switching, used by Donkey Kong, Super Mario Bros.) and <code>Mapper 1</code> (MMC1 — switchable PRG/CHR banks, used by Mega Man 2, Metroid, Zelda). Together these cover the large majority of classic NES titles. ROMs up to <code>512 kB</code> are supported via SPI flash memory-mapping.</div>
+    <div class="timeline-step blue">Cartridge Mapper Support</div>
+    <div class="timeline-heading">Mappers 0&ndash;5 plus VRC variants &mdash; covers the vast majority of NES titles</div>
+    <div class="timeline-body">The mapper number is read from the iNES ROM header and the correct interface is loaded dynamically via <code>mmc_create()</code>. Supported: <code>Mapper 0</code> (NROM &mdash; Donkey Kong, Super Mario Bros.), <code>Mapper 1</code> (MMC1 &mdash; Mega Man 2, Metroid, Zelda), <code>Mapper 2</code> (UNROM), <code>Mapper 3</code> (CNROM), <code>Mapper 4</code> (MMC3), <code>Mapper 5</code> (MMC5), plus several VRC variants. Maximum ROM size: 512&thinsp;kB via SPI flash memory mapping.</div>
   </div>
 </div>
 <div class="code-block">
-<pre><span class="cm">// GPIO &amp; I2S Pin Defines</span>
+<pre><span class="cm">// GPIO &amp; I2S Pin Defines &mdash; NesCat.ino</span>
 <span class="kw">#define</span> <span class="def">PIN_UP</span>      2    <span class="cm">// D-Pad Up</span>
 <span class="kw">#define</span> <span class="def">PIN_DOWN</span>   15    <span class="cm">// D-Pad Down</span>
 <span class="kw">#define</span> <span class="def">PIN_LEFT</span>   33    <span class="cm">// D-Pad Left</span>
@@ -302,301 +483,543 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 <span class="kw">#define</span> <span class="def">I2S_BCK_IO</span> 27    <span class="cm">// Bit Clock</span>
 <span class="kw">#define</span> <span class="def">I2S_WS_IO</span>  32    <span class="cm">// Word Select (LRC)</span>
-<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out → PCM5102</span>
+<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out &rarr; PCM5102A</span>
 
-<span class="kw">#define</span> <span class="def">SOFTSD_MOSI_PIN</span> 17
+<span class="kw">#define</span> <span class="def">SOFTSD_MOSI_PIN</span> 17  <span class="cm">// SD on software SPI</span>
 <span class="kw">#define</span> <span class="def">SOFTSD_MISO_PIN</span> 13
 <span class="kw">#define</span> <span class="def">SOFTSD_SCK_PIN</span>  14
 <span class="kw">#define</span> <span class="def">SD_CS_PIN</span>       22</pre>
 </div>
 </div>
 
-<div class="section" id="build">
-<div class="section-header"><h2 class="section-title">Build Progression</h2><div class="section-line"></div></div>
+<!-- ── 05  DISPLAY LIBRARY SETUP ────────────────────────── -->
+<div class="section" id="display-setup">
+<div class="section-header">
+  <span class="section-num">05</span>
+  <h2 class="section-title">Display Library Setup</h2>
+  <div class="section-line"></div>
+</div>
 <div class="prose">
-  <p>The project followed a structured hardware bring-up sequence: component sourcing → breadboard prototype → subsystem integration → perfboard assembly → power system integration.</p>
+  <p>The TFT_eSPI library does not auto-detect which display is connected. Before the firmware will compile correctly, you need to edit a configuration file inside the Arduino libraries folder on your machine &mdash; this is not part of the project code. Without this step, the library targets the wrong driver and the screen shows nothing or corrupted output.</p>
+</div>
+<div class="decision-list">
+  <div class="decision red">
+    <div class="decision-title">Why This Step Is Critical</div>
+    <div class="decision-body">TFT_eSPI ships with a <code>User_Setup.h</code> file that determines which display driver is compiled, along with the SPI pin assignments and screen resolution. The default targets an ILI9341 240&times;320 display &mdash; not the ST7789 240&times;240 used here. Flashing without editing this file results in a blank or garbled screen. The change lives in your local Arduino installation, not inside the project sketch folder.</div>
+  </div>
+  <div class="decision amber">
+    <div class="decision-title">How to Apply the Change</div>
+    <div class="decision-body">
+      Open the TFT_eSPI configuration file in your Arduino libraries folder:<br><br>
+      <code>Arduino\libraries\TFT_eSPI\User_Setup.h</code><br><br>
+      <strong>Comment out all existing content</strong> in the file, then paste in the configuration shown below and save. The next compile will target the ST7789 at 240&times;240 with the correct pins.<br><br>
+      <strong>Note on TFT_CS &ndash;1:</strong> setting CS to &ndash;1 means chip select is permanently active &mdash; the display is the only device on that SPI bus, so no switching is needed. The SPI frequency is set to 27&thinsp;MHz, which is reliable for ESP32 with short perfboard wiring.
+    </div>
+  </div>
+</div>
+<div class="code-block" style="margin-top:20px">
+<pre><span class="cm">// TFT_eSPI &mdash; User_Setup.h</span>
+<span class="cm">// File location: Arduino\libraries\TFT_eSPI\User_Setup.h</span>
+<span class="cm">// Comment out ALL existing content in this file, then add:</span>
+
+<span class="kw">#define</span> <span class="def">ST7789_DRIVER</span>        <span class="cm">// Select ST7789 display driver</span>
+
+<span class="kw">#define</span> <span class="def">TFT_WIDTH</span>   240      <span class="cm">// Display width in pixels</span>
+<span class="kw">#define</span> <span class="def">TFT_HEIGHT</span>  240      <span class="cm">// Display height in pixels</span>
+
+<span class="kw">#define</span> <span class="def">TFT_MOSI</span>   23       <span class="cm">// SPI Data</span>
+<span class="kw">#define</span> <span class="def">TFT_SCLK</span>   18       <span class="cm">// SPI Clock</span>
+<span class="kw">#define</span> <span class="def">TFT_DC</span>      5       <span class="cm">// Data / Command select</span>
+<span class="kw">#define</span> <span class="def">TFT_RST</span>    19       <span class="cm">// Reset</span>
+<span class="kw">#define</span> <span class="def">TFT_CS</span>     -1       <span class="cm">// CS always active (display-only SPI bus)</span>
+
+<span class="kw">#define</span> <span class="def">SPI_FREQUENCY</span>  27000000   <span class="cm">// 27 MHz &mdash; reliable for perfboard wiring</span>
+
+<span class="kw">#define</span> <span class="def">LOAD_GLCD</span>    <span class="cm">// Font 1</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT2</span>   <span class="cm">// Font 2 (small)</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT4</span>   <span class="cm">// Font 4 (medium)</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT6</span>   <span class="cm">// Font 6 (large numerics)</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT7</span>   <span class="cm">// Font 7 (segment numerics)</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT8</span>   <span class="cm">// Font 8 (large numerics)</span>
+<span class="kw">#define</span> <span class="def">LOAD_GFXFF</span>   <span class="cm">// FreeFonts</span></pre>
+</div>
+</div>
+
+<!-- ── 06  BUILD PROGRESSION ────────────────────────────── -->
+<div class="section" id="build">
+<div class="section-header">
+  <span class="section-num">06</span>
+  <h2 class="section-title">Build Progression</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose">
+  <p>Each build phase was fully tested before moving to the next — starting with individual component validation, then breadboard bring-up, perfboard assembly, and finally power integration. This approach caught issues early and kept rework to a minimum.</p>
 </div>
 <div class="timeline">
   <div class="timeline-item">
     <div class="timeline-dot"></div>
-    <div class="timeline-step">Phase 1 — Component Sourcing</div>
-    <div class="timeline-heading">ST7789 display, PCM5102 audio module, MicroSD breakout, tactile buttons</div>
-    <div class="timeline-body">Sourced all modules independently: ST7789 1.3" TFT display, PCM5102 I2S DAC breakout, MicroSD module, 8× tactile buttons, IP5306 power bank IC, and LiPo cell. All components were bench-tested for basic electrical continuity and voltage compatibility before integration.</div>
+    <div class="timeline-step">Phase 1 &mdash; Component Sourcing</div>
+    <div class="timeline-heading">ST7789 display, PCM5102A audio module, MicroSD breakout, tactile buttons</div>
+    <div class="timeline-body">Sourced all modules independently: ST7789 1.3&Prime; IPS TFT, PCM5102A I2S DAC breakout, MicroSD breakout, 8&times; tactile push buttons, IP5306 power bank IC, TP4056 USB-C charge module, and a LiPo cell. Each component was bench-tested for correct voltage and pin continuity before integration.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
-    <div class="timeline-step blue">Phase 2 — Breadboard Prototype</div>
-    <div class="timeline-heading">First boot — display confirmed, SD card detected, subsystems validated</div>
-    <div class="timeline-body">Built the first breadboard prototype with ESP32-WROOM-32E, ST7789 display, MicroSD module, PCM5102 audio module, and button matrix. Achieved first boot with display showing a test screen and SD card detected at 30 GB. Audio output confirmed at 24 kHz. Button GPIO reads validated with serial monitor. SPI bus conflict between display and SD card was identified and resolved at this stage.</div>
+    <div class="timeline-step blue">Phase 2 &mdash; Breadboard Prototype</div>
+    <div class="timeline-heading">First boot &mdash; display active, SD card detected, all subsystems validated</div>
+    <div class="timeline-body">Built the first prototype on breadboard with all five subsystems. Achieved first boot with the display showing test output and the SD card detected at 30&thinsp;GB. Audio confirmed at 24&thinsp;kHz via PCM5102A. Button GPIO reads verified via serial monitor. The SPI bus conflict between display and SD was identified and resolved at this stage by moving SD to software SPI.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
-    <div class="timeline-step amber">Phase 3 — Perfboard Assembly &amp; Soldering</div>
+    <div class="timeline-step amber">Phase 3 &mdash; Perfboard Assembly &amp; Soldering</div>
     <div class="timeline-heading">Hand-soldered front and back boards with colour-coded wiring harness</div>
-    <div class="timeline-body">All components transferred from breadboard to perfboard using a temperature-controlled soldering station with paste flux. The front panel board carries the ST7789 display, D-pad buttons, and A/B/Start/Select buttons. The back board carries the ESP32, PCM5102 audio module, MicroSD breakout, and IP5306 power management IC. A colour-coded wiring harness connects the two boards.</div>
+    <div class="timeline-body">Components transferred from breadboard to perfboard using a temperature-controlled soldering station with paste flux. The front panel board carries the ST7789 display, D-pad, and A/B/Start/Select buttons. The back board carries the ESP32, PCM5102A, MicroSD breakout, and IP5306 power IC. A colour-coded wiring harness connects the two boards for easy debugging.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
-    <div class="timeline-step red">Phase 4 — Power Integration &amp; Final Testing</div>
-    <div class="timeline-heading">LiPo cell integrated with USB-C charge, boost converter, and 3.3 V regulation</div>
-    <div class="timeline-body">Integrated the LiPo 3.7 V battery with TP4056 USB-C charge IC and IP5306 5 V boost converter. Logic voltage regulated to 3.3 V for all digital subsystems. Full NES ROM loading from MicroSD confirmed functional. Audio playback and display rendering verified. Prototype declared complete and functional with all subsystems operational.</div>
+    <div class="timeline-step red">Phase 4 &mdash; Power Integration &amp; Final Testing</div>
+    <div class="timeline-heading">LiPo cell integrated with USB-C charge, 5&thinsp;V boost, and 3.3&thinsp;V logic rail</div>
+    <div class="timeline-body">Integrated the LiPo 3.7&thinsp;V cell with TP4056 USB-C charge IC and IP5306 5&thinsp;V boost converter. Logic regulated to 3.3&thinsp;V across all digital subsystems. Full NES ROM loading from MicroSD confirmed working. Audio playback and display rendering verified across multiple games. With all subsystems running reliably, the prototype was complete.</div>
+  </div>
+</div>
+<div class="gallery" style="margin-top:24px">
+  <div class="gallery-item">
+    <img src="IMAGES/NES%20emulator/20260319_162646.jpg" alt="Early component work" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Early component layout and wiring</div>
+  </div>
+  <div class="gallery-item">
+    <img src="IMAGES/NES%20emulator/20260321_140704.jpg" alt="Perfboard component placement" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Perfboard &mdash; component placement</div>
+  </div>
+  <div class="gallery-item">
+    <img src="IMAGES/NES%20emulator/20260321_140722.jpg" alt="Soldering in progress" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Soldering in progress &mdash; back board</div>
+  </div>
+  <div class="gallery-item">
+    <img src="IMAGES/NES%20emulator/20260321_140728.jpg" alt="Wiring detail" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Point-to-point wiring detail</div>
+  </div>
+  <div class="gallery-item">
+    <img src="IMAGES/NES%20emulator/20260322_195953.jpg" alt="Assembly progress" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Assembly progress &mdash; modules mounted</div>
+  </div>
+  <div class="gallery-item">
+    <img src="IMAGES/NES%20emulator/20260322_200012.jpg" alt="Wiring harness" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Colour-coded wiring harness</div>
+  </div>
+  <div class="gallery-item wide">
+    <img src="IMAGES/NES%20emulator/20260323_212754.jpg" alt="Soldering workstation" style="aspect-ratio:16/9;object-fit:cover">
+    <div class="gallery-caption">Soldering workstation &mdash; temperature-controlled iron and paste flux</div>
   </div>
 </div>
 </div>
 
+<!-- ── 07  ENGINEERING CHALLENGES ──────────────────────── -->
 <div class="section" id="challenges">
-<div class="section-header"><h2 class="section-title">Engineering Challenges</h2><div class="section-line"></div></div>
+<div class="section-header">
+  <span class="section-num">07</span>
+  <h2 class="section-title">Engineering Challenges</h2>
+  <div class="section-line"></div>
+</div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">SPI Bus Conflict — Display vs MicroSD</div>
-    <div class="decision-body">Both the ST7789 display and MicroSD module use SPI. The SD card was moved to <strong>software SPI (bit-banged)</strong> on separate GPIO pins (<code>MOSI GPIO17, MISO GPIO13, SCK GPIO14</code>), freeing the hardware SPI bus exclusively for the display. This maintained 40 MHz display throughput without bus arbitration overhead or frame rate loss.</div>
+    <div class="decision-title">SPI Bus Conflict &mdash; Display vs MicroSD</div>
+    <div class="decision-body">Both the ST7789 display and MicroSD module use SPI. With <code>TFT_CS</code> set to &ndash;1, the display holds the hardware SPI bus permanently. Moving the SD card to <strong>software SPI (bit-banged)</strong> on dedicated pins (<code>MOSI&thinsp;17 &middot; MISO&thinsp;13 &middot; SCK&thinsp;14</code>) freed the hardware bus exclusively for the display at 27&thinsp;MHz, with no arbitration overhead or frame rate penalty.</div>
   </div>
   <div class="decision blue">
-    <div class="decision-title">I2S Audio Dropouts at High Emulation Load</div>
-    <div class="decision-body">Initial testing showed audio glitches when the CPU was under heavy NES emulation load. Resolved by <strong>pre-filling the I2S DMA ring buffer</strong> at startup and assigning the audio task a higher FreeRTOS priority than the PPU rendering loop. This ensured the DMA buffer never ran dry regardless of emulation CPU demand.</div>
+    <div class="decision-title">I2S Audio Dropouts Under Heavy CPU Load</div>
+    <div class="decision-body">Initial testing showed audio glitches when the 6502 emulation loop was under heavy load. Fixed by <strong>pre-filling the I2S DMA ring buffer</strong> at startup and assigning the audio task a higher FreeRTOS priority than the PPU rendering task. This ensures the DMA buffer never runs dry regardless of emulation CPU demand.</div>
   </div>
   <div class="decision amber">
-    <div class="decision-title">GPIO Input Noise on High-Impedance Button Lines</div>
-    <div class="decision-body">Floating inputs caused spurious button presses during testing. Fixed by enabling <strong>internal GPIO pull-up resistors</strong> in firmware and debouncing button reads by sampling over consecutive emulation frames rather than using interrupt-driven edge detection — eliminating false triggers without requiring external hardware.</div>
+    <div class="decision-title">GPIO Input Noise on Floating Button Lines</div>
+    <div class="decision-body">Floating GPIO inputs caused spurious button presses during testing. Fixed by enabling <strong>internal GPIO pull-up resistors</strong> and debouncing button reads across consecutive emulation frames &mdash; no external hardware required, and no interrupt-driven edge detection needed.</div>
   </div>
   <div class="decision red">
-    <div class="decision-title">SPI Flash ROM Mapping for Large ROMs</div>
-    <div class="decision-body">ROMs larger than available DRAM could not be copied into RAM for emulation. Solved using the <code>esp_spi_flash mmap API</code> to <strong>memory-map ROM data directly from SPI flash</strong>, allowing the emulator to access ROM content as a <code>const uint8_t*</code> pointer without occupying DRAM. Enabled support for ROMs up to 512 kB.</div>
+    <div class="decision-title">ROM Size Exceeds Available DRAM</div>
+    <div class="decision-body">ROMs larger than available DRAM cannot be copied into RAM. Solved using the <code>spi_flash_mmap</code> API to <strong>memory-map ROM data directly from SPI flash</strong> starting at address <code>0x00300000</code>. The emulator accesses ROM as a <code>const uint8_t*</code> pointer without occupying any DRAM, enabling support for ROMs up to 512&thinsp;kB.</div>
   </div>
 </div>
 </div>
 
-<div class="section" id="metrics">
-<div class="section-header"><h2 class="section-title">Performance Metrics</h2><div class="section-line"></div></div>
-<div class="two-col">
-  <div class="spec-block">
-    <div class="spec-block-header">System Performance</div>
-    <div class="spec-row"><span class="spec-key">Display refresh rate</span><span class="spec-val ok">50 fps (PAL)</span></div>
-    <div class="spec-row"><span class="spec-key">SPI display clock</span><span class="spec-val">40 MHz</span></div>
-    <div class="spec-row"><span class="spec-key">Audio sample rate</span><span class="spec-val ok">24 kHz</span></div>
-    <div class="spec-row"><span class="spec-key">Audio bit depth</span><span class="spec-val">16-bit stereo</span></div>
-    <div class="spec-row"><span class="spec-key">ROM size support</span><span class="spec-val">Up to 512 kB</span></div>
-    <div class="spec-row"><span class="spec-key">MicroSD capacity tested</span><span class="spec-val">Up to 30 GB</span></div>
-  </div>
-  <div class="spec-block">
-    <div class="spec-block-header">Hardware &amp; Power</div>
-    <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val">LiPo 3.7 V</span></div>
-    <div class="spec-row"><span class="spec-key">Charge interface</span><span class="spec-val">USB-C / TP4056</span></div>
-    <div class="spec-row"><span class="spec-key">Boost output</span><span class="spec-val">5 V via IP5306</span></div>
-    <div class="spec-row"><span class="spec-key">Logic voltage</span><span class="spec-val">3.3 V regulated</span></div>
-    <div class="spec-row"><span class="spec-key">Build method</span><span class="spec-val">Hand-soldered perfboard</span></div>
-    <div class="spec-row"><span class="spec-key">Project status</span><span class="spec-val ok">Functional prototype</span></div>
-  </div>
+<!-- ── 08  PCB & NEXT STEPS ─────────────────────────────── -->
+<div class="section" id="pcb">
+<div class="section-header">
+  <span class="section-num">08</span>
+  <h2 class="section-title">PCB &amp; Next Steps</h2>
+  <div class="section-line"></div>
 </div>
+<div class="prose">
+  <p>With the perfboard prototype validated, I am designing a custom 2-layer PCB in <strong>KiCAD</strong> to replace it. The schematic and layout carry over every verified connection, with key improvements: a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack.</p>
 </div>
-
-<div class="section" id="next">
-<div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">Custom PCB Design — KiCAD · In Progress</div>
-    <div class="decision-body">Schematic capture and PCB layout underway in <strong>KiCAD</strong> (<code>NESPCBSchematic.kicad_sch</code> + <code>.kicad_pcb</code>). The 2-layer board integrates all modules with a dedicated ground plane, proper power rails, and a LiPo connector — eliminating all point-to-point perfboard wiring.</div>
+    <div class="decision-title">Custom PCB &mdash; KiCAD &middot; In Progress</div>
+    <div class="decision-body">A 2-layer board with a continuous copper pour ground reference and dedicated 3.3&thinsp;V and 5&thinsp;V power polygons. Display and button footprints face the top; ESP32 and audio module on the back. Consolidates the two-board perfboard stack into a single rigid PCB &mdash; eliminating all point-to-point wiring and improving mechanical reliability.</div>
   </div>
   <div class="decision blue">
-    <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
-    <div class="decision-body">Design a snap-fit shell in <strong>Fusion 360</strong> around the final PCB footprint, with screen cutout, button holes aligned to D-pad and action buttons, USB-C port cutout, and headphone/speaker outlet. Printed in PLA on Creality Ender-3 S1 Pro.</div>
+    <div class="decision-title">3D-Printed Enclosure &mdash; Fusion 360</div>
+    <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint. Features a screen cutout, button holes aligned to D-pad and action buttons, USB-C port access, and a speaker outlet. Printed in PLA on a Creality Ender-3 S1 Pro.</div>
   </div>
   <div class="decision amber">
     <div class="decision-title">Speaker &amp; Hardware Volume Control</div>
-    <div class="decision-body">Add a <strong>0.5 W 8Ω speaker</strong> for built-in audio output and a hardware volume control potentiometer wired to an analog GPIO. The PCM5102 DAC supports hardware volume attenuation via its SCK/BCK lines, enabling software volume control as a secondary option.</div>
+    <div class="decision-body">Add a <strong>0.5&thinsp;W 8&Omega; speaker</strong> for built-in audio and a hardware volume potentiometer on an analog GPIO pin. The PCM5102A DAC supports hardware volume attenuation via its control lines, with software volume as a secondary option.</div>
   </div>
   <div class="decision">
     <div class="decision-title">ROM Selection Menu UI</div>
-    <div class="decision-body">Build an on-device ROM selection menu rendered on the ST7789 display, reading available <code>.nes</code> files from MicroSD and presenting a scrollable list. Navigation via D-pad with A to confirm. This replaces the current method of hardcoding a single ROM filename in firmware.</div>
+    <div class="decision-body">Build an on-device ROM browser rendered on the ST7789 display &mdash; reads available <code>.nes</code> files from MicroSD and shows a scrollable list. D-pad to navigate, A to launch. Replaces the current single hardcoded ROM filename in firmware.</div>
   </div>
+</div>
+<div class="pinout-preview">
+  <p>View implementation details &mdash; display config, pin defines, ROM loading, and audio setup</p>
+  <button class="notes-btn" onclick="document.getElementById('notes-modal').classList.add('open')" style="font-size:12px;padding:8px 18px">&#128203; View Code Notes</button>
 </div>
 </div>
 
-
-<div class="section" id="pcb">
-<div class="section-header"><h2 class="section-title">PCB Design</h2><div class="section-line"></div></div>
-<div class="prose">
-  <p>With the perfboard prototype fully validated, the next build phase is a <strong>custom 2-layer PCB designed in KiCAD</strong>. The goal is to consolidate every subsystem — MCU, display connector, audio DAC, MicroSD, power management, and button matrix — onto a single compact board with a proper ground plane and clean power rails.</p>
-  <p>The schematic and layout files (<code>NESPCBSchematic.kicad_sch</code> / <code>.kicad_pcb</code>) capture every connection validated on the perfboard prototype, with improvements: dedicated LiPo connector, USB-C charge port cutout, silkscreened button labels, and separated analog/digital ground zones for cleaner audio output.</p>
-</div>
-<div class="decision-list">
-  <div class="decision">
-    <div class="decision-title">Ground Plane & Power Rails</div>
-    <div class="decision-body">A continuous copper pour on the bottom layer acts as the ground reference for all subsystems. The 3.3 V logic rail and 5 V boost rail are routed as dedicated power polygons, keeping impedance low and reducing supply noise that caused audio glitches on the perfboard build.</div>
-  </div>
-  <div class="decision blue">
-    <div class="decision-title">Single-Board Integration</div>
-    <div class="decision-body">The current two-board perfboard design (front panel + back board) is consolidated into one PCB. Display and button footprints are placed on the top face with the ESP32 and audio module on the back, reducing assembly complexity and improving mechanical rigidity.</div>
-  </div>
-  <div class="decision amber">
-    <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
-    <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint, with screen cutout, button holes aligned to D-pad and action buttons, USB-C port cutout, and headphone outlet. Printed in PLA on a Creality Ender-3 S1 Pro.</div>
-  </div>
-</div>
-<div class="pinout-preview" style="margin-top:24px">
-  <p>Full project documentation including schematic, hardware overview, and build log</p>
-  <a href="IMAGES/NES%20emulator/RetroDS_Portfolio_AndresMoreno.pdf" target="_blank">⬇ Download RetroDS Portfolio PDF</a>
-</div>
-</div>
-
-</div>
+</div><!-- /content -->
 
 <div class="footer">
-<div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>RetroDS — ESP32 NES Handheld Console &nbsp;·&nbsp; Arduino Framework &nbsp;·&nbsp; Feb–Mar 2026</div>
-<div class="footer-right">RetroDS Handheld<br>Prototype v1.0 &nbsp;·&nbsp; 2026</div>
+  <div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;&middot;&nbsp; Perth, Western Australia<br>RetroDS &mdash; ESP32 NES Handheld Console &nbsp;&middot;&nbsp; Arduino Framework &nbsp;&middot;&nbsp; Feb&ndash;Mar 2026</div>
+  <div class="footer-right">RetroDS Handheld<br>Prototype v1.0 &nbsp;&middot;&nbsp; 2026</div>
 </div>
 
-<div id="lb"><button id="lb-close">✕</button><img id="lb-img" src="" alt=""></div>
+<!-- Lightbox -->
+<div id="lb"><button id="lb-close">&#10005;</button><img id="lb-img" src="" alt=""></div>
+
+<!-- Code Notes Modal -->
+<div id="notes-modal">
+  <div id="notes-inner">
+    <div id="notes-header">
+      <span>CODE NOTES &mdash; RetroDS</span>
+      <button id="notes-close">&#10005;</button>
+    </div>
+    <div id="notes-tabs">
+      <button class="notes-tab active" data-tab="display">Display Config</button>
+      <button class="notes-tab" data-tab="pins">Pin Defines</button>
+      <button class="notes-tab" data-tab="rom">ROM Loading</button>
+      <button class="notes-tab" data-tab="audio">Audio Setup</button>
+    </div>
+    <div id="notes-content">
+
+      <!-- Tab: Display Config -->
+      <div class="notes-pane active" id="tab-display">
+        <h3>TFT_eSPI User_Setup.h</h3>
+        <p>Edit this file in your Arduino libraries folder: <span class="inline-code">Arduino\libraries\TFT_eSPI\User_Setup.h</span><br>
+        Comment out ALL existing content, then paste the config below and save.</p>
+        <div class="code-block">
+<pre><span class="kw">#define</span> <span class="def">ST7789_DRIVER</span>
+
+<span class="kw">#define</span> <span class="def">TFT_WIDTH</span>   240
+<span class="kw">#define</span> <span class="def">TFT_HEIGHT</span>  240
+
+<span class="kw">#define</span> <span class="def">TFT_MOSI</span>   23      <span class="cm">// SPI Data</span>
+<span class="kw">#define</span> <span class="def">TFT_SCLK</span>   18      <span class="cm">// SPI Clock</span>
+<span class="kw">#define</span> <span class="def">TFT_DC</span>      5      <span class="cm">// Data / Command</span>
+<span class="kw">#define</span> <span class="def">TFT_RST</span>    19      <span class="cm">// Reset</span>
+<span class="kw">#define</span> <span class="def">TFT_CS</span>     -1      <span class="cm">// CS always active (display-only SPI bus)</span>
+
+<span class="kw">#define</span> <span class="def">SPI_FREQUENCY</span>  27000000
+
+<span class="kw">#define</span> <span class="def">LOAD_GLCD</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT2</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT4</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT6</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT7</span>
+<span class="kw">#define</span> <span class="def">LOAD_FONT8</span>
+<span class="kw">#define</span> <span class="def">LOAD_GFXFF</span></pre>
+        </div>
+      </div>
+
+      <!-- Tab: Pin Defines -->
+      <div class="notes-pane" id="tab-pins">
+        <h3>GPIO &amp; I2S Pin Definitions</h3>
+        <p>All pin assignments from <span class="inline-code">NesCat.ino</span></p>
+        <div class="code-block">
+<pre><span class="cm">// Buttons</span>
+<span class="kw">#define</span> <span class="def">PIN_UP</span>      2
+<span class="kw">#define</span> <span class="def">PIN_DOWN</span>   15
+<span class="kw">#define</span> <span class="def">PIN_LEFT</span>   33
+<span class="kw">#define</span> <span class="def">PIN_RIGHT</span>  34
+<span class="kw">#define</span> <span class="def">PIN_A</span>      21
+<span class="kw">#define</span> <span class="def">PIN_B</span>      26
+<span class="kw">#define</span> <span class="def">PIN_START</span>  35
+<span class="kw">#define</span> <span class="def">PIN_SELECT</span>  4
+
+<span class="cm">// I2S Audio &mdash; PCM5102A</span>
+<span class="kw">#define</span> <span class="def">I2S_BCK_IO</span> 27    <span class="cm">// Bit Clock</span>
+<span class="kw">#define</span> <span class="def">I2S_WS_IO</span>  32    <span class="cm">// Word Select (LRC)</span>
+<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out</span>
+
+<span class="cm">// MicroSD &mdash; Software SPI</span>
+<span class="kw">#define</span> <span class="def">SOFTSD_MOSI_PIN</span> 17
+<span class="kw">#define</span> <span class="def">SOFTSD_MISO_PIN</span> 13
+<span class="kw">#define</span> <span class="def">SOFTSD_SCK_PIN</span>  14
+<span class="kw">#define</span> <span class="def">SD_CS_PIN</span>       22</pre>
+        </div>
+      </div>
+
+      <!-- Tab: ROM Loading -->
+      <div class="notes-pane" id="tab-rom">
+        <h3>ROM Loading &mdash; SPI Flash Memory Mapping</h3>
+        <p>ROM is loaded from MicroSD into SPI flash at <span class="inline-code">0x00300000</span>, then memory-mapped. The emulator accesses ROM data as a normal pointer without using any DRAM.</p>
+        <div class="code-block">
+<pre><span class="kw">#define</span> <span class="def">ROM_FLASH_ADDR</span>   0x00300000
+<span class="kw">#define</span> <span class="def">ROM_SECTOR_SIZE</span>  0x1000     <span class="cm">// 4 kB sectors</span>
+
+<span class="cm">// After writing ROM bytes to flash:</span>
+<span class="str">const void</span> *romPtr = <span class="def">nullptr</span>;
+spi_flash_mmap_handle_t mmapHandle;
+
+esp_err_t err = spi_flash_mmap(
+  ROM_FLASH_ADDR,
+  romSizeAligned,
+  SPI_FLASH_MMAP_DATA,
+  &amp;romPtr,
+  &amp;mmapHandle
+);
+
+<span class="cm">// ROM now accessible as:</span>
+<span class="cm">// const uint8_t* rom = (const uint8_t*)romPtr;</span>
+<span class="cm">// No DRAM consumed &mdash; reads directly from flash mapping</span></pre>
+        </div>
+      </div>
+
+      <!-- Tab: Audio Setup -->
+      <div class="notes-pane" id="tab-audio">
+        <h3>I2S Audio Configuration</h3>
+        <p>I2S driver config for the PCM5102A DAC. 16-bit stereo at 24&thinsp;kHz, master TX mode. DMA ring buffer ensures smooth audio independent of CPU load.</p>
+        <div class="code-block">
+<pre><span class="kw">#define</span> <span class="def">DEFAULT_SAMPLERATE</span>  24000
+<span class="kw">#define</span> <span class="def">DEFAULT_FRAGSIZE</span>    240   <span class="cm">// Samples per DMA buffer</span>
+
+i2s_config_t i2s_config = {
+  .mode             = I2S_MODE_MASTER | I2S_MODE_TX,
+  .sample_rate      = DEFAULT_SAMPLERATE,
+  .bits_per_sample  = I2S_BITS_PER_SAMPLE_16BIT,
+  .channel_format   = I2S_CHANNEL_FMT_RIGHT_LEFT,
+  .communication_format = I2S_COMM_FORMAT_PCM,
+  .dma_buf_count    = 6,
+  .dma_buf_len      = 4 * DEFAULT_FRAGSIZE,
+  .use_apll         = false,
+  .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1
+};
+
+i2s_pin_config_t pin_config = {
+  .bck_io_num    = I2S_BCK_IO,   <span class="cm">// GPIO 27</span>
+  .ws_io_num     = I2S_WS_IO,    <span class="cm">// GPIO 32</span>
+  .data_out_num  = I2S_DO_IO,    <span class="cm">// GPIO 25</span>
+  .data_in_num   = I2S_PIN_NO_CHANGE
+};</pre>
+        </div>
+      </div>
+
+    </div><!-- /notes-content -->
+  </div><!-- /notes-inner -->
+</div><!-- /notes-modal -->
 
 <script>
-const lb=document.getElementById('lb');
-const lbImg=document.getElementById('lb-img');
-document.getElementById('lb-close').addEventListener('click',()=>lb.style.display='none');
-lb.addEventListener('click',e=>{if(e.target===lb||e.target===document.getElementById('lb-close'))lb.style.display='none';});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.style.display='none';});
-function addLightbox(img){img.style.cursor='zoom-in';img.addEventListener('click',e=>{lbImg.src=img.src;lb.style.display='flex';e.stopPropagation();});}
-
-document.addEventListener('DOMContentLoaded',function(){
-  document.querySelectorAll('.gallery-item img,.timeline-img img').forEach(img=>{
-    if(img.src&&!img.src.endsWith('/')){addLightbox(img);}
+// ── Lightbox ──────────────────────────────────────────────
+const lb = document.getElementById('lb');
+const lbImg = document.getElementById('lb-img');
+document.getElementById('lb-close').addEventListener('click', () => lb.style.display = 'none');
+lb.addEventListener('click', e => { if (e.target === lb || e.target === document.getElementById('lb-close')) lb.style.display = 'none'; });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    lb.style.display = 'none';
+    document.getElementById('notes-modal').classList.remove('open');
+  }
+});
+function addLightbox(img) {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', e => { lbImg.src = img.src; lb.style.display = 'flex'; e.stopPropagation(); });
+}
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.gallery-item img, .timeline-img img').forEach(img => {
+    if (img.src && !img.src.endsWith('/')) addLightbox(img);
   });
 });
 
-let dark=localStorage.getItem('theme')!=='light';
-document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  dark=!dark;
-  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
-  localStorage.setItem('theme',dark?'dark':'light');
+// ── Theme toggle ──────────────────────────────────────────
+let dark = localStorage.getItem('theme') !== 'light';
+document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+document.getElementById('themeBtn').textContent = dark ? '\uD83C\uDF19' : '\u2600\uFE0F';
+document.getElementById('themeBtn').addEventListener('click', () => {
+  dark = !dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = dark ? '\uD83C\uDF19' : '\u2600\uFE0F';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
 });
 
-(function(){
-  const toggleBtn=document.createElement('button');
-  toggleBtn.id='edit-toggle';toggleBtn.style.display='none';
-  document.body.appendChild(toggleBtn);
-  const toolbar=document.createElement('div');toolbar.id='edit-toolbar';
-  toolbar.style.cssText='display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;flex-wrap:wrap;';
-  const btnStyle='background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:10px 18px;font-family:\'DM Mono\',monospace;font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;';
-  const btnUndo=document.createElement('button');btnUndo.textContent='↩ Undo';btnUndo.style.cssText=btnStyle+'color:#8b9bb8;';btnUndo.disabled=true;
-  const btnSave=document.createElement('button');btnSave.textContent='💾 Save';btnSave.style.cssText=btnStyle+'background:#16a34a;border-color:#16a34a;';
-  const btnExport=document.createElement('button');btnExport.textContent='⬇ Export';btnExport.style.cssText=btnStyle+'background:rgba(37,99,235,.25);border-color:rgba(37,99,235,.5);';
-  const btnConnect=document.createElement('button');btnConnect.textContent='⚙ GitHub';btnConnect.style.cssText=btnStyle;
-  toolbar.append(btnUndo,btnSave,btnExport,btnConnect);
+// ── Code Notes Modal ──────────────────────────────────────
+const notesModal = document.getElementById('notes-modal');
+document.getElementById('notesBtn').addEventListener('click', () => notesModal.classList.add('open'));
+document.getElementById('notes-close').addEventListener('click', () => notesModal.classList.remove('open'));
+notesModal.addEventListener('click', e => { if (e.target === notesModal) notesModal.classList.remove('open'); });
+document.querySelectorAll('.notes-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.notes-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.notes-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Edit Mode ─────────────────────────────────────────────
+(function () {
+  const toolbar = document.createElement('div');
+  toolbar.style.cssText = 'display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;flex-wrap:wrap;';
+  const bs = 'background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:10px 18px;font-family:\'DM Mono\',monospace;font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;';
+  const btnUndo = document.createElement('button'); btnUndo.textContent = '↩ Undo'; btnUndo.style.cssText = bs + 'color:#8b9bb8;'; btnUndo.disabled = true;
+  const btnSave = document.createElement('button'); btnSave.textContent = '💾 Save'; btnSave.style.cssText = bs + 'background:#16a34a;border-color:#16a34a;';
+  const btnExport = document.createElement('button'); btnExport.textContent = '⬇ Export'; btnExport.style.cssText = bs + 'background:rgba(37,99,235,.25);border-color:rgba(37,99,235,.5);';
+  const btnConnect = document.createElement('button'); btnConnect.textContent = '⚙ GitHub'; btnConnect.style.cssText = bs;
+  toolbar.append(btnUndo, btnSave, btnExport, btnConnect);
   document.body.appendChild(toolbar);
-  const saveFlash=document.createElement('div');saveFlash.style.cssText='display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'DM Mono\',monospace;font-size:11px;pointer-events:none;';
-  saveFlash.textContent='✓ Saved!';document.body.appendChild(saveFlash);
-
-  const imgTip=document.createElement('div');imgTip.style.cssText='display:none;position:fixed;background:rgba(37,99,235,.92);color:#fff;font-family:\'DM Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
-  imgTip.textContent='Click to swap image';document.body.appendChild(imgTip);
-
-  let editMode=false;
-  const SAVE_KEY='nes_page_content';
-  const GH_REPO='andresmoreno2702-gif/andresmoreno2702-gif.github.io';
-  const GH_FILE='nes-emulator-project-main.html';
-  const GH_BRANCH='main';
-  const PAT_KEY='gh_pat';
-
-  function cleanSnap(){
-    const clone=document.querySelector('.content').cloneNode(true);
-    clone.querySelectorAll('[data-eb-init],[data-txt],[data-ies]').forEach(el=>{
-      el.removeAttribute('data-eb-init');el.removeAttribute('data-txt');el.removeAttribute('data-ies');
-    });
-    return clone.innerHTML;
-  }
-  async function blobsToBase64(){
-    for(const img of [...document.querySelectorAll('img[src^="blob:"]')]){
-      try{const c=document.createElement('canvas');c.width=img.naturalWidth||300;c.height=img.naturalHeight||200;c.getContext('2d').drawImage(img,0,0);img.src=c.toDataURL();}catch(e){}
-    }
-  }
-  function fullPageClean(){
-    const clone=document.documentElement.cloneNode(true);
-    clone.querySelectorAll('#edit-toggle,#edit-toolbar,#save-flash').forEach(el=>el.remove());
-    ['data-eb-init','data-txt','data-ies'].forEach(a=>clone.querySelectorAll('['+a+']').forEach(el=>el.removeAttribute(a)));
-    clone.querySelector('body').classList.remove('edit-mode');
-    return '<!DOCTYPE html>\n'+clone.outerHTML;
-  }
-  const undoStack=[];
-  function snapshot(){undoStack.push(cleanSnap());if(undoStack.length>50)undoStack.shift();btnUndo.disabled=false;}
-  btnUndo.addEventListener('click',()=>{if(!undoStack.length)return;document.querySelector('.content').innerHTML=undoStack.pop();if(!undoStack.length)btnUndo.disabled=true;attachImgSwap();enableText();});
-
-  (()=>{const saved=localStorage.getItem(SAVE_KEY);if(saved)document.querySelector('.content').innerHTML=saved;})();
-
-  function updateConnectBtn(){const tok=localStorage.getItem(PAT_KEY);btnConnect.textContent=tok?'● Connected':'⚙ GitHub';if(tok)btnConnect.style.color='#4ade80';else btnConnect.style.color='';}
+  const saveFlash = document.createElement('div');
+  saveFlash.style.cssText = 'display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'DM Mono\',monospace;font-size:11px;pointer-events:none;';
+  saveFlash.textContent = '✓ Saved!'; document.body.appendChild(saveFlash);
+  const imgTip = document.createElement('div');
+  imgTip.style.cssText = 'display:none;position:fixed;background:rgba(37,99,235,.92);color:#fff;font-family:\'DM Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
+  imgTip.textContent = 'Click to swap image'; document.body.appendChild(imgTip);
+  const ebHint = document.createElement('div'); ebHint.id = 'eb-hint';
+  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Click image &mdash; swap it<br>Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder';
+  document.body.appendChild(ebHint);
+  let editMode = false;
+  const SAVE_KEY = 'nes_page_content';
+  const GH_REPO = 'andresmoreno2702-gif/andresmoreno2702-gif.github.io';
+  const GH_FILE = 'nes-emulator-project-main.html';
+  const GH_BRANCH = 'main';
+  const PAT_KEY = 'gh_pat';
+  function cleanSnap() { const clone = document.querySelector('.content').cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn').forEach(el => el.remove()); clone.querySelectorAll('[data-eb-init],[data-txt],[data-ies],[data-drag-setup]').forEach(el => { el.removeAttribute('data-eb-init'); el.removeAttribute('data-txt'); el.removeAttribute('data-ies'); el.removeAttribute('data-drag-setup'); }); return clone.innerHTML; }
+  async function blobsToBase64() { for (const img of [...document.querySelectorAll('img[src^="blob:"]')]) { try { const c = document.createElement('canvas'); c.width = img.naturalWidth || 300; c.height = img.naturalHeight || 200; c.getContext('2d').drawImage(img, 0, 0); img.src = c.toDataURL(); } catch (e) { } } }
+  function fullPageClean() { const clone = document.documentElement.cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn,#edit-toolbar,#save-flash,#eb-hint').forEach(el => el.remove()); ['data-eb-init', 'data-txt', 'data-ies', 'data-drag-setup'].forEach(a => clone.querySelectorAll('[' + a + ']').forEach(el => el.removeAttribute(a))); clone.querySelector('body').classList.remove('edit-mode'); return '<!DOCTYPE html>\n' + clone.outerHTML; }
+  const undoStack = [];
+  function snapshot() { undoStack.push(cleanSnap()); if (undoStack.length > 50) undoStack.shift(); btnUndo.disabled = false; }
+  btnUndo.addEventListener('click', () => { if (!undoStack.length) return; document.querySelector('.content').innerHTML = undoStack.pop(); if (!undoStack.length) btnUndo.disabled = true; document.querySelectorAll('.gallery-item').forEach(initGalleryItem); document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock); attachImgSwap(); enableText(); });
+  (() => { const saved = localStorage.getItem(SAVE_KEY); if (saved) document.querySelector('.content').innerHTML = saved; })();
+  function updateConnectBtn() { const tok = localStorage.getItem(PAT_KEY); btnConnect.textContent = tok ? '● Connected' : '⚙ GitHub'; if (tok) btnConnect.style.color = '#4ade80'; else btnConnect.style.color = ''; }
   updateConnectBtn();
-  btnConnect.addEventListener('click',()=>{const cur=localStorage.getItem(PAT_KEY)||'';const tok=prompt('Paste your GitHub Personal Access Token:',cur);if(tok!==null){localStorage.setItem(PAT_KEY,tok.trim());updateConnectBtn();}});
-
-  btnSave.addEventListener('click',async()=>{
-    await blobsToBase64();
-    localStorage.setItem(SAVE_KEY,cleanSnap());
-    const token=localStorage.getItem(PAT_KEY);
-    if(!token){saveFlash.textContent='✓ Saved locally';saveFlash.style.background='#16a34a';saveFlash.style.display='block';setTimeout(()=>saveFlash.style.display='none',2500);return;}
-    const orig=btnSave.textContent;btnSave.textContent='Saving…';btnSave.disabled=true;
-    try{
-      const html=fullPageClean();const enc=btoa(unescape(encodeURIComponent(html)));
-      const r=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,{headers:{Authorization:`token ${token}`}});
-      if(!r.ok)throw new Error('GET '+r.status);
-      const {sha}=await r.json();
-      const w=await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`,{method:'PUT',headers:{Authorization:`token ${token}`,'Content-Type':'application/json'},body:JSON.stringify({message:'Page update via edit mode',content:enc,sha,branch:GH_BRANCH})});
-      if(!w.ok)throw new Error('PUT '+w.status);
-      saveFlash.textContent='✓ Saved to GitHub!';saveFlash.style.background='#16a34a';
-    }catch(e){saveFlash.textContent='⚠ '+e.message;saveFlash.style.background='#ef4444';}
-    btnSave.textContent=orig;btnSave.disabled=false;
-    saveFlash.style.display='block';setTimeout(()=>saveFlash.style.display='none',3500);
+  btnConnect.addEventListener('click', () => { const cur = localStorage.getItem(PAT_KEY) || ''; const tok = prompt('Paste your GitHub Personal Access Token:', cur); if (tok !== null) { localStorage.setItem(PAT_KEY, tok.trim()); updateConnectBtn(); } });
+  btnSave.addEventListener('click', async () => {
+    await blobsToBase64(); localStorage.setItem(SAVE_KEY, cleanSnap());
+    const token = localStorage.getItem(PAT_KEY);
+    if (!token) { saveFlash.textContent = '✓ Saved locally'; saveFlash.style.background = '#16a34a'; saveFlash.style.display = 'block'; setTimeout(() => saveFlash.style.display = 'none', 2500); return; }
+    const orig = btnSave.textContent; btnSave.textContent = 'Saving…'; btnSave.disabled = true;
+    try {
+      const html = fullPageClean(); const enc = btoa(unescape(encodeURIComponent(html)));
+      const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, { headers: { Authorization: `token ${token}` } });
+      if (!r.ok) throw new Error('GET ' + r.status);
+      const { sha } = await r.json();
+      const w = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, { method: 'PUT', headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'Page update via edit mode', content: enc, sha, branch: GH_BRANCH }) });
+      if (!w.ok) throw new Error('PUT ' + w.status);
+      saveFlash.textContent = '✓ Saved to GitHub!'; saveFlash.style.background = '#16a34a';
+    } catch (e) { saveFlash.textContent = '⚠ ' + e.message; saveFlash.style.background = '#ef4444'; }
+    btnSave.textContent = orig; btnSave.disabled = false; saveFlash.style.display = 'block'; setTimeout(() => saveFlash.style.display = 'none', 3500);
   });
-
-  btnExport.addEventListener('click',async()=>{
-    await blobsToBase64();
-    const blob=new Blob([fullPageClean()],{type:'text/html'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nes-emulator-project-main.html';a.click();URL.revokeObjectURL(a.href);
-  });
-
-  function pickImage(img){
-    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
-    inp.addEventListener('change',()=>{if(!inp.files[0])return;snapshot();img.src=URL.createObjectURL(inp.files[0]);img.style.cssText='aspect-ratio:auto;height:auto;max-height:none;width:100%;object-fit:cover;';});
-    inp.click();
-  }
-  function attachImgSwap(){
-    document.querySelectorAll('img:not([data-no-edit]):not([data-ies])').forEach(img=>{
-      img.dataset.ies='1';
-      img.addEventListener('click',e=>{if(!editMode)return;e.stopPropagation();pickImage(img);});
-      img.addEventListener('mousemove',e=>{if(!editMode)return;imgTip.style.display='block';imgTip.style.left=(e.clientX+12)+'px';imgTip.style.top=(e.clientY+12)+'px';});
-      img.addEventListener('mouseleave',()=>imgTip.style.display='none');
+  btnExport.addEventListener('click', async () => { await blobsToBase64(); const blob = new Blob([fullPageClean()], { type: 'text/html' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'nes-emulator-project-main.html'; a.click(); URL.revokeObjectURL(a.href); });
+  function pickImage(img) { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.addEventListener('change', () => { if (!inp.files[0]) return; snapshot(); img.src = URL.createObjectURL(inp.files[0]); img.style.cssText = 'aspect-ratio:auto;height:auto;max-height:none;width:100%;object-fit:cover;'; }); inp.click(); }
+  function attachImgSwap() { document.querySelectorAll('img:not([data-no-edit]):not([data-ies])').forEach(img => { img.dataset.ies = '1'; img.addEventListener('click', e => { if (!editMode) return; e.stopPropagation(); pickImage(img); }); img.addEventListener('mousemove', e => { if (!editMode) return; imgTip.style.display = 'block'; imgTip.style.left = (e.clientX + 12) + 'px'; imgTip.style.top = (e.clientY + 12) + 'px'; }); img.addEventListener('mouseleave', () => imgTip.style.display = 'none'); }); }
+  const TSEL = 'h1,h2,h3,p,li,span,a,.hero-tag,.hero-sub,.badge,.section-title,.gallery-caption,.timeline-step,.timeline-heading,.timeline-body,.stat-value,.stat-label,.stat-sub,.prose p,.decision-title,.decision-body,.spec-key,.spec-val,.footer-left,.footer-right,td,th,.timeline-img-cap,.part,.ref,.code-block pre';
+  function enableText() { document.querySelectorAll(TSEL).forEach(el => { if (el.dataset.txt) return; if (el.querySelector('div,section,article,nav')) return; el.dataset.txt = '1'; el.addEventListener('click', e => { if (!editMode) return; e.stopPropagation(); snapshot(); el.contentEditable = 'true'; el.focus(); }); el.addEventListener('blur', () => el.contentEditable = 'false'); el.addEventListener('keydown', e => { if (e.key === 'Escape') { el.contentEditable = 'false'; el.blur(); } }); }); }
+  // ── Corner resize ──
+  function makeResizable(block) {
+    if (block.querySelector('.eb-corner')) return;
+    const corner = document.createElement('div'); corner.className = 'eb-corner'; block.appendChild(corner);
+    corner.addEventListener('mousedown', e => {
+      e.preventDefault(); e.stopPropagation();
+      const sx = e.clientX, sy = e.clientY, sw = block.offsetWidth, sh = block.offsetHeight;
+      block.style.width = sw + 'px'; block.style.height = sh + 'px'; block.style.minHeight = 'unset';
+      const mm = ev => { block.style.width = Math.max(80, sw + (ev.clientX - sx)) + 'px'; block.style.height = Math.max(50, sh + (ev.clientY - sy)) + 'px'; };
+      const mu = () => { window.removeEventListener('mousemove', mm); window.removeEventListener('mouseup', mu); };
+      window.addEventListener('mousemove', mm); window.addEventListener('mouseup', mu);
     });
   }
-  const TSEL='h1,h2,h3,p,li,span,a,.hero-tag,.hero-sub,.badge,.section-title,.gallery-caption,.timeline-step,.timeline-heading,.timeline-body,.stat-value,.stat-label,.stat-sub,.prose p,.decision-title,.decision-body,.spec-key,.spec-val,.footer-left,.footer-right,td,th,.timeline-img-cap,.part,.ref,.code-block pre';
-  function enableText(){
-    document.querySelectorAll(TSEL).forEach(el=>{
-      if(el.dataset.txt)return;
-      if(el.querySelector('div,section,article,nav'))return;
-      el.dataset.txt='1';
-      el.addEventListener('click',e=>{if(!editMode)return;e.stopPropagation();snapshot();el.contentEditable='true';el.focus();});
-      el.addEventListener('blur',()=>el.contentEditable='false');
-      el.addEventListener('keydown',e=>{if(e.key==='Escape'){el.contentEditable='false';el.blur();}});
+  // ── Init gallery item (controls bar + resize) ──
+  function initGalleryItem(item) {
+    if (item.dataset.ebInit) return; item.dataset.ebInit = '1';
+    if (getComputedStyle(item).position === 'static') item.style.position = 'relative';
+    item.setAttribute('draggable', 'true');
+    const img = item.querySelector('img');
+    const bar = document.createElement('div'); bar.className = 'eb-bar';
+    if (img) {
+      const bi = document.createElement('button'); bi.textContent = '+'; bi.title = 'Increase image height';
+      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = (c + 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      const si = document.createElement('button'); si.textContent = '\u2212'; si.title = 'Decrease image height';
+      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = Math.max(40, c - 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      bar.append(bi, si);
+    }
+    const del = document.createElement('button'); del.textContent = '\u2715'; del.className = 'red'; del.title = 'Delete box';
+    del.addEventListener('click', e => { e.stopPropagation(); snapshot(); if (confirm('Delete this box?')) item.remove(); });
+    bar.appendChild(del);
+    const dh = document.createElement('span'); dh.className = 'eb-drag-handle'; dh.textContent = '\u2807'; dh.title = 'Drag to reorder';
+    bar.appendChild(dh);
+    item.insertBefore(bar, item.firstChild);
+    makeResizable(item);
+  }
+  // ── Init timeline/hero/stat blocks ──
+  function initOtherBlock(block) {
+    if (block.dataset.ebInit) return; block.dataset.ebInit = '1';
+    if (getComputedStyle(block).position === 'static') block.style.position = 'relative';
+    const img = block.querySelector('img');
+    const bar = document.createElement('div'); bar.className = 'eb-bar';
+    if (img) {
+      const bi = document.createElement('button'); bi.textContent = '+'; bi.title = 'Increase image height';
+      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = (c + 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      const si = document.createElement('button'); si.textContent = '\u2212'; si.title = 'Decrease image height';
+      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = Math.max(40, c - 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      bar.append(bi, si);
+    }
+    block.insertBefore(bar, block.firstChild);
+    makeResizable(block);
+  }
+  // ── Gallery drag-to-reorder ──
+  function setupGridDrag(gallery) {
+    let dragEl = null, placeholder = null;
+    gallery.addEventListener('dragstart', e => {
+      dragEl = e.target.closest('.gallery-item'); if (!dragEl) return;
+      setTimeout(() => dragEl.classList.add('eb-dragging'), 0);
+      placeholder = document.createElement('div'); placeholder.className = 'eb-placeholder';
+      placeholder.style.width = dragEl.offsetWidth + 'px'; placeholder.style.height = dragEl.offsetHeight + 'px';
+      if (dragEl.classList.contains('wide')) placeholder.style.gridColumn = 'span 2';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    gallery.addEventListener('dragover', e => {
+      e.preventDefault(); const target = e.target.closest('.gallery-item'); if (!target || target === dragEl) return;
+      const rect = target.getBoundingClientRect();
+      if (e.clientX < rect.left + rect.width / 2) gallery.insertBefore(placeholder, target); else gallery.insertBefore(placeholder, target.nextSibling);
+    });
+    gallery.addEventListener('drop', e => { e.preventDefault(); if (!dragEl || !placeholder) return; gallery.insertBefore(dragEl, placeholder); cleanup(); });
+    gallery.addEventListener('dragend', cleanup);
+    function cleanup() { if (dragEl) dragEl.classList.remove('eb-dragging'); if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder); dragEl = null; placeholder = null; }
+  }
+  // ── Add image box button ──
+  function setupAddBox() {
+    document.querySelectorAll('.gallery').forEach(gallery => {
+      if (gallery.querySelector('.eb-add-btn')) return;
+      const btn = document.createElement('button'); btn.className = 'eb-add-btn'; btn.textContent = '+ Add Image Box';
+      btn.addEventListener('click', () => {
+        snapshot();
+        const item = document.createElement('div'); item.className = 'gallery-item';
+        item.innerHTML = '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'%3E%3Crect width=\'300\' height=\'200\' fill=\'%231a2235\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%234a5a78\' font-family=\'monospace\' font-size=\'14\'%3EClick to swap image%3C/text%3E%3C/svg%3E" alt="New image"><div class="gallery-caption">Caption</div>';
+        gallery.insertBefore(item, btn); initGalleryItem(item); attachImgSwap();
+      });
+      gallery.appendChild(btn);
     });
   }
-
-  function activateEditMode(){
-    editMode=!editMode;
-    if(editMode){
-      toolbar.style.display='flex';
-      document.querySelectorAll('img:not([data-no-edit])').forEach(img=>{img.style.outline='1px dashed rgba(37,99,235,.35)';});
-      attachImgSwap();enableText();
+  function activateEditMode() {
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode', editMode);
+    if (editMode) {
+      toolbar.style.display = 'flex';
+      document.querySelectorAll('.gallery').forEach(gallery => { if (!gallery.dataset.dragSetup) { gallery.dataset.dragSetup = '1'; setupGridDrag(gallery); } });
+      document.querySelectorAll('.gallery-item').forEach(initGalleryItem);
+      document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock);
+      attachImgSwap(); enableText(); setupAddBox();
     } else {
-      toolbar.style.display='none';imgTip.style.display='none';
-      document.querySelectorAll('img').forEach(img=>{img.style.outline='';});
+      toolbar.style.display = 'none'; imgTip.style.display = 'none';
     }
   }
-  const EDIT_PASS='morenavaa321';
-  document.addEventListener('keydown',e=>{
-    if(e.ctrlKey&&e.shiftKey&&e.key==='E'){
-      e.preventDefault();
-      if(editMode){activateEditMode();return;}
-      const pw=prompt('Enter password to enable edit mode:');
-      if(pw===EDIT_PASS)activateEditMode();
-    }
-  });
+  const EDIT_PASS = 'morenavaa321';
+  document.addEventListener('keydown', e => { if (e.ctrlKey && e.shiftKey && e.key === 'E') { e.preventDefault(); if (editMode) { activateEditMode(); return; } const pw = prompt('Enter password to enable edit mode:'); if (pw === EDIT_PASS) activateEditMode(); } });
 })();
 </script>
-</body></html>
+</body>
+</html>
