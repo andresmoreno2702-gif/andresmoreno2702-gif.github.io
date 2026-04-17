@@ -873,7 +873,9 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   const btnSave = document.createElement('button'); btnSave.textContent = '💾 Save'; btnSave.style.cssText = bs + 'background:#16a34a;border-color:#16a34a;';
   const btnExport = document.createElement('button'); btnExport.textContent = '⬇ Export'; btnExport.style.cssText = bs + 'background:rgba(37,99,235,.25);border-color:rgba(37,99,235,.5);';
   const btnConnect = document.createElement('button'); btnConnect.textContent = '⚙ GitHub'; btnConnect.style.cssText = bs;
-  toolbar.append(btnUndo, btnSave, btnExport, btnConnect);
+  const btnExit = document.createElement('button'); btnExit.textContent = '✕ Exit'; btnExit.style.cssText = bs + 'background:rgba(239,68,68,.25);border-color:rgba(239,68,68,.5);color:#fca5a5;';
+  btnExit.addEventListener('click', () => activateEditMode());
+  toolbar.append(btnUndo, btnSave, btnExport, btnConnect, btnExit);
   document.body.appendChild(toolbar);
   const saveFlash = document.createElement('div');
   saveFlash.style.cssText = 'display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'DM Mono\',monospace;font-size:11px;pointer-events:none;';
