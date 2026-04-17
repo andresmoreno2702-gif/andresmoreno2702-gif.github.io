@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+<html lang="en" data-theme="dark"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RetroDS — ESP32 NES Handheld · Andres Moreno</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&family=DM+Mono:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&amp;family=DM+Mono:wght@400;500&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -199,7 +198,7 @@ body.edit-mode .hero-board:hover{outline:2px solid rgba(99,155,255,.8)}
 body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.85;cursor:grabbing}
 </style>
 </head>
-<body>
+<body class="">
 
 <nav class="site-nav">
   <a href="index.html">← Portfolio</a>
@@ -213,32 +212,32 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
     <a href="#pcb">PCB &amp; Next</a>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <button class="notes-btn" id="notesBtn">&#128203; Code Notes</button>
-    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">&#127769;</button>
+    <button class="notes-btn" id="notesBtn">📋 Code Notes</button>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
   </div>
 </nav>
 
 <div class="hero">
 <div class="hero-inner">
   <div>
-    <div class="hero-tag">Engineering Design Portfolio &mdash; Embedded Systems</div>
-    <h1>RetroDS &mdash; ESP32 <span>NES</span><br>Handheld Console</h1>
-    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 &ndash; Present</div>
+    <div class="hero-tag">Engineering Design Portfolio — Embedded Systems</div>
+    <h1>RetroDS — ESP32 <span>NES</span><br>Handheld Console</h1>
+    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 – Present</div>
     <div class="hero-meta">
-      <span class="badge badge-teal">ESP32-WROOM-32E &middot; 240 MHz</span>
-      <span class="badge badge-blue">ST7789 &middot; 240&times;240 IPS</span>
-      <span class="badge badge-amber">PCM5102A &middot; I2S DAC</span>
-      <span class="badge badge-teal">MicroSD &middot; FAT32</span>
+      <span class="badge badge-teal">ESP32-WROOM-32E · 240 MHz</span>
+      <span class="badge badge-blue">ST7789 · 240×240 IPS</span>
+      <span class="badge badge-amber">PCM5102A · I2S DAC</span>
+      <span class="badge badge-teal">MicroSD · FAT32</span>
     </div>
     <div class="hero-meta">
-      <span class="badge badge-blue">8&times; GPIO Buttons</span>
-      <span class="badge badge-amber">LiPo &middot; USB-C Charge</span>
-      <span class="badge badge-green">Prototype &#10003; &middot; PCB In Progress</span>
-      <span class="badge badge-amber">KiCAD PCB &middot; In Progress</span>
+      <span class="badge badge-blue">8× GPIO Buttons</span>
+      <span class="badge badge-amber">LiPo · USB-C Charge</span>
+      <span class="badge badge-green">Prototype ✓ · PCB In Progress</span>
+      <span class="badge badge-amber">KiCAD PCB · In Progress</span>
     </div>
   </div>
-  <div class="hero-board">
-    <img src="IMAGES/NES%20emulator/hero-board.png" alt="RetroDS handheld console — completed perfboard build running Pac-Man" data-no-edit style="object-fit:contain;background:transparent;border:none">
+  <div class="hero-board" style="transform: translate(-92px, 13px); position: relative; width: 428px; height: 294px; min-height: unset;" data-hero-drag="1">
+    <img src="IMAGES/NES%20emulator/hero-board.png" alt="RetroDS handheld console — completed perfboard build running Pac-Man" data-no-edit="" style="object-fit: cover; background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; height: 510px; max-height: none; width: 100%; aspect-ratio: auto;">
   </div>
 </div>
 </div>
@@ -246,7 +245,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 <div class="content">
 
 <!-- ── 01  OVERVIEW ─────────────────────────────────────── -->
-<div class="section" id="overview">
+<div class="section" id="overview" style="position: relative;">
 <div class="section-header">
   <span class="section-num">01</span>
   <h2 class="section-title">Project Overview</h2>
@@ -260,7 +259,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </div>
   <div class="stat-card blue">
     <div class="stat-label">Display</div>
-    <div class="stat-value">240&times;240</div>
+    <div class="stat-value">240×240</div>
     <div class="stat-sub">ST7789 IPS @ 27 MHz SPI</div>
   </div>
   <div class="stat-card amber">
@@ -271,38 +270,38 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   <div class="stat-card green">
     <div class="stat-label">Mapper Support</div>
     <div class="stat-value">6+</div>
-    <div class="stat-sub">NROM, MMC1&ndash;3, UNROM, VRC</div>
+    <div class="stat-sub">NROM, MMC1–3, UNROM, VRC</div>
   </div>
 </div>
 <div class="prose">
-  <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240&times;240 IPS TFT display</strong>, with stereo audio through a <strong>PCM5102A I2S DAC</strong>. ROMs are loaded from a MicroSD card at runtime.</p>
+  <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240×240 IPS TFT display</strong>, with stereo audio through a <strong>PCM5102A I2S DAC</strong>. ROMs are loaded from a MicroSD card at runtime.</p>
   <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, audio DAC, MicroSD breakout, and power management ICs. A custom 2-layer KiCAD PCB is currently in progress to consolidate everything onto a single compact board.</p>
 </div>
 <div class="gallery" id="overviewGallery">
-  <div class="gallery-item wide">
-    <img src="IMAGES/NES%20emulator/image-1773987503810.jpg" alt="RetroDS breadboard prototype" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Breadboard prototype &mdash; ESP32, ST7789 display, SD card reader and button rows</div>
+  <div class="gallery-item wide" draggable="true">
+    <img src="IMAGES/NES%20emulator/image-1773987503810.jpg" alt="RetroDS breadboard prototype" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Breadboard prototype — ESP32, ST7789 display, SD card reader and button rows</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260325_183135.jpg" alt="Perfboard back board" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Back board &mdash; hand-soldered perfboard with ESP32 and audio module</div>
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260325_183135.jpg" alt="Perfboard back board" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Back board — hand-soldered perfboard with ESP32 and audio module</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260325_195616.jpg" alt="Completed RetroDS device" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Completed prototype &mdash; front panel with display and button layout</div>
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260325_195616.jpg" alt="Completed RetroDS device" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Completed prototype — front panel with display and button layout</div>
   </div>
 </div>
 </div>
 
 <!-- ── 02  COMPONENTS ───────────────────────────────────── -->
-<div class="section" id="components">
+<div class="section" id="components" style="position: relative;">
 <div class="section-header">
   <span class="section-num">02</span>
   <h2 class="section-title">Components</h2>
   <div class="section-line"></div>
 </div>
 <div class="prose" style="margin-bottom:24px">
-  <p>All components are off-the-shelf breakout modules wired onto perfboard. The ESP32 operates at 3.3&thinsp;V logic throughout, with the power management chain stepping up from the LiPo cell and regulating down to logic level.</p>
+  <p>All components are off-the-shelf breakout modules wired onto perfboard. The ESP32 operates at 3.3 V logic throughout, with the power management chain stepping up from the LiPo cell and regulating down to logic level.</p>
 </div>
 <table class="comp-table">
 <thead>
@@ -319,63 +318,63 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
     <td class="ref">U1</td>
     <td class="part">Microcontroller</td>
     <td class="part">ESP32-WROOM-32E</td>
-    <td>&mdash;</td>
-    <td style="font-size:12px;color:var(--text-muted)">240&thinsp;MHz dual-core Xtensa LX6, 4&thinsp;MB Flash, 520&thinsp;kB SRAM</td>
+    <td>—</td>
+    <td style="font-size:12px;color:var(--text-muted)">240 MHz dual-core Xtensa LX6, 4 MB Flash, 520 kB SRAM</td>
   </tr>
   <tr>
     <td class="ref">U2</td>
     <td class="part">Display</td>
-    <td class="part">ST7789 1.3&Prime; IPS TFT 240&times;240</td>
-    <td>SPI @ 27&thinsp;MHz</td>
-    <td style="font-size:12px;color:var(--text-muted)">TFT_eSPI library &mdash; requires User_Setup.h edit (Section 05)</td>
+    <td class="part">ST7789 1.3″ IPS TFT 240×240</td>
+    <td>SPI @ 27 MHz</td>
+    <td style="font-size:12px;color:var(--text-muted)">TFT_eSPI library — requires User_Setup.h edit (Section 05)</td>
   </tr>
   <tr>
     <td class="ref">U3</td>
     <td class="part">Audio DAC</td>
     <td class="part">PCM5102A I2S Module</td>
     <td>I2S</td>
-    <td style="font-size:12px;color:var(--text-muted)">16-bit stereo, 24&thinsp;kHz sample rate, DMA-driven output</td>
+    <td style="font-size:12px;color:var(--text-muted)">16-bit stereo, 24 kHz sample rate, DMA-driven output</td>
   </tr>
   <tr>
     <td class="ref">U4</td>
     <td class="part">SD Card Module</td>
     <td class="part">MicroSD SPI Breakout</td>
     <td>Soft-SPI</td>
-    <td style="font-size:12px;color:var(--text-muted)">FAT32, tested up to 30&thinsp;GB; software SPI avoids display bus conflict</td>
+    <td style="font-size:12px;color:var(--text-muted)">FAT32, tested up to 30 GB; software SPI avoids display bus conflict</td>
   </tr>
   <tr>
     <td class="ref">U5</td>
     <td class="part">Power Management IC</td>
     <td class="part">IP5306</td>
-    <td>I&sup2;C</td>
-    <td style="font-size:12px;color:var(--text-muted)">5&thinsp;V boost converter with USB-C charge indicator LEDs</td>
+    <td>I²C</td>
+    <td style="font-size:12px;color:var(--text-muted)">5 V boost converter with USB-C charge indicator LEDs</td>
   </tr>
   <tr>
     <td class="ref">U6</td>
     <td class="part">Charge Controller</td>
     <td class="part">TP4056 USB-C Module</td>
-    <td>&mdash;</td>
-    <td style="font-size:12px;color:var(--text-muted)">1&thinsp;A LiPo charge controller, over-current and over-voltage protection</td>
+    <td>—</td>
+    <td style="font-size:12px;color:var(--text-muted)">1 A LiPo charge controller, over-current and over-voltage protection</td>
   </tr>
   <tr>
     <td class="ref">BT1</td>
     <td class="part">Battery</td>
-    <td class="part">LiPo 3.7&thinsp;V cell</td>
-    <td>&mdash;</td>
+    <td class="part">LiPo 3.7 V cell</td>
+    <td>—</td>
     <td style="font-size:12px;color:var(--text-muted)">Rechargeable lithium polymer; capacity sized for portable use</td>
   </tr>
   <tr>
-    <td class="ref">SW1&ndash;8</td>
+    <td class="ref">SW1–8</td>
     <td class="part">Input Buttons</td>
-    <td class="part">Tactile push switches &times;8</td>
+    <td class="part">Tactile push switches ×8</td>
     <td>GPIO pull-up</td>
     <td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + START/SELECT; internal pull-ups, software debounce</td>
   </tr>
   <tr>
-    <td class="ref">C1&ndash;C4</td>
+    <td class="ref">C1–C4</td>
     <td class="part">Decoupling Capacitors</td>
-    <td class="part">100&thinsp;nF + 10&thinsp;&mu;F</td>
-    <td>&mdash;</td>
+    <td class="part">100 nF + 10 μF</td>
+    <td>—</td>
     <td style="font-size:12px;color:var(--text-muted)">Per VDD rail, placed adjacent to MCU power pins</td>
   </tr>
 </tbody>
@@ -383,27 +382,27 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </div>
 
 <!-- ── 03  HARDWARE ARCHITECTURE ───────────────────────── -->
-<div class="section" id="hardware">
+<div class="section" id="hardware" style="position: relative;">
 <div class="section-header">
   <span class="section-num">03</span>
   <h2 class="section-title">Hardware Architecture</h2>
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>Five subsystems are interconnected on perfboard via point-to-point soldered wiring. The hardware SPI bus is reserved exclusively for the display &mdash; CS is tied permanently low, so no other device can share it. The SD card uses a separate set of GPIO pins running software SPI. All subsystems were validated on breadboard before final perfboard assembly.</p>
+  <p>Five subsystems are interconnected on perfboard via point-to-point soldered wiring. The hardware SPI bus is reserved exclusively for the display — CS is tied permanently low, so no other device can share it. The SD card uses a separate set of GPIO pins running software SPI. All subsystems were validated on breadboard before final perfboard assembly.</p>
 </div>
 <table class="comp-table" style="margin-bottom:28px">
 <thead>
   <tr><th>Subsystem</th><th>Component</th><th>Interface</th><th>Key Notes</th></tr>
 </thead>
 <tbody>
-  <tr><td class="part">Microcontroller</td><td class="part">ESP32-WROOM-32E</td><td>&mdash;</td><td style="font-size:12px;color:var(--text-muted)">240&thinsp;MHz dual-core, 4&thinsp;MB Flash, 520&thinsp;kB SRAM</td></tr>
-  <tr><td class="part">Display</td><td class="part">ST7789 1.3&Prime; IPS 240&times;240</td><td>HW SPI @ 27&thinsp;MHz</td><td style="font-size:12px;color:var(--text-muted)">CS tied low (always active); pins defined in TFT_eSPI User_Setup.h</td></tr>
-  <tr><td class="part">Audio DAC</td><td class="part">PCM5102A I2S Module</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">BCK GPIO&thinsp;27 &middot; LRC GPIO&thinsp;32 &middot; DIN GPIO&thinsp;25</td></tr>
-  <tr><td class="part">Storage</td><td class="part">MicroSD Breakout</td><td>Soft-SPI</td><td style="font-size:12px;color:var(--text-muted)">MOSI GPIO&thinsp;17 &middot; MISO GPIO&thinsp;13 &middot; SCK GPIO&thinsp;14 &middot; CS GPIO&thinsp;22</td></tr>
-  <tr><td class="part">User Input</td><td class="part">8&times; Tactile Buttons</td><td>GPIO Pull-up</td><td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + Start/Select &mdash; internal pull-ups enabled</td></tr>
-  <tr><td class="part">Power</td><td class="part">LiPo 3.7&thinsp;V + IP5306</td><td>&mdash;</td><td style="font-size:12px;color:var(--text-muted)">USB-C charge via TP4056 &middot; 5&thinsp;V boost &middot; 3.3&thinsp;V regulated logic</td></tr>
-  <tr><td class="part">Decoupling</td><td class="part">100&thinsp;nF + 10&thinsp;&mu;F</td><td>&mdash;</td><td style="font-size:12px;color:var(--text-muted)">Per VDD rail, placed adjacent to MCU power pins</td></tr>
+  <tr><td class="part">Microcontroller</td><td class="part">ESP32-WROOM-32E</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">240 MHz dual-core, 4 MB Flash, 520 kB SRAM</td></tr>
+  <tr><td class="part">Display</td><td class="part">ST7789 1.3″ IPS 240×240</td><td>HW SPI @ 27 MHz</td><td style="font-size:12px;color:var(--text-muted)">CS tied low (always active); pins defined in TFT_eSPI User_Setup.h</td></tr>
+  <tr><td class="part">Audio DAC</td><td class="part">PCM5102A I2S Module</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">BCK GPIO 27 · LRC GPIO 32 · DIN GPIO 25</td></tr>
+  <tr><td class="part">Storage</td><td class="part">MicroSD Breakout</td><td>Soft-SPI</td><td style="font-size:12px;color:var(--text-muted)">MOSI GPIO 17 · MISO GPIO 13 · SCK GPIO 14 · CS GPIO 22</td></tr>
+  <tr><td class="part">User Input</td><td class="part">8× Tactile Buttons</td><td>GPIO Pull-up</td><td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + Start/Select — internal pull-ups enabled</td></tr>
+  <tr><td class="part">Power</td><td class="part">LiPo 3.7 V + IP5306</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">USB-C charge via TP4056 · 5 V boost · 3.3 V regulated logic</td></tr>
+  <tr><td class="part">Decoupling</td><td class="part">100 nF + 10 μF</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">Per VDD rail, placed adjacent to MCU power pins</td></tr>
 </tbody>
 </table>
 <div class="two-col">
@@ -413,7 +412,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
     <div class="spec-row"><span class="spec-key">TFT SCLK</span><span class="spec-val">GPIO 18</span></div>
     <div class="spec-row"><span class="spec-key">TFT DC</span><span class="spec-val">GPIO 5</span></div>
     <div class="spec-row"><span class="spec-key">TFT RST</span><span class="spec-val">GPIO 19</span></div>
-    <div class="spec-row"><span class="spec-key">TFT CS</span><span class="spec-val warn">&ndash;1 (always active)</span></div>
+    <div class="spec-row"><span class="spec-key">TFT CS</span><span class="spec-val warn">–1 (always active)</span></div>
     <div class="spec-row"><span class="spec-key">I2S BCK (Bit Clock)</span><span class="spec-val">GPIO 27</span></div>
     <div class="spec-row"><span class="spec-key">I2S LRC (Word Select)</span><span class="spec-val">GPIO 32</span></div>
     <div class="spec-row"><span class="spec-key">I2S DIN (Data Out)</span><span class="spec-val">GPIO 25</span></div>
@@ -432,49 +431,49 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </div>
 
 <!-- ── 04  FIRMWARE ─────────────────────────────────────── -->
-<div class="section" id="firmware">
+<div class="section" id="firmware" style="position: relative;">
 <div class="section-header">
   <span class="section-num">04</span>
   <h2 class="section-title">Firmware</h2>
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>Written in <strong>C++ using the Arduino-ESP32 framework</strong>. The NES emulation engine handles CPU, graphics, and audio synthesis in a coordinated loop. The I2S audio DMA task runs at elevated FreeRTOS priority to prevent dropouts, while a dedicated video task on Core&thinsp;0 handles frame conversion and SPI push.</p>
+  <p>Written in <strong>C++ using the Arduino-ESP32 framework</strong>. The NES emulation engine handles CPU, graphics, and audio synthesis in a coordinated loop. The I2S audio DMA task runs at elevated FreeRTOS priority to prevent dropouts, while a dedicated video task on Core 0 handles frame conversion and SPI push.</p>
 </div>
 <div class="timeline">
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-step">NES Emulation Core</div>
     <div class="timeline-heading">Full 6502 CPU + PPU graphics with cycle-accurate timing</div>
-    <div class="timeline-body">Implements a complete 6502 CPU emulator with cycle-accurate timing and interrupt handling (NMI, IRQ). The PPU renders background tiles and sprites to a 256&times;240 framebuffer using the NES 64-colour palette. ROM data is loaded from MicroSD into SPI Flash at address <code>0x00300000</code> and memory-mapped via <code>spi_flash_mmap()</code> &mdash; the emulator reads ROM as a <code>const uint8_t*</code> pointer without consuming DRAM.</div>
+    <div class="timeline-body">Implements a complete 6502 CPU emulator with cycle-accurate timing and interrupt handling (NMI, IRQ). The PPU renders background tiles and sprites to a 256×240 framebuffer using the NES 64-colour palette. ROM data is loaded from MicroSD into SPI Flash at address <code>0x00300000</code> and memory-mapped via <code>spi_flash_mmap()</code> — the emulator reads ROM as a <code>const uint8_t*</code> pointer without consuming DRAM.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Display Subsystem</div>
     <div class="timeline-heading">ST7789 IPS over hardware SPI with double-buffer frame push</div>
-    <div class="timeline-body">The ST7789 display is driven at 27&thinsp;MHz SPI using the <strong>TFT_eSPI</strong> library. A video task running on Core&thinsp;0 converts the PPU&rsquo;s 8-bit palette indices to 16-bit RGB565 colour, then pushes each frame via <code>tft.pushImage()</code>. A FreeRTOS queue syncs frames between the emulation loop and the display task. <code>tft.setSwapBytes(true)</code> corrects the byte-order expected by the ST7789 panel. Backlight brightness is controlled via the LEDC PWM peripheral.</div>
+    <div class="timeline-body">The ST7789 display is driven at 27 MHz SPI using the <strong>TFT_eSPI</strong> library. A video task running on Core 0 converts the PPU’s 8-bit palette indices to 16-bit RGB565 colour, then pushes each frame via <code>tft.pushImage()</code>. A FreeRTOS queue syncs frames between the emulation loop and the display task. <code>tft.setSwapBytes(true)</code> corrects the byte-order expected by the ST7789 panel. Backlight brightness is controlled via the LEDC PWM peripheral.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Audio Subsystem</div>
-    <div class="timeline-heading">PCM5102A I2S DAC &mdash; 16-bit stereo at 24&thinsp;kHz with DMA ring buffer</div>
-    <div class="timeline-body">The PCM5102A outputs 16-bit stereo audio at 24&thinsp;kHz (<code>DEFAULT_SAMPLERATE 24000</code>). The NES APU synthesises square, triangle, noise, and DMC channels and writes samples into an I2S DMA ring buffer (6 buffers &times; <code>DEFAULT_FRAGSIZE</code> samples). The audio task runs at higher FreeRTOS priority than the PPU loop to ensure the buffer never runs dry under heavy emulation load.</div>
+    <div class="timeline-heading">PCM5102A I2S DAC — 16-bit stereo at 24 kHz with DMA ring buffer</div>
+    <div class="timeline-body">The PCM5102A outputs 16-bit stereo audio at 24 kHz (<code>DEFAULT_SAMPLERATE 24000</code>). The NES APU synthesises square, triangle, noise, and DMC channels and writes samples into an I2S DMA ring buffer (6 buffers × <code>DEFAULT_FRAGSIZE</code> samples). The audio task runs at higher FreeRTOS priority than the PPU loop to ensure the buffer never runs dry under heavy emulation load.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
     <div class="timeline-step red">Input Handling</div>
     <div class="timeline-heading">8 GPIO buttons polled per frame with software debouncing</div>
-    <div class="timeline-body">All eight GPIO inputs use internal pull-up resistors. Buttons are polled once per emulation frame (~20&thinsp;ms at 50&thinsp;Hz PAL). Debouncing is applied by requiring consistent reads across consecutive frames. The result maps directly to the standard NES controller byte format: A, B, SELECT, START, UP, DOWN, LEFT, RIGHT (bits 0&ndash;7).</div>
+    <div class="timeline-body">All eight GPIO inputs use internal pull-up resistors. Buttons are polled once per emulation frame (~20 ms at 50 Hz PAL). Debouncing is applied by requiring consistent reads across consecutive frames. The result maps directly to the standard NES controller byte format: A, B, SELECT, START, UP, DOWN, LEFT, RIGHT (bits 0–7).</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Cartridge Mapper Support</div>
-    <div class="timeline-heading">Mappers 0&ndash;5 plus VRC variants &mdash; covers the vast majority of NES titles</div>
-    <div class="timeline-body">The mapper number is read from the iNES ROM header and the correct interface is loaded dynamically via <code>mmc_create()</code>. Supported: <code>Mapper 0</code> (NROM &mdash; Donkey Kong, Super Mario Bros.), <code>Mapper 1</code> (MMC1 &mdash; Mega Man 2, Metroid, Zelda), <code>Mapper 2</code> (UNROM), <code>Mapper 3</code> (CNROM), <code>Mapper 4</code> (MMC3), <code>Mapper 5</code> (MMC5), plus several VRC variants. Maximum ROM size: 512&thinsp;kB via SPI flash memory mapping.</div>
+    <div class="timeline-heading">Mappers 0–5 plus VRC variants — covers the vast majority of NES titles</div>
+    <div class="timeline-body">The mapper number is read from the iNES ROM header and the correct interface is loaded dynamically via <code>mmc_create()</code>. Supported: <code>Mapper 0</code> (NROM — Donkey Kong, Super Mario Bros.), <code>Mapper 1</code> (MMC1 — Mega Man 2, Metroid, Zelda), <code>Mapper 2</code> (UNROM), <code>Mapper 3</code> (CNROM), <code>Mapper 4</code> (MMC3), <code>Mapper 5</code> (MMC5), plus several VRC variants. Maximum ROM size: 512 kB via SPI flash memory mapping.</div>
   </div>
 </div>
 <div class="code-block">
-<pre><span class="cm">// GPIO &amp; I2S Pin Defines &mdash; NesCat.ino</span>
+<pre><span class="cm">// GPIO &amp; I2S Pin Defines — NesCat.ino</span>
 <span class="kw">#define</span> <span class="def">PIN_UP</span>      2    <span class="cm">// D-Pad Up</span>
 <span class="kw">#define</span> <span class="def">PIN_DOWN</span>   15    <span class="cm">// D-Pad Down</span>
 <span class="kw">#define</span> <span class="def">PIN_LEFT</span>   33    <span class="cm">// D-Pad Left</span>
@@ -486,7 +485,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 
 <span class="kw">#define</span> <span class="def">I2S_BCK_IO</span> 27    <span class="cm">// Bit Clock</span>
 <span class="kw">#define</span> <span class="def">I2S_WS_IO</span>  32    <span class="cm">// Word Select (LRC)</span>
-<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out &rarr; PCM5102A</span>
+<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out → PCM5102A</span>
 
 <span class="kw">#define</span> <span class="def">SOFTSD_MOSI_PIN</span> 17  <span class="cm">// SD on software SPI</span>
 <span class="kw">#define</span> <span class="def">SOFTSD_MISO_PIN</span> 13
@@ -496,32 +495,32 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </div>
 
 <!-- ── 05  DISPLAY LIBRARY SETUP ────────────────────────── -->
-<div class="section" id="display-setup">
+<div class="section" id="display-setup" style="position: relative;">
 <div class="section-header">
   <span class="section-num">05</span>
   <h2 class="section-title">Display Library Setup</h2>
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>The TFT_eSPI library does not auto-detect which display is connected. Before the firmware will compile correctly, you need to edit a configuration file inside the Arduino libraries folder on your machine &mdash; this is not part of the project code. Without this step, the library targets the wrong driver and the screen shows nothing or corrupted output.</p>
+  <p>The TFT_eSPI library does not auto-detect which display is connected. Before the firmware will compile correctly, you need to edit a configuration file inside the Arduino libraries folder on your machine — this is not part of the project code. Without this step, the library targets the wrong driver and the screen shows nothing or corrupted output.</p>
 </div>
 <div class="decision-list">
   <div class="decision red">
     <div class="decision-title">Why This Step Is Critical</div>
-    <div class="decision-body">TFT_eSPI ships with a <code>User_Setup.h</code> file that determines which display driver is compiled, along with the SPI pin assignments and screen resolution. The default targets an ILI9341 240&times;320 display &mdash; not the ST7789 240&times;240 used here. Flashing without editing this file results in a blank or garbled screen. The change lives in your local Arduino installation, not inside the project sketch folder.</div>
+    <div class="decision-body">TFT_eSPI ships with a <code>User_Setup.h</code> file that determines which display driver is compiled, along with the SPI pin assignments and screen resolution. The default targets an ILI9341 240×320 display — not the ST7789 240×240 used here. Flashing without editing this file results in a blank or garbled screen. The change lives in your local Arduino installation, not inside the project sketch folder.</div>
   </div>
   <div class="decision amber">
     <div class="decision-title">How to Apply the Change</div>
     <div class="decision-body">
       Open the TFT_eSPI configuration file in your Arduino libraries folder:<br><br>
       <code>Arduino\libraries\TFT_eSPI\User_Setup.h</code><br><br>
-      <strong>Comment out all existing content</strong> in the file, then paste in the configuration shown below and save. The next compile will target the ST7789 at 240&times;240 with the correct pins.<br><br>
-      <strong>Note on TFT_CS &ndash;1:</strong> setting CS to &ndash;1 means chip select is permanently active &mdash; the display is the only device on that SPI bus, so no switching is needed. The SPI frequency is set to 27&thinsp;MHz, which is reliable for ESP32 with short perfboard wiring.
+      <strong>Comment out all existing content</strong> in the file, then paste in the configuration shown below and save. The next compile will target the ST7789 at 240×240 with the correct pins.<br><br>
+      <strong>Note on TFT_CS –1:</strong> setting CS to –1 means chip select is permanently active — the display is the only device on that SPI bus, so no switching is needed. The SPI frequency is set to 27 MHz, which is reliable for ESP32 with short perfboard wiring.
     </div>
   </div>
 </div>
 <div class="code-block" style="margin-top:20px">
-<pre><span class="cm">// TFT_eSPI &mdash; User_Setup.h</span>
+<pre><span class="cm">// TFT_eSPI — User_Setup.h</span>
 <span class="cm">// File location: Arduino\libraries\TFT_eSPI\User_Setup.h</span>
 <span class="cm">// Comment out ALL existing content in this file, then add:</span>
 
@@ -536,7 +535,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 <span class="kw">#define</span> <span class="def">TFT_RST</span>    19       <span class="cm">// Reset</span>
 <span class="kw">#define</span> <span class="def">TFT_CS</span>     -1       <span class="cm">// CS always active (display-only SPI bus)</span>
 
-<span class="kw">#define</span> <span class="def">SPI_FREQUENCY</span>  27000000   <span class="cm">// 27 MHz &mdash; reliable for perfboard wiring</span>
+<span class="kw">#define</span> <span class="def">SPI_FREQUENCY</span>  27000000   <span class="cm">// 27 MHz — reliable for perfboard wiring</span>
 
 <span class="kw">#define</span> <span class="def">LOAD_GLCD</span>    <span class="cm">// Font 1</span>
 <span class="kw">#define</span> <span class="def">LOAD_FONT2</span>   <span class="cm">// Font 2 (small)</span>
@@ -549,7 +548,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </div>
 
 <!-- ── 06  BUILD PROGRESSION ────────────────────────────── -->
-<div class="section" id="build">
+<div class="section" id="build" style="position: relative;">
 <div class="section-header">
   <span class="section-num">06</span>
   <h2 class="section-title">Build Progression</h2>
@@ -561,63 +560,63 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 <div class="timeline">
   <div class="timeline-item">
     <div class="timeline-dot"></div>
-    <div class="timeline-step">Phase 1 &mdash; Component Sourcing</div>
+    <div class="timeline-step">Phase 1 — Component Sourcing</div>
     <div class="timeline-heading">ST7789 display, PCM5102A audio module, MicroSD breakout, tactile buttons</div>
-    <div class="timeline-body">Sourced all modules independently: ST7789 1.3&Prime; IPS TFT, PCM5102A I2S DAC breakout, MicroSD breakout, 8&times; tactile push buttons, IP5306 power bank IC, TP4056 USB-C charge module, and a LiPo cell. Each component was bench-tested for correct voltage and pin continuity before integration.</div>
+    <div class="timeline-body">Sourced all modules independently: ST7789 1.3″ IPS TFT, PCM5102A I2S DAC breakout, MicroSD breakout, 8× tactile push buttons, IP5306 power bank IC, TP4056 USB-C charge module, and a LiPo cell. Each component was bench-tested for correct voltage and pin continuity before integration.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
-    <div class="timeline-step blue">Phase 2 &mdash; Breadboard Prototype</div>
-    <div class="timeline-heading">First boot &mdash; display active, SD card detected, all subsystems validated</div>
-    <div class="timeline-body">Built the first prototype on breadboard with all five subsystems. Achieved first boot with the display showing test output and the SD card detected at 30&thinsp;GB. Audio confirmed at 24&thinsp;kHz via PCM5102A. Button GPIO reads verified via serial monitor. The SPI bus conflict between display and SD was identified and resolved at this stage by moving SD to software SPI.</div>
+    <div class="timeline-step blue">Phase 2 — Breadboard Prototype</div>
+    <div class="timeline-heading">First boot — display active, SD card detected, all subsystems validated</div>
+    <div class="timeline-body">Built the first prototype on breadboard with all five subsystems. Achieved first boot with the display showing test output and the SD card detected at 30 GB. Audio confirmed at 24 kHz via PCM5102A. Button GPIO reads verified via serial monitor. The SPI bus conflict between display and SD was identified and resolved at this stage by moving SD to software SPI.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
-    <div class="timeline-step amber">Phase 3 &mdash; Perfboard Assembly &amp; Soldering</div>
+    <div class="timeline-step amber">Phase 3 — Perfboard Assembly &amp; Soldering</div>
     <div class="timeline-heading">Hand-soldered front and back boards with colour-coded wiring harness</div>
     <div class="timeline-body">Components transferred from breadboard to perfboard using a temperature-controlled soldering station with paste flux. The front panel board carries the ST7789 display, D-pad, and A/B/Start/Select buttons. The back board carries the ESP32, PCM5102A, MicroSD breakout, and IP5306 power IC. A colour-coded wiring harness connects the two boards for easy debugging.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
-    <div class="timeline-step red">Phase 4 &mdash; Power Integration &amp; Final Testing</div>
-    <div class="timeline-heading">LiPo cell integrated with USB-C charge, 5&thinsp;V boost, and 3.3&thinsp;V logic rail</div>
-    <div class="timeline-body">Integrated the LiPo 3.7&thinsp;V cell with TP4056 USB-C charge IC and IP5306 5&thinsp;V boost converter. Logic regulated to 3.3&thinsp;V across all digital subsystems. Full NES ROM loading from MicroSD confirmed working. Audio playback and display rendering verified across multiple games. With all subsystems running reliably, the prototype was complete.</div>
+    <div class="timeline-step red">Phase 4 — Power Integration &amp; Final Testing</div>
+    <div class="timeline-heading">LiPo cell integrated with USB-C charge, 5 V boost, and 3.3 V logic rail</div>
+    <div class="timeline-body">Integrated the LiPo 3.7 V cell with TP4056 USB-C charge IC and IP5306 5 V boost converter. Logic regulated to 3.3 V across all digital subsystems. Full NES ROM loading from MicroSD confirmed working. Audio playback and display rendering verified across multiple games. With all subsystems running reliably, the prototype was complete.</div>
   </div>
 </div>
 <div class="gallery" style="margin-top:24px">
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260319_162646.jpg" alt="Early component work" style="aspect-ratio:16/9;object-fit:cover">
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260319_162646.jpg" alt="Early component work" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
     <div class="gallery-caption">Early component layout and wiring</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260321_140704.jpg" alt="Perfboard component placement" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Perfboard &mdash; component placement</div>
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260321_140704.jpg" alt="Perfboard component placement" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Perfboard — component placement</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260321_140722.jpg" alt="Soldering in progress" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Soldering in progress &mdash; back board</div>
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260321_140722.jpg" alt="Soldering in progress" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Soldering in progress — back board</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260321_140728.jpg" alt="Wiring detail" style="aspect-ratio:16/9;object-fit:cover">
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260321_140728.jpg" alt="Wiring detail" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
     <div class="gallery-caption">Point-to-point wiring detail</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260322_195953.jpg" alt="Assembly progress" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Assembly progress &mdash; modules mounted</div>
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260322_195953.jpg" alt="Assembly progress" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Assembly progress — modules mounted</div>
   </div>
-  <div class="gallery-item">
-    <img src="IMAGES/NES%20emulator/20260322_200012.jpg" alt="Wiring harness" style="aspect-ratio:16/9;object-fit:cover">
+  <div class="gallery-item" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260322_200012.jpg" alt="Wiring harness" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
     <div class="gallery-caption">Colour-coded wiring harness</div>
   </div>
-  <div class="gallery-item wide">
-    <img src="IMAGES/NES%20emulator/20260323_212754.jpg" alt="Soldering workstation" style="aspect-ratio:16/9;object-fit:cover">
-    <div class="gallery-caption">Soldering workstation &mdash; temperature-controlled iron and paste flux</div>
+  <div class="gallery-item wide" draggable="true">
+    <img src="IMAGES/NES%20emulator/20260323_212754.jpg" alt="Soldering workstation" style="aspect-ratio: 16 / 9; object-fit: cover; cursor: zoom-in;">
+    <div class="gallery-caption">Soldering workstation — temperature-controlled iron and paste flux</div>
   </div>
 </div>
 </div>
 
 <!-- ── 07  ENGINEERING CHALLENGES ──────────────────────── -->
-<div class="section" id="challenges">
+<div class="section" id="challenges" style="position: relative;">
 <div class="section-header">
   <span class="section-num">07</span>
   <h2 class="section-title">Engineering Challenges</h2>
@@ -625,8 +624,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">SPI Bus Conflict &mdash; Display vs MicroSD</div>
-    <div class="decision-body">Both the ST7789 display and MicroSD module use SPI. With <code>TFT_CS</code> set to &ndash;1, the display holds the hardware SPI bus permanently. Moving the SD card to <strong>software SPI (bit-banged)</strong> on dedicated pins (<code>MOSI&thinsp;17 &middot; MISO&thinsp;13 &middot; SCK&thinsp;14</code>) freed the hardware bus exclusively for the display at 27&thinsp;MHz, with no arbitration overhead or frame rate penalty.</div>
+    <div class="decision-title">SPI Bus Conflict — Display vs MicroSD</div>
+    <div class="decision-body">Both the ST7789 display and MicroSD module use SPI. With <code>TFT_CS</code> set to –1, the display holds the hardware SPI bus permanently. Moving the SD card to <strong>software SPI (bit-banged)</strong> on dedicated pins (<code>MOSI 17 · MISO 13 · SCK 14</code>) freed the hardware bus exclusively for the display at 27 MHz, with no arbitration overhead or frame rate penalty.</div>
   </div>
   <div class="decision blue">
     <div class="decision-title">I2S Audio Dropouts Under Heavy CPU Load</div>
@@ -634,17 +633,17 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </div>
   <div class="decision amber">
     <div class="decision-title">GPIO Input Noise on Floating Button Lines</div>
-    <div class="decision-body">Floating GPIO inputs caused spurious button presses during testing. Fixed by enabling <strong>internal GPIO pull-up resistors</strong> and debouncing button reads across consecutive emulation frames &mdash; no external hardware required, and no interrupt-driven edge detection needed.</div>
+    <div class="decision-body">Floating GPIO inputs caused spurious button presses during testing. Fixed by enabling <strong>internal GPIO pull-up resistors</strong> and debouncing button reads across consecutive emulation frames — no external hardware required, and no interrupt-driven edge detection needed.</div>
   </div>
   <div class="decision red">
     <div class="decision-title">ROM Size Exceeds Available DRAM</div>
-    <div class="decision-body">ROMs larger than available DRAM cannot be copied into RAM. Solved using the <code>spi_flash_mmap</code> API to <strong>memory-map ROM data directly from SPI flash</strong> starting at address <code>0x00300000</code>. The emulator accesses ROM as a <code>const uint8_t*</code> pointer without occupying any DRAM, enabling support for ROMs up to 512&thinsp;kB.</div>
+    <div class="decision-body">ROMs larger than available DRAM cannot be copied into RAM. Solved using the <code>spi_flash_mmap</code> API to <strong>memory-map ROM data directly from SPI flash</strong> starting at address <code>0x00300000</code>. The emulator accesses ROM as a <code>const uint8_t*</code> pointer without occupying any DRAM, enabling support for ROMs up to 512 kB.</div>
   </div>
 </div>
 </div>
 
 <!-- ── 08  PCB & NEXT STEPS ─────────────────────────────── -->
-<div class="section" id="pcb">
+<div class="section" id="pcb" style="position: relative;">
 <div class="section-header">
   <span class="section-num">08</span>
   <h2 class="section-title">PCB &amp; Next Steps</h2>
@@ -655,44 +654,44 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">Custom PCB &mdash; KiCAD &middot; In Progress</div>
-    <div class="decision-body">A 2-layer board with a continuous copper pour ground reference and dedicated 3.3&thinsp;V and 5&thinsp;V power polygons. Display and button footprints face the top; ESP32 and audio module on the back. Consolidates the two-board perfboard stack into a single rigid PCB &mdash; eliminating all point-to-point wiring and improving mechanical reliability.</div>
+    <div class="decision-title">Custom PCB — KiCAD · In Progress</div>
+    <div class="decision-body">A 2-layer board with a continuous copper pour ground reference and dedicated 3.3 V and 5 V power polygons. Display and button footprints face the top; ESP32 and audio module on the back. Consolidates the two-board perfboard stack into a single rigid PCB — eliminating all point-to-point wiring and improving mechanical reliability.</div>
   </div>
   <div class="decision blue">
-    <div class="decision-title">3D-Printed Enclosure &mdash; Fusion 360</div>
+    <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
     <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint. Features a screen cutout, button holes aligned to D-pad and action buttons, USB-C port access, and a speaker outlet. Printed in PLA on a Creality Ender-3 S1 Pro.</div>
   </div>
   <div class="decision amber">
     <div class="decision-title">Speaker &amp; Hardware Volume Control</div>
-    <div class="decision-body">Add a <strong>0.5&thinsp;W 8&Omega; speaker</strong> for built-in audio and a hardware volume potentiometer on an analog GPIO pin. The PCM5102A DAC supports hardware volume attenuation via its control lines, with software volume as a secondary option.</div>
+    <div class="decision-body">Add a <strong>0.5 W 8Ω speaker</strong> for built-in audio and a hardware volume potentiometer on an analog GPIO pin. The PCM5102A DAC supports hardware volume attenuation via its control lines, with software volume as a secondary option.</div>
   </div>
   <div class="decision">
     <div class="decision-title">ROM Selection Menu UI</div>
-    <div class="decision-body">Build an on-device ROM browser rendered on the ST7789 display &mdash; reads available <code>.nes</code> files from MicroSD and shows a scrollable list. D-pad to navigate, A to launch. Replaces the current single hardcoded ROM filename in firmware.</div>
+    <div class="decision-body">Build an on-device ROM browser rendered on the ST7789 display — reads available <code>.nes</code> files from MicroSD and shows a scrollable list. D-pad to navigate, A to launch. Replaces the current single hardcoded ROM filename in firmware.</div>
   </div>
 </div>
 <div class="pinout-preview">
-  <p>View implementation details &mdash; display config, pin defines, ROM loading, and audio setup</p>
-  <button class="notes-btn" onclick="document.getElementById('notes-modal').classList.add('open')" style="font-size:12px;padding:8px 18px">&#128203; View Code Notes</button>
+  <p>View implementation details — display config, pin defines, ROM loading, and audio setup</p>
+  <button class="notes-btn" onclick="document.getElementById('notes-modal').classList.add('open')" style="font-size:12px;padding:8px 18px">📋 View Code Notes</button>
 </div>
 </div>
 
 </div><!-- /content -->
 
 <div class="footer">
-  <div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;&middot;&nbsp; Perth, Western Australia<br>RetroDS &mdash; ESP32 NES Handheld Console &nbsp;&middot;&nbsp; Arduino Framework &nbsp;&middot;&nbsp; Feb&ndash;Mar 2026</div>
-  <div class="footer-right">RetroDS Handheld<br>Prototype v1.0 &nbsp;&middot;&nbsp; 2026</div>
+  <div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>RetroDS — ESP32 NES Handheld Console &nbsp;·&nbsp; Arduino Framework &nbsp;·&nbsp; Feb–Mar 2026</div>
+  <div class="footer-right">RetroDS Handheld<br>Prototype v1.0 &nbsp;·&nbsp; 2026</div>
 </div>
 
 <!-- Lightbox -->
-<div id="lb"><button id="lb-close">&#10005;</button><img id="lb-img" src="" alt=""></div>
+<div id="lb"><button id="lb-close">✕</button><img id="lb-img" src="" alt=""></div>
 
 <!-- Code Notes Modal -->
 <div id="notes-modal">
   <div id="notes-inner">
     <div id="notes-header">
-      <span>CODE NOTES &mdash; RetroDS</span>
-      <button id="notes-close">&#10005;</button>
+      <span>CODE NOTES — RetroDS</span>
+      <button id="notes-close">✕</button>
     </div>
     <div id="notes-tabs">
       <button class="notes-tab active" data-tab="display">Display Config</button>
@@ -746,12 +745,12 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 <span class="kw">#define</span> <span class="def">PIN_START</span>  35
 <span class="kw">#define</span> <span class="def">PIN_SELECT</span>  4
 
-<span class="cm">// I2S Audio &mdash; PCM5102A</span>
+<span class="cm">// I2S Audio — PCM5102A</span>
 <span class="kw">#define</span> <span class="def">I2S_BCK_IO</span> 27    <span class="cm">// Bit Clock</span>
 <span class="kw">#define</span> <span class="def">I2S_WS_IO</span>  32    <span class="cm">// Word Select (LRC)</span>
 <span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out</span>
 
-<span class="cm">// MicroSD &mdash; Software SPI</span>
+<span class="cm">// MicroSD — Software SPI</span>
 <span class="kw">#define</span> <span class="def">SOFTSD_MOSI_PIN</span> 17
 <span class="kw">#define</span> <span class="def">SOFTSD_MISO_PIN</span> 13
 <span class="kw">#define</span> <span class="def">SOFTSD_SCK_PIN</span>  14
@@ -761,7 +760,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 
       <!-- Tab: ROM Loading -->
       <div class="notes-pane" id="tab-rom">
-        <h3>ROM Loading &mdash; SPI Flash Memory Mapping</h3>
+        <h3>ROM Loading — SPI Flash Memory Mapping</h3>
         <p>ROM is loaded from MicroSD into SPI flash at <span class="inline-code">0x00300000</span>, then memory-mapped. The emulator accesses ROM data as a normal pointer without using any DRAM.</p>
         <div class="code-block">
 <pre><span class="kw">#define</span> <span class="def">ROM_FLASH_ADDR</span>   0x00300000
@@ -781,14 +780,14 @@ esp_err_t err = spi_flash_mmap(
 
 <span class="cm">// ROM now accessible as:</span>
 <span class="cm">// const uint8_t* rom = (const uint8_t*)romPtr;</span>
-<span class="cm">// No DRAM consumed &mdash; reads directly from flash mapping</span></pre>
+<span class="cm">// No DRAM consumed — reads directly from flash mapping</span></pre>
         </div>
       </div>
 
       <!-- Tab: Audio Setup -->
       <div class="notes-pane" id="tab-audio">
         <h3>I2S Audio Configuration</h3>
-        <p>I2S driver config for the PCM5102A DAC. 16-bit stereo at 24&thinsp;kHz, master TX mode. DMA ring buffer ensures smooth audio independent of CPU load.</p>
+        <p>I2S driver config for the PCM5102A DAC. 16-bit stereo at 24 kHz, master TX mode. DMA ring buffer ensures smooth audio independent of CPU load.</p>
         <div class="code-block">
 <pre><span class="kw">#define</span> <span class="def">DEFAULT_SAMPLERATE</span>  24000
 <span class="kw">#define</span> <span class="def">DEFAULT_FRAGSIZE</span>    240   <span class="cm">// Samples per DMA buffer</span>
@@ -1078,6 +1077,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   const EDIT_PASS = 'morenavaa321';
   document.addEventListener('keydown', e => { if (e.ctrlKey && e.shiftKey && e.key === 'E') { e.preventDefault(); if (editMode) { activateEditMode(); return; } const pw = prompt('Enter password to enable edit mode:'); if (pw === EDIT_PASS) activateEditMode(); } });
 })();
-</script>
-</body>
-</html>
+</script><div style="display: flex; position: fixed; bottom: 24px; right: 24px; z-index: 9000; gap: 8px; align-items: center; flex-wrap: wrap;"><button style="background: rgba(10, 14, 26, 0.95); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 10px 18px; font-family: &quot;DM Mono&quot;, monospace; font-size: 12px; cursor: pointer; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 16px; transition: background 0.2s; color: rgb(139, 155, 184);">↩ Undo</button><button disabled="" style="color: rgb(255, 255, 255); border: 1px solid rgb(22, 163, 74); border-radius: 50px; padding: 10px 18px; font-family: &quot;DM Mono&quot;, monospace; font-size: 12px; cursor: pointer; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 16px; transition: background 0.2s; background: rgb(22, 163, 74);">Saving…</button><button style="color: rgb(255, 255, 255); border: 1px solid rgba(37, 99, 235, 0.5); border-radius: 50px; padding: 10px 18px; font-family: &quot;DM Mono&quot;, monospace; font-size: 12px; cursor: pointer; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 16px; transition: background 0.2s; background: rgba(37, 99, 235, 0.25);">⬇ Export</button><button style="background: rgba(10, 14, 26, 0.95); color: rgb(74, 222, 128); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 10px 18px; font-family: &quot;DM Mono&quot;, monospace; font-size: 12px; cursor: pointer; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 16px; transition: background 0.2s;">● Connected</button></div><div style="display: none; position: fixed; bottom: 70px; right: 24px; z-index: 9001; background: rgb(22, 163, 74); color: rgb(255, 255, 255); padding: 6px 14px; border-radius: 6px; font-family: &quot;DM Mono&quot;, monospace; font-size: 11px; pointer-events: none;">✓ Saved!</div><div style="display: none; position: fixed; background: rgba(37, 99, 235, 0.92); color: rgb(255, 255, 255); font-family: &quot;DM Mono&quot;, monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; pointer-events: none; z-index: 9500; white-space: nowrap;">Click to swap image</div>
+
+
+</body></html>
