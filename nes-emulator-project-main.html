@@ -867,6 +867,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
 // ── Edit Mode ─────────────────────────────────────────────
 (function () {
   const toolbar = document.createElement('div');
+  toolbar.id = 'eb-toolbar';
   toolbar.style.cssText = 'display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;flex-wrap:wrap;';
   const bs = 'background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:10px 18px;font-family:\'DM Mono\',monospace;font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;';
   const btnUndo = document.createElement('button'); btnUndo.textContent = '↩ Undo'; btnUndo.style.cssText = bs + 'color:#8b9bb8;'; btnUndo.disabled = true;
@@ -878,6 +879,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   toolbar.append(btnUndo, btnSave, btnExport, btnConnect, btnExit);
   document.body.appendChild(toolbar);
   const saveFlash = document.createElement('div');
+  saveFlash.id = 'eb-save-flash';
   saveFlash.style.cssText = 'display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'DM Mono\',monospace;font-size:11px;pointer-events:none;';
   saveFlash.textContent = '✓ Saved!'; document.body.appendChild(saveFlash);
   const imgTip = document.createElement('div');
@@ -894,7 +896,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   const PAT_KEY = 'gh_pat';
   function cleanSnap() { const clone = document.querySelector('.content').cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn').forEach(el => el.remove()); clone.querySelectorAll('[data-eb-init],[data-txt],[data-ies],[data-drag-setup]').forEach(el => { el.removeAttribute('data-eb-init'); el.removeAttribute('data-txt'); el.removeAttribute('data-ies'); el.removeAttribute('data-drag-setup'); }); return clone.innerHTML; }
   async function blobsToBase64() { for (const img of [...document.querySelectorAll('img[src^="blob:"]')]) { try { const c = document.createElement('canvas'); c.width = img.naturalWidth || 300; c.height = img.naturalHeight || 200; c.getContext('2d').drawImage(img, 0, 0); img.src = c.toDataURL(); } catch (e) { } } }
-  function fullPageClean() { const clone = document.documentElement.cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn,#edit-toolbar,#save-flash,#eb-hint').forEach(el => el.remove()); ['data-eb-init', 'data-txt', 'data-ies', 'data-drag-setup'].forEach(a => clone.querySelectorAll('[' + a + ']').forEach(el => el.removeAttribute(a))); clone.querySelector('body').classList.remove('edit-mode'); return '<!DOCTYPE html>\n' + clone.outerHTML; }
+  function fullPageClean() { const clone = document.documentElement.cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn,#eb-toolbar,#eb-save-flash,#eb-hint').forEach(el => el.remove()); ['data-eb-init', 'data-txt', 'data-ies', 'data-drag-setup'].forEach(a => clone.querySelectorAll('[' + a + ']').forEach(el => el.removeAttribute(a))); clone.querySelector('body').classList.remove('edit-mode'); return '<!DOCTYPE html>\n' + clone.outerHTML; }
   const undoStack = [];
   function snapshot() { undoStack.push(cleanSnap()); if (undoStack.length > 50) undoStack.shift(); btnUndo.disabled = false; }
   btnUndo.addEventListener('click', () => { if (!undoStack.length) return; document.querySelector('.content').innerHTML = undoStack.pop(); if (!undoStack.length) btnUndo.disabled = true; document.querySelectorAll('.gallery-item').forEach(initGalleryItem); document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock); attachImgSwap(); enableText(); });
