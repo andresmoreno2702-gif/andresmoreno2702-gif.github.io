@@ -457,6 +457,7 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
     clone.querySelectorAll('[data-etxt]').forEach(el=>{el.contentEditable='false';el.removeAttribute('data-etxt');});
     clone.querySelectorAll('[data-handle-init]').forEach(el=>el.removeAttribute('data-handle-init'));
     clone.querySelector('body').classList.remove('edit-mode');
+    const g=clone.getElementById('projectsGrid');if(g)g.innerHTML='';
     return '<!DOCTYPE html>\n'+clone.outerHTML;
   }
   async function blobsToBase64(){
