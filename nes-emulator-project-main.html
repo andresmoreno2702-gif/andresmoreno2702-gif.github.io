@@ -883,7 +883,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   imgTip.style.cssText = 'display:none;position:fixed;background:rgba(37,99,235,.92);color:#fff;font-family:\'DM Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
   imgTip.textContent = 'Click to swap image'; document.body.appendChild(imgTip);
   const ebHint = document.createElement('div'); ebHint.id = 'eb-hint';
-  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Drag hero photo &mdash; reposition freely<br>&#8614; hero &#9633; corner &mdash; resize photo<br>Click image &mdash; swap it<br>Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder';
+  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Drag hero photo &mdash; reposition freely<br>Click image &mdash; swap it &nbsp;|&nbsp; Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height (no gap)<br>&#8593; &#8595; buttons &mdash; move gallery item or section<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder within gallery';
   document.body.appendChild(ebHint);
   let editMode = false;
   const SAVE_KEY = 'nes_page_content';
@@ -945,14 +945,18 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
     const bar = document.createElement('div'); bar.className = 'eb-bar';
     if (img) {
       const bi = document.createElement('button'); bi.textContent = '+'; bi.title = 'Increase image height';
-      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = (c + 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = (c + 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
       const si = document.createElement('button'); si.textContent = '\u2212'; si.title = 'Decrease image height';
-      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = Math.max(40, c - 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = Math.max(40, c - 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
       bar.append(bi, si);
     }
+    const up = document.createElement('button'); up.textContent = '\u2191'; up.title = 'Move item up';
+    up.addEventListener('click', e => { e.stopPropagation(); snapshot(); const prev = item.previousElementSibling; if (prev && prev.classList.contains('gallery-item')) item.parentNode.insertBefore(item, prev); });
+    const dn = document.createElement('button'); dn.textContent = '\u2193'; dn.title = 'Move item down';
+    dn.addEventListener('click', e => { e.stopPropagation(); snapshot(); const next = item.nextElementSibling; if (next && next.classList.contains('gallery-item')) item.parentNode.insertBefore(next, item); });
     const del = document.createElement('button'); del.textContent = '\u2715'; del.className = 'red'; del.title = 'Delete box';
     del.addEventListener('click', e => { e.stopPropagation(); snapshot(); if (confirm('Delete this box?')) item.remove(); });
-    bar.appendChild(del);
+    bar.append(up, dn, del);
     const dh = document.createElement('span'); dh.className = 'eb-drag-handle'; dh.textContent = '\u2807'; dh.title = 'Drag to reorder';
     bar.appendChild(dh);
     item.insertBefore(bar, item.firstChild);
@@ -966,9 +970,9 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
     const bar = document.createElement('div'); bar.className = 'eb-bar';
     if (img) {
       const bi = document.createElement('button'); bi.textContent = '+'; bi.title = 'Increase image height';
-      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = (c + 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = (c + 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
       const si = document.createElement('button'); si.textContent = '\u2212'; si.title = 'Decrease image height';
-      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = Math.max(40, c - 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
+      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = Math.max(40, c - 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
       bar.append(bi, si);
       if (block.classList.contains('hero-board')) {
         const sw = document.createElement('button'); sw.textContent = '\uD83D\uDDBC Swap Photo'; sw.title = 'Replace the hero photo';
@@ -1030,6 +1034,18 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
     gallery.addEventListener('dragend', cleanup);
     function cleanup() { if (dragEl) dragEl.classList.remove('eb-dragging'); if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder); dragEl = null; placeholder = null; }
   }
+  // ── Section move up/down ──
+  function initSection(section) {
+    if (section.dataset.ebInit) return; section.dataset.ebInit = '1';
+    section.style.position = 'relative';
+    const bar = document.createElement('div'); bar.className = 'eb-bar';
+    const up = document.createElement('button'); up.textContent = '\u2191 Move Section Up'; up.title = 'Move this section up';
+    up.addEventListener('click', e => { e.stopPropagation(); snapshot(); const prev = section.previousElementSibling; if (prev) section.parentNode.insertBefore(section, prev); });
+    const dn = document.createElement('button'); dn.textContent = '\u2193 Move Section Down'; dn.title = 'Move this section down';
+    dn.addEventListener('click', e => { e.stopPropagation(); snapshot(); const next = section.nextElementSibling; if (next) section.parentNode.insertBefore(next, section); });
+    bar.append(up, dn);
+    section.insertBefore(bar, section.firstChild);
+  }
   // ── Add image box button ──
   function setupAddBox() {
     document.querySelectorAll('.gallery').forEach(gallery => {
@@ -1052,6 +1068,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
       document.querySelectorAll('.gallery').forEach(gallery => { if (!gallery.dataset.dragSetup) { gallery.dataset.dragSetup = '1'; setupGridDrag(gallery); } });
       document.querySelectorAll('.gallery-item').forEach(initGalleryItem);
       document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock);
+      document.querySelectorAll('.section').forEach(initSection);
       initHeroDrag();
       attachImgSwap(); enableText(); setupAddBox();
     } else {
