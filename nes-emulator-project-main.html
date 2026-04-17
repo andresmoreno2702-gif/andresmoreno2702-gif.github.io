@@ -194,6 +194,9 @@ body.edit-mode .eb-add-btn{display:block}
 .eb-add-btn:hover{background:rgba(37,99,235,.2)}
 #eb-hint{display:none;position:fixed;bottom:68px;right:24px;z-index:9000;background:rgba(10,14,26,.97);border:1px solid rgba(37,99,235,.4);border-radius:10px;padding:14px 18px;font-family:'DM Mono',monospace;font-size:11px;color:#8b9bb8;line-height:2.2;pointer-events:none}
 body.edit-mode #eb-hint{display:block}
+body.edit-mode .hero-board{cursor:move;outline:2px dashed rgba(37,99,235,.5);border-radius:12px;transition:outline .15s}
+body.edit-mode .hero-board:hover{outline:2px solid rgba(99,155,255,.8)}
+body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.85;cursor:grabbing}
 </style>
 </head>
 <body>
@@ -880,7 +883,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   imgTip.style.cssText = 'display:none;position:fixed;background:rgba(37,99,235,.92);color:#fff;font-family:\'DM Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
   imgTip.textContent = 'Click to swap image'; document.body.appendChild(imgTip);
   const ebHint = document.createElement('div'); ebHint.id = 'eb-hint';
-  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Click image &mdash; swap it<br>Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder';
+  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Drag hero photo &mdash; reposition freely<br>&#8614; hero &#9633; corner &mdash; resize photo<br>Click image &mdash; swap it<br>Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder';
   document.body.appendChild(ebHint);
   let editMode = false;
   const SAVE_KEY = 'nes_page_content';
@@ -895,6 +898,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   function snapshot() { undoStack.push(cleanSnap()); if (undoStack.length > 50) undoStack.shift(); btnUndo.disabled = false; }
   btnUndo.addEventListener('click', () => { if (!undoStack.length) return; document.querySelector('.content').innerHTML = undoStack.pop(); if (!undoStack.length) btnUndo.disabled = true; document.querySelectorAll('.gallery-item').forEach(initGalleryItem); document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock); attachImgSwap(); enableText(); });
   (() => { const saved = localStorage.getItem(SAVE_KEY); if (saved) document.querySelector('.content').innerHTML = saved; })();
+  (() => { try { const pos = localStorage.getItem('hero_board_pos'); if (pos) { const {x,y} = JSON.parse(pos); const hb = document.querySelector('.hero-board'); if (hb) hb.style.transform = 'translate(' + x + 'px,' + y + 'px)'; } } catch(e) {} })();
   function updateConnectBtn() { const tok = localStorage.getItem(PAT_KEY); btnConnect.textContent = tok ? '● Connected' : '⚙ GitHub'; if (tok) btnConnect.style.color = '#4ade80'; else btnConnect.style.color = ''; }
   updateConnectBtn();
   btnConnect.addEventListener('click', () => { const cur = localStorage.getItem(PAT_KEY) || ''; const tok = prompt('Paste your GitHub Personal Access Token:', cur); if (tok !== null) { localStorage.setItem(PAT_KEY, tok.trim()); updateConnectBtn(); } });
@@ -966,9 +970,45 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
       const si = document.createElement('button'); si.textContent = '\u2212'; si.title = 'Decrease image height';
       si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.maxHeight) || img.offsetHeight || 120; img.style.maxHeight = Math.max(40, c - 50) + 'px'; img.style.height = 'auto'; img.style.aspectRatio = 'auto'; });
       bar.append(bi, si);
+      if (block.classList.contains('hero-board')) {
+        const sw = document.createElement('button'); sw.textContent = '\uD83D\uDDBC Swap Photo'; sw.title = 'Replace the hero photo';
+        sw.addEventListener('click', e => { e.stopPropagation(); snapshot(); pickImage(img); });
+        const ctr = document.createElement('button'); ctr.textContent = '\u2299 Centre'; ctr.title = 'Reset photo to original position';
+        ctr.addEventListener('click', e => { e.stopPropagation(); snapshot(); block.style.transform = ''; localStorage.removeItem('hero_board_pos'); });
+        bar.append(sw, ctr);
+      }
     }
     block.insertBefore(bar, block.firstChild);
     makeResizable(block);
+  }
+  // ── Hero-board free drag ──
+  function initHeroDrag() {
+    const heroBoard = document.querySelector('.hero-board');
+    if (!heroBoard || heroBoard.dataset.heroDrag) return;
+    heroBoard.dataset.heroDrag = '1';
+    let isDragging = false, hasMoved = false, startX, startY, startTX, startTY;
+    function getTrans() { const m = new DOMMatrix(getComputedStyle(heroBoard).transform); return { x: m.m41, y: m.m42 }; }
+    heroBoard.addEventListener('mousedown', e => {
+      if (!editMode) return;
+      if (e.target.closest('.eb-bar,.eb-corner,button')) return;
+      e.preventDefault();
+      isDragging = true; hasMoved = false;
+      startX = e.clientX; startY = e.clientY;
+      const t = getTrans(); startTX = t.x; startTY = t.y;
+      heroBoard.classList.add('eb-hero-dragging');
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      if (!hasMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) { snapshot(); hasMoved = true; }
+      heroBoard.style.transform = 'translate(' + (startTX + dx) + 'px,' + (startTY + dy) + 'px)';
+    });
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      heroBoard.classList.remove('eb-hero-dragging');
+      if (hasMoved) { const t = getTrans(); localStorage.setItem('hero_board_pos', JSON.stringify({ x: t.x, y: t.y })); }
+    });
   }
   // ── Gallery drag-to-reorder ──
   function setupGridDrag(gallery) {
@@ -1012,6 +1052,7 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
       document.querySelectorAll('.gallery').forEach(gallery => { if (!gallery.dataset.dragSetup) { gallery.dataset.dragSetup = '1'; setupGridDrag(gallery); } });
       document.querySelectorAll('.gallery-item').forEach(initGalleryItem);
       document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock);
+      initHeroDrag();
       attachImgSwap(); enableText(); setupAddBox();
     } else {
       toolbar.style.display = 'none'; imgTip.style.display = 'none';
