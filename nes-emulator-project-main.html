@@ -269,8 +269,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </div>
   <div class="stat-card green">
     <div class="stat-label">Mapper Support</div>
-    <div class="stat-value">6+</div>
-    <div class="stat-sub">NROM, MMC1–3, UNROM, VRC</div>
+    <div class="stat-value">40+</div>
+    <div class="stat-sub">NROM, MMC1–5, UNROM, VRC &amp; more</div>
   </div>
 </div>
 <div class="prose">
@@ -468,8 +468,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Cartridge Mapper Support</div>
-    <div class="timeline-heading">Mappers 0–5 plus VRC variants — covers the vast majority of NES titles</div>
-    <div class="timeline-body">The mapper number is read from the iNES ROM header and the correct interface is loaded dynamically via <code>mmc_create()</code>. Supported: <code>Mapper 0</code> (NROM — Donkey Kong, Super Mario Bros.), <code>Mapper 1</code> (MMC1 — Mega Man 2, Metroid, Zelda), <code>Mapper 2</code> (UNROM), <code>Mapper 3</code> (CNROM), <code>Mapper 4</code> (MMC3), <code>Mapper 5</code> (MMC5), plus several VRC variants. Maximum ROM size: 512 kB via SPI flash memory mapping.</div>
+    <div class="timeline-heading">Mappers 0–5 plus VRC and Namco variants — broad compatibility across the NES library</div>
+    <div class="timeline-body">The mapper number is read from the iNES ROM header and the correct interface is loaded dynamically via <code>mmc_create()</code>. Over 40 mapper types are supported — including Mapper 0 (NROM — Donkey Kong, Super Mario Bros.), <code>Mapper 1</code> (MMC1 — Mega Man 2, Metroid, Zelda), <code>Mapper 2</code> (UNROM), <code>Mapper 3</code> (CNROM), <code>Mapper 4</code> (MMC3), <code>Mapper 5</code> (MMC5), plus several VRC variants. Maximum ROM size: 512 kB via SPI flash memory mapping — no heap allocation needed.</div>
   </div>
 </div>
 <div class="code-block">
