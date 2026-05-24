@@ -262,16 +262,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <table class="comp-table" style="margin-bottom:28px">
 <thead><tr><th>TB6612FNG Pin</th><th>ESP32-C3 GPIO</th><th>Function</th></tr></thead>
 <tbody>
-<tr><td class="part">PWMA</td><td class="ref">D10</td><td style="font-size:12px;color:var(--text-muted)">Motor A speed control (PWM / LEDC)</td></tr>
-<tr><td class="part">AIN1</td><td class="ref">D4</td><td style="font-size:12px;color:var(--text-muted)">Motor A direction bit 1</td></tr>
-<tr><td class="part">AIN2</td><td class="ref">D5</td><td style="font-size:12px;color:var(--text-muted)">Motor A direction bit 2</td></tr>
-<tr><td class="part">PWMB</td><td class="ref">D9</td><td style="font-size:12px;color:var(--text-muted)">Motor B speed control (PWM / LEDC)</td></tr>
-<tr><td class="part">BIN1</td><td class="ref">D3</td><td style="font-size:12px;color:var(--text-muted)">Motor B direction bit 1</td></tr>
-<tr><td class="part">BIN2</td><td class="ref">D2</td><td style="font-size:12px;color:var(--text-muted)">Motor B direction bit 2</td></tr>
+<tr><td class="part">PWMB</td><td class="ref">D10</td><td style="font-size:12px;color:var(--text-muted)">Motor speed control (PWM / LEDC)</td></tr>
+<tr><td class="part">BIN1</td><td class="ref">D4</td><td style="font-size:12px;color:var(--text-muted)">Motor direction bit 1</td></tr>
+<tr><td class="part">BIN2</td><td class="ref">D5</td><td style="font-size:12px;color:var(--text-muted)">Motor direction bit 2</td></tr>
 <tr><td class="part">STBY</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Standby — pulled high to enable driver</td></tr>
 <tr><td class="part">VM</td><td class="ref">3.7 V LiPo</td><td style="font-size:12px;color:var(--text-muted)">Motor power supply (direct from LiPo)</td></tr>
 <tr><td class="part">VCC</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Logic power supply</td></tr>
-<tr><td class="part">Servo Signal</td><td class="ref">D1</td><td style="font-size:12px;color:var(--text-muted)">PWM steering servo (SG90)</td></tr>
+<tr><td class="part">Servo Signal</td><td class="ref">D7</td><td style="font-size:12px;color:var(--text-muted)">PWM steering servo (SG90)</td></tr>
 </tbody>
 </table>
 
@@ -281,8 +278,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="spec-row"><span class="spec-key">Framework</span><span class="spec-val">Arduino / ESP32-C3 Core</span></div>
     <div class="spec-row"><span class="spec-key">PWM API</span><span class="spec-val">LEDC (ESP32-Arduino v3+)</span></div>
     <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">Configurable</span></div>
-    <div class="spec-row"><span class="spec-key">Direction control</span><span class="spec-val">AIN1/AIN2 + PWMA</span></div>
-    <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">SG90 servo via D1</span></div>
+    <div class="spec-row"><span class="spec-key">Direction control</span><span class="spec-val">BIN1/BIN2 + PWMB</span></div>
+    <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">SG90 servo via D7</span></div>
     <div class="spec-row"><span class="spec-key">Wireless</span><span class="spec-val">ESP-NOW P2P · ~2 ms RTT</span></div>
   </div>
   <div class="spec-block">
