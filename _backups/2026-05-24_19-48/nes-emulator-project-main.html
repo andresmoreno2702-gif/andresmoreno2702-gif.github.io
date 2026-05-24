@@ -650,7 +650,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>With the perfboard prototype validated, I am designing a custom 2-layer PCB in <strong>KiCAD</strong> to replace it. The schematic and layout carry over every verified connection, with key improvements: a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgrades the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB PSRAM, and improved performance for emulation and audio.</p>
+  <p>With the perfboard prototype validated, I am designing a custom 2-layer PCB in <strong>KiCAD</strong> to replace it. The schematic and layout carry over every verified connection, with key improvements: a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack.</p>
 </div>
 <div class="decision-list">
   <div class="decision">
@@ -663,7 +663,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </div>
   <div class="decision amber">
     <div class="decision-title">Speaker &amp; Hardware Volume Control</div>
-    <div class="decision-body">Add a <strong>0.5 W 8Ω speaker</strong> driven by the <strong>MAX98357A Class D amplifier</strong> already on the PCB schematic. Volume is controlled via two dedicated hardware buttons (VOL_UP / VOL_DOWN) mapped to GPIO, with software scaling applied to the I2S audio stream.</div>
+    <div class="decision-body">Add a <strong>0.5 W 8Ω speaker</strong> for built-in audio and a hardware volume potentiometer on an analog GPIO pin. The PCM5102A DAC supports hardware volume attenuation via its control lines, with software volume as a secondary option.</div>
   </div>
   <div class="decision">
     <div class="decision-title">ROM Selection Menu UI</div>
