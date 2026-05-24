@@ -226,7 +226,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
     <div class="hero-meta">
       <span class="badge badge-teal">ESP32-WROOM-32E · 240 MHz</span>
       <span class="badge badge-blue">ST7789 · 240×240 IPS</span>
-      <span class="badge badge-amber">PCM5102A · I2S DAC</span>
+      <span class="badge badge-amber">Audio · PCB Build</span>
       <span class="badge badge-teal">MicroSD · FAT32</span>
     </div>
     <div class="hero-meta">
@@ -265,7 +265,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   <div class="stat-card amber">
     <div class="stat-label">Audio</div>
     <div class="stat-value">24</div>
-    <div class="stat-sub">kHz I2S via PCM5102A</div>
+    <div class="stat-sub">kHz I2S — firmware ready, wired on PCB</div>
   </div>
   <div class="stat-card green">
     <div class="stat-label">Mapper Support</div>
@@ -274,8 +274,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </div>
 </div>
 <div class="prose">
-  <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240×240 IPS TFT display</strong>, with stereo audio through a <strong>PCM5102A I2S DAC</strong>. ROMs are loaded from a MicroSD card at runtime.</p>
-  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, audio DAC, MicroSD breakout, and power management ICs. A custom 2-layer KiCAD PCB is currently in progress to consolidate everything onto a single compact board.</p>
+  <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240×240 IPS TFT display</strong>. ROMs are loaded from a MicroSD card at runtime. Audio was written in firmware but not wired into the prototype — it is implemented on the PCB.</p>
+  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, MicroSD breakout, and power management ICs. A custom 2-layer KiCAD PCB is currently in progress to consolidate everything onto a single compact board.</p>
 </div>
 <div class="gallery" id="overviewGallery">
   <div class="gallery-item wide" draggable="true">
@@ -330,10 +330,10 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </tr>
   <tr>
     <td class="ref">U3</td>
-    <td class="part">Audio DAC</td>
-    <td class="part">PCM5102A I2S Module</td>
+    <td class="part">Audio Amplifier</td>
+    <td class="part">MAX98357A — PCB only</td>
     <td>I2S</td>
-    <td style="font-size:12px;color:var(--text-muted)">16-bit stereo, 24 kHz sample rate, DMA-driven output</td>
+    <td style="font-size:12px;color:var(--text-muted)">Class D amp + DAC in one chip — not in prototype; drives speaker directly on PCB build</td>
   </tr>
   <tr>
     <td class="ref">U4</td>
@@ -398,7 +398,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 <tbody>
   <tr><td class="part">Microcontroller</td><td class="part">ESP32-WROOM-32E</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">240 MHz dual-core, 4 MB Flash, 520 kB SRAM</td></tr>
   <tr><td class="part">Display</td><td class="part">ST7789 1.3″ IPS 240×240</td><td>HW SPI @ 27 MHz</td><td style="font-size:12px;color:var(--text-muted)">CS tied low (always active); pins defined in TFT_eSPI User_Setup.h</td></tr>
-  <tr><td class="part">Audio DAC</td><td class="part">PCM5102A I2S Module</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">BCK GPIO 27 · LRC GPIO 32 · DIN GPIO 25</td></tr>
+  <tr><td class="part">Audio</td><td class="part">Not in prototype — PCB only</td><td>I2S</td><td style="font-size:12px;color:var(--text-muted)">Firmware written and ready; MAX98357A amp wired on PCB build</td></tr>
   <tr><td class="part">Storage</td><td class="part">MicroSD Breakout</td><td>Soft-SPI</td><td style="font-size:12px;color:var(--text-muted)">MOSI GPIO 17 · MISO GPIO 13 · SCK GPIO 14 · CS GPIO 22</td></tr>
   <tr><td class="part">User Input</td><td class="part">8× Tactile Buttons</td><td>GPIO Pull-up</td><td style="font-size:12px;color:var(--text-muted)">D-pad (4) + A/B + Start/Select — internal pull-ups enabled</td></tr>
   <tr><td class="part">Power</td><td class="part">LiPo 3.7 V + IP5306</td><td>—</td><td style="font-size:12px;color:var(--text-muted)">USB-C charge via TP4056 · 5 V boost · 3.3 V regulated logic</td></tr>
@@ -407,15 +407,12 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 </table>
 <div class="two-col">
   <div class="spec-block">
-    <div class="spec-block-header">Display &amp; Audio Pins</div>
+    <div class="spec-block-header">Display Pins</div>
     <div class="spec-row"><span class="spec-key">TFT MOSI</span><span class="spec-val">GPIO 23</span></div>
     <div class="spec-row"><span class="spec-key">TFT SCLK</span><span class="spec-val">GPIO 18</span></div>
     <div class="spec-row"><span class="spec-key">TFT DC</span><span class="spec-val">GPIO 5</span></div>
     <div class="spec-row"><span class="spec-key">TFT RST</span><span class="spec-val">GPIO 19</span></div>
     <div class="spec-row"><span class="spec-key">TFT CS</span><span class="spec-val warn">–1 (always active)</span></div>
-    <div class="spec-row"><span class="spec-key">I2S BCK (Bit Clock)</span><span class="spec-val">GPIO 27</span></div>
-    <div class="spec-row"><span class="spec-key">I2S LRC (Word Select)</span><span class="spec-val">GPIO 32</span></div>
-    <div class="spec-row"><span class="spec-key">I2S DIN (Data Out)</span><span class="spec-val">GPIO 25</span></div>
   </div>
   <div class="spec-block">
     <div class="spec-block-header">Storage &amp; Input Pins</div>
@@ -456,8 +453,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Audio Subsystem</div>
-    <div class="timeline-heading">PCM5102A I2S DAC — 16-bit stereo at 24 kHz with DMA ring buffer</div>
-    <div class="timeline-body">The PCM5102A outputs 16-bit stereo audio at 24 kHz (<code>DEFAULT_SAMPLERATE 24000</code>). The NES APU synthesises square, triangle, noise, and DMC channels and writes samples into an I2S DMA ring buffer (6 buffers × <code>DEFAULT_FRAGSIZE</code> samples). The audio task runs at higher FreeRTOS priority than the PPU loop to ensure the buffer never runs dry under heavy emulation load.</div>
+    <div class="timeline-heading">I2S Audio Engine — 16-bit stereo at 24 kHz — written for PCB, not in prototype</div>
+    <div class="timeline-body">The audio firmware is complete but was not connected to hardware in the prototype. The NES APU synthesises all four channels — square, triangle, noise, and DMC — and writes samples into an I2S DMA ring buffer (6 buffers × <code>DEFAULT_FRAGSIZE</code> samples). The audio task runs at higher FreeRTOS priority than the PPU loop. On the PCB, this drives a <strong>MAX98357A Class D amplifier</strong> directly connected to a speaker.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
@@ -485,7 +482,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 
 <span class="kw">#define</span> <span class="def">I2S_BCK_IO</span> 27    <span class="cm">// Bit Clock</span>
 <span class="kw">#define</span> <span class="def">I2S_WS_IO</span>  32    <span class="cm">// Word Select (LRC)</span>
-<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out → PCM5102A</span>
+<span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out → MAX98357A (PCB build)</span>
 
 <span class="kw">#define</span> <span class="def">SOFTSD_MOSI_PIN</span> 17  <span class="cm">// SD on software SPI</span>
 <span class="kw">#define</span> <span class="def">SOFTSD_MISO_PIN</span> 13
@@ -561,26 +558,26 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-step">Phase 1 — Component Sourcing</div>
-    <div class="timeline-heading">ST7789 display, PCM5102A audio module, MicroSD breakout, tactile buttons</div>
-    <div class="timeline-body">Sourced all modules independently: ST7789 1.3″ IPS TFT, PCM5102A I2S DAC breakout, MicroSD breakout, 8× tactile push buttons, IP5306 power bank IC, TP4056 USB-C charge module, and a LiPo cell. Each component was bench-tested for correct voltage and pin continuity before integration.</div>
+    <div class="timeline-heading">ST7789 display, MicroSD breakout, tactile buttons, power modules</div>
+    <div class="timeline-body">Sourced all modules independently: ST7789 1.3″ IPS TFT, MicroSD breakout, 8× tactile push buttons, IP5306 power bank IC, TP4056 USB-C charge module, and a LiPo cell. Each component was bench-tested for correct voltage and pin continuity before integration.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Phase 2 — Breadboard Prototype</div>
     <div class="timeline-heading">First boot — display active, SD card detected, all subsystems validated</div>
-    <div class="timeline-body">Built the first prototype on breadboard with all five subsystems. Achieved first boot with the display showing test output and the SD card detected at 30 GB. Audio confirmed at 24 kHz via PCM5102A. Button GPIO reads verified via serial monitor. The SPI bus conflict between display and SD was identified and resolved at this stage by moving SD to software SPI.</div>
+    <div class="timeline-body">Built the first prototype on breadboard with all five subsystems. Achieved first boot with the display showing test output and the SD card detected at 30 GB. Button GPIO reads verified via serial monitor. The SPI bus conflict between display and SD was identified and resolved at this stage by moving SD to software SPI.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Phase 3 — Perfboard Assembly &amp; Soldering</div>
     <div class="timeline-heading">Hand-soldered front and back boards with colour-coded wiring harness</div>
-    <div class="timeline-body">Components transferred from breadboard to perfboard using a temperature-controlled soldering station with paste flux. The front panel board carries the ST7789 display, D-pad, and A/B/Start/Select buttons. The back board carries the ESP32, PCM5102A, MicroSD breakout, and IP5306 power IC. A colour-coded wiring harness connects the two boards for easy debugging.</div>
+    <div class="timeline-body">Components transferred from breadboard to perfboard using a temperature-controlled soldering station with paste flux. The front panel board carries the ST7789 display, D-pad, and A/B/Start/Select buttons. The back board carries the ESP32, MicroSD breakout, and IP5306 power IC. A colour-coded wiring harness connects the two boards for easy debugging.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot red"></div>
     <div class="timeline-step red">Phase 4 — Power Integration &amp; Final Testing</div>
     <div class="timeline-heading">LiPo cell integrated with USB-C charge, 5 V boost, and 3.3 V logic rail</div>
-    <div class="timeline-body">Integrated the LiPo 3.7 V cell with TP4056 USB-C charge IC and IP5306 5 V boost converter. Logic regulated to 3.3 V across all digital subsystems. Full NES ROM loading from MicroSD confirmed working. Audio playback and display rendering verified across multiple games. With all subsystems running reliably, the prototype was complete.</div>
+    <div class="timeline-body">Integrated the LiPo 3.7 V cell with TP4056 USB-C charge IC and IP5306 5 V boost converter. Logic regulated to 3.3 V across all digital subsystems. Full NES ROM loading from MicroSD confirmed working. Display rendering verified across multiple games. With all subsystems running reliably, the prototype was complete.</div>
   </div>
 </div>
 <div class="gallery" style="margin-top:24px">
@@ -628,8 +625,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
     <div class="decision-body">Both the ST7789 display and MicroSD module use SPI. With <code>TFT_CS</code> set to –1, the display holds the hardware SPI bus permanently. Moving the SD card to <strong>software SPI (bit-banged)</strong> on dedicated pins (<code>MOSI 17 · MISO 13 · SCK 14</code>) freed the hardware bus exclusively for the display at 27 MHz, with no arbitration overhead or frame rate penalty.</div>
   </div>
   <div class="decision blue">
-    <div class="decision-title">I2S Audio Dropouts Under Heavy CPU Load</div>
-    <div class="decision-body">Initial testing showed audio glitches when the 6502 emulation loop was under heavy load. Fixed by <strong>pre-filling the I2S DMA ring buffer</strong> at startup and assigning the audio task a higher FreeRTOS priority than the PPU rendering task. This ensures the DMA buffer never runs dry regardless of emulation CPU demand.</div>
+    <div class="decision-title">I2S Audio — Designed Around CPU Load</div>
+    <div class="decision-body">Audio was not wired in the prototype, but the firmware was designed carefully for the PCB build. Simulation showed the 6502 emulation loop could cause buffer underruns. The fix: <strong>pre-fill the I2S DMA ring buffer</strong> at startup and run the audio task at higher FreeRTOS priority than the PPU renderer — so the buffer never runs dry regardless of emulation load.</div>
   </div>
   <div class="decision amber">
     <div class="decision-title">GPIO Input Noise on Floating Button Lines</div>
@@ -659,6 +656,17 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
   </div>
   <div class="decision blue">
     <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
+  <div class="decision green">
+    <div class="decision-title">Component Upgrades — Prototype → PCB</div>
+    <div class="decision-body">
+      Several components were upgraded or added for the PCB build:<br><br>
+      <strong>Microcontroller:</strong> ESP32-WROOM-32E → <strong>ESP32-S3-WROOM-1U</strong>. The S3 has native USB (connects directly to the USB-C port — no extra chip needed), 8&thinsp;MB of PSRAM for larger data buffers, and a faster processor.<br><br>
+      <strong>Audio:</strong> No audio in the prototype. The PCB adds a <strong>MAX98357A</strong> — a single chip that handles both digital-to-analog conversion and amplification, driving a speaker directly from the I2S bus. The firmware was already written and ready.<br><br>
+      <strong>Power management:</strong> The prototype used two off-the-shelf breakout modules (IP5306 boost converter + TP4056 charger). The PCB replaces these with dedicated ICs: <strong>MCP73871</strong> (proper LiPo charger with charge status outputs), <strong>AP2112K</strong> (clean 3.3&thinsp;V regulator), and <strong>LC709203F</strong> (battery fuel gauge — tells the firmware the remaining charge percentage over I2C).<br><br>
+      <strong>USB protection:</strong> Added <strong>USBLC6-2SC6</strong> ESD protection on the USB data lines — important for a finished PCB connected to real USB ports.<br><br>
+      <strong>SD card bus:</strong> The prototype bit-banged a software SPI to avoid sharing the hardware bus with the display. The PCB has two dedicated hardware SPI buses — one for the display, one for the SD card — no workaround needed.
+    </div>
+  </div>
     <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint. Features a screen cutout, button holes aligned to D-pad and action buttons, USB-C port access, and a speaker outlet. Printed in PLA on a Creality Ender-3 S1 Pro.</div>
   </div>
   <div class="decision amber">
@@ -745,7 +753,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #2563eb;opacity:.8
 <span class="kw">#define</span> <span class="def">PIN_START</span>  35
 <span class="kw">#define</span> <span class="def">PIN_SELECT</span>  4
 
-<span class="cm">// I2S Audio — PCM5102A</span>
+<span class="cm">// I2S Audio — MAX98357A (PCB build, not in prototype)</span>
 <span class="kw">#define</span> <span class="def">I2S_BCK_IO</span> 27    <span class="cm">// Bit Clock</span>
 <span class="kw">#define</span> <span class="def">I2S_WS_IO</span>  32    <span class="cm">// Word Select (LRC)</span>
 <span class="kw">#define</span> <span class="def">I2S_DO_IO</span>  25    <span class="cm">// Data Out</span>
@@ -787,7 +795,7 @@ esp_err_t err = spi_flash_mmap(
       <!-- Tab: Audio Setup -->
       <div class="notes-pane" id="tab-audio">
         <h3>I2S Audio Configuration</h3>
-        <p>I2S driver config for the PCM5102A DAC. 16-bit stereo at 24 kHz, master TX mode. DMA ring buffer ensures smooth audio independent of CPU load.</p>
+        <p>I2S driver config for the PCB build — not wired in the prototype. Drives the MAX98357A Class D amplifier at 16-bit stereo, 24 kHz. DMA ring buffer ensures smooth audio independent of emulation CPU load.</p>
         <div class="code-block">
 <pre><span class="kw">#define</span> <span class="def">DEFAULT_SAMPLERATE</span>  24000
 <span class="kw">#define</span> <span class="def">DEFAULT_FRAGSIZE</span>    240   <span class="cm">// Samples per DMA buffer</span>
