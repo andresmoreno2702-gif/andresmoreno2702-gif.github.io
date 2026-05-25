@@ -269,15 +269,15 @@ body.edit-mode #eb-hint{display:block}
 </div>
 <div class="gallery">
   <div class="gallery-item wide">
-    <img src="IMAGES/RC%20mini%20Car/top%20viw%20pic.jpg" alt="Assembled RC car top-down view" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
+    <img src="IMAGES/RC%20mini%20Car/top%20viw%20pic.jpg" alt="Assembled RC car top-down view" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">Assembled car — LiPo, TB6612FNG, XIAO ESP32-C3 mounted on chassis</div>
   </div>
   <div class="gallery-item">
-    <img src="IMAGES/RC%20mini%20Car/sideview.jpg" alt="Three-quarter view of RC car" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
-    <div class="gallery-caption">Three-quarter angle — front servo steering and 3D-printed wheel mounts</div>
+    <img src="IMAGES/RC%20mini%20Car/sideview.jpg" alt="Three-quarter view of RC car" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+    <div class="gallery-caption" contenteditable="false">Three-quarter angle — front servo steering and 3D-printed wheel mounts</div>
   </div>
   <div class="gallery-item">
-    <img src="IMAGES/RC%20mini%20Car/circuit%20.jpg" alt="Bench test setup" style="aspect-ratio:16/9;object-fit:cover;background:var(--surface2)">
+    <img src="IMAGES/RC%20mini%20Car/circuit%20.jpg" alt="Bench test setup" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">Bench test — XIAO, TB6612FNG, servo and motor validated before mounting</div>
   </div>
 </div>
@@ -323,17 +323,7 @@ body.edit-mode #eb-hint{display:block}
 </div>
 
 <div style="margin-top:28px">
-  <model-viewer
-    src="IMAGES/RC%20mini%20Car/CHASIS%20MINI%20CAR.glb"
-    alt="Mini RC Car Chassis — Interactive 3D View"
-    camera-controls
-    auto-rotate
-    auto-rotate-delay="1500"
-    rotation-per-second="18deg"
-    shadow-intensity="1"
-    exposure="1.1"
-    environment-image="neutral"
-    style="width:100%;height:420px;border-radius:12px;background:var(--surface);border:1px solid var(--border);">
+  <model-viewer src="IMAGES/RC%20mini%20Car/CHASIS%20MINI%20CAR.glb" alt="Mini RC Car Chassis — Interactive 3D View" camera-controls="" auto-rotate="" auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" style="width:100%;height:420px;border-radius:12px;background:var(--surface);border:1px solid var(--border);" ar-status="not-presenting">
   </model-viewer>
   <div class="gallery-caption" style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);">Interactive 3D model — drag to rotate · scroll to zoom</div>
 </div>
@@ -379,11 +369,11 @@ body.edit-mode #eb-hint{display:block}
 </div>
 <div class="gallery" style="margin-top:20px">
   <div class="gallery-item wide screenshot">
-    <img src="IMAGES/RC%20mini%20Car/schematicversion%201.jpg" alt="EasyEDA schematic" style="aspect-ratio:16/9;object-fit:contain;background:var(--surface2)">
+    <img src="IMAGES/RC%20mini%20Car/schematicversion%201.jpg" alt="EasyEDA schematic" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">EasyEDA schematic — ESP32-C3, TB6612FNG, servo header, power switch and decoupling</div>
   </div>
   <div class="gallery-item screenshot">
-    <img src="IMAGES/RC%20mini%20Car/pcbeditor.jpg" alt="PCB layout" style="aspect-ratio:16/9;object-fit:contain;background:var(--surface2)">
+    <img src="IMAGES/RC%20mini%20Car/pcbeditor.jpg" alt="PCB layout" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">PCB layout — ready for JLCPCB manufacture</div>
   </div>
 </div>
@@ -435,14 +425,14 @@ body.edit-mode #eb-hint{display:block}
 </div>
 </div>
 
-</div>
+
 
 <div class="footer">
 <div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>ESP32 Mini RC Car &nbsp;·&nbsp; Fusion 360 &nbsp;·&nbsp; EasyEDA &amp; JLCPCB &nbsp;·&nbsp; Feb–Mar 2026</div>
 <div class="footer-right">ESP32 Mini RC Car<br>Revision 1.0 &nbsp;·&nbsp; 2026</div>
 </div>
 
-<div id="lb"><button id="lb-close">✕</button><img id="lb-img" src="" alt=""></div>
+<div id="lb" style="display: none;"><button id="lb-close">✕</button><img id="lb-img" src="file:///home/andres/Documents/GitHub/andresmoreno2702-gif.github.io/IMAGES/RC%20mini%20Car/sideview.jpg" alt="" style="outline: rgba(37, 99, 235, 0.35) dashed 1px;"></div>
 
 <script>
 const lb=document.getElementById('lb');
@@ -658,5 +648,6 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   const EDIT_PASS = 'morenavaa321';
   document.addEventListener('keydown', e => { if (e.ctrlKey && e.shiftKey && e.key === 'E') { e.preventDefault(); if (editMode) { activateEditMode(); return; } const pw = prompt('Enter password to enable edit mode:'); if (pw === EDIT_PASS) activateEditMode(); } });
 })();
-</script>
+</script><div style="display: none; position: fixed; bottom: 70px; right: 24px; z-index: 9001; background: rgb(22, 163, 74); color: rgb(255, 255, 255); padding: 6px 14px; border-radius: 6px; font-family: &quot;DM Mono&quot;, monospace; font-size: 11px; pointer-events: none;">✓ Saved!</div><div style="display: none; position: fixed; background: rgba(37, 99, 235, 0.92); color: rgb(255, 255, 255); font-family: &quot;DM Mono&quot;, monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; pointer-events: none; z-index: 9500; white-space: nowrap; left: 1212px; top: 417px;">Click to swap image</div>
+
 </body></html>
