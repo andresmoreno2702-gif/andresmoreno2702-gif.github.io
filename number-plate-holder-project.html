@@ -361,9 +361,17 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
               <div class="tl-img-cap">Assembled — screw pulls post through mesh cell</div>
             </div>
           </div>
-          <div class="tl-img" style="margin-top:10px">
-            <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="Installed on Audi grille" onclick="openLb(this)" style="max-height:380px;object-fit:cover;object-position:center 75%">
-            <div class="tl-img-cap">Installed — flush behind the Audi honeycomb grille, invisible from the front</div>
+          <div class="tl-2col" style="margin-top:10px">
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="Installed on Audi grille" onclick="openLb(this)" style="height:280px;max-height:none;object-fit:cover;object-position:center 75%">
+              <div class="tl-img-cap">Installed — flush behind the Audi honeycomb grille, invisible from the front</div>
+            </div>
+            <div class="tl-img">
+              <video controls playsinline preload="metadata" style="height:280px;max-height:none;width:100%;display:block;object-fit:contain;background:#000">
+                <source src="IMAGES/Number Plate Holder/demo-adjust2.mp4" type="video/mp4">
+              </video>
+              <div class="tl-img-cap">Sliding mechanism — adjustable width demo</div>
+            </div>
           </div>
         </div>
       </div>
@@ -428,15 +436,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <!-- VIDEOS -->
           <div style="margin-top:18px">
             <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Mechanism in action</div>
-            <div style="display:flex;justify-content:center">
-              <div class="vid-wrap" style="width:50%;min-width:180px">
-                <video controls playsinline preload="metadata">
-                  <source src="IMAGES/Number Plate Holder/demo-adjust2.mp4" type="video/mp4">
-                </video>
-                <div class="vid-cap">Sliding mechanism</div>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <div class="tl-img" style="margin-top:0">
                 <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:cover;object-position:center center;background:#111">
                   <source src="IMAGES/Number Plate Holder/demo-adjust3.mp4" type="video/mp4">
@@ -444,7 +444,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
                 <div class="tl-img-cap">Full range of motion</div>
               </div>
               <div class="tl-img" style="margin-top:0">
-                <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:contain;background:#111">
+                <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:cover;background:#111">
                   <source src="IMAGES/Number Plate Holder/fusion360-animation.mp4" type="video/mp4">
                 </video>
                 <div class="tl-img-cap">Fusion 360 — CAD model animation</div>
