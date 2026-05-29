@@ -456,25 +456,69 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
       <h2 class="section-title">Specs</h2>
       <div class="section-line"></div>
     </div>
-    <div class="two-col">
-      <div class="spec-block">
-        <div class="spec-block-header">Front Bracket (Stage 2)</div>
-        <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360</span></div>
-        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PETG — black</span></div>
-        <div class="spec-row"><span class="spec-key">Mount method</span><span class="spec-val ok">Clips into grille cells</span></div>
-        <div class="spec-row"><span class="spec-key">Fastener</span><span class="spec-val">M3 screw + printed T-nut</span></div>
-        <div class="spec-row"><span class="spec-key">Plate size</span><span class="spec-val warn">Fixed — custom to one plate</span></div>
-        <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val ok">Installed and in use</span></div>
-      </div>
-      <div class="spec-block">
-        <div class="spec-block-header">Universal Holder (Stage 4)</div>
-        <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360</span></div>
-        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PETG — black</span></div>
-        <div class="spec-row"><span class="spec-key">Pieces</span><span class="spec-val">2 identical halves</span></div>
-        <div class="spec-row"><span class="spec-key">Total width</span><span class="spec-val ok">370mm (2 × 185mm)</span></div>
-        <div class="spec-row"><span class="spec-key">Height</span><span class="spec-val">100mm</span></div>
-        <div class="spec-row"><span class="spec-key">Adjustment</span><span class="spec-val ok">Any plate width — slot lock</span></div>
-      </div>
+    <div class="spec-block" style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;min-width:520px">
+        <thead>
+          <tr>
+            <th style="padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-align:left;width:22%"></th>
+            <th style="padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:left;border-top:3px solid var(--accent);color:var(--accent)">Stage 1<br><span style="color:var(--text-muted);letter-spacing:0;text-transform:none;font-size:11px">Rear — large</span></th>
+            <th style="padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:left;border-top:3px solid var(--accent2);color:var(--accent2)">Stage 2<br><span style="color:var(--text-muted);letter-spacing:0;text-transform:none;font-size:11px">Front mesh</span></th>
+            <th style="padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:left;border-top:3px solid var(--accent3);color:var(--accent3)">Stage 3<br><span style="color:var(--text-muted);letter-spacing:0;text-transform:none;font-size:11px">Rear — simplified</span></th>
+            <th style="padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;text-align:left;border-top:3px solid var(--green);color:var(--green)">Stage 4<br><span style="color:var(--text-muted);letter-spacing:0;text-transform:none;font-size:11px">Universal</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Location</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Rear</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Front — grille</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Rear</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Rear</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Material</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">PETG — black</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">PETG — black</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">PETG — black</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">PETG — black</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Profile</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Large · solid</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">3-part assembly</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Minimal · slotted</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">2 × 185mm · 100mm H</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Mount</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Rear bumper clips</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Clips into grille cells</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Rear bumper clips</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Rear bumper clips</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Fastener</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Screws</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">M3 + printed T-nut</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">Screws</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--text)">M3 slot lock</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Plate size</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--accent3)">Fixed</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--accent3)">Fixed</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--accent3)">Fixed</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--green)">Any width</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted)">Status</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--accent3)">Superseded</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--green)">Installed · in use</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--accent3)">Superseded</td>
+            <td style="padding:8px 14px;font-family:var(--mono);font-size:12px;color:var(--green)">Final design</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
