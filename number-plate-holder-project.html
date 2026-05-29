@@ -74,7 +74,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
 .snap-photo-main{position:relative;height:360px;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .snap-photo-main img{width:100%;height:100%;object-fit:contain;transition:opacity .15s;cursor:zoom-in}
 .snap-photo-main video{width:100%;height:100%;object-fit:contain}
-.snap-cap{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:7px 14px;background:rgba(0,0,0,.35);position:absolute;bottom:0;left:0;right:0;text-align:center;backdrop-filter:blur(4px)}
+.snap-cap{font-family:var(--mono);font-size:10px;color:#fff;padding:7px 14px;background:rgba(0,0,0,.5);position:absolute;bottom:0;left:0;right:0;text-align:center;backdrop-filter:blur(4px)}
 .snap-thumbs{display:flex;gap:6px;padding:10px;overflow-x:auto;background:var(--bg);border-top:1px solid var(--border)}
 .snap-thumb{flex:0 0 68px;height:50px;border-radius:5px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
 .snap-thumb img,.snap-thumb video{width:100%;height:100%;object-fit:cover}
@@ -198,14 +198,6 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
   </p>
 </div>
 
-<!-- HERO COMPARISON PHOTO — the three versions side by side -->
-<div class="hero-photo">
-  <div class="hero-photo-wrap">
-    <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three plate holder versions side by side — full design evolution" onclick="openLb(this)">
-    <div class="hero-photo-caption">Left → right: v1 large rear · v3 simplified rear · v4 universal half — all three printed, side by side</div>
-  </div>
-</div>
-
 <!-- PHOTO + VIDEO SELECTOR -->
 <div style="max-width:960px;margin:0 auto;padding:0 2.5rem">
   <div class="snap-wrap">
@@ -214,31 +206,31 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
       <div class="snap-cap" id="snap-cap">Front bracket installed — Audi honeycomb grille</div>
     </div>
     <div class="snap-thumbs" id="snap-thumbs">
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-on-car.webp" data-cap="Front bracket installed — Audi honeycomb grille">
+      <div class="snap-thumb" data-type="img" data-fit="cover" data-src="IMAGES/Number Plate Holder/front-on-car.webp" data-cap="Front bracket installed — Audi honeycomb grille">
         <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-plate-photo.webp" data-cap="Front bracket holding the plate — bracket clips through mesh, screw locks from inside">
+      <div class="snap-thumb" data-type="img" data-fit="cover" data-src="IMAGES/Number Plate Holder/front-plate-photo.webp" data-cap="Front bracket holding the plate — bracket clips through mesh, screw locks from inside">
         <img src="IMAGES/Number Plate Holder/front-plate-photo.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-render-exploded.webp" data-cap="Front bracket — exploded view showing bracket bar + threaded post + T-nut base">
+      <div class="snap-thumb" data-type="img" data-fit="contain" data-src="IMAGES/Number Plate Holder/front-render-exploded.webp" data-cap="Front bracket — exploded view showing bracket bar + threaded post + T-nut base">
         <img src="IMAGES/Number Plate Holder/front-render-exploded.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-render-assembled.webp" data-cap="Front bracket — assembled render">
+      <div class="snap-thumb" data-type="img" data-fit="contain" data-src="IMAGES/Number Plate Holder/front-render-assembled.webp" data-cap="Front bracket — assembled render">
         <img src="IMAGES/Number Plate Holder/front-render-assembled.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/all-three-versions.webp" data-cap="All three rear versions side by side — v1 large, v3 simplified, v4 universal half">
+      <div class="snap-thumb" data-type="img" data-fit="cover" data-src="IMAGES/Number Plate Holder/all-three-versions.webp" data-cap="All three rear versions side by side — v1 large, v3 simplified, v4 universal half">
         <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" data-cap="Adjustable rear holder — printed, close-up of sliding mechanism">
+      <div class="snap-thumb" data-type="img" data-fit="cover" data-src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" data-cap="Adjustable rear holder — printed, close-up of sliding mechanism">
         <img src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" data-cap="Fusion 360 — Rear Adjustable Plate Holder CAD model">
+      <div class="snap-thumb" data-type="img" data-fit="contain" data-src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" data-cap="Fusion 360 — Rear Adjustable Plate Holder CAD model">
         <img src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/universal-disassembled.webp" data-cap="Universal holder — two halves separated, ready to slide together">
+      <div class="snap-thumb" data-type="img" data-fit="cover" data-src="IMAGES/Number Plate Holder/universal-disassembled.webp" data-cap="Universal holder — two halves separated, ready to slide together">
         <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/universal-top.webp" data-cap="Universal holder — top view showing the slot grid adjustment system">
+      <div class="snap-thumb" data-type="img" data-fit="cover" data-src="IMAGES/Number Plate Holder/universal-top.webp" data-cap="Universal holder — top view showing the slot grid adjustment system">
         <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="">
       </div>
       <div class="snap-thumb is-video" data-type="vid" data-src="IMAGES/Number Plate Holder/fusion360-animation.mp4" data-cap="Fusion 360 — adjustable rear bracket animation">
@@ -527,6 +519,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
     const type=th.dataset.type;
     const src=th.dataset.src;
     const cap=th.dataset.cap||'';
+    const fit=th.dataset.fit||'cover';
     capEl.textContent=cap;
     // Remove existing media
     const old=mainEl.querySelector('img,video');
@@ -539,6 +532,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
     } else {
       const i=document.createElement('img');
       i.src=src; i.alt=cap;
+      i.style.objectFit=fit;
       i.onclick=()=>openLb(i);
       mainEl.insertBefore(i,capEl);
     }
