@@ -78,7 +78,7 @@
 [data-theme="light"] .spec-block{background:var(--surface);}
 [data-theme="light"] .decision{background:var(--surface);}
 body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
-.hero{position:relative;padding:52px 56px 44px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero{position:relative;padding:72px 56px 44px;border-bottom:1px solid var(--border);overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
 .hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(93,188,255,0.13) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.6;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
 [data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(0,102,204,0.09) 1.5px,transparent 0);}
@@ -588,16 +588,16 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       </div>
     </div>
 
-    <!-- Full car photo + 3D render side by side -->
-    <div style="margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;">
+    <!-- Full car photo + 3D render stacked -->
+    <div style="margin-top:32px;display:flex;flex-direction:column;gap:20px;">
       <div class="gallery-item" style="width:100%;">
-        <img width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/large-rc-without-remote.webp" alt="Large RC car fully assembled" style="aspect-ratio:4/3;max-height:none;object-fit:cover;object-position:center 65%;" onclick="openLb(this)">
+        <img width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/large-rc-without-remote.webp" alt="Large RC car fully assembled" style="display:block;width:100%;height:280px;max-height:none;object-fit:cover;object-position:center 65%;" onclick="openLb(this)">
         <div class="gallery-caption">Fully assembled — final build</div>
       </div>
-      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;">
-        <model-viewer src="IMAGES/Large%20RC%20Car/RC%20Car%20(Official).glb" alt="Large RC Car — Interactive 3D Model" camera-controls auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" orientation="0deg -90deg 0deg" style="width:100%;flex:1;min-height:260px;" ar-status="not-presenting">
+      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface);">
+        <model-viewer src="IMAGES/Large%20RC%20Car/RC%20Car%20(Official).glb" alt="Large RC Car — Interactive 3D Model" camera-controls auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" orientation="0deg -90deg 0deg" style="width:100%;height:280px;display:block;" ar-status="not-presenting">
         </model-viewer>
-        <div class="gallery-caption">Interactive 3D model — drag to rotate · scroll to zoom</div>
+        <div class="gallery-caption" style="padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);">Interactive 3D model — drag to rotate · scroll to zoom</div>
       </div>
     </div>
   </section>
@@ -611,8 +611,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-bottom:32px;">
       <div class="remote-card" style="grid-template-columns:1fr;">
-        <div class="remote-card-img" style="aspect-ratio:4/3;border-right:none;border-bottom:1px solid var(--border);">
-          <img width="720" height="1280" loading="lazy" src="IMAGES/Large RC Car/remote-photo-new.webp" alt="Custom 3D-printed remote with dual joysticks" onclick="openLb(this)" style="object-position:center top;">
+        <div class="remote-card-img" style="aspect-ratio:16/9;border-right:none;border-bottom:1px solid var(--border);">
+          <img width="720" height="1280" loading="lazy" src="IMAGES/Large RC Car/remote-photo-new.webp" alt="Custom 3D-printed remote with dual joysticks" onclick="openLb(this)" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
         </div>
         <div class="remote-card-info">
           <div class="remote-card-sub">Designed from scratch</div>
@@ -632,11 +632,11 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       </div>
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div class="gallery-item" style="width:100%;">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-slicer.webp" alt="Remote being sliced in Creality Studio" onclick="openLb(this)" style="aspect-ratio:4/3;max-height:none;object-fit:cover;">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-slicer.webp" alt="Remote being sliced in Creality Studio" onclick="openLb(this)" style="display:block;width:100%;height:160px;object-fit:cover;">
           <div class="gallery-caption">Creality Studio — remote shell slicer preview</div>
         </div>
         <div class="gallery-item" style="width:100%;">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly on workbench with components" onclick="openLb(this)" style="aspect-ratio:4/3;max-height:none;object-fit:cover;">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly on workbench with components" onclick="openLb(this)" style="display:block;width:100%;height:160px;object-fit:cover;">
           <div class="gallery-caption">Remote assembly — joysticks, ESP32 WROOM, wiring</div>
         </div>
       </div>
