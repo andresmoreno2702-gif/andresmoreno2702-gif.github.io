@@ -389,19 +389,16 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-joysticks.webp" data-cap="Custom gamepad — dual KY-023 joystick internals">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-joysticks.webp" alt="Remote joysticks">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Large RC Car/fusion360-model.webp" data-cap="Fusion 360 — wheel &amp; differential gear CAD">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/fusion360-model.webp" alt="Fusion 360 model">
-        </div>
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/chassis-underside.webp" data-cap="Assembled chassis — underside drivetrain view">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/chassis-underside.webp" alt="Chassis underside">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Large RC Car/early-electronics.webp" data-cap="Electronics assembly — ESP32 WROOM, DRV8876, LiPo wiring">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Early electronics">
+        <div class="snap-thumb" data-src="IMAGES/Large RC Car/early-electronics.webp" data-cap="Electronics assembly — ESP32 WROOM, DRV8876, LiPo wiring" data-pos="center 20%">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Early electronics" style="object-position:center 20%;">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-assembly.webp" data-cap="Remote assembly — joysticks, ESP32 WROOM, wiring">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-slicer.webp" data-cap="Bambu Studio — remote shell slicer preview">
+        <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-slicer.webp" data-cap="Creality Studio — remote shell slicer preview">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-slicer.webp" alt="Remote slicer">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/early-build.webp" data-cap="Early build — chassis and components laid out">
@@ -549,8 +546,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
           <div class="timeline-body">Started with the wheel geometry — real rubber tyres with a proper tread pattern — and worked backwards to figure out the chassis dimensions. Modelled a working Ackermann steering linkage, front and rear axles, servo mount, and motor housing. Everything was parametric so I could adjust wheelbase without redrawing from scratch.</div>
         </div>
         <div class="timeline-img">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/fusion360-model.webp" alt="Fusion 360 3D model of wheel and axle assembly" onclick="openLb(this)">
-          <div class="timeline-img-cap">Fusion 360 — wheel + differential gear assembly</div>
+          <img width="952" height="1280" loading="lazy" src="IMAGES/Large RC Car/gears.webp" alt="Differential gear assembly" onclick="openLb(this)">
+          <div class="timeline-img-cap">Differential gear assembly — 3D-printed components</div>
         </div>
       </div>
 
@@ -559,7 +556,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="tl-text">
           <div class="timeline-step blue">Step 02</div>
           <div class="timeline-heading">3D printing the chassis</div>
-          <div class="timeline-body">Printed in black PLA on a Bambu printer. The main chassis plate, servo mount bracket, rear motor housing, and wheel hubs all came out cleanly. The Ackermann arms took a couple of iterations to get the right pivot geometry — first print was too flexible at the steering knuckle.</div>
+          <div class="timeline-body">Printed in black PLA on a Creality printer. The main chassis plate, servo mount bracket, rear motor housing, and wheel hubs all came out cleanly. The Ackermann arms took a couple of iterations to get the right pivot geometry — first print was too flexible at the steering knuckle.</div>
         </div>
         <div class="timeline-img">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/chassis-assembly.webp" alt="3D printed chassis with rubber tyres and servo" onclick="openLb(this)">
@@ -595,15 +592,15 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     </div>
 
     <!-- Full car photo -->
-    <div class="gallery" style="margin-top:32px;">
-      <div class="gallery-item wide">
-        <img width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/large-rc-without-remote.webp" alt="Large RC car fully assembled" style="aspect-ratio:16/9;max-height:300px;object-fit:cover;object-position:center 65%;" onclick="openLb(this)">
+    <div style="margin-top:32px;max-width:480px;margin-left:auto;margin-right:auto;">
+      <div class="gallery-item" style="width:100%;">
+        <img width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/large-rc-without-remote.webp" alt="Large RC car fully assembled" style="aspect-ratio:3/4;object-fit:cover;object-position:center 65%;" onclick="openLb(this)">
         <div class="gallery-caption">Fully assembled — final build</div>
       </div>
     </div>
 
     <div style="margin-top:28px">
-      <model-viewer src="IMAGES/Large%20RC%20Car/RC%20Car%20(Official).glb" alt="Large RC Car — Interactive 3D Model" camera-controls auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" style="width:100%;height:420px;border-radius:12px;background:var(--surface);border:1px solid var(--border);" ar-status="not-presenting">
+      <model-viewer src="IMAGES/Large%20RC%20Car/RC%20Car%20(Official).glb" alt="Large RC Car — Interactive 3D Model" camera-controls auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" orientation="0deg -90deg 0deg" style="width:100%;height:420px;border-radius:12px;background:var(--surface);border:1px solid var(--border);" ar-status="not-presenting">
       </model-viewer>
       <div class="gallery-caption" style="margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--text-muted);">Interactive 3D model — drag to rotate · scroll to zoom</div>
     </div>
@@ -618,7 +615,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="remote-card" style="margin-bottom:32px;">
       <div class="remote-card-img">
-        <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-joysticks.webp" alt="Custom 3D-printed remote with dual joysticks" onclick="openLb(this)">
+        <img width="720" height="1280" loading="lazy" src="IMAGES/Large RC Car/remote-photo-new.webp" alt="Custom 3D-printed remote with dual joysticks" onclick="openLb(this)">
       </div>
       <div class="remote-card-info">
         <div class="remote-card-sub">Designed from scratch</div>
@@ -627,7 +624,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
           Instead of using an off-the-shelf transmitter I modelled a full gamepad shell in Fusion 360. The body was split into two printable halves, designed to fit exactly around two KY-023 analog joystick modules and an ESP32 WROOM board. Printed in black PLA with hand-fit tolerances — no fasteners for the shell, just press-fit clips. The joystick thumb-caps are custom 3D-modelled covers that screw on and off, allowing the sticks to be swapped or adjusted without disassembling the remote.
         </div>
         <ul class="remote-spec-list">
-          <li>Modelled in Fusion 360, printed on Bambu</li>
+          <li>Modelled in Fusion 360, printed on Creality</li>
           <li>Dual KY-023 analog joystick modules</li>
           <li>ESP32 WROOM transmitter</li>
           <li>ESP32-NOW protocol — no pairing, peer-to-peer MAC</li>
@@ -639,11 +636,11 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="two-col">
       <div class="gallery-item screenshot">
-        <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-slicer.webp" alt="Remote being sliced in Bambu Studio" onclick="openLb(this)" style="max-height:200px;object-fit:cover;">
-        <div class="gallery-caption">Bambu Studio — remote shell slicer preview</div>
+        <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-slicer.webp" alt="Remote being sliced in Creality Studio" onclick="openLb(this)" style="aspect-ratio:4/3;object-fit:cover;">
+        <div class="gallery-caption">Creality Studio — remote shell slicer preview</div>
       </div>
       <div class="gallery-item">
-        <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly on workbench with components" onclick="openLb(this)" style="max-height:200px;object-fit:cover;">
+        <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly on workbench with components" onclick="openLb(this)" style="aspect-ratio:4/3;object-fit:cover;">
         <div class="gallery-caption">Remote assembly — joysticks, ESP32 WROOM, wiring</div>
       </div>
     </div>
