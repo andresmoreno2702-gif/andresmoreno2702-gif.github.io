@@ -569,7 +569,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
           <div class="timeline-body">The car runs an <strong>ESP32 WROOM</strong> as the receiver. It listens for ESP32-NOW packets from the remote and maps joystick values to PWM signals — left joystick Y-axis for throttle/reverse, right joystick X-axis for servo steering angle. The <strong>DRV8876</strong> handles motor direction and PWM speed control via IN1/IN2 mode. Power came from a WLtoys 144001 2S 7.4V 3500mAh LiPo — the 3A buck converter stepped it down to 5V for the ESP32 and electronics, while the 5A boost converter pushed 12V directly to the motor. That boost converter was the first mistake — more voltage didn't fix what was fundamentally a weight problem.</div>
         </div>
         <div class="timeline-img">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Electronics on workbench during assembly" onclick="openLb(this)" style="object-position:center top;">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Electronics on workbench during assembly" onclick="openLb(this)" style="object-position:center bottom;">
           <div class="timeline-img-cap">Electronics assembly — ESP32 WROOM, DRV8876, LiPo wiring</div>
         </div>
       </div>
@@ -582,7 +582,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
           <div class="timeline-body">Getting everything fitted into the chassis without shorting anything was the hardest part. With a buck converter, a boost converter, the DRV8876 driver, and the oversized LiPo, the electronics stack sat on top of the frame rather than inside it — raising the centre of mass. First drive test confirmed the car worked correctly: steering responsive, throttle smooth, ESP32-NOW had no noticeable lag. But it was slow — way slower than expected for the motor spec. The weight was the culprit.</div>
         </div>
         <div class="timeline-img">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/chassis-underside.webp" alt="Assembled RC car chassis bottom view" onclick="openLb(this)" style="object-position:center top;">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/chassis-underside.webp" alt="Assembled RC car chassis bottom view" onclick="openLb(this)" style="object-position:center bottom;">
           <div class="timeline-img-cap">Fully assembled — chassis underside showing drivetrain</div>
         </div>
       </div>
