@@ -232,9 +232,6 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
       <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" data-cap="Adjustable rear holder — printed, close-up of sliding mechanism">
         <img src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" alt="">
       </div>
-      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" data-cap="Adjustable rear holder — top view, full bracket">
-        <img src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" alt="">
-      </div>
       <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" data-cap="Fusion 360 — Rear Adjustable Plate Holder CAD model">
         <img src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" alt="">
       </div>
@@ -355,7 +352,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
             </div>
           </div>
           <div class="tl-img" style="margin-top:10px">
-            <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="Installed on Audi grille" onclick="openLb(this)" style="max-height:320px;object-fit:cover;object-position:center 35%">
+            <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="Installed on Audi grille" onclick="openLb(this)" style="max-height:380px;object-fit:cover;object-position:center 75%">
             <div class="tl-img-cap">Installed — flush behind the Audi honeycomb grille, invisible from the front</div>
           </div>
         </div>
@@ -414,15 +411,9 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
             Print the same two files, set it to your plate width, tighten. Works for any standard plate size.
           </div>
 
-          <div class="tl-2col">
-            <div class="tl-img">
-              <img src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" alt="Adjustable bracket top view" onclick="openLb(this)">
-              <div class="tl-img-cap">Printed — top view showing sliding mechanism and screw lock</div>
-            </div>
-            <div class="tl-img">
-              <img src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" alt="Adjustable bracket close-up" onclick="openLb(this)">
-              <div class="tl-img-cap">Close-up — sliding joint detail and M3 lock hole</div>
-            </div>
+          <div class="tl-img" style="margin-top:14px">
+            <img src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" alt="Adjustable bracket top view" onclick="openLb(this)">
+            <div class="tl-img-cap">Printed — top view showing sliding mechanism and screw lock</div>
           </div>
 
           <div class="tl-2col" style="margin-top:10px">
@@ -439,7 +430,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <!-- VIDEOS -->
           <div style="margin-top:18px">
             <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Mechanism in action</div>
-            <div class="vid-grid">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <div class="vid-wrap">
                 <video controls playsinline preload="metadata">
                   <source src="IMAGES/Number Plate Holder/demo-adjust1.mp4" type="video/mp4">
@@ -452,18 +443,20 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
                 </video>
                 <div class="vid-cap">Sliding mechanism</div>
               </div>
-              <div class="vid-wrap wide">
-                <video controls playsinline preload="metadata">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+              <div class="tl-img" style="margin-top:0">
+                <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:contain;background:#111">
                   <source src="IMAGES/Number Plate Holder/demo-adjust3.mp4" type="video/mp4">
                 </video>
-                <div class="vid-cap">Full range of motion</div>
+                <div class="tl-img-cap">Full range of motion</div>
               </div>
-            </div>
-            <div class="tl-img" style="margin-top:10px">
-              <video controls playsinline preload="metadata" style="width:100%;display:block;max-height:240px;object-fit:contain;background:#111">
-                <source src="IMAGES/Number Plate Holder/fusion360-animation.mp4" type="video/mp4">
-              </video>
-              <div class="tl-img-cap">Fusion 360 — CAD model animation of the adjustable rear bracket</div>
+              <div class="tl-img" style="margin-top:0">
+                <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:contain;background:#111">
+                  <source src="IMAGES/Number Plate Holder/fusion360-animation.mp4" type="video/mp4">
+                </video>
+                <div class="tl-img-cap">Fusion 360 — CAD model animation</div>
+              </div>
             </div>
           </div>
 
