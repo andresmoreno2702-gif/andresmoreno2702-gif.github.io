@@ -873,5 +873,161 @@ window.openLb=openLb; window.closeLb=closeLb;
 })();
 </script>
 
+<!-- ── Photo Position Editor ── -->
+<style>
+.ped-btn{position:fixed;bottom:24px;right:24px;z-index:3000;background:var(--accent,#3b82f6);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.35);transition:background .2s;}
+.ped-btn.on{background:#ef4444;}
+body.ped-mode .ped-img{outline:2px dashed rgba(59,130,246,.55)!important;cursor:crosshair!important;}
+body.ped-mode .ped-img.ped-sel{outline:2px solid #3b82f6!important;box-shadow:0 0 0 4px rgba(59,130,246,.18)!important;}
+#ped-panel{display:none;position:fixed;bottom:68px;right:24px;z-index:3000;background:var(--bg,#111214);border:1px solid var(--border,rgba(255,255,255,.1));border-radius:12px;padding:16px;width:230px;box-shadow:0 12px 40px rgba(0,0,0,.5);font-family:var(--mono);font-size:11px;color:var(--text,#eee);}
+#ped-panel.vis{display:block;}
+#ped-fname{font-size:10px;color:var(--accent,#3b82f6);margin-bottom:12px;word-break:break-all;min-height:14px;}
+.ped-arrows{display:grid;grid-template-columns:repeat(3,36px);grid-template-rows:repeat(3,36px);gap:4px;margin-bottom:12px;}
+.ped-ab{width:36px;height:36px;border:1px solid var(--border,rgba(255,255,255,.1));background:var(--surface,#1a1c1f);color:var(--text,#eee);border-radius:7px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;}
+.ped-ab:hover,.ped-ab:active{background:var(--accent,#3b82f6);border-color:var(--accent,#3b82f6);color:#fff;}
+.ped-ab.ghost{background:none;border:none;cursor:default;}
+.ped-zoom{display:flex;gap:8px;margin-bottom:12px;}
+.ped-zoom button{flex:1;padding:7px 4px;border:1px solid var(--border,rgba(255,255,255,.1));background:var(--surface,#1a1c1f);color:var(--text,#eee);border-radius:7px;cursor:pointer;font-size:12px;transition:background .15s;}
+.ped-zoom button:hover{background:var(--accent,#3b82f6);border-color:var(--accent,#3b82f6);color:#fff;}
+#ped-vals{font-size:10px;color:var(--text-muted,#666);margin-bottom:12px;}
+.ped-acts{display:flex;flex-direction:column;gap:7px;}
+.ped-acts button{width:100%;padding:8px;border:none;border-radius:7px;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;transition:opacity .15s;}
+.ped-acts button:hover{opacity:.85;}
+.pa-reset{background:rgba(239,68,68,.15);color:#ef4444;}
+.pa-copy{background:rgba(59,130,246,.18);color:#60a5fa;}
+.pa-all{background:rgba(34,197,94,.15);color:#4ade80;}
+</style>
+
+<button class="ped-btn" id="pedBtn">⊞ Edit Photos</button>
+<div id="ped-panel">
+  <div id="ped-fname">select a photo</div>
+  <div class="ped-arrows">
+    <div class="ped-ab ghost"></div>
+    <button class="ped-ab" id="pa-u" title="Pan up (image moves up, shows bottom)">↑</button>
+    <div class="ped-ab ghost"></div>
+    <button class="ped-ab" id="pa-l" title="Pan left">←</button>
+    <button class="ped-ab" id="pa-c" title="Reset to centre">·</button>
+    <button class="ped-ab" id="pa-r" title="Pan right">→</button>
+    <div class="ped-ab ghost"></div>
+    <button class="ped-ab" id="pa-d" title="Pan down (image moves down, shows top)">↓</button>
+    <div class="ped-ab ghost"></div>
+  </div>
+  <div class="ped-zoom">
+    <button id="pa-zi">＋ zoom</button>
+    <button id="pa-zo">－ zoom</button>
+  </div>
+  <div id="ped-vals">pos: — · scale: —</div>
+  <div class="ped-acts">
+    <button class="pa-reset" id="pa-rst">↺ Reset this photo</button>
+    <button class="pa-copy" id="pa-cp">⎘ Copy this CSS</button>
+    <button class="pa-all" id="pa-all">⎘ Copy all changes</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STEP = 5, ZSTEP = 0.1;
+  let on = false, sel = null;
+  const states = new Map(), originals = new Map();
+
+  const $btn  = document.getElementById('pedBtn');
+  const $pan  = document.getElementById('ped-panel');
+  const $fn   = document.getElementById('ped-fname');
+  const $vals = document.getElementById('ped-vals');
+
+  function targets(){
+    return Array.from(document.querySelectorAll('.timeline-img img,.gallery-item img,.remote-card-img img'));
+  }
+
+  function parsePop(img){
+    const raw = (img.style.objectPosition||'').trim();
+    if(!raw) return {x:50,y:50};
+    const named = {left:0,center:50,right:100,top:0,bottom:100};
+    const parts = raw.split(/\s+/);
+    function p(v,def){ return named[v]!==undefined ? named[v] : (isNaN(parseFloat(v)) ? def : parseFloat(v)); }
+    return {x: p(parts[0],50), y: p(parts[1]||'50',50)};
+  }
+  function parseScale(img){
+    const m = (img.style.transform||'').match(/scale\(([^)]+)\)/);
+    return m ? parseFloat(m[1]) : 1;
+  }
+  function init(img){
+    if(!states.has(img)){
+      const s = {...parsePop(img), scale: parseScale(img)};
+      states.set(img, {...s});
+      originals.set(img, {...s});
+    }
+    return states.get(img);
+  }
+  function apply(img){
+    const s = states.get(img);
+    if(!s) return;
+    s.x = Math.max(0,Math.min(100,s.x));
+    s.y = Math.max(0,Math.min(100,s.y));
+    img.style.objectPosition = s.x.toFixed(1)+'% '+s.y.toFixed(1)+'%';
+    img.style.transformOrigin = s.x.toFixed(1)+'% '+s.y.toFixed(1)+'%';
+    img.style.transform = s.scale!==1 ? 'scale('+s.scale.toFixed(2)+')' : '';
+    refreshVals();
+  }
+  function refreshVals(){
+    if(!sel) return;
+    const s = states.get(sel);
+    $fn.textContent = sel.src.split('/').pop().replace(/%20/g,' ');
+    $vals.textContent = 'pos: '+s.x.toFixed(0)+'% '+s.y.toFixed(0)+'% · scale: '+s.scale.toFixed(2);
+  }
+
+  function toggle(){
+    on = !on;
+    document.body.classList.toggle('ped-mode', on);
+    $btn.textContent = on ? '✕ Exit editing' : '⊞ Edit Photos';
+    $btn.classList.toggle('on', on);
+    if(!on){ deselect(); $pan.classList.remove('vis'); }
+    targets().forEach(img=>{
+      if(on){
+        img.classList.add('ped-img');
+        img._ped = e=>{ if(!on) return; e.preventDefault(); e.stopPropagation(); select(img); };
+        img.addEventListener('click', img._ped, true);
+      } else {
+        img.classList.remove('ped-img','ped-sel');
+        if(img._ped){ img.removeEventListener('click',img._ped,true); delete img._ped; }
+      }
+    });
+  }
+  function select(img){ deselect(); sel=img; img.classList.add('ped-sel'); init(img); refreshVals(); $pan.classList.add('vis'); }
+  function deselect(){ if(sel) sel.classList.remove('ped-sel'); sel=null; }
+
+  function move(dx,dy){ if(!sel) return; const s=init(sel); s.x+=dx; s.y+=dy; apply(sel); }
+  function zoom(dz){ if(!sel) return; const s=init(sel); s.scale=Math.max(0.5,Math.min(3,s.scale+dz)); apply(sel); }
+
+  $btn.addEventListener('click', toggle);
+  document.getElementById('pa-u').addEventListener('click', ()=>move(0,-STEP));
+  document.getElementById('pa-d').addEventListener('click', ()=>move(0,STEP));
+  document.getElementById('pa-l').addEventListener('click', ()=>move(-STEP,0));
+  document.getElementById('pa-r').addEventListener('click', ()=>move(STEP,0));
+  document.getElementById('pa-c').addEventListener('click', ()=>{ if(!sel) return; const s=init(sel); s.x=50;s.y=50;s.scale=1; apply(sel); });
+  document.getElementById('pa-zi').addEventListener('click', ()=>zoom(ZSTEP));
+  document.getElementById('pa-zo').addEventListener('click', ()=>zoom(-ZSTEP));
+
+  document.getElementById('pa-rst').addEventListener('click', ()=>{
+    if(!sel) return;
+    const o=originals.get(sel); if(!o) return;
+    states.set(sel,{...o}); apply(sel);
+  });
+  document.getElementById('pa-cp').addEventListener('click', ()=>{
+    if(!sel) return;
+    const s=states.get(sel);
+    const txt='object-position:'+s.x.toFixed(1)+'% '+s.y.toFixed(1)+'%'+(s.scale!==1?';transform:scale('+s.scale.toFixed(2)+')':'');
+    navigator.clipboard.writeText(txt).then(()=>{ document.getElementById('pa-cp').textContent='✓ Copied!'; setTimeout(()=>document.getElementById('pa-cp').textContent='⎘ Copy this CSS',1600); });
+  });
+  document.getElementById('pa-all').addEventListener('click', ()=>{
+    const lines=[];
+    states.forEach((s,img)=>{
+      lines.push(img.src.split('/').pop().replace(/%20/g,' ')+'\n  pos: '+s.x.toFixed(1)+'% '+s.y.toFixed(1)+'% · scale: '+s.scale.toFixed(2));
+    });
+    if(!lines.length){ alert('No changes yet.'); return; }
+    navigator.clipboard.writeText(lines.join('\n\n')).then(()=>{ document.getElementById('pa-all').textContent='✓ Copied!'; setTimeout(()=>document.getElementById('pa-all').textContent='⎘ Copy all changes',1600); });
+  });
+})();
+</script>
 </body>
 </html>
