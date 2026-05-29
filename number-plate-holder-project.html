@@ -189,7 +189,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
   <h1>Number Plate<br><span>Holder</span></h1>
   <div class="hero-meta">
     <span class="badge badge-blue">Fusion 360</span>
-    <span class="badge badge-amber">3D Printed PLA</span>
+    <span class="badge badge-amber">3D Printed PETG</span>
     <span class="badge badge-purple">Mechanical Design</span>
     <span class="badge badge-green">4 Iterations</span>
   </div>
@@ -271,7 +271,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
       <div class="stat-card green">
         <div class="stat-label">Tool</div>
         <div class="stat-value">Fusion</div>
-        <div class="stat-sub">Fusion 360 + PLA</div>
+        <div class="stat-sub">Fusion 360 + PETG</div>
       </div>
     </div>
 
@@ -307,7 +307,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <div class="tl-sub">Fusion 360 · Large · Fixed dimensions · Custom sized to one plate</div>
           <div class="tl-text">
             The first bracket — measured the rear plate, modelled a holder to match exactly.
-            Large profile, solid construction, printed in black PLA.
+            Large profile, solid construction. Prototyped in PLA, final prints in black PETG — stronger and more heat-resistant for an outdoor car mount.
             Fitted correctly and held the plate cleanly.
             <br><br>
             <strong>What I didn't notice yet:</strong> every dimension was hard-coded to my specific plate.
@@ -317,6 +317,16 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <div class="tl-img">
             <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three versions — Stage 1 is the large piece on the left" onclick="openLb(this)">
             <div class="tl-img-cap">Left piece: Stage 1 — first large rear holder. Largest, most material, fixed dimensions.</div>
+          </div>
+          <div class="tl-2col" style="margin-top:10px">
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="Flat panel — two halves" onclick="openLb(this)">
+              <div class="tl-img-cap">Flat panel design — two halves before assembly</div>
+            </div>
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="Flat panel — top view slot grid" onclick="openLb(this)">
+              <div class="tl-img-cap">Flat panel — slot grid visible from top</div>
+            </div>
           </div>
         </div>
       </div>
@@ -339,7 +349,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
             rigid enough under road vibration, and the screw geometry had to self-align to the mesh geometry.
             The screw post and T-nut base were modelled as a proper threaded fastener pair — not just a friction fit.
             <br><br>
-            Printed, installed, still in use. Still fixed to my plate size though.
+            Printed in PETG, installed, still in use. Still fixed to my plate size though.
           </div>
           <div class="tl-2col">
             <div class="tl-img">
@@ -375,14 +385,13 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
             Applied that to the rear: cut out everything that wasn't structurally necessary.
             The slot pattern replaced solid infill, corner bosses stayed because they take the mounting load,
             the rest was removed.
-            Same clamping action, noticeably less PLA, faster print.
+            Same clamping action, noticeably less material, faster print.
             <br><br>
             <strong>Still the same plate dimensions.</strong> That realisation came later.
-            Middle piece in the comparison photo.
           </div>
           <div class="tl-img">
-            <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three versions — Stage 3 is the middle piece" onclick="openLb(this)">
-            <div class="tl-img-cap">Middle piece: Stage 3 — simplified rear holder. Less material, same function, still fixed size.</div>
+            <img src="IMAGES/Number Plate Holder/simplified-plate-comparison.webp" alt="Simplified rear holder installed on car, old design held for comparison" onclick="openLb(this)">
+            <div class="tl-img-cap">Stage 3 installed on the car — simplified clip arms. Old slotted design held for scale comparison.</div>
           </div>
         </div>
       </div>
@@ -416,28 +425,11 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
             <div class="tl-img-cap">Printed — top view showing sliding mechanism and screw lock</div>
           </div>
 
-          <div class="tl-2col" style="margin-top:10px">
-            <div class="tl-img">
-              <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="Two-piece disassembled" onclick="openLb(this)">
-              <div class="tl-img-cap">Flat panel variant — two halves before assembly</div>
-            </div>
-            <div class="tl-img">
-              <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="Flat panel assembled" onclick="openLb(this)">
-              <div class="tl-img-cap">Flat panel variant — slot grid visible from top</div>
-            </div>
-          </div>
-
           <!-- VIDEOS -->
           <div style="margin-top:18px">
             <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Mechanism in action</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="vid-wrap">
-                <video controls playsinline preload="metadata">
-                  <source src="IMAGES/Number Plate Holder/demo-adjust1.mp4" type="video/mp4">
-                </video>
-                <div class="vid-cap">Adjustment demo</div>
-              </div>
-              <div class="vid-wrap">
+            <div style="display:flex;justify-content:center">
+              <div class="vid-wrap" style="width:50%;min-width:180px">
                 <video controls playsinline preload="metadata">
                   <source src="IMAGES/Number Plate Holder/demo-adjust2.mp4" type="video/mp4">
                 </video>
@@ -446,7 +438,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
               <div class="tl-img" style="margin-top:0">
-                <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:contain;background:#111">
+                <video controls playsinline preload="metadata" style="width:100%;display:block;height:200px;object-fit:cover;object-position:center center;background:#111">
                   <source src="IMAGES/Number Plate Holder/demo-adjust3.mp4" type="video/mp4">
                 </video>
                 <div class="tl-img-cap">Full range of motion</div>
@@ -480,7 +472,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
       <div class="spec-block">
         <div class="spec-block-header">Front Bracket (Stage 2)</div>
         <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360</span></div>
-        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PLA — black</span></div>
+        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PETG — black</span></div>
         <div class="spec-row"><span class="spec-key">Mount method</span><span class="spec-val ok">Clips into grille cells</span></div>
         <div class="spec-row"><span class="spec-key">Fastener</span><span class="spec-val">M3 screw + printed T-nut</span></div>
         <div class="spec-row"><span class="spec-key">Plate size</span><span class="spec-val warn">Fixed — custom to one plate</span></div>
@@ -489,7 +481,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
       <div class="spec-block">
         <div class="spec-block-header">Universal Holder (Stage 4)</div>
         <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360</span></div>
-        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PLA — black</span></div>
+        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PETG — black</span></div>
         <div class="spec-row"><span class="spec-key">Pieces</span><span class="spec-val">2 identical halves</span></div>
         <div class="spec-row"><span class="spec-key">Total width</span><span class="spec-val ok">370mm (2 × 185mm)</span></div>
         <div class="spec-row"><span class="spec-key">Height</span><span class="spec-val">100mm</span></div>
