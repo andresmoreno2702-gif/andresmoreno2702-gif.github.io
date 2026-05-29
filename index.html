@@ -1,1109 +1,1083 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#111214">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Andrés Moreno Navarro — Portfolio</title>
+<title>Andrés Moreno Navarro — EE · PCB · Embedded Systems</title>
+<meta name="description" content="Andrés Moreno — EE student at UWA Perth designing 4-layer PCBs in KiCad 9, building hardware around ESP32, and shipping embedded projects from scratch. Custom dev board, NES emulator, RC cars, VHDL designs.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="Andrés Moreno — EE · PCB · Embedded Systems">
+<meta property="og:description" content="EE student at UWA Perth. Custom 4-layer PCBs, ESP32 firmware, NES emulator, RC cars. Built from scratch.">
+<meta property="og:image" content="IMAGES/ESP32 S3 Board/3dview-Photoroom.png">
+<meta property="og:type" content="website">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    /* Sky palette — light */
-    --bg: #eef0f3;
-    --bg-2: #e3e6eb;
-    --ink: #0d1420;
-    --ink-2: #3a4658;
-    --ink-3: #7d8a9e;
-    --line: rgba(13, 20, 32, 0.1);
-    --line-2: rgba(13, 20, 32, 0.22);
-    --accent: #0066cc;
-    --accent-soft: rgba(0, 102, 204, 0.12);
-    --card: #f7f8fb;
-    --serif: 'Instrument Serif', serif;
-    --sans: 'Geist', 'Helvetica Neue', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  [data-theme="dark"] {
-    /* Sky palette — dark */
-    --bg: #0a0e16;
-    --bg-2: #13181f;
-    --ink: #eef0f3;
-    --ink-2: #a8b0bc;
-    --ink-3: #5d6675;
-    --line: rgba(238, 240, 243, 0.1);
-    --line-2: rgba(238, 240, 243, 0.22);
-    --accent: #5dbcff;
-    --accent-soft: rgba(93, 188, 255, 0.12);
-    --card: #13181f;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    transition: background 0.5s var(--ease), color 0.5s var(--ease);
-  }
-  ::selection { background: var(--accent); color: var(--bg); }
+/* ─── TOKENS ─── */
+:root {
+  /* Dark (default) */
+  --bg:      #111214;
+  --bg2:     #17181c;
+  --bg3:     #1d1e23;
+  --bg4:     #242529;
+  --bd:      #2a2b31;
+  --bd2:     #3c3d45;
+  --text:    #e8e7e3;
+  --text2:   #8c8c96;
+  --text3:   #50505a;
+  --blue:    #3b82f6;
+  --blue2:   #60a5fa;
+  --bs:      rgba(59,130,246,.12);
+  --bm:      rgba(59,130,246,.2);
+  --green:   #22c55e;
+  --amber:   #f59e0b;
+  --purp:    #a78bfa;
+  --red:     #f87171;
+  --nav-bg:  rgba(17,18,20,.88);
+  --nav-mob: rgba(17,18,20,.97);
+  --sans:    'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:    'DM Mono','JetBrains Mono',monospace;
+  --ease:    cubic-bezier(0.22,1,0.36,1);
+  --r:       10px;
+  --r2:      18px;
+}
+/* Light mode overrides */
+[data-theme="light"] {
+  --bg:      #f8f7f4;
+  --bg2:     #f0efe9;
+  --bg3:     #e8e7e0;
+  --bg4:     #dedad0;
+  --bd:      #e2e1da;
+  --bd2:     #c9c8c0;
+  --text:    #111110;
+  --text2:   #5a5a55;
+  --text3:   #9e9d96;
+  --blue:    #3b82f6;
+  --blue2:   #2563eb;
+  --bs:      rgba(59,130,246,.08);
+  --bm:      rgba(59,130,246,.15);
+  --green:   #16a34a;
+  --amber:   #d97706;
+  --purp:    #7c3aed;
+  --red:     #dc2626;
+  --nav-bg:  rgba(248,247,244,.88);
+  --nav-mob: rgba(248,247,244,.97);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--bd2) transparent;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .4s var(--ease),color .4s var(--ease);}
+::selection{background:var(--blue);color:#fff;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
 
-  /* ── Nav ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 1.2rem 2.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    backdrop-filter: blur(14px);
-    background: color-mix(in oklab, var(--bg) 75%, transparent);
-    border-bottom: 1px solid var(--line);
-    transition: background 0.5s var(--ease), border-color 0.5s var(--ease);
-  }
-  .brand {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-style: italic;
-    letter-spacing: -0.01em;
-  }
-  .brand .dot { color: var(--accent); }
-  .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-  .nav-links a {
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--ink-2);
-    text-decoration: none;
-    position: relative;
-    padding: 4px 0;
-    transition: color 0.25s var(--ease);
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute; left: 0; bottom: 0;
-    height: 1px; width: 0;
-    background: var(--accent);
-    transition: width 0.35s var(--ease);
-  }
-  .nav-links a:hover { color: var(--ink); }
-  .nav-links a:hover::after { width: 100%; }
-  .theme-btn {
-    width: 38px; height: 38px;
-    border: 1px solid var(--line-2);
-    background: transparent; color: var(--ink);
-    border-radius: 50%; cursor: pointer;
-    display: grid; place-items: center;
-    transition: background 0.3s var(--ease), transform 0.3s var(--ease);
-  }
-  .theme-btn:hover { background: var(--ink); color: var(--bg); transform: rotate(20deg); }
-  .theme-btn svg { width: 16px; height: 16px; }
+/* ─── PROGRESS ─── */
+#bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0;
+  background:linear-gradient(90deg,var(--blue),var(--purp));pointer-events:none;transition:width .08s linear;}
 
-  /* ── Hero ── */
-  .hero {
-    padding: 11rem 2.5rem 5rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    position: relative;
-  }
-  .hero-meta {
-    display: flex; align-items: center; gap: 1rem;
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--ink-2);
-    margin-bottom: 2rem;
-  }
-  .hero-meta .pulse {
-    width: 8px; height: 8px;
-    background: #2a9d57; border-radius: 50%;
-    box-shadow: 0 0 0 0 #2a9d57;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(42,157,87,0.5); }
-    70%  { box-shadow: 0 0 0 10px rgba(42,157,87,0); }
-    100% { box-shadow: 0 0 0 0 rgba(42,157,87,0); }
-  }
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(3.5rem, 11vw, 10rem);
-    font-weight: 400;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    margin-bottom: 1.5rem;
-  }
-  .hero h1 .italic { font-style: italic; color: var(--accent); }
-  .hero h1 .word {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: rise 1s var(--ease) forwards;
-  }
-  .hero h1 .word:nth-child(1) { animation-delay: 0.1s; }
-  .hero h1 .word:nth-child(2) { animation-delay: 0.2s; }
-  .hero h1 .word:nth-child(3) { animation-delay: 0.3s; }
-  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;
+  background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
+.nb{font-size:14px;font-weight:800;letter-spacing:-.02em;cursor:pointer;}
+.nb i{color:var(--blue);font-style:normal;}
+.nl{display:flex;gap:1.8rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nl a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text3);padding:4px 0;position:relative;transition:color .2s;}
+.nl a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;
+  background:var(--blue);transition:width .3s var(--ease);}
+.nl a:hover,.nl a.on{color:var(--text);}
+.nl a:hover::after,.nl a.on::after{width:100%;}
+.nr{display:flex;align-items:center;gap:.75rem;}
+.nbadge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:999px;
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green);}
+.live{width:6px;height:6px;border-radius:50%;background:var(--green);
+  animation:blink 2s ease infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.ham{display:none;width:34px;height:34px;border:1.5px solid var(--bd);border-radius:8px;
+  background:none;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+.ham span{display:block;width:15px;height:1.5px;background:var(--text);border-radius:2px;transition:all .3s var(--ease);}
+.ham.x span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.ham.x span:nth-child(2){opacity:0;}
+.ham.x span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+/* ─── THEME TOGGLE ─── */
+.thm{width:34px;height:34px;border:1.5px solid var(--bd2);border-radius:50%;
+  background:transparent;color:var(--text2);cursor:pointer;
+  display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--text);color:var(--bg);border-color:var(--text);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+/* show correct icon per theme */
+.thm .ico-moon{display:block;}
+.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}
+[data-theme="light"] .thm .ico-sun{display:block;}
+.mnav{display:none;position:fixed;top:58px;left:0;right:0;z-index:190;
+  background:var(--nav-mob);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--bd);padding:1rem 2.5rem;}
+.mnav.show{display:flex;flex-direction:column;}
+.mnav a{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text2);padding:.6rem 0;border-bottom:1px solid var(--bd);transition:color .2s;}
+.mnav a:last-child{border-bottom:none;}
+.mnav a:hover{color:var(--text);}
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 4rem;
-    align-items: end;
-    margin-top: 3rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--line);
-  }
-  .hero-desc {
-    font-family: var(--serif);
-    font-size: clamp(1.4rem, 2.4vw, 2rem);
-    line-height: 1.35;
-    color: var(--ink);
-    max-width: 32ch;
-  }
-  .hero-desc em { color: var(--accent); font-style: italic; }
-  .hero-side { display: flex; flex-direction: column; gap: 1.5rem; }
-  .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .btn {
-    font-family: var(--sans);
-    font-size: 13px; font-weight: 500;
-    padding: 14px 26px; border-radius: 999px;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px;
-    cursor: pointer;
-    transition: transform 0.3s var(--ease), background 0.3s var(--ease), color 0.3s var(--ease);
-    border: 1px solid transparent;
-  }
-  .btn-primary { background: var(--ink); color: var(--bg); }
-  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
-  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
-  .btn-ghost:hover { background: var(--ink); color: var(--bg); transform: translateY(-2px); }
-  .btn .arrow { transition: transform 0.3s var(--ease); }
-  .btn:hover .arrow { transform: translateX(3px); }
+/* ─── HERO ─── */
+.hero{max-width:1440px;margin:0 auto;padding:8.5rem 2.5rem 5rem;position:relative;}
+/* Subtle noise grain bg */
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;}
+.hero-ey{display:flex;align-items:center;gap:.75rem;margin-bottom:2rem;}
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;
+  text-transform:uppercase;letter-spacing:.13em;padding:5px 12px;border-radius:999px;
+  background:var(--bg3);border:1px solid var(--bd2);color:var(--text2);}
+.tag-blue{background:var(--bs);border-color:rgba(59,130,246,.25);color:var(--blue2);}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:4rem;align-items:center;}
+.hero-title{font-size:clamp(1.4rem,2.6vw,3.4rem);font-weight:800;line-height:1.1;letter-spacing:-.04em;white-space:nowrap;}
+.hero-title .ln1{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--purp) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-title .ln2{color:var(--text);}
+.hero-title .ln3{color:var(--text);font-weight:400;}
+.hero-right{display:flex;flex-direction:column;gap:2rem;}
+.hero-desc{font-size:1.05rem;line-height:1.82;color:var(--text2);max-width:38ch;}
+.hero-desc b{color:var(--text);font-weight:600;}
+.hero-btns{display:flex;gap:.6rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);
+  font-size:13px;font-weight:600;padding:11px 22px;border-radius:999px;
+  cursor:pointer;transition:all .25s var(--ease);}
+.btn-fill{background:var(--blue);color:#fff;border:1.5px solid var(--blue);}
+.btn-fill:hover{background:#2563eb;border-color:#2563eb;transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(59,130,246,.3);}
+.btn-line{background:transparent;color:var(--text2);border:1.5px solid var(--bd2);}
+.btn-line:hover{border-color:var(--text);color:var(--text);transform:translateY(-2px);}
+.arr{transition:transform .25s var(--ease);}
+.btn:hover .arr{transform:translateX(3px);}
+/* stats */
+.hero-stats{display:flex;gap:0;border:1.5px solid var(--bd);border-radius:var(--r2);
+  background:var(--bg2);overflow:hidden;margin-top:3rem;}
+.hst{flex:1;padding:1.25rem 1.6rem;text-align:center;border-right:1px solid var(--bd);}
+.hst:last-child{border-right:none;}
+.hst .n{font-size:2rem;font-weight:800;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(135deg,var(--blue),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hst .l{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--text3);margin-top:5px;}
 
-  .hero-stats {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--line); padding-top: 1.5rem;
-  }
-  .stat .n {
-    font-family: var(--serif);
-    font-size: 2.4rem; line-height: 1;
-    font-style: italic; color: var(--accent);
-  }
-  .stat .l {
-    font-family: var(--mono);
-    font-size: 10px; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--ink-3); margin-top: 8px;
-  }
+/* ─── NOW ─── */
+.now{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:.75rem 2.5rem;}
+.now-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.now-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--green);flex-shrink:0;}
+.now-txt{font-size:.875rem;color:var(--text2);flex:1;}
+.now-txt b{color:var(--text);}
+.now-dt{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.08em;flex-shrink:0;}
 
-  /* ── Marquee ── */
-  .marquee {
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    margin-top: 5rem; padding: 1.6rem 0;
-    overflow: hidden; white-space: nowrap;
-  }
-  .marquee-track {
-    display: inline-block;
-    animation: scroll 38s linear infinite;
-    font-family: var(--serif); font-size: 2.2rem;
-  }
-  .marquee-track span { margin: 0 2rem; }
-  .marquee-track .star { color: var(--accent); font-style: italic; }
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
+/* ─── MARQUEE ─── */
+.mq{border-bottom:1px solid var(--bd);overflow:hidden;padding:.9rem 0;
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
+.mq-t{display:inline-flex;animation:mqsc 40s linear infinite;
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;}
+.mq:hover .mq-t{animation-play-state:paused;}
+.mi{padding:0 2rem;color:var(--text3);white-space:nowrap;}
+.ms{color:var(--blue);opacity:.4;}
+@keyframes mqsc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  /* ── Sections ── */
-  section {
-    max-width: 1400px; margin: 0 auto; padding: 7rem 2.5rem;
-  }
-  .section-tag {
-    display: flex; align-items: center; gap: 1rem;
-    font-family: var(--mono); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: var(--ink-3); margin-bottom: 2.5rem;
-  }
-  .section-tag::before {
-    content: ''; display: inline-block;
-    width: 28px; height: 1px; background: var(--accent);
-  }
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 400; line-height: 1.05;
-    letter-spacing: -0.025em;
-    margin-bottom: 3.5rem; max-width: 18ch;
-  }
-  .section-title em { font-style: italic; color: var(--accent); }
+/* ─── SECTIONS ─── */
+.sec{max-width:1440px;margin:0 auto;padding:6rem 2.5rem;}
+.sec-hd{display:flex;align-items:flex-end;justify-content:space-between;
+  border-bottom:1.5px solid var(--bd2);padding-bottom:.65rem;margin-bottom:2.5rem;gap:1rem;}
+.sec-title{font-size:clamp(1.7rem,3.2vw,2.8rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1;color:var(--text);}
+.sec-title i{font-style:italic;font-weight:300;
+  background:linear-gradient(90deg,var(--blue),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sec-sub{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;
+  letter-spacing:.16em;color:var(--text3);}
 
-  /* ── Project cards ── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-  .project-card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 20px; overflow: hidden; cursor: pointer;
-    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
-    position: relative; display: flex; flex-direction: column;
-  }
-  .project-card:hover {
-    transform: translateY(-6px); border-color: var(--accent);
-    box-shadow: 0 24px 50px -20px var(--accent-soft);
-  }
-  .project-visual {
-    aspect-ratio: 16 / 11; background: var(--bg-2);
-    position: relative; overflow: hidden; display: grid; place-items: center;
-  }
-  .project-visual::before {
-    content: ''; position: absolute; inset: -40%;
-    background: radial-gradient(circle at 30% 40%, var(--accent-soft), transparent 60%);
-    opacity: 0; transition: opacity 0.5s var(--ease);
-  }
-  .project-card:hover .project-visual::before { opacity: 1; }
-  .project-glyph {
-    font-family: var(--serif); font-style: italic;
-    font-size: 6.5rem; color: var(--accent); line-height: 1; z-index: 1;
-    transition: transform 0.5s var(--ease);
-  }
-  .project-card:hover .project-glyph { transform: scale(1.08) rotate(-4deg); }
-  .project-idx {
-    position: absolute; top: 1rem; left: 1.2rem;
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-3); z-index: 1;
-  }
-  .project-status {
-    position: absolute; top: 1rem; right: 1.2rem;
-    font-family: var(--mono); font-size: 9px;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    padding: 5px 10px; border-radius: 999px;
-    background: var(--bg); border: 1px solid var(--line-2); z-index: 1;
-  }
-  .project-status.done { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .project-status.wip  { color: var(--accent); border-color: var(--accent); background: var(--bg); }
-  .project-status.pending { color: var(--ink-3); }
-  .project-body {
-    padding: 1.6rem 1.6rem 1.8rem;
-    display: flex; flex-direction: column; gap: 1rem; flex: 1;
-  }
-  .project-name {
-    font-family: var(--serif); font-size: 1.6rem;
-    line-height: 1.15; font-weight: 400; letter-spacing: -0.015em;
-  }
-  .project-name .accent { color: var(--accent); font-style: italic; }
-  .project-desc { font-size: 13px; line-height: 1.55; color: var(--ink-2); flex: 1; }
-  .project-tags-inline { display: flex; flex-wrap: wrap; gap: 6px; }
-  .project-tags-inline span {
-    font-family: var(--mono); font-size: 10px;
-    padding: 4px 9px; border-radius: 6px;
-    background: var(--bg-2); color: var(--ink-2);
-    letter-spacing: 0.04em; white-space: nowrap;
-  }
-  .project-arrow {
-    position: absolute; bottom: 1.5rem; right: 1.5rem;
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--ink); color: var(--bg);
-    display: grid; place-items: center;
-    font-family: var(--serif); font-size: 1.1rem;
-    opacity: 0; transform: translateY(8px) rotate(-45deg);
-    transition: all 0.4s var(--ease);
-  }
-  .project-card:hover .project-arrow {
-    opacity: 1; transform: translateY(0) rotate(-45deg); background: var(--accent);
-  }
+/* ─── FILTER ─── */
+.fbar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:2rem;}
+.fp{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;
+  padding:6px 15px;border-radius:999px;cursor:pointer;
+  border:1.5px solid var(--bd);background:transparent;color:var(--text3);
+  transition:all .22s ease;}
+.fp:hover{border-color:var(--bd2);color:var(--text);}
+.fp.on{background:var(--blue);border-color:var(--blue);color:#fff;
+  box-shadow:0 4px 16px rgba(59,130,246,.28);}
 
-  /* ── About ── */
-  .about-layout {
-    display: grid; grid-template-columns: 1.2fr 1fr;
-    gap: 5rem; align-items: start;
-  }
-  .about-prose {
-    font-family: var(--serif);
-    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
-    line-height: 1.55; color: var(--ink);
-  }
-  .about-prose p { margin-bottom: 1.2rem; }
-  .about-prose em { color: var(--accent); font-style: italic; }
-  .about-prose .drop {
-    font-size: 4rem; line-height: 0.85;
-    float: left; margin: 8px 12px 0 0;
-    font-style: italic; color: var(--accent);
-  }
-  .skills-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-  .skill {
-    font-family: var(--mono); font-size: 12px;
-    padding: 8px 14px; border-radius: 999px;
-    border: 1px solid var(--line-2); background: transparent;
-    color: var(--ink-2); transition: all 0.3s var(--ease);
-    cursor: default; display: inline-flex; align-items: center; gap: 8px;
-  }
-  .skill:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); transform: translateY(-2px); }
-  .skill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-  .skills-title {
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: var(--ink-3); margin-bottom: 1.2rem;
-  }
+/* ─── FEATURED CARD ─── */
+.feat{margin-bottom:1.5rem;}
+.feat-card{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r2);
+  overflow:hidden;border:1.5px solid var(--bd);background:var(--bg2);
+  transition:box-shadow .4s var(--ease),border-color .4s,transform .4s var(--ease);cursor:pointer;}
+.feat-card:hover{box-shadow:0 28px 80px rgba(0,0,0,.5),0 0 0 1px var(--bd2);
+  border-color:var(--bd2);transform:translateY(-3px);}
+.feat-img{position:relative;overflow:hidden;background:var(--bg3);min-height:320px;}
+.feat-img img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .7s var(--ease);}
+.feat-card:hover .feat-img img{transform:scale(1.04);}
+.feat-img-hold{width:100%;height:100%;min-height:320px;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:1rem;
+  position:relative;overflow:hidden;}
+.feat-img-hold::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 23px,var(--bd) 23px,var(--bd) 24px),
+             repeating-linear-gradient(90deg,transparent,transparent 23px,var(--bd) 23px,var(--bd) 24px);
+  opacity:.6;}
+.feat-badges{position:absolute;top:1.1rem;left:1.1rem;display:flex;gap:.5rem;z-index:2;}
+.fbdg{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.1em;
+  padding:4px 10px;border-radius:999px;backdrop-filter:blur(8px);}
+.fbdg-b{background:rgba(59,130,246,.18);color:var(--blue2);border:1px solid rgba(59,130,246,.3);}
+.fbdg-g{background:rgba(34,197,94,.14);color:var(--green);border:1px solid rgba(34,197,94,.28);}
+.feat-body{padding:2.5rem 2.8rem;display:flex;flex-direction:column;justify-content:center;gap:1.2rem;}
+.feat-cat{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.15em;
+  color:var(--blue2);display:flex;align-items:center;gap:8px;}
+.feat-cat::before{content:'';width:18px;height:1.5px;background:var(--blue);}
+.feat-name{font-size:clamp(1.7rem,2.8vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;color:var(--text);}
+.feat-name i{font-weight:300;font-style:italic;
+  background:linear-gradient(90deg,var(--blue),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.feat-desc{font-size:.96rem;line-height:1.76;color:var(--text2);max-width:38ch;}
+.feat-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.fchip{font-family:var(--mono);font-size:9.5px;padding:4px 10px;border-radius:6px;
+  background:var(--bg3);border:1px solid var(--bd2);color:var(--text2);letter-spacing:.03em;}
+.feat-nums{display:flex;gap:2rem;border-top:1px solid var(--bd);padding-top:1.2rem;}
+.fnum .n{font-size:1.7rem;font-weight:800;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(135deg,var(--blue),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.fnum .l{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--text3);margin-top:4px;}
+.feat-cta{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--blue2);
+  padding:8px 16px;border:1.5px solid rgba(59,130,246,.3);border-radius:8px;
+  background:var(--bs);align-self:flex-start;transition:all .25s;}
+.feat-cta:hover{background:var(--bm);border-color:rgba(59,130,246,.5);}
 
-  /* ── Resume ── */
-  .resume-block {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 24px; padding: 4rem 3rem;
-    display: grid; grid-template-columns: 1.5fr 1fr;
-    gap: 3rem; align-items: center;
-    position: relative; overflow: hidden;
-  }
-  .resume-block::before {
-    content: ''; position: absolute; right: -100px; top: -100px;
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 65%);
-  }
-  .resume-block h3 {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.6rem;
-  }
-  .resume-block h3 em { font-style: italic; color: var(--accent); }
-  .resume-block p {
-    font-family: var(--mono); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3);
-  }
-  .resume-actions { display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 1; }
+/* ─── PROJECT GRID ─── */
+#pl{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.pc{background:var(--bg2);cursor:pointer;position:relative;
+  display:flex;flex-direction:column;
+  border-radius:14px;border:1px solid var(--bd);overflow:hidden;
+  box-shadow:0 2px 14px rgba(0,0,0,.13);
+  transition:background .2s,box-shadow .25s,transform .25s;}
+.pc:hover{background:var(--bg3);box-shadow:0 6px 28px rgba(0,0,0,.22);transform:translateY(-3px);}
+/* category accent stripe */
+.pc[data-cat="PCB Design"]       {--cc:var(--blue); --cs:rgba(59,130,246,.12);}
+.pc[data-cat="Embedded Systems"] {--cc:var(--amber);--cs:rgba(245,158,11,.1);}
+.pc[data-cat="Firmware"]         {--cc:var(--purp); --cs:rgba(167,139,250,.1);}
+.pc[data-cat="Digital Design"]   {--cc:var(--green);--cs:rgba(34,197,94,.1);}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--cc,var(--blue));transform:scaleX(0);transform-origin:left;
+  transition:transform .35s var(--ease);z-index:2;}
+.pc:hover::before{transform:scaleX(1);}
+/* visual */
+.pv{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--bg3);}
+.pph{width:100%;height:100%;object-fit:var(--img-fit,cover);
+  object-position:var(--img-px,50%) var(--img-py,50%);
+  transform:scale(var(--img-s,1));transform-origin:var(--img-px,50%) var(--img-py,50%);
+  transition:transform .35s var(--ease),object-position .1s;}
+.pc:hover .pph{transform:scale(calc(var(--img-s,1)*1.035));}
+.phold{width:100%;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.8rem;position:relative;overflow:hidden;}
+.phold::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 19px,var(--bd) 19px,var(--bd) 20px),
+             repeating-linear-gradient(90deg,transparent,transparent 19px,var(--bd) 19px,var(--bd) 20px);opacity:.7;}
+.pglyph{font-size:3.5rem;font-weight:800;color:var(--bd2);position:relative;
+  transition:color .3s,transform .4s var(--ease);}
+.pc:hover .pglyph{color:var(--cc,var(--blue));transform:scale(1.1) rotate(-4deg);}
+/* badges */
+.pnum{position:absolute;top:.85rem;left:1rem;font-family:var(--mono);font-size:8.5px;
+  text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.35);}
+.pst{position:absolute;top:.85rem;right:1rem;font-family:var(--mono);font-size:7.5px;
+  text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:999px;}
+.done{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25);}
+.wip{background:rgba(59,130,246,.1);color:var(--blue2);border:1px solid rgba(59,130,246,.22);}
+.pending{background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--bd);}
+/* hover overlay */
+.pov{position:absolute;inset:0;background:rgba(15,16,18,.92);padding:1.5rem 1.4rem;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  opacity:0;transition:opacity .3s ease;}
+.pc:hover .pov{opacity:1;}
+.ptldr{font-size:11.5px;line-height:1.65;color:rgba(232,231,227,.75);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.7rem;}
+.pchips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:.75rem;}
+.pchip{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  color:rgba(255,255,255,.75);}
+.pcta{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);
+  font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--blue2);
+  padding:5px 12px;border:1.5px solid rgba(59,130,246,.35);border-radius:6px;
+  background:var(--bs);align-self:flex-start;transition:all .2s;}
+.pcta:hover{background:var(--bm);}
+.pcta-off{opacity:.3;pointer-events:none;}
+/* card body */
+.pb{padding:1.1rem 1.4rem 1.4rem;flex:1;display:flex;flex-direction:column;gap:.55rem;}
+.pcat{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;
+  text-transform:uppercase;letter-spacing:.13em;color:var(--cc,var(--blue2));}
+.pcat-dot{width:5px;height:5px;border-radius:50%;background:var(--cc,var(--blue));}
+.pn{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:var(--text);line-height:1.25;}
+.pn i{font-style:italic;font-weight:400;
+  background:linear-gradient(90deg,var(--blue2),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ptags{display:flex;flex-wrap:wrap;gap:4px;}
+.ptag{font-family:var(--mono);font-size:8.5px;padding:2px 7px;border-radius:4px;
+  background:var(--bg4);border:1px solid var(--bd);color:var(--text3);}
 
-  /* ── Contact ── */
-  .contact-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
-  }
-  .contact-card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 16px; padding: 1.2rem 1.4rem;
-    text-decoration: none; color: inherit;
-    transition: all 0.35s var(--ease); cursor: pointer;
-    display: flex; align-items: center; gap: 1rem;
-    position: relative; overflow: hidden;
-  }
-  .contact-card .ck-icon {
-    width: 42px; height: 42px; flex-shrink: 0;
-    border-radius: 50%; background: var(--bg-2);
-    display: grid; place-items: center;
-    transition: all 0.35s var(--ease);
-  }
-  .contact-card .ck-icon svg {
-    width: 18px; height: 18px;
-    stroke: var(--ink); fill: none; stroke-width: 1.6;
-    transition: stroke 0.35s var(--ease);
-  }
-  .contact-card .ck-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
-  .contact-card::after {
-    content: '↗'; font-family: var(--serif); font-size: 1.2rem;
-    color: var(--ink-3); transition: all 0.35s var(--ease); flex-shrink: 0;
-  }
-  .contact-card:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); transform: translateY(-3px); }
-  .contact-card:hover .ck-icon { background: var(--accent); }
-  .contact-card:hover .ck-icon svg { stroke: var(--bg); }
-  .contact-card:hover::after { color: var(--accent); transform: translate(3px, -3px); }
-  .contact-card .ck-label {
-    font-family: var(--sans); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2);
-    font-weight: 600;
-    transition: color 0.35s var(--ease);
-  }
-  .contact-card:hover .ck-label { color: var(--accent); }
-  .contact-card .ck-handle {
-    font-family: var(--sans); font-size: 1rem;
-    font-weight: 500; line-height: 1.3; font-style: normal;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
+/* ─── ABOUT ─── */
+.about-wrap{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);}
+.agrid{display:grid;grid-template-columns:1.15fr 1fr;gap:5rem;align-items:start;}
+.aprose{font-size:1.05rem;line-height:1.85;color:var(--text2);}
+.aprose p{margin-bottom:1.1rem;}
+.aprose b{color:var(--text);font-weight:600;}
 
-  /* ── Footer ── */
-  footer {
-    border-top: 1px solid var(--line); padding: 3rem 2.5rem;
-    max-width: 1400px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 1rem;
-    font-family: var(--mono); font-size: 11px; color: var(--ink-3);
-    text-transform: uppercase; letter-spacing: 0.12em;
-  }
+/* ── SKILL BARS ── */
+.skill-section{margin-top:2.5rem;}
+.skill-sec-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.18em;color:var(--text3);margin-bottom:1.2rem;}
+.skills-list{display:flex;flex-direction:column;gap:1.1rem;}
+.skill-item{}
+.skill-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.45rem;}
+.skill-name{font-size:13px;font-weight:600;color:var(--text);letter-spacing:-.01em;}
+.skill-pct{font-family:var(--mono);font-size:10px;color:var(--blue2);font-weight:500;}
+.skill-track{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;
+  border:1px solid var(--bd);}
+.skill-fill{height:100%;width:0;border-radius:2px;
+  background:linear-gradient(90deg,var(--blue),var(--purp));
+  transition:width 1.1s var(--ease);}
+.skill-fill.go{width:var(--w,0%);}
 
-  /* ── Modal ── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 500;
-    background: rgba(20,17,13,0.6); backdrop-filter: blur(8px);
-    align-items: center; justify-content: center; padding: 2rem;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--bg); border: 1px solid var(--line-2);
-    border-radius: 20px; max-width: 700px; width: 100%;
-    max-height: 85vh; overflow-y: auto;
-    padding: 3rem; position: relative;
-    animation: modalIn 0.4s var(--ease);
-  }
-  @keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(0.97); } }
-  .modal-close {
-    position: absolute; top: 1.2rem; right: 1.2rem;
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 1px solid var(--line-2); background: transparent; color: var(--ink);
-    cursor: pointer; display: grid; place-items: center; font-size: 16px;
-    transition: all 0.3s var(--ease);
-  }
-  .modal-close:hover { background: var(--ink); color: var(--bg); transform: rotate(90deg); }
-  .modal-meta {
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-3); margin-bottom: 1rem;
-  }
-  .modal h2 {
-    font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 2.8rem);
-    font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
-  }
-  .modal h2 em { font-style: italic; color: var(--accent); }
-  .modal-desc {
-    font-family: var(--serif); font-size: 1.15rem;
-    line-height: 1.55; color: var(--ink-2); margin-bottom: 2rem;
-  }
-  .modal-section {
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-3);
-    margin-bottom: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
-  }
-  .modal-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
-  .modal-highlights { display: flex; flex-direction: column; gap: 12px; }
-  .hl { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
-  .hl::before { content: ''; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 8px; }
+/* timeline */
+.tl{position:relative;padding-left:1.8rem;margin-top:2.5rem;}
+.tl::before{content:'';position:absolute;left:3px;top:6px;bottom:6px;
+  width:1px;background:linear-gradient(to bottom,var(--blue),var(--bd));}
+.ti{position:relative;margin-bottom:1.5rem;}
+.tdot{position:absolute;left:-21px;top:4px;width:8px;height:8px;border-radius:50%;
+  background:var(--blue);border:2px solid var(--bg2);
+  box-shadow:0 0 0 2px rgba(59,130,246,.3),0 0 8px rgba(59,130,246,.25);}
+.tdate{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--blue2);margin-bottom:3px;}
+.ttl{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.tds{font-size:12px;color:var(--text3);line-height:1.65;}
 
-  /* ── Scroll reveal ── */
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
-  .reveal.in  { opacity: 1; transform: translateY(0); }
+/* right cards */
+.ar{display:flex;flex-direction:column;gap:1.2rem;}
+.acard{background:var(--bg3);border:1.5px solid var(--bd);border-radius:var(--r2);
+  padding:1.4rem;transition:border-color .25s,box-shadow .25s;}
+.acard:hover{border-color:var(--bd2);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.ac-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.16em;color:var(--text3);margin-bottom:.85rem;}
+.scloud{display:flex;flex-wrap:wrap;gap:6px;}
+.spill{font-family:var(--mono);font-size:10px;padding:5px 12px;border-radius:999px;
+  border:1.5px solid var(--bd2);background:var(--bg2);color:var(--text2);
+  transition:all .22s var(--ease);cursor:default;}
+.spill:hover{background:var(--blue);border-color:var(--blue);color:#fff;transform:translateY(-1px);}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.tc{background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;
+  padding:9px 11px;transition:border-color .2s,box-shadow .2s;}
+.tc:hover{border-color:var(--blue);box-shadow:0 2px 8px var(--bs);}
+.tcn{font-family:var(--mono);font-size:9px;font-weight:500;color:var(--text);}
+.tcd{font-size:9.5px;color:var(--text3);margin-top:2px;}
+.edu{display:flex;gap:1rem;align-items:flex-start;}
+.edu-ic{width:40px;height:40px;flex-shrink:0;background:var(--bs);
+  border:1.5px solid rgba(59,130,246,.22);border-radius:9px;display:grid;
+  place-items:center;font-family:var(--mono);font-size:9.5px;font-weight:500;color:var(--blue2);}
+.edu-t{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.edu-s{font-family:var(--mono);font-size:8.5px;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.06em;}
+.edu-d{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.6;}
 
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .hero { padding: 8rem 1.5rem 4rem; }
-    section { padding: 4rem 1.5rem; }
-    .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .about-layout { grid-template-columns: 1fr; gap: 3rem; }
-    .resume-block { grid-template-columns: 1fr; padding: 2.5rem 2rem; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-    nav { padding: 0.9rem 1.5rem; }
-    .nav-links { display: none; }
-  }
+/* ─── RESUME ─── */
+.rcrd{background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);
+  border:1.5px solid var(--bd2);border-radius:var(--r2);padding:3.5rem;
+  display:grid;grid-template-columns:1.6fr 1fr;gap:3rem;align-items:center;
+  overflow:hidden;position:relative;}
+.rcrd::before{content:'';position:absolute;right:-80px;top:-80px;width:300px;height:300px;
+  border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.1) 0%,transparent 65%);pointer-events:none;}
+.rcrd::after{content:'resume.pdf';font-size:7rem;font-weight:800;position:absolute;
+  right:-1rem;bottom:-2rem;opacity:.025;color:var(--text);pointer-events:none;
+  letter-spacing:-.04em;line-height:1;white-space:nowrap;}
+.rt{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;
+  line-height:1.05;color:var(--text);margin-bottom:.5rem;}
+.rt em{font-weight:300;font-style:italic;
+  background:linear-gradient(90deg,var(--blue),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.rm{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text3);}
+.ra{display:flex;flex-direction:column;gap:9px;position:relative;z-index:1;}
+.btn-bl{background:var(--blue);color:#fff;border:1.5px solid var(--blue);}
+.btn-bl:hover{background:#2563eb;transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,130,246,.3);}
+.btn-gl{background:transparent;color:var(--text2);border:1.5px solid var(--bd2);}
+.btn-gl:hover{border-color:var(--text);color:var(--text);transform:translateY(-2px);}
+
+/* ─── CONTACT ─── */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--bd);border:1.5px solid var(--bd);border-radius:var(--r2);overflow:hidden;}
+.cc{background:var(--bg2);padding:1.75rem 1.6rem;display:flex;align-items:center;
+  gap:1rem;cursor:pointer;text-decoration:none;color:inherit;position:relative;
+  overflow:hidden;transition:background .22s ease;}
+.cc:hover{background:var(--bg3);}
+.cc::after{content:'';position:absolute;left:0;bottom:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--purp));
+  transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease);}
+.cc:hover::after{transform:scaleX(1);}
+.cicon{width:42px;height:42px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--bd2);
+  background:var(--bg3);display:grid;place-items:center;transition:all .25s;}
+.cicon svg{width:18px;height:18px;stroke:var(--text2);fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s;}
+.cc:hover .cicon{background:var(--blue);border-color:var(--blue);}
+.cc:hover .cicon svg{stroke:#fff;}
+.cb{flex:1;min-width:0;}
+.clbl{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text3);margin-bottom:3px;}
+.chdl{font-size:.9rem;font-weight:600;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.carr{color:var(--text3);font-size:1rem;flex-shrink:0;transition:all .25s;}
+.cc:hover .carr{color:var(--blue2);transform:translate(2px,-2px);}
+
+/* ─── FOOTER ─── */
+footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
+  padding:1.8rem 2.5rem;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:1rem;}
+.fb{font-size:14px;font-weight:800;letter-spacing:-.02em;}
+.fb i{font-style:normal;
+  background:linear-gradient(90deg,var(--blue),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.fsig{font-size:13px;font-style:italic;color:var(--text3);}
+.flinks{display:flex;gap:1.5rem;}
+.flinks a{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text3);transition:color .2s;}
+.flinks a:hover{color:var(--text);}
+.fcopy{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--text3);}
+
+/* ─── MODAL ─── */
+.moverlay{display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(11,12,14,.82);backdrop-filter:blur(16px);
+  align-items:center;justify-content:center;padding:2rem;}
+.moverlay.open{display:flex;}
+.modal{background:var(--bg2);border:1.5px solid var(--bd2);border-radius:var(--r2);
+  max-width:600px;width:100%;max-height:85vh;overflow-y:auto;
+  padding:3rem;position:relative;animation:mopen .35s var(--ease);
+  box-shadow:0 28px 80px rgba(0,0,0,.5);}
+@keyframes mopen{from{opacity:0;transform:translateY(14px);}}
+.mcls{position:absolute;top:1.1rem;right:1.1rem;width:34px;height:34px;border-radius:50%;
+  border:1.5px solid var(--bd2);background:transparent;color:var(--text);cursor:pointer;
+  display:grid;place-items:center;font-size:14px;transition:all .25s;}
+.mcls:hover{background:var(--blue);border-color:var(--blue);transform:rotate(90deg);}
+.mmeta{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.15em;color:var(--text3);margin-bottom:.7rem;}
+.mh2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.035em;
+  line-height:1.1;margin-bottom:1.2rem;color:var(--text);}
+.mh2 i{font-style:italic;font-weight:300;
+  background:linear-gradient(90deg,var(--blue2),var(--purp));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mdesc{font-size:1rem;line-height:1.72;color:var(--text2);margin-bottom:1.8rem;}
+.msec{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.15em;
+  color:var(--text3);margin-bottom:.8rem;padding-top:1.3rem;border-top:1px solid var(--bd);}
+.mtags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.3rem;}
+.mhl{display:flex;gap:9px;font-size:13px;color:var(--text2);line-height:1.6;
+  margin-bottom:8px;align-items:flex-start;}
+.mhl::before{content:'';flex-shrink:0;width:4px;height:4px;border-radius:50%;
+  background:var(--blue);margin-top:8px;}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(18px);
+  transition:opacity .65s var(--ease),transform .65s var(--ease);}
+.rv.in{opacity:1;transform:translateY(0);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  #pl{grid-template-columns:repeat(2,1fr);}
+  .feat-card{grid-template-columns:1fr;}
+  .agrid{grid-template-columns:1fr;gap:3rem;}
+}
+@media(max-width:860px){
+  .nl,.nbadge{display:none;}
+  .ham{display:flex;}
+  .hero{padding:7.5rem 1.5rem 3.5rem;}
+  .hero-grid{grid-template-columns:1fr;gap:2rem;}
+  .sec{padding:4rem 1.5rem;}
+  .now{padding:.7rem 1.5rem;}
+  .rcrd{grid-template-columns:1fr;padding:2.5rem 1.8rem;}
+  .cgrid{grid-template-columns:1fr;}
+  #pl{grid-template-columns:1fr;}
+  .tgrid{grid-template-columns:repeat(2,1fr);}
+  footer{padding:1.5rem 1.5rem;}
+  .flinks{display:none;}
+}
+@media(max-width:640px){.hero-title{font-size:clamp(1.2rem,5vw,2rem);white-space:normal;}}
+
+.pstats{display:flex;gap:16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);}
+.pstat{display:flex;flex-direction:column;gap:1px;}
+.psn{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--blue2);letter-spacing:-.01em;}
+.psl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;}
+/* hero seek line */
+.hero-seek{display:flex;align-items:center;gap:8px;margin-top:1rem;
+  font-family:var(--mono);font-size:11px;color:var(--blue2);letter-spacing:.1em;text-transform:uppercase;}
 </style>
 </head>
 <body>
 
-<!-- Nav — original links -->
-<nav>
-  <div class="brand">Andrés<span class="dot">.</span></div>
-  <div class="nav-links">
+<div id="bar"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nb" onclick="scrollTo({top:0,behavior:'smooth'})">AMN<i>.</i></div>
+  <div class="nl">
     <a href="#projects">Projects</a>
     <a href="#about">About</a>
     <a href="#resume">Resume</a>
     <a href="#contact">Contact</a>
   </div>
-  <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="4"/>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-    </svg>
-  </button>
-</nav>
-
-<!-- Hero — original text, new design layout -->
-<header class="hero">
-  <div class="hero-meta">
-    <span class="pulse"></span>
-    <!-- Original label text -->
-    <span>Electrical &amp; Electronics Engineer (Student)</span>
+  <div class="nr">
+    <div class="nbadge"><span class="live"></span>Open to Internships</div>
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <!-- Moon icon (shown in dark mode) -->
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <!-- Sun icon (shown in light mode) -->
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
   </div>
-  <!-- Original h1 text, new design word-rise animation -->
-  <h1>
-    <span class="word">Andrés</span>
-    <span class="word italic">Moreno</span>
-    <span class="word">Navarro.</span>
-  </h1>
+</nav>
+<div class="mnav" id="mnav">
+  <a href="#projects">Projects</a>
+  <a href="#about">About</a>
+  <a href="#resume">Resume</a>
+  <a href="#contact">Contact</a>
+</div>
 
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-ey rv">
+    <span class="tag">EE Student (Part-time) · UWA Perth</span>
+    <span class="tag tag-blue"><span class="live"></span>Open to Internships</span>
+  </div>
   <div class="hero-grid">
-    <!-- Original hero description, with em accents on key phrases -->
-    <p class="hero-desc">
-      Engineering student at the <em>University of Western Australia</em>, building <em>embedded systems</em>, custom <em>PCBs</em>, and RC projects. Turning ideas into real hardware.
-    </p>
-    <div class="hero-side">
-      <!-- Original CTA text -->
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">View Projects <span class="arrow">→</span></a>
-        <a href="resume.pdf" class="btn btn-ghost">📄 Resume</a>
-      </div>
-      <!-- Original stats -->
-      <div class="hero-stats">
-        <div class="stat"><div class="n">6+</div><div class="l">Projects</div></div>
-        <div class="stat"><div class="n">4L</div><div class="l">First PCB</div></div>
-        <div class="stat"><div class="n">UWA</div><div class="l">Engineering</div></div>
+    <div>
+      <h1 class="hero-title rv" style="transition-delay:.05s">
+        <span class="ln1">Andrés</span> <span class="ln2">Moreno</span> <span class="ln3">Navarro.</span>
+      </h1>
+      <div class="hero-seek rv" style="transition-delay:.1s">
+        <span class="live"></span>Seeking internships · 2026–2027
       </div>
     </div>
+    <div class="hero-right rv" style="transition-delay:.15s">
+      <p class="hero-desc">
+        I design custom <b>PCBs</b> in KiCad, build hardware around <b>ESP32</b>, and model enclosures in <b>Fusion 360</b> — all self-taught, picked up from scratch as each project demanded it.
+        Currently routing <b>RetroDS v2</b> — adding audio.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-fill">View Projects <span class="arr">→</span></a>
+        <a href="resume.pdf" target="_blank" class="btn btn-line">Resume <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats rv" style="transition-delay:.25s">
+    <div class="hst"><div class="n">6</div><div class="l">Projects</div></div>
+    <div class="hst"><div class="n">UWA</div><div class="l">Engineering</div></div>
   </div>
 </header>
 
-<!-- Marquee — original skills -->
-<div class="marquee">
-  <div class="marquee-track">
-    <span>KiCad</span><span class="star">✦</span>
-    <span>ESP32 Firmware</span><span class="star">✦</span>
-    <span>PCB Design</span><span class="star">✦</span>
-    <span>Fusion 360</span><span class="star">✦</span>
-    <span>VHDL</span><span class="star">✦</span>
-    <span>3D Printing</span><span class="star">✦</span>
-    <span>Power Electronics</span><span class="star">✦</span>
-    <span>KiCad</span><span class="star">✦</span>
-    <span>ESP32 Firmware</span><span class="star">✦</span>
-    <span>PCB Design</span><span class="star">✦</span>
-    <span>Fusion 360</span><span class="star">✦</span>
-    <span>VHDL</span><span class="star">✦</span>
-    <span>3D Printing</span><span class="star">✦</span>
-    <span>Power Electronics</span><span class="star">✦</span>
+<!-- NOW -->
+<div class="now">
+  <div class="now-in">
+    <div class="now-badge"><span class="live"></span>Right now</div>
+    <span class="now-txt"><b>RetroDS PCB v2</b> — routing the MAX98357A audio amp in KiCad, migrating to ESP32-S3-WROOM-1U. Finally adding sound.</span>
+    <span class="now-dt">May 2026 · Perth WA</span>
   </div>
 </div>
 
-<!-- Projects section -->
-<section id="projects">
-  <div class="section-tag reveal">Projects</div>
-  <h2 class="section-title reveal">Selected <em>Projects</em></h2>
-  <div class="projects-grid" id="projectsList"></div>
-</section>
+<!-- MARQUEE -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-t">
+    <span class="mi">KiCad 9</span><span class="ms"> · </span>
+    <span class="mi">ESP32 Firmware</span><span class="ms"> · </span>
+    <span class="mi">PCB Design</span><span class="ms"> · </span>
+    <span class="mi">Fusion 360</span><span class="ms"> · </span>
+    <span class="mi">VHDL · FPGAs</span><span class="ms"> · </span>
+    <span class="mi">3D Printing</span><span class="ms"> · </span>
+    <span class="mi">Power Electronics</span><span class="ms"> · </span>
+    <span class="mi">JLCPCB Assembly</span><span class="ms"> · </span>
+    <span class="mi">Arduino / C++</span><span class="ms"> · </span>
+    <span class="mi">SPI · I²C · UART</span><span class="ms"> · </span>
+    <span class="mi">Impedance Matching</span><span class="ms"> · </span>
+    <span class="mi">Oscilloscope Debug</span><span class="ms"> · </span>
+    <span class="mi">KiCad 9</span><span class="ms"> · </span>
+    <span class="mi">ESP32 Firmware</span><span class="ms"> · </span>
+    <span class="mi">PCB Design</span><span class="ms"> · </span>
+    <span class="mi">Fusion 360</span><span class="ms"> · </span>
+    <span class="mi">VHDL · FPGAs</span><span class="ms"> · </span>
+    <span class="mi">3D Printing</span><span class="ms"> · </span>
+    <span class="mi">Power Electronics</span><span class="ms"> · </span>
+    <span class="mi">JLCPCB Assembly</span><span class="ms"> · </span>
+    <span class="mi">Arduino / C++</span><span class="ms"> · </span>
+    <span class="mi">SPI · I²C · UART</span><span class="ms"> · </span>
+    <span class="mi">Impedance Matching</span><span class="ms"> · </span>
+    <span class="mi">Oscilloscope Debug</span><span class="ms"> · </span>
+  </div>
+</div>
 
-<!-- About section — original text -->
-<section id="about">
-  <div class="section-tag reveal">About</div>
-  <h2 class="section-title reveal">About <em>me</em></h2>
-  <div class="about-layout">
-    <div class="about-prose reveal">
-      <!-- Original about paragraphs verbatim -->
-      <p><span class="drop">I'm</span> a third-year <em>part-time Electrical and Electronics Engineering</em> student at the University of Western Australia, based in Perth, WA.</p>
-      <p>I love the full stack of hardware — from <em>schematic design and PCB layout</em> in KiCad, to <em>3D-printed enclosures</em> in Fusion 360, to <em>embedded firmware</em> running on ESP32 and Arduino platforms.</p>
-      <p>My projects span wireless communication, motor control, retro gaming consoles, and custom development boards — all designed and built from scratch.</p>
+<!-- ABOUT -->
+<div class="about-wrap">
+  <section class="sec" id="about">
+    <div class="sec-hd rv">
+      <div class="sec-title">Who <i>I Am</i></div>
+      <div class="sec-sub">About</div>
     </div>
-    <div class="reveal">
-      <!-- Original skill names as cloud pills -->
-      <div class="skills-title">Skills</div>
-      <div class="skills-cloud">
-        <span class="skill"><span class="dot"></span>KiCad · PCB Design</span>
-        <span class="skill"><span class="dot"></span>ESP32 · Arduino Firmware</span>
-        <span class="skill"><span class="dot"></span>Fusion 360 · CAD</span>
-        <span class="skill"><span class="dot"></span>VHDL · Digital Design</span>
-        <span class="skill"><span class="dot"></span>3D Printing · Slicing</span>
-        <span class="skill"><span class="dot"></span>Power Electronics</span>
+    <div class="agrid">
+      <div>
+        <div class="aprose rv">
+          <p>Part-time <b>Electrical and Electronic Engineering</b> student at the University of Western Australia, based in Perth. My evenings tend to involve datasheets, a soldering iron, and at least one thing that isn't working yet.</p>
+          <p>I work across the <b>full hardware stack</b> — schematic capture and PCB layout in KiCad, enclosures in Fusion 360, and getting microcontrollers to do what I want on ESP32. I build things to understand how they actually work, not to end up with something I'm afraid to open.</p>
+          <p>Right now I'm on revision two of the <b>RetroDS PCB</b> — moving from a hand-soldered perfboard to a proper 2-layer board in KiCad, with the MAX98357A audio amp finally wired in.</p>
+        </div>
+
+        <!-- SKILL BARS -->
+        <div class="skill-section rv" style="transition-delay:.1s">
+          <div class="skill-sec-lbl">Proficiency</div>
+          <div class="skills-list" id="skillBars">
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">KiCad / PCB Design</span>
+                <span class="skill-pct">KiCad 9 · 4-layer</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:65%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">ESP32 / Arduino Firmware</span>
+                <span class="skill-pct">ESP32 · C++ · 4 projects</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:60%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">Fusion 360 / CAD</span>
+                <span class="skill-pct">Parametric · Assemblies</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:75%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">VHDL / Digital Design</span>
+                <span class="skill-pct">DE10-Lite · Quartus · ModelSim</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:60%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">3D Printing / Slicing</span>
+                <span class="skill-pct">FDM · Bambu · Supports</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:80%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">Power Electronics</span>
+                <span class="skill-pct">Buck · Boost · LDO</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:65%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">C / C++</span>
+                <span class="skill-pct">Firmware · Arduino IDE</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:70%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">SPI / I²C / UART Protocols</span>
+                <span class="skill-pct">Debug · Hardware peripherals</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:72%"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ar">
+        <div class="acard rv" style="transition-delay:.0s">
+          <div class="ac-lbl" style="margin-bottom:.85rem">How I got here</div>
+          <div class="tl" style="margin-top:0">
+            <div class="ti"><div class="tdot"></div>
+              <div class="tdate">2022</div>
+              <div class="ttl">Started Civil Engineering at Western Sydney University</div>
+              <div class="tds">Enrolled in Civil Engineering. Got through a year before realising concrete wasn't for me.</div>
+            </div>
+            <div class="ti"><div class="tdot"></div>
+              <div class="tdate">2023</div>
+              <div class="ttl">First Arduino project — exhaust cutout controller</div>
+              <div class="tds">Arduino Nano Every, relay, 3D-printed dash enclosure for a VW Golf Mk6.</div>
+            </div>
+            <div class="ti"><div class="tdot"></div>
+              <div class="tdate">2024</div>
+              <div class="ttl">Switched to EE — transferred to UWA, Perth</div>
+              <div class="tds">Left civil, moved to Electrical &amp; Electronic Engineering at UWA. Hardware design, signals, power systems. Started using KiCad properly.</div>
+            </div>
+            <div class="ti"><div class="tdot"></div>
+              <div class="tdate">2025</div>
+              <div class="ttl">ESP32 RC Car + first custom PCB (ESP32-S3)</div>
+              <div class="tds">First ESP-NOW project. 4-layer ESP32-S3 dev board to fab. Worked first try.</div>
+            </div>
+            <div class="ti"><div class="tdot"></div>
+              <div class="tdate">2026</div>
+              <div class="ttl">RetroDS NES Handheld + PCB v2 in progress</div>
+              <div class="tds">Full NES 6502+PPU emulator on ESP32. Hand-soldered → proper KiCad PCB.</div>
+            </div>
+          </div>
+        </div>
+        <div class="acard rv">
+          <div class="ac-lbl">Education</div>
+          <div class="edu">
+            <div class="edu-ic">UWA</div>
+            <div>
+              <div class="edu-t">Bachelor of Engineering (Honours)</div>
+              <div class="edu-s">Electrical and Electronic Engineering · 2024–Present</div>
+              <div class="edu-d">University of Western Australia · Perth, WA<br>Digital Systems (VHDL) · Signals &amp; Systems · Power &amp; Machines · Embedded Programming<br><span style="font-size:.8em;opacity:.65;margin-top:4px;display:inline-block;">Provisionally accredited by Engineers Australia</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="acard rv" style="transition-delay:.08s">
+          <div class="ac-lbl">Skills & Tools</div>
+          <div class="scloud">
+            <span class="spill">KiCad · PCB Design</span>
+            <span class="spill">ESP32 · Arduino</span>
+            <span class="spill">Fusion 360</span>
+            <span class="spill">VHDL · FPGAs</span>
+            <span class="spill">3D Printing</span>
+            <span class="spill">Power Electronics</span>
+            <span class="spill">SPI · I²C · UART</span>
+            <span class="spill">JLCPCB Assembly</span>
+            <span class="spill">Oscilloscope Debug</span>
+            <span class="spill">C / C++</span>
+          </div>
+        </div>
+
       </div>
     </div>
+  </section>
+</div>
+
+<!-- PROJECTS -->
+<section class="sec" id="projects">
+  <div class="sec-hd rv">
+    <div class="sec-title">Selected <i>Work</i></div>
+    <div class="sec-sub">06 Projects</div>
   </div>
+
+  <!-- Featured -->
+  <div class="feat rv">
+    <div class="sec-sub" style="margin-bottom:.7rem">Featured</div>
+    <a class="feat-card" href="esp32-s3-project-main.html">
+      <div class="feat-img">
+        <img id="feat-esp32-img" width="1143" height="1202" loading="lazy" src="IMAGES/ESP32 S3 Board/3dview-Photoroom.webp" alt="ESP32-S3 Dev Board"
+          onerror="this.parentElement.innerHTML='<div class=feat-img-hold><div style=font-size:5rem;font-weight:800;color:var(--bd2);position:relative>⚡</div></div>'">
+        <div class="feat-badges">
+          <span class="fbdg fbdg-b">Featured</span>
+          <span class="fbdg fbdg-g">Complete</span>
+        </div>
+      </div>
+      <div class="feat-body">
+        <div class="feat-cat">PCB Design</div>
+        <div class="feat-name">ESP32-S3-MINI<br><i>Dev Board</i></div>
+        <p class="feat-desc">Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power, 50Ω impedance-controlled RF traces, CP2102N USB–UART, WS2812B RGB. 0 DRC errors. First board I ever had manufactured.</p>
+        <div class="feat-chips">
+          <span class="fchip">KiCad 9</span>
+          <span class="fchip">4-Layer PCB</span>
+          <span class="fchip">USB-C</span>
+          <span class="fchip">JLCPCB</span>
+          <span class="fchip">Impedance Control</span>
+        </div>
+        <div class="feat-nums">
+          <div class="fnum"><div class="n">4</div><div class="l">Layers</div></div>
+          <div class="fnum"><div class="n">50Ω</div><div class="l">RF Traces</div></div>
+          <div class="fnum"><div class="n">0</div><div class="l">DRC Errors</div></div>
+        </div>
+        <span class="feat-cta">View Full Project →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Grid -->
+  <div class="sec-sub rv" style="margin-top:2.5rem;margin-bottom:.7rem">All Projects</div>
+  <div class="fbar rv" id="fb">
+    <button class="fp on" data-f="all">All <span id="fcnt" style="opacity:.45;margin-left:3px">6</span></button>
+    <button class="fp" data-f="PCB Design">PCB Design</button>
+    <button class="fp" data-f="Embedded Systems">Embedded</button>
+    <button class="fp" data-f="Firmware">Firmware</button>
+    <button class="fp" data-f="Digital Design">Digital Design</button>
+  </div>
+  <div id="pl"></div>
 </section>
 
-<!-- Resume section — original text -->
-<section id="resume">
-  <div class="section-tag reveal">Resume</div>
-  <h2 class="section-title reveal">My <em>Resume</em></h2>
-  <div class="resume-block reveal">
+<section class="sec" id="resume" style="padding-top:0">
+  <div class="sec-hd rv">
+    <div class="sec-title">My <i>Resume</i></div>
+    <div class="sec-sub">Resume</div>
+  </div>
+  <div class="rcrd rv">
     <div>
-      <!-- Original resume card text -->
-      <h3>Andrés Moreno <em>Navarro</em></h3>
-      <p>Electrical &amp; Electronics Engineering Student · UWA · Perth, WA</p>
+      <div class="rt">Andrés Moreno <em>Navarro</em></div>
+      <div class="rm">Electrical and Electronic Engineering · UWA · Perth, WA · 2026</div>
     </div>
-    <div class="resume-actions">
-      <a href="resume.pdf" target="_blank" class="btn btn-primary">👁 View Resume <span class="arrow">↗</span></a>
-      <a href="resume.pdf" download="Andres_Moreno_Navarro_Resume.pdf" class="btn btn-ghost">⬇ Download Resume</a>
+    <div class="ra">
+      <a href="resume.pdf" target="_blank" class="btn btn-bl">View Resume <span class="arr">↗</span></a>
+      <a href="resume.pdf" download="Andres_Moreno_Navarro_Resume.pdf" class="btn btn-gl">Download PDF</a>
     </div>
   </div>
 </section>
 
-<!-- Contact section — original links/handles -->
-<section id="contact">
-  <div class="section-tag reveal">Contact</div>
-  <h2 class="section-title reveal">Get in <em>touch</em></h2>
-  <div class="contact-grid">
-    <a href="https://www.linkedin.com/in/andres-moreno-navarro27" target="_blank" class="contact-card reveal">
-      <div class="ck-icon">
-        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      </div>
-      <div class="ck-body">
-        <div class="ck-label">LinkedIn</div>
-        <!-- Original handle text -->
-        <div class="ck-handle">andres-moreno-navarro27</div>
-      </div>
+<!-- CONTACT -->
+<section class="sec" id="contact">
+  <div class="sec-hd rv">
+    <div class="sec-title">Get in <i>Touch</i></div>
+    <div class="sec-sub">Contact</div>
+  </div>
+  <p class="rv" style="font-size:1.05rem;color:var(--text2);line-height:1.75;max-width:44ch;margin-bottom:2rem;">
+    Looking for internship opportunities for 2026–2027. Also happy to talk hardware, PCB design, or anything embedded. I reply to every message.
+  </p>
+  <div class="cgrid rv">
+    <a href="https://www.linkedin.com/in/andres-moreno-navarro27" target="_blank" class="cc">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+      <div class="cb"><div class="clbl">LinkedIn</div><div class="chdl">andres-moreno-navarro27</div></div>
+      <span class="carr">↗</span>
     </a>
-    <div class="contact-card reveal" id="emailCard">
-      <div class="ck-icon">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <div class="ck-body">
-        <div class="ck-label" id="emailLabel">Email · click to copy</div>
-        <!-- Original email -->
-        <div class="ck-handle">andres.moreno2702@gmail.com</div>
-      </div>
+    <div class="cc" id="ec" role="button" tabindex="0">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div class="cb"><div class="clbl" id="el">Email · click to copy</div><div class="chdl">andres.moreno2702@gmail.com</div></div>
+      <span class="carr" id="ea">↗</span>
     </div>
-    <a href="https://github.com/andresmoreno2702-gif" target="_blank" class="contact-card reveal">
-      <div class="ck-icon">
-        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-      </div>
-      <div class="ck-body">
-        <div class="ck-label">GitHub</div>
-        <!-- Original handle text -->
-        <div class="ck-handle">andresmoreno2702-gif</div>
-      </div>
+    <a href="https://github.com/andresmoreno2702-gif" target="_blank" class="cc">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></div>
+      <div class="cb"><div class="clbl">GitHub</div><div class="chdl">andresmoreno2702-gif</div></div>
+      <span class="carr">↗</span>
     </a>
   </div>
 </section>
 
-<!-- Footer — original text -->
+<!-- FOOTER -->
 <footer>
-  <span>© 2026 Andrés Moreno Navarro · Perth, Western Australia</span>
+  <div class="fb">AMN<i>.</i></div>
+  <div class="fsig">Built by hand, mostly late at night.</div>
+  <div class="flinks">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="resume.pdf" target="_blank">Resume ↗</a>
+  </div>
+  <div class="fcopy">© 2026 · Perth WA</div>
 </footer>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
+<!-- MODAL -->
+<div class="moverlay" id="mo" role="dialog" aria-modal="true">
   <div class="modal">
-    <button class="modal-close" id="modalClose">✕</button>
-    <div class="modal-meta" id="mMeta"></div>
-    <h2 id="mTitle"></h2>
-    <p class="modal-desc" id="mDesc"></p>
-    <div class="modal-section">Tech Stack</div>
-    <div class="modal-tags" id="mTags"></div>
-    <div class="modal-section">Highlights</div>
-    <div class="modal-highlights" id="mHighlights"></div>
+    <button class="mcls" id="mcls">✕</button>
+    <div class="mmeta" id="mm"></div>
+    <h2 class="mh2" id="mt"></h2>
+    <p class="mdesc" id="md"></p>
+    <div class="msec">Tech Stack</div>
+    <div class="mtags" id="mtg"></div>
+    <div class="msec">Highlights</div>
+    <div id="mh"></div>
   </div>
 </div>
 
 <script>
-// ── Project data from original index.html ──
-const projects = [
-  {
-    glyph: "⚡",
-    title: "ESP32-S3-MINI Dev Board",
-    name: "ESP32-S3-MINI <em>Dev Board</em>",
-    status: "done", meta: "PCB Design · 2026",
-    link: "esp32-s3-project-main.html",
-    tags: ["KiCad", "ESP32-S3", "4-Layer PCB", "USB-C", "JLCPCB"],
-    desc: "Custom 4-layer development board designed from scratch in KiCad with USB-C, impedance-controlled traces, and decoupling network.",
-    fullDesc: "A fully custom 4-layer development board for the ESP32-S3-MINI-1-N8 module, designed entirely from scratch in KiCad 9. Features a USB-C interface, proper impedance matching on RF traces, decoupling capacitors on all power pins, a WS2812B RGB LED, reset and boot buttons, and breakout headers for all GPIO. Manufactured at JLCPCB.",
-    highlights: [
-      "4-layer stack-up with dedicated GND and V+ planes",
-      "Impedance-controlled 50Ω traces for RF section",
-      "USB-C with proper CC resistors for power negotiation",
-      "Full BOM and CPL generated for JLCPCB assembly",
-      "3D model verified in KiCad and Fusion 360"
-    ]
-  },
-  {
-    glyph: "⌁",
-    title: "Small Wireless RC Car",
-    name: "Small Wireless <em>RC Car</em>",
-    status: "wip", meta: "Embedded Systems · Ongoing",
-    link: "rc-car-project-main.html",
-    tags: ["ESP32", "ESP-NOW", "TB6612FNG", "PWM", "Fusion 360", "3D Print"],
-    desc: "Lightweight 3D-printed RC car with ESP-NOW wireless control, TB6612FNG motor driver, and servo steering.",
-    fullDesc: "A custom RC car built around ESP32 boards communicating via ESP-NOW protocol. The chassis is 3D-printed in Fusion 360, with a TB6612FNG motor driver for precise PWM speed control and a servo for front-wheel steering. The controller uses a joystick with dead zones and explicit pin mapping.",
-    highlights: [
-      "ESP-NOW peer-to-peer wireless communication",
-      "TB6612FNG dual H-bridge with PWM motor control",
-      "3D-printed chassis designed in Fusion 360",
-      "Joystick input with configurable dead zones",
-      "Custom LEDC PWM for ESP32 Arduino core v3+"
-    ]
-  },
-  {
-    glyph: "▦",
-    title: "RetroDS — NES Handheld Console",
-    name: "RetroDS — NES <em>Handheld</em>",
-    status: "wip", meta: "Embedded Systems · 2026",
-    link: "nes-emulator-project-main.html",
-    tags: ["ESP32", "ST7789", "NES", "KiCad", "Arduino", "PCB"],
-    desc: "Hand-soldered handheld NES emulator on ESP32-WROOM-32E with ST7789 IPS display, MicroSD ROM loading, and 8 buttons. Custom PCB in progress.",
-    fullDesc: "A hand-built handheld NES emulator on the ESP32-WROOM-32E, running a full 6502 CPU + PPU emulation core. Features an ST7789 240×240 IPS display, MicroSD FAT32 ROM loading, and 8 tactile buttons. Built on perfboard with LiPo battery and USB-C charging. A custom 2-layer KiCad PCB is currently in progress, upgrading to ESP32-S3-WROOM-1U with audio via MAX98357A.",
-    highlights: [
-      "NES 6502 CPU emulation with PPU rendering",
-      "ST7789 240×240 IPS display at 27 MHz SPI",
-      "MicroSD FAT32 ROM loading up to 512 kB",
-      "Hand-soldered perfboard build",
-      "KiCad PCB in progress — ESP32-S3-WROOM-1U + audio"
-    ]
-  },
-  {
-    glyph: "✦",
-    title: "Exhaust Cutout Controller",
-    name: "Exhaust Cutout <em>Controller</em>",
-    status: "pending", meta: "Embedded Systems · 2025",
-    link: null,
-    tags: ["Arduino", "Relay", "Firmware", "Fusion 360", "3D Print"],
-    desc: "Arduino Nano Every based dual exhaust cutout controller with factory-style rocker switch and 3D-printed enclosure.",
-    fullDesc: "A clean, factory-style controller for dual exhaust cutouts on a Volkswagen Golf Mk6. Built around a genuine Arduino Nano Every, controlling relays for each cutout valve. The enclosure is 3D-printed in Fusion 360 to mount cleanly behind the dash.",
-    highlights: [
-      "Arduino Nano Every with relay-based valve control",
-      "Factory-style rocker switch integration",
-      "3D-printed dash-mount enclosure",
-      "Independent control of left and right cutouts",
-      "Debounced switch input with status LED"
-    ]
-  },
-  {
-    glyph: "◎",
-    title: "Large-Scale RC Car & Controller",
-    name: "Large-Scale <em>RC Car</em> & Controller",
-    status: "pending", meta: "Embedded Systems · Ongoing",
-    link: null,
-    tags: ["ESP32", "ESP-NOW", "Brushless", "Fusion 360", "3D Print"],
-    desc: "Full-scale RC car with custom 3D-printed chassis, brushless motor drive, and a handheld wireless controller built from scratch.",
-    fullDesc: "A large-scale custom RC car featuring a fully 3D-printed chassis designed in Fusion 360, brushless motor drive, and a handheld wireless controller built from scratch. Communication between the controller and car uses ESP-NOW for low-latency control.",
-    highlights: [
-      "Custom handheld controller with joystick and trigger inputs",
-      "ESP-NOW low-latency wireless link",
-      "Brushless motor with ESC speed control",
-      "Full chassis designed in Fusion 360",
-      "3D-printed enclosure for controller PCB"
-    ]
-  },
-  {
-    glyph: "▢",
-    title: "VHDL Digital Systems (DE10-Lite)",
-    name: "VHDL Digital <em>Systems</em> (DE10-Lite)",
-    status: "pending", meta: "Academic · UWA 2025",
-    link: null,
-    tags: ["VHDL", "FPGA", "DE10-Lite", "Quartus", "ELEC2311"],
-    desc: "Digital system designs in VHDL on the DE10-Lite FPGA board including state machines, counters, and ALU components.",
-    fullDesc: "A series of VHDL digital design projects implemented on the Intel DE10-Lite FPGA board using Quartus Prime. Designs include finite state machines, BCD counters, 7-segment decoders, and a basic ALU.",
-    highlights: [
-      "Finite state machines with synchronous reset",
-      "BCD counter with 7-segment display output",
-      "VHDL testbenches for simulation verification",
-      "Pin assignment for DE10-Lite GPIO and displays",
-      "Timing analysis and constraint files"
-    ]
-  }
+/* ── DATA ── */
+const P=[
+  {id:'esp32',title:'ESP32-S3-MINI Dev Board',
+   name:'ESP32-S3-MINI <i>Dev Board</i>',
+   status:'done',meta:'PCB Design · 2026',link:'esp32-s3-project-main.html',
+   img:'IMAGES/ESP32 S3 Board/3dview-Photoroom.webp',imgFit:'contain',imgPos:{s:1,px:50,py:34},cat:'PCB Design',glyph:'⚡',
+   tldr:'Custom 4-layer dev board for ESP32-S3-MINI-1-N8. USB-C, 50Ω impedance-controlled RF traces, full decoupling. Designed in KiCad 9, manufactured at JLCPCB. First board ever fabricated.',
+   comps:['ESP32-S3-MINI','CP2102N','AMS1117-3.3','USB-C','WS2812B'],
+   tags:['KiCad','ESP32-S3','4-Layer PCB','USB-C','JLCPCB'],
+   desc:'Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power, 50Ω impedance-matched RF traces, proper power decoupling. Designed in KiCad 9, manufactured by JLCPCB.',
+   stats:[{n:'4',l:'PCB Layers'},{n:'50Ω',l:'RF Traces'},{n:'0',l:'DRC Errors'}],
+   hl:['4-layer stack-up with dedicated GND and power planes for signal integrity','50Ω impedance-controlled traces — calculated and verified','USB-C with correct 5.1kΩ CC resistors for power delivery','Full BOM and CPL — 0 DRC errors on final submission','First board ever manufactured. It worked first try.']},
+  {id:'retro',title:'RetroDS — NES Handheld',
+   name:'RetroDS — NES <i>Handheld</i>',
+   status:'wip',meta:'Embedded Systems · 2026',link:'nes-emulator-project-main.html',
+   img:'IMAGES/NES emulator/retro-card.webp',imgFit:'contain',imgPos:{s:2.26,px:0,py:65.16},cat:'Embedded Systems',glyph:'▦',
+   tldr:'Hand-soldered NES emulator on ESP32. Full 6502+PPU emulation, ST7789 240×240 IPS, MicroSD ROM loading. Custom 2-layer PCB with MAX98357A audio in progress.',
+   comps:['ESP32-WROOM-32E','ST7789 IPS','MicroSD','MAX98357A','LiPo'],
+   tags:['ESP32','NES 6502','ST7789','KiCad','Arduino'],
+   desc:'Hand-soldered handheld NES emulator. Full 6502+PPU core on ESP32, 240×240 IPS display via 27 MHz SPI, MicroSD ROM loading, 8 buttons.',
+   stats:[{n:'240MHz',l:'ESP32 Core'},{n:'27MHz',l:'SPI Display'},{n:'6',l:'Buttons'}],
+   hl:['NES 6502 + PPU emulation in C++ — cycle-accurate for most games','ST7789 240×240 at 27 MHz SPI (30 MHz caused corruption)','MicroSD FAT32 ROM loading up to 512 kB','Every perfboard wire resoldered at least once','PCB revision: ESP32-S3-WROOM-1U + MAX98357A audio']},
+  {id:'rccar',title:'Wireless RC Car',
+   name:'Wireless <i>RC Car</i>',
+   status:'wip',meta:'Embedded Systems · Ongoing',link:'rc-car-project-main.html',
+   img:'IMAGES/RC mini Car/small-rc-car-new.webp',imgPos:{s:1,px:100,py:80.34},cat:'Embedded Systems',glyph:'⌁',
+   tldr:'Scratch-built RC car — 3D-printed chassis, ESP-NOW wireless, TB6612FNG H-bridge, SG90 servo. No router needed.',
+   comps:['XIAO ESP32-C3','TB6612FNG','SG90 Servo','ESP-NOW','Fusion 360'],
+   tags:['ESP32-C3','ESP-NOW','TB6612FNG','Fusion 360','3D Print'],
+   desc:'3D-printed RC car with ESP-NOW peer-to-peer wireless, TB6612FNG motor control, and servo steering. No router needed.',
+   stats:[{n:'<2ms',l:'ESP-NOW RTT'},{n:'3×',l:'Chassis Revisions'},{n:'720p',l:'Demo Video'}],
+   hl:['ESP-NOW peer-to-peer — sub-10ms latency, no router','TB6612FNG dual H-bridge with PWM speed control','3D-printed chassis in Fusion 360, iterated 3 times','Joystick dead zones to prevent center creep','Channel mismatch debug took embarrassingly long']},
+  {id:'exhaust',title:'Exhaust Cutout Controller',
+   name:'Exhaust Cutout <i>Controller</i>',
+   status:'done',meta:'Firmware · 2025',link:'exhaust-controller-project.html',
+   img:'IMAGES/Exhaust Controller/exhaust-new.webp',imgFit:'contain',imgPos:{s:2.26,px:0,py:80},cat:'Firmware',glyph:'✦',
+   tldr:'First ever project — Arduino Nano Every exhaust cutout controller for a VW Golf Mk6. MD13S Cytron motor driver, 3A buck converter, 3D-printed Fusion 360 enclosure with screwed-in component mounts.',
+   comps:['Arduino Nano Every','MD13S Cytron','3A Buck Converter','Fusion 360'],
+   tags:['Arduino','MD13S','Firmware','Fusion 360','3D Print'],
+   desc:'First hardware project ever. Arduino Nano Every controlling exhaust cutout valves on a VW Golf Mk6. MD13S 13A motor driver, 12V→5V buck converter, push button with debounce, DRL LED indicator. 3D-printed enclosure designed in Fusion 360 with moulded mounting posts.',
+   stats:[{n:'13A',l:'Motor Driver'},{n:'12V→5V',l:'Buck Converter'},{n:'1st',l:'Ever Built'}],
+   hl:['MD13S Cytron 13A motor driver for valve actuation','3A DC-DC buck converter — 12V car power to 5V','Debounced push button + DRL LED status indicator','Fusion 360 enclosure with screwed-in component mounts','Voltage divider for 3.3V (wrong — learned it should be an LDO)']},
+  {id:'bigrc',title:'Large RC Car — v1',
+   name:'Large RC Car — <i>v1</i>',
+   status:'done',meta:'Embedded Systems · 2025',link:'large-rc-car-project.html',
+   img:'IMAGES/Large RC Car/large-rc-with-remote.webp',imgPos:{s:1,px:0,py:92.86},cat:'Embedded Systems',glyph:'◎',
+   tldr:'First self-designed RC car — 3D-printed Fusion 360 chassis, Ackermann steering, L298N motor driver, and a custom 3D-printed gamepad remote using ESP32-NOW. The project that started everything.',
+   comps:['ESP32-C3','L298N','ESP32-NOW','Fusion 360','3D Print'],
+   tags:['ESP32','ESP-NOW','L298N','Fusion 360','3D Print'],
+   desc:'First scratch-built RC car. Full Fusion 360 chassis, servo Ackermann steering, L298N H-bridge, LiPo. Custom gamepad remote — modelled, printed, and wired from scratch — using ESP32-NOW for low-latency wireless.',
+   stats:[{n:'ESP-NOW',l:'Wireless'},{n:'3S LiPo',l:'7.4V Power'},{n:'v1',l:'Starting Point'}],
+   hl:['Chassis fully designed in Fusion 360 — Ackermann steering geometry','Custom gamepad remote: 3D-printed body, dual joysticks, ESP32-NOW','L298N H-bridge for motor direction + PWM speed control','ESP32-C3 SuperMini on both car and remote','Over-engineered — directly inspired the lighter, faster small RC car']},
+  {id:'vhdl',title:'VHDL Digital Systems',
+   name:'VHDL Digital <i>Systems</i>',
+   status:'done',meta:'ELEC2311 · UWA · 2025',link:'vhdl-project-main.html',
+   img:'IMAGES/VHDL/quartus-rtl-dlatch.webp',cat:'Digital Design',glyph:'▢',
+   tldr:'VHDL on the Intel DE10-Lite FPGA — D-latch, D flip-flop, 7-segment decoder, 8-bit synchronous counter, 1Hz clock divider. Synthesised in Quartus Prime, simulated in ModelSim. ELEC2311 at UWA.',
+   comps:['DE10-Lite FPGA','Quartus Prime','ModelSim','VHDL','Cyclone V'],
+   tags:['VHDL','FPGA','DE10-Lite','Quartus','ModelSim'],
+   desc:'VHDL designs on the Intel DE10-Lite (Cyclone V FPGA). D-latch, D flip-flop with testbench, 7-segment decoder, 8-bit counter, 1Hz clock divider from 50MHz. Synthesised in Quartus Prime, verified in ModelSim.',
+   stats:[{n:'6',l:'Designs'},{n:'50MHz',l:'FPGA Clock'},{n:'1Hz',l:'Divided Down'}],
+   hl:['D-latch and D flip-flop — latch inference from incomplete if-else','7-segment decoder — full hex 0–F case statement','Clock divider: 50 MHz → 1 Hz using parameterised generic','Testbenches with PORT MAP and signal stimulus','RTL Viewer used to confirm synthesised netlist matches intent']}
 ];
 
-// Build project cards
-const list = document.getElementById('projectsList');
-projects.forEach((p, i) => {
-  const card = document.createElement('div');
-  card.className = 'project-card reveal';
-  const statusLabel = p.status === 'done' ? 'Complete' : p.status === 'wip' ? 'In Progress' : 'Soon';
-  card.innerHTML = `
-    <div class="project-visual">
-      <div class="project-idx">${String(i+1).padStart(2,'0')} / ${String(projects.length).padStart(2,'0')}</div>
-      <span class="project-status ${p.status}">${statusLabel}</span>
-      <div class="project-glyph">${p.glyph}</div>
-    </div>
-    <div class="project-body">
-      <div class="project-name">${p.name}</div>
-      <div class="project-desc">${p.desc}</div>
-      <div class="project-tags-inline">${p.tags.slice(0,4).map(t=>`<span>${t}</span>`).join('')}</div>
-    </div>
-    <div class="project-arrow">↗</div>
-  `;
-  card.addEventListener('click', () => {
-    if (p.link) window.location.href = p.link;
-    else openModal(i);
-  });
-  list.appendChild(card);
-});
-
-// Modal
-function openModal(i) {
-  const p = projects[i];
-  document.getElementById('mMeta').textContent = p.meta;
-  document.getElementById('mTitle').innerHTML = p.name;
-  document.getElementById('mDesc').textContent = p.fullDesc;
-  document.getElementById('mTags').innerHTML = p.tags.map(t =>
-    `<span class="skill"><span class="dot"></span>${t}</span>`).join('');
-  document.getElementById('mHighlights').innerHTML = p.highlights.map(h =>
-    `<div class="hl">${h}</div>`).join('');
-  document.getElementById('modalOverlay').classList.add('open');
+/* ── RENDER ── */
+function render(filter){
+  const list=document.getElementById('pl');
+  const vis=filter==='all'?P:P.filter(p=>p.cat===filter);
+  document.getElementById('fcnt').textContent=vis.length;
+  list.style.cssText='opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s';
+  setTimeout(()=>{
+    list.innerHTML='';
+    vis.forEach((p,i)=>{
+      const card=document.createElement('div');
+      card.className='pc rv';card.dataset.cat=p.cat;card.dataset.id=p.id;
+      if(p.imgFit) card.style.setProperty('--img-fit',p.imgFit);
+      if(p.imgPos){card.style.setProperty('--img-s',p.imgPos.s||1);card.style.setProperty('--img-px',(p.imgPos.px??50)+'%');card.style.setProperty('--img-py',(p.imgPos.py??50)+'%');}
+      const sl={done:'Complete',wip:'In Progress',pending:'Coming Soon'}[p.status];
+      const v=p.img?`<img src="${p.img}" alt="${p.title}" class="pph" loading="lazy"${p.pos?` style="object-position:${p.pos}"`:''}>`:
+        `<div class="phold"><div class="pglyph">${p.glyph}</div></div>`;
+      const chips=p.comps.map(c=>`<span class="pchip">${c}</span>`).join('');
+      const cta=p.link?`<a href="${p.link}" class="pcta">View Project →</a>`:`<span class="pcta pcta-off">Coming Soon</span>`;
+      card.innerHTML=`
+        <div class="pv">${v}
+          <span class="pnum">${String(i+1).padStart(2,'0')} / ${String(vis.length).padStart(2,'0')}</span>
+          <span class="pst ${p.status}">${sl}</span>
+          <div class="pov"><p class="ptldr">${p.tldr}</p><div class="pchips">${chips}</div>${cta}</div>
+        </div>
+        <div class="pb">
+          <div class="pcat"><span class="pcat-dot"></span>${p.cat}</div>
+          <div class="pn">${p.name}</div>
+          <div class="ptags">${p.tags.slice(0,4).map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
+          ${p.stats?`<div class="pstats">${p.stats.map(s=>`<div class="pstat"><div class="psn">${s.n}</div><div class="psl">${s.l}</div></div>`).join('')}</div>`:''}
+        </div>`;
+      let tapped=false;
+      card.addEventListener('click',e=>{
+        if(e.target.closest('.pcta'))return;
+        if(matchMedia('(hover:none)').matches&&!tapped){tapped=true;return;}
+        p.link?location.href=p.link:openModal(p);
+      });
+      const ca=card.querySelector('.pcta:not(.pcta-off)');
+      if(ca)ca.addEventListener('click',e=>{e.stopPropagation();location.href=p.link;});
+      list.appendChild(card);rvIO.observe(card);
+    });
+    list.style.cssText='opacity:1;transform:translateY(0);transition:opacity .3s,transform .3s';
+  },200);
 }
-document.getElementById('modalClose').onclick = () =>
-  document.getElementById('modalOverlay').classList.remove('open');
-document.getElementById('modalOverlay').addEventListener('click', e => {
-  if (e.target.id === 'modalOverlay') document.getElementById('modalOverlay').classList.remove('open');
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.getElementById('modalOverlay').classList.remove('open');
-});
 
-// Email copy (original behaviour)
-document.getElementById('emailCard').addEventListener('click', () => {
-  const email = 'andres.moreno2702@gmail.com';
-  const label = document.getElementById('emailLabel');
-  const orig = label.textContent;
-  const showCopied = () => {
-    label.textContent = '✓ Copied!';
-    setTimeout(() => label.textContent = orig, 2000);
-  };
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(email).then(showCopied).catch(showCopied);
-  } else { showCopied(); }
+/* ── FILTER ── */
+document.getElementById('fb').addEventListener('click',e=>{
+  const pill=e.target.closest('.fp');if(!pill)return;
+  document.querySelectorAll('.fp').forEach(p=>p.classList.remove('on'));
+  pill.classList.add('on');render(pill.dataset.f);
 });
 
-// Theme toggle
-let dark = true;
-const themeBtn = document.getElementById('themeBtn');
-themeBtn.addEventListener('click', () => {
-  dark = !dark;
-  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+/* ── MODAL ── */
+function openModal(p){
+  document.getElementById('mm').textContent=p.meta;
+  document.getElementById('mt').innerHTML=p.name;
+  document.getElementById('md').textContent=p.desc;
+  document.getElementById('mtg').innerHTML=p.tags.map(t=>`<span class="spill" style="font-size:9.5px">${t}</span>`).join('');
+  document.getElementById('mh').innerHTML=p.hl.map(h=>`<div class="mhl">${h}</div>`).join('');
+  document.getElementById('mo').classList.add('open');
+}
+document.getElementById('mcls').onclick=()=>document.getElementById('mo').classList.remove('open');
+document.getElementById('mo').addEventListener('click',e=>{if(e.target.id==='mo')document.getElementById('mo').classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('mo').classList.remove('open');});
+
+/* ── EMAIL ── */
+document.getElementById('ec').addEventListener('click',()=>{
+  navigator.clipboard.writeText('andres.moreno2702@gmail.com').then(()=>{
+    const l=document.getElementById('el'),a=document.getElementById('ea');
+    l.textContent='✓ Copied!';a.textContent='✓';
+    setTimeout(()=>{l.textContent='Email · click to copy';a.textContent='↗';},2200);
+  }).catch(()=>{});
 });
 
-// Scroll reveal
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-</script>
+/* ── SCROLL PROGRESS + NAV ── */
+addEventListener('scroll',()=>{
+  const s=scrollY,max=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('bar').style.width=(max>0?s/max*100:0)+'%';
+  document.getElementById('nav').classList.toggle('up',s>40);
+},{passive:true});
 
-<script>
-// ── EDIT MODE (Ctrl+Shift+E) ──
-(function () {
-  const style = document.createElement('style');
-  style.textContent = `
-    #edit-toolbar {
-      display: none; position: fixed; bottom: 24px; right: 24px;
-      z-index: 9000; gap: 8px; align-items: center;
-    }
-    body.edit-mode #edit-toolbar { display: flex; }
-    #edit-toolbar button {
-      background: rgba(10,14,22,.96); color: #fff;
-      border: 1px solid rgba(255,255,255,.18); border-radius: 50px;
-      padding: 10px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
-      cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,.5); transition: background .2s;
-    }
-    #btn-undo-e  { color: #8b9bb8; }
-    #btn-undo-e:hover  { background: #1a2235; color: #fff; }
-    #btn-undo-e:disabled { opacity: .3; cursor: not-allowed; }
-    #btn-save-e  { background: #16a34a; border-color: #16a34a; }
-    #btn-save-e:hover  { background: #15803d; }
-    #btn-export-e { background: rgba(93,188,255,.2); border-color: rgba(93,188,255,.45); }
-    #btn-export-e:hover { background: #5dbcff; color: #000; }
-    #btn-gh-e { background: rgba(10,14,22,.96); }
-    #btn-gh-e:hover { background: #1a2235; }
-    #btn-gh-e.connected { border-color: #16a34a; color: #4ade80; }
-    #save-flash-e {
-      display: none; position: fixed; bottom: 70px; right: 24px; z-index: 9001;
-      color: #fff; padding: 6px 14px; border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace; font-size: 11px; pointer-events: none;
-    }
-    body.edit-mode [data-etxt]:hover {
-      outline: 2px dashed rgba(93,188,255,.5); outline-offset: 3px; cursor: text;
-    }
-    body.edit-mode [contenteditable="true"] {
-      outline: 2px solid #5dbcff; outline-offset: 3px;
-    }
-    .eb-handle {
-      display: none; height: 14px; cursor: ns-resize;
-      position: relative; margin: 0 -2.5rem; z-index: 50;
-    }
-    body.edit-mode .eb-handle { display: block; }
-    .eb-handle::after {
-      content: ''; display: block; height: 2px;
-      background: rgba(93,188,255,.3); margin: 6px 0; transition: background .15s;
-    }
-    .eb-handle:hover::after { background: #5dbcff; }
-    .eb-handle::before {
-      content: '· · · · ·'; position: absolute; left: 50%;
-      transform: translateX(-50%); top: 0; font-size: 9px;
-      color: rgba(93,188,255,.45); letter-spacing: 3px;
-    }
-  `;
-  document.head.appendChild(style);
+/* ── NAV ACTIVE LINKS ── */
+const nls=document.querySelectorAll('.nl a');
+['projects','about','resume','contact'].forEach(id=>{
+  const el=document.getElementById(id);if(!el)return;
+  new IntersectionObserver(ents=>ents.forEach(e=>{
+    if(e.isIntersecting){nls.forEach(l=>l.classList.remove('on'));
+      const l=document.querySelector(`.nl a[href="#${id}"]`);if(l)l.classList.add('on');}
+  }),{rootMargin:'-38% 0px -57% 0px'}).observe(el);
+});
 
-  // ── Toolbar ──
-  const toolbar = document.createElement('div'); toolbar.id = 'edit-toolbar';
-  const btnUndo   = document.createElement('button'); btnUndo.id   = 'btn-undo-e';   btnUndo.textContent   = '↩ Undo';   btnUndo.disabled = true;
-  const btnSave   = document.createElement('button'); btnSave.id   = 'btn-save-e';   btnSave.textContent   = '💾 Save to GitHub';
-  const btnExport = document.createElement('button'); btnExport.id = 'btn-export-e'; btnExport.textContent = '⬇ Export HTML';
-  const btnGH     = document.createElement('button'); btnGH.id     = 'btn-gh-e';     btnGH.textContent     = '⚙ GitHub';
-  toolbar.append(btnUndo, btnSave, btnExport, btnGH);
-  document.body.appendChild(toolbar);
-
-  const flash = document.createElement('div'); flash.id = 'save-flash-e';
-  document.body.appendChild(flash);
-
-  let editMode = false;
-  const undoStack = [];
-
-  // ── Editable text elements (updated selectors for new design) ──
-  const TEXT_SEL = [
-    '.hero-meta span',
-    '.hero h1 .word',
-    '.hero-desc',
-    '.stat .n', '.stat .l',
-    '.section-title',
-    '.about-prose p',
-    '.skills-title',
-    '.resume-block h3', '.resume-block p',
-    '.contact-card .ck-label', '.contact-card .ck-handle',
-    'footer span'
-  ].join(',');
-
-  function enableText() {
-    document.querySelectorAll(TEXT_SEL).forEach(el => {
-      if (el.dataset.etxt) return;
-      el.dataset.etxt = '1';
-      el.addEventListener('click', e => {
-        if (!editMode) return;
-        e.stopPropagation();
-        const saved = el.innerHTML;
-        el.contentEditable = 'true';
-        el.focus();
-        el.addEventListener('blur', () => {
-          el.contentEditable = 'false';
-          if (el.innerHTML !== saved) {
-            undoStack.push({ el, html: saved });
-            if (undoStack.length > 50) undoStack.shift();
-            btnUndo.disabled = false;
-          }
-        }, { once: true });
-      });
-    });
-  }
-
-  btnUndo.addEventListener('click', () => {
-    if (!undoStack.length) return;
-    const entry = undoStack.pop();
-    if (entry.type === 'pad') {
-      entry.el.style.paddingTop = entry.value;
-    } else {
-      entry.el.innerHTML = entry.html;
-    }
-    if (!undoStack.length) btnUndo.disabled = true;
-  });
-
-  // ── Clean HTML for save/export ──
-  function cleanHTML() {
-    const clone = document.documentElement.cloneNode(true);
-    clone.querySelectorAll('#edit-toolbar, #save-flash-e, .eb-handle').forEach(el => el.remove());
-    clone.querySelectorAll('[data-etxt]').forEach(el => {
-      el.contentEditable = 'false';
-      el.removeAttribute('data-etxt');
-    });
-    clone.querySelectorAll('[data-handle-init]').forEach(el => el.removeAttribute('data-handle-init'));
-    clone.querySelector('body').classList.remove('edit-mode');
-    return '<!DOCTYPE html>\n' + clone.outerHTML;
-  }
-
-  // ── GitHub ──
-  const GH_REPO   = 'andresmoreno2702-gif/andresmoreno2702-gif.github.io';
-  const GH_FILE   = 'index.html';
-  const GH_BRANCH = 'main';
-  const PAT_KEY   = 'gh_pat';
-
-  function syncGHBtn() {
-    const tok = localStorage.getItem(PAT_KEY);
-    btnGH.textContent = tok ? '● Connected' : '⚙ GitHub';
-    btnGH.classList.toggle('connected', !!tok);
-  }
-  syncGHBtn();
-
-  btnGH.addEventListener('click', () => {
-    const cur = localStorage.getItem(PAT_KEY) || '';
-    const tok = prompt('Paste your GitHub Personal Access Token:', cur);
-    if (tok !== null) { localStorage.setItem(PAT_KEY, tok.trim()); syncGHBtn(); }
-  });
-
-  btnSave.addEventListener('click', async () => {
-    const token = localStorage.getItem(PAT_KEY);
-    if (!token) {
-      showFlash('No token — click ⚙ GitHub first', '#ef4444'); return;
-    }
-    const orig = btnSave.textContent;
-    btnSave.textContent = 'Saving…'; btnSave.disabled = true;
-    try {
-      const html = cleanHTML();
-      const enc  = btoa(unescape(encodeURIComponent(html)));
-      const r    = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
-        headers: { Authorization: `token ${token}` }
-      });
-      if (!r.ok) throw new Error('GET ' + r.status);
-      const { sha } = await r.json();
-      const w = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
-        method: 'PUT',
-        headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: 'Page update via edit mode', content: enc, sha, branch: GH_BRANCH })
-      });
-      if (!w.ok) throw new Error('PUT ' + w.status);
-      showFlash('✓ Saved to GitHub!', '#16a34a');
-    } catch (e) {
-      showFlash('⚠ ' + e.message, '#ef4444');
-    }
-    btnSave.textContent = orig; btnSave.disabled = false;
-  });
-
-  btnExport.addEventListener('click', () => {
-    const html = cleanHTML();
-    const blob = new Blob([html], { type: 'text/html' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'index.html';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  });
-
-  function showFlash(msg, bg) {
-    flash.textContent = msg;
-    flash.style.background = bg;
-    flash.style.display = 'block';
-    setTimeout(() => flash.style.display = 'none', 3000);
-  }
-
-  // ── Section spacing drag handles ──
-  function initHandles() {
-    document.querySelectorAll('section, header.hero').forEach(sec => {
-      if (sec.dataset.handleInit) return;
-      sec.dataset.handleInit = '1';
-      const handle = document.createElement('div');
-      handle.className = 'eb-handle';
-      sec.insertBefore(handle, sec.firstChild);
-      handle.addEventListener('mousedown', e => {
-        e.preventDefault();
-        const startY   = e.clientY;
-        const startPad = parseInt(getComputedStyle(sec).paddingTop) || 64;
-        const onMove = e => {
-          sec.style.paddingTop = Math.max(8, startPad + (e.clientY - startY)) + 'px';
-        };
-        const onUp = () => {
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-          const finalPad = parseInt(sec.style.paddingTop) || startPad;
-          if (finalPad !== startPad) {
-            undoStack.push({ type: 'pad', el: sec, value: startPad + 'px' });
-            btnUndo.disabled = false;
-          }
-        };
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-    });
-  }
-
-  // ── Ctrl+Shift+E → password prompt ──
-  const PASS = 'morenavaa321';
-  document.addEventListener('keydown', e => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'E') {
-      e.preventDefault();
-      if (editMode) {
-        editMode = false;
-        document.body.classList.remove('edit-mode');
-        return;
-      }
-      const pw = prompt('Enter password to enable edit mode:');
-      if (pw === PASS) {
-        editMode = true;
-        document.body.classList.add('edit-mode');
-        enableText();
-        initHandles();
-      }
-    }
+/* ── THEME TOGGLE ── */
+(()=>{
+  const html=document.documentElement;
+  const btn=document.getElementById('themeBtn');
+  /* Restore saved preference, default to dark */
+  const saved=localStorage.getItem('portfolio-theme');
+  if(saved) html.dataset.theme=saved;
+  btn.addEventListener('click',()=>{
+    const next=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=next;
+    localStorage.setItem('portfolio-theme',next);
   });
 })();
+
+/* ── MOBILE NAV ── */
+const ham=document.getElementById('ham'),mn=document.getElementById('mnav');
+ham.addEventListener('click',()=>{ham.classList.toggle('x');mn.classList.toggle('show');});
+mn.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('x');mn.classList.remove('show');}));
+
+/* ── REVEAL + SKILL BARS ── */
+const rvIO=new IntersectionObserver(ents=>ents.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('in');
+  /* animate skill bars when section enters */
+  e.target.querySelectorAll('.skill-fill').forEach((fill,i)=>{
+    setTimeout(()=>fill.classList.add('go'), i*90);
+  });
+  rvIO.unobserve(e.target);
+}),{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>rvIO.observe(el));
+
+
+render('all');
+
 </script>
 </body>
 </html>

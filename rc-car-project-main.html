@@ -1,82 +1,95 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark"><head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#111214">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESP32 Mini RC Car · Andres Moreno</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>ESP32 Mini RC Car · Andrés Moreno</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<style>
+#progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
+.cursor-glow{position:fixed;pointer-events:none;z-index:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 65%);transform:translate(-50%,-50%);transition:opacity 0.5s ease;opacity:0;}
+</style>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root {
-  /* Sky palette — light (default) */
-  --bg: #eef0f3;
-  --bg-2: #e3e6eb;
-  --ink: #0d1420;
-  --ink-2: #3a4658;
-  --ink-3: #7d8a9e;
-  --line: rgba(13, 20, 32, 0.1);
-  --line-2: rgba(13, 20, 32, 0.22);
-  --accent: #0066cc;
-  --accent-soft: rgba(0, 102, 204, 0.12);
-  --card: #f7f8fb;
-  /* backward-compat aliases */
-  --surface: #e3e6eb;
-  --surface2: #d8dce3;
-  --border: rgba(13, 20, 32, 0.1);
-  --border2: rgba(13, 20, 32, 0.22);
-  --text: #0d1420;
-  --text-muted: #7d8a9e;
-  --text-dim: #3a4658;
-  --red: #ef4444;
-  --green: #22c55e;
-  --accent2: #0066cc;
-  --accent3: #338ecc;
-  --serif: 'Instrument Serif', serif;
-  --sans: 'Geist', 'Helvetica Neue', sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --bg:          #f8f7f4;
+  --bg-2:        #f0efe9;
+  --ink:         #111110;
+  --ink-2:       #5a5a55;
+  --ink-3:       #9e9d96;
+  --line:        rgba(17,17,16,0.08);
+  --line-2:      rgba(17,17,16,0.18);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.09);
+  --card:        #ffffff;
+  --surface:     #f0efe9;
+  --surface2:    #e8e7e0;
+  --border:      rgba(17,17,16,0.08);
+  --border2:     rgba(17,17,16,0.18);
+  --text:        #111110;
+  --text-muted:  #9e9d96;
+  --text-dim:    #5a5a55;
+  --red:         #dc2626;
+  --green:       #16a34a;
+  --amber:       #d97706;
+  --accent2:     #2563eb;
+  --accent3:     #7c3aed;
+  --sans:        'Plus Jakarta Sans', system-ui, sans-serif;
+  --mono:        'DM Mono', 'JetBrains Mono', monospace;
+  --serif:       'Plus Jakarta Sans', system-ui, sans-serif;
+  --transition:  all 0.35s cubic-bezier(0.22,1,0.36,1);
+  --ease:        cubic-bezier(0.22,1,0.36,1);
+  --nav-bg:      rgba(248,247,244,.88);
 }
 [data-theme="dark"] {
-  /* Sky palette — dark */
-  --bg: #0a0e16;
-  --bg-2: #13181f;
-  --ink: #eef0f3;
-  --ink-2: #a8b0bc;
-  --ink-3: #5d6675;
-  --line: rgba(238, 240, 243, 0.1);
-  --line-2: rgba(238, 240, 243, 0.22);
-  --accent: #5dbcff;
-  --accent-soft: rgba(93, 188, 255, 0.12);
-  --card: #13181f;
-  --surface: #13181f;
-  --surface2: #1a2030;
-  --border: rgba(238, 240, 243, 0.1);
-  --border2: rgba(238, 240, 243, 0.22);
-  --text: #eef0f3;
-  --text-muted: #a8b0bc;
-  --text-dim: #a8b0bc;
-  --accent2: #5dbcff;
-  --accent3: #7bc9ff;
+  --bg:          #111214;
+  --bg-2:        #17181c;
+  --ink:         #e8e7e3;
+  --ink-2:       #8c8c96;
+  --ink-3:       #50505a;
+  --line:        rgba(232,231,227,0.07);
+  --line-2:      rgba(232,231,227,0.16);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.12);
+  --card:        #17181c;
+  --surface:     #17181c;
+  --surface2:    #1d1e23;
+  --border:      rgba(232,231,227,0.07);
+  --border2:     rgba(232,231,227,0.16);
+  --text:        #e8e7e3;
+  --text-muted:  #8c8c96;
+  --text-dim:    #8c8c96;
+  --red:         #f87171;
+  --green:       #22c55e;
+  --amber:       #f59e0b;
+  --accent2:     #60a5fa;
+  --accent3:     #a78bfa;
+  --nav-bg:      rgba(17,18,20,.88);
 }
 [data-theme="light"] .hero::before{background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,102,204,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(0,102,204,.04) 0%,transparent 60%);}
 [data-theme="light"] body{background:var(--bg);color:var(--text);}
 [data-theme="light"] .stat-card{background:var(--surface);border-color:var(--border);}
 [data-theme="light"] .spec-block{background:var(--surface);}
 [data-theme="light"] .decision{background:var(--surface);}
-body{background:var(--bg);color:var(--text);font-family:'Geist','Helvetica Neue',sans-serif;font-size:15px;line-height:1.7;transition:background 0.35s cubic-bezier(0.4,0,0.2,1),color 0.35s cubic-bezier(0.4,0,0.2,1);}
-.hero{position:relative;padding:112px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.07) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
+.hero{position:relative;padding:110px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(93,188,255,0.13) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.6;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
+[data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(0,102,204,0.09) 1.5px,transparent 0);}
+@keyframes grid-drift{from{background-position:0 0;}to{background-position:36px 36px;}}
 .hero-inner{position:relative;max-width:1200px;margin:0 auto}
-.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
 .hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
-.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(30px,4vw,54px);font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-bottom:10px}
-.hero h1 span{color:var(--accent)}
-.hero-sub{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:10px}
+.hero h1 span{color:var(--accent);font-style:italic;}
+.hero-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
 .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-.badge{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge{font-family:var(--mono);font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
 .badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
 .badge-blue{color:var(--accent2);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
 .badge-amber{color:var(--accent3);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
@@ -92,32 +105,32 @@ body{background:var(--bg);color:var(--text);font-family:'Geist','Helvetica Neue'
 .gallery-item img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover;max-height:160px}
 .gallery-item.wide{width:calc(66.666% - 8px)}
 .gallery-item.screenshot img{object-fit:contain;background:var(--surface2)}
-.gallery-caption{padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
+.gallery-caption{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
 .overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
 .stat-card.blue::after{background:var(--accent2)}
 .stat-card.amber::after{background:var(--accent3)}
 .stat-card.red::after{background:var(--red)}
-.stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
-.stat-value{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
 .stat-sub{font-size:12px;color:var(--text-muted)}
 .prose{color:var(--text-dim);line-height:1.85}
 .prose p{margin-bottom:16px}
 .prose strong{color:var(--text);font-weight:500}
 .comp-table{width:100%;border-collapse:collapse;font-size:13px}
-.comp-table th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.comp-table th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
 .comp-table td{padding:12px 16px;border-bottom:1px solid rgba(30,45,61,.6);color:var(--text-dim);vertical-align:top}
 .comp-table tr:hover td{background:rgba(93,188,255,.02)}
-.ref{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent)}
-.part{font-family:'JetBrains Mono',monospace;font-size:11px}
+.ref{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.part{font-family:var(--mono);font-size:11px}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(93,188,255,.04)}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(93,188,255,.04)}
 .spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid rgba(30,45,61,.5);gap:20px}
 .spec-row:last-child{border-bottom:none}
 .spec-key{font-size:13px;color:var(--text-muted);flex:1}
-.spec-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);text-align:right}
+.spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
 .spec-val.ok{color:var(--green)}
 .spec-val.warn{color:var(--accent3)}
 .decision-list{display:flex;flex-direction:column;gap:16px}
@@ -126,64 +139,55 @@ body{background:var(--bg);color:var(--text);font-family:'Geist','Helvetica Neue'
 .decision.amber{border-left-color:var(--accent3)}
 .decision-title{font-weight:500;color:var(--text);margin-bottom:6px;font-size:14px}
 .decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
-.decision-body code{font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.decision-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
 .timeline{position:relative;padding-left:32px}
 .timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent)}
 .timeline-item{position:relative;margin-bottom:36px}
 .timeline-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
 .timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
 .timeline-dot.amber{background:var(--accent3);box-shadow:0 0 0 2px var(--accent3)}
-.timeline-step{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.timeline-step{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .timeline-step.blue{color:var(--accent2)}
 .timeline-step.amber{color:var(--accent3)}
 .timeline-heading{font-weight:500;color:var(--text);margin-bottom:6px;font-size:15px}
 .timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
-.timeline-body code{font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
 .timeline-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border);max-width:640px}
 .timeline-img img{width:100%;display:block}
-.timeline-img-cap{padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
+.timeline-img-cap{padding:8px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
 .footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-left,.footer-right{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-muted);line-height:1.8}
 .footer-right{text-align:right}
 #lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
 #lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
 #lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;line-height:1;background:none;border:none}
 #lb-close:hover{opacity:1}
 .gallery-item img,.timeline-img img{cursor:zoom-in}
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1rem 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  backdrop-filter: blur(14px);
-  background: color-mix(in oklab, var(--bg) 80%, transparent);
-  border-bottom: 1px solid var(--line);
-  transition: background 0.5s, border-color 0.5s;
-}
-.nav-links {
-  display: flex; gap: 2rem; align-items: center;
-}
-.nav-links a {
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--text); }
-.theme-btn {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--border2);
-  background: transparent; color: var(--ink);
-  cursor: pointer;
-  display: grid; place-items: center;
-  font-size: 16px;
-  transition: background 0.3s, transform 0.3s;
-}
-.theme-btn:hover { background: var(--ink); color: var(--bg); transform: rotate(20deg); }
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;
+  background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
+.nav-brand{font-size:14px;font-weight:800;letter-spacing:-.02em;cursor:pointer;
+  color:var(--text);text-decoration:none;font-family:var(--sans);}
+.nav-brand i{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text-muted);padding:4px 0;position:relative;transition:color .2s;text-decoration:none;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;
+  background:var(--accent);transition:width .3s var(--ease);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.thm{width:34px;height:34px;border:1.5px solid var(--border2);border-radius:50%;
+  background:transparent;color:var(--text-muted);cursor:pointer;
+  display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+.thm .ico-moon{display:block;}
+.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}
+[data-theme="light"] .thm .ico-sun{display:block;}
 @media(max-width:860px){.nav-links{display:none;}}
 @media(max-width:900px){
   .overview-grid{grid-template-columns:repeat(2,1fr)}
@@ -200,7 +204,7 @@ body.edit-mode .gallery-item.eb-over{outline:2px solid #5dbcff;background:rgba(9
 .eb-placeholder{border-radius:8px;border:2px dashed #5dbcff;background:rgba(93,188,255,.07);pointer-events:none}
 .eb-bar{display:none;position:absolute;top:0;left:0;right:0;background:rgba(10,14,26,.9);z-index:500;flex-wrap:wrap;gap:2px;padding:3px 5px;border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0}
 body.edit-mode .eb-bar{display:flex}
-.eb-bar button{background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.eb-bar button{background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;white-space:nowrap;transition:background .15s}
 .eb-bar button:hover{background:#5dbcff;color:#0a0e16}
 .eb-bar button.red:hover{background:#ef4444}
 .eb-drag-handle{margin-left:auto;font-size:13px;padding:0 4px;cursor:grab;color:#4a5a78;user-select:none;line-height:1}
@@ -209,25 +213,364 @@ body.edit-mode .eb-corner{display:block}
 body.edit-mode img:not([data-no-edit]){outline:1px dashed rgba(93,188,255,.35);cursor:pointer}
 body.edit-mode [data-txt]:hover{outline:1px dashed rgba(93,188,255,.45);cursor:text;border-radius:2px}
 body.edit-mode [data-txt][contenteditable="true"]{outline:2px solid #5dbcff;border-radius:2px}
-.eb-add-btn{display:none;width:100%;margin:10px 0 0;padding:8px;font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(93,188,255,.08);color:var(--accent2);border:1px dashed rgba(93,188,255,.4);border-radius:6px;cursor:pointer}
+.eb-add-btn{display:none;width:100%;margin:10px 0 0;padding:8px;font-family:var(--mono);font-size:11px;background:rgba(93,188,255,.08);color:var(--accent2);border:1px dashed rgba(93,188,255,.4);border-radius:6px;cursor:pointer}
 body.edit-mode .eb-add-btn{display:block}
 .eb-add-btn:hover{background:rgba(93,188,255,.15)}
-#eb-hint{display:none;position:fixed;bottom:68px;right:24px;z-index:9000;background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.4);border-radius:10px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8b9bb8;line-height:2.2;pointer-events:none}
+#eb-hint{display:none;position:fixed;bottom:68px;right:24px;z-index:9000;background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.4);border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;color:#8b9bb8;line-height:2.2;pointer-events:none}
 body.edit-mode #eb-hint{display:block}
+</style>
+
+
+<style id="snap-enhanced">
+/* ── Enhanced Snapshot Styles ── */
+.snapshot {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.snapshot::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+.snap-quote {
+  max-width: 1200px; margin: 0 auto;
+  padding: 48px 56px 36px;
+  position: relative;
+}
+.snap-quote::before {
+  content: '';
+  position: absolute; left: 56px; top: 48px;
+  width: 3px; height: calc(100% - 84px);
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  border-radius: 2px;
+}
+.snap-quote p {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  line-height: 1.65; color: var(--text-dim);
+  padding-left: 28px; max-width: 72ch;
+}
+.snap-quote p em { color: var(--accent); font-style: italic; }
+.snapshot-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 40px; padding: 0 56px 48px; align-items: start;
+}
+.snap-photo-wrap { display: flex; flex-direction: column; gap: 12px; }
+.snap-photo-main {
+  position: relative; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  aspect-ratio: 4/3;
+  cursor: zoom-in;
+}
+.snap-photo-main img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.snap-photo-main:hover img { transform: scale(1.03); }
+.snap-photo-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 32px 14px 10px;
+  background: linear-gradient(to top, rgba(5,9,18,0.9) 0%, transparent 100%);
+  font-family: var(--mono); font-size: 10px; color: rgba(238,240,243,0.7);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.snap-thumbs {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+.snap-thumb {
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer; aspect-ratio: 4/3;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.snap-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.snap-thumb:hover { border-color: var(--accent); transform: translateY(-2px); }
+.snap-thumb.active { border-color: var(--accent); border-width: 2px; }
+.snap-info { display: flex; flex-direction: column; gap: 24px; padding-top: 2px; }
+.snap-label {
+  font-family: var(--mono); font-size: 9.5px;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--text-muted); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.snap-label::before {
+  content: ''; display: inline-block;
+  width: 18px; height: 1px; background: var(--accent);
+}
+.snap-comp-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.snap-comp {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 12px 8px; border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  cursor: default; position: relative;
+}
+.snap-comp:hover {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+  transform: translateY(-2px);
+}
+.snap-comp-icon {
+  width: 32px; height: 32px;
+  color: var(--accent); flex-shrink: 0;
+}
+.snap-comp-icon svg { width: 100%; height: 100%; }
+.snap-comp-name {
+  font-family: var(--mono); font-size: 9px;
+  text-align: center; color: var(--text-muted);
+  letter-spacing: 0.04em; line-height: 1.3;
+}
+.snap-comp::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  background: color-mix(in oklab, var(--bg) 96%, transparent);
+  border: 1px solid var(--border2);
+  backdrop-filter: blur(12px);
+  color: var(--text); font-family: var(--mono); font-size: 10px;
+  padding: 8px 12px; border-radius: 8px; white-space: nowrap;
+  max-width: 260px; white-space: normal; width: max-content; max-width: 220px;
+  line-height: 1.5; z-index: 40; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.snap-comp:hover::after { opacity: 1; }
+.snap-journey {
+  display: flex; gap: 0; align-items: center;
+  flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px;
+}
+.snap-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 5px; flex: 1; min-width: 52px; position: relative;
+}
+.snap-step + .snap-step::before {
+  content: '';
+  position: absolute; left: -50%; right: 50%; top: 11px;
+  height: 2px; background: var(--border);
+}
+.snap-step.done + .snap-step::before { background: var(--accent); }
+.snap-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; position: relative; z-index: 1;
+}
+.snap-step.done .snap-dot {
+  background: var(--accent); color: var(--bg);
+  font-size: 11px;
+}
+.snap-step.now .snap-dot {
+  background: transparent; border: 2px solid var(--accent);
+  color: var(--accent); font-weight: 700;
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: snap-pulse 1.8s ease infinite;
+}
+.snap-step:not(.done):not(.now) .snap-dot {
+  background: var(--surface); border: 2px solid var(--border);
+  color: var(--text-muted); font-size: 9px;
+}
+@keyframes snap-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(93,188,255,0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(93,188,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(93,188,255,0); }
+}
+.snap-step-lbl {
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); text-align: center;
+}
+.snap-step.done .snap-step-lbl { color: var(--text); }
+.snap-step.now .snap-step-lbl { color: var(--accent); }
+.snap-learned {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+  border-left: 3px solid var(--accent);
+}
+.snap-learned ul {
+  list-style: none; display: flex; flex-direction: column; gap: 10px;
+}
+.snap-learned ul li {
+  font-size: 12.5px; color: var(--text-dim); line-height: 1.65;
+  padding-left: 14px; position: relative;
+}
+.snap-learned ul li::before {
+  content: '';
+  position: absolute; left: 0; top: 8px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+.snap-learned ul li code {
+  font-family: var(--mono); font-size: 10.5px;
+  background: var(--surface2); padding: 1px 5px;
+  border-radius: 4px; color: var(--accent);
+}
+.snap-stats {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  padding: 0 56px;
+}
+.snap-stat {
+  padding: 28px 0;
+  border-right: 1px solid var(--border);
+  padding-left: 32px; padding-right: 24px;
+  position: relative; overflow: hidden;
+}
+.snap-stat:first-child { padding-left: 0; }
+.snap-stat:last-child { border-right: none; }
+.snap-counter {
+  font-family: var(--mono); font-size: 2rem; font-weight: 500;
+  color: var(--accent); line-height: 1; margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.snap-stat-lbl {
+  font-family: var(--mono); font-size: 9.5px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.snap-scroll-cue {
+  max-width: 1200px; margin: 0 auto;
+  padding: 20px 56px 28px;
+  font-family: var(--mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.snap-arrow-anim {
+  animation: bounce-y 1.6s ease infinite;
+  display: inline-block; color: var(--accent);
+}
+@keyframes bounce-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(4px); }
+}
+/* photo notes */
+.photo-note {
+  position: absolute;
+  font-family: 'Caveat', cursive; font-weight: 500; font-size: 13px;
+  color: #f0f4ff;
+  background: rgba(4,8,20,0.82);
+  border-left: 2px solid var(--accent);
+  padding: 3px 8px; border-radius: 0 4px 4px 0;
+  pointer-events: none; z-index: 5;
+  backdrop-filter: blur(4px);
+}
+.photo-note.right { border-left: none; border-right: 2px solid var(--accent); border-radius: 4px 0 0 4px; }
+.photo-note.amber { border-color: #fbbf24; }
+.photo-note.green { border-color: #4ade80; }
+/* responsive */
+@media(max-width:900px) {
+  .snap-quote { padding: 28px 24px 20px; }
+  .snap-quote::before { left: 24px; }
+  .snap-quote p { padding-left: 18px; }
+  .snapshot-inner { grid-template-columns: 1fr; padding: 0 24px 32px; gap: 28px; }
+  .snap-stats { grid-template-columns: repeat(2,1fr); padding: 0 24px; }
+  .snap-stat { padding: 20px 16px; }
+  .snap-scroll-cue { padding: 14px 24px 20px; }
+  .photo-note { display: none; }
+  .snap-thumbs { grid-template-columns: repeat(3,1fr); }
+}
+</style>
+<style id="back-btn-css">/* merged into nav-links styles */</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style id="annotations">
+/* ── Handwritten photo annotations ── */
+.snap-photo-main { position: relative; }
+.photo-note {
+  position: absolute;
+  font-family: 'Caveat', cursive;
+  font-weight: 500;
+  font-size: 13.5px;
+  color: #f0f4ff;
+  background: rgba(4, 8, 20, 0.78);
+  padding: 3px 9px 4px;
+  border-radius: 3px;
+  line-height: 1.35;
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+  border-left: 2px solid var(--accent);
+  backdrop-filter: blur(4px);
+  transition: opacity .3s;
+}
+.photo-note.right  { border-left: none; border-right: 2px solid var(--accent); }
+.photo-note.amber  { border-color: #f59e0b; }
+.photo-note.green  { border-color: #4ade80; }
+/* tiny connector dot */
+.photo-note::before {
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.photo-note.arrow-br::before { bottom: -8px; right: 8px; }
+.photo-note.arrow-bl::before { bottom: -8px; left: 8px; }
+.photo-note.arrow-tr::before { top: -8px; right: 8px; }
+.photo-note.arrow-tl::before { top: -8px; left: 8px; }
+.photo-note.right::before { display: none; }
+/* hide on very small screens */
+@media(max-width:600px){ .photo-note{ display:none; } }
+
+.outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:66ch}
+.oc-label{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--green);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;padding-top:3px;line-height:1}
+.oc-text{font-size:14px;color:var(--ink-2);line-height:1.65}
+[data-theme="dark"] .outcome-callout{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.25)}
+
+.video-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.video-cap{padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);}
+.video-wrap video{width:100%;display:block;}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+
+.portrait-demo{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}.portrait-demo .video-wrap{flex:0 0 auto;width:min(300px,calc(50% - 10px))}
+
+.proj-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:28px 0;border-top:1px solid var(--border,var(--bd));margin-top:48px;flex-wrap:wrap;}
+.pnav-btn{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2,var(--text2));padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border,var(--bd));text-decoration:none;transition:all .25s;}
+.pnav-btn:hover{background:var(--accent-soft,rgba(59,130,246,.1));border-color:var(--accent,#3b82f6);color:var(--accent,#3b82f6);}
+.pnav-home{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3,var(--text3));text-decoration:none;transition:color .2s;}
+.pnav-home:hover{color:var(--accent,#3b82f6);}
+.pnav-prev{margin-right:auto;}
+.pnav-next{margin-left:auto;}
 </style>
 </head>
 <body>
-<nav>
-  <a href="index.html" class="brand" style="font-family:var(--serif);font-size:22px;font-style:italic;letter-spacing:-0.01em;text-decoration:none;color:var(--ink);">Andrés<span style="color:var(--accent)">.</span></a>
+<div id="progress-bar"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<nav id="nav">
+  <a href="index.html" class="nav-brand">AMN<i>.</i></a>
   <div class="nav-links">
     <a href="index.html">← Portfolio</a>
     <a href="#overview">Overview</a>
     <a href="#cad">CAD</a>
     <a href="#electronics">Electronics</a>
     <a href="#build">Build</a>
+    <a href="#demo">Demo</a>
     <a href="#next">Next Steps</a>
   </div>
-  <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+  <div class="nav-right">
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+  </div>
 </nav>
 
 <div class="hero">
@@ -248,9 +591,146 @@ body.edit-mode #eb-hint{display:block}
       <span class="badge badge-amber">Creality Ender-3 S1 Pro</span>
       <span class="badge badge-blue">Custom PCB — EasyEDA</span>
     </div>
+  
+    <div class="outcome-callout">
+      <span class="oc-label">Result</span>
+      <span class="oc-text">Built a minimal-component RC car applying lessons from v1 — XIAO ESP32-C3, TB6612FNG H-bridge, SG90 servo steering, and a custom PCB — fully assembled and driving.</span>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<!-- ── Project Snapshot ── -->
+<div class="snapshot">
+
+  <div class="snap-quote">
+    <p>Started this because I couldn't find an RC car kit that didn't feel like a toy. Designed the chassis in Fusion 360, printed it in PLA — the <em>wheel mounts went through three revisions</em> before they stopped snapping under load. ESP-NOW ended up being the right wireless choice once I fixed a channel mismatch that was causing complete dropouts. The car currently runs on a tangle of jumper wires; a <em>proper PCB is in progress</em>.</p>
   </div>
+
+  <div class="snapshot-inner">
+
+    <div class="snap-photo-wrap">
+      <div class="snap-photo-main">
+        <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/top viw pic.webp" alt="RC Mini Car top view">
+        <div class="snap-photo-caption">Assembled RC Car — Top View</div>
+      </div>
+      <div class="snap-thumbs">
+        <div class="snap-thumb active" data-src="IMAGES/RC mini Car/top viw pic.webp" data-cap="Assembled RC Car — Top View">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/top viw pic.webp" alt="Top view">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/sideview.webp" data-cap="Side Profile — 3D Printed Chassis">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/sideview.webp" alt="Side view">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/assembling.webp" data-cap="Assembly in progress">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/assembling.webp" alt="Assembly">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dprinting.webp" data-cap="3D Printing — PLA chassis">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/3dprinting.webp" alt="3D printing">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/circuit.webp" data-cap="Wiring — breadboard phase">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/circuit.webp" alt="Circuit">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dmodel picture.webp" data-cap="Fusion 360 — CAD Model">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/3dmodel picture.webp" alt="3D model CAD">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/small-rc-car-new.webp" data-cap="Assembled RC Car — side profile">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/RC mini Car/small-rc-car-new.webp" alt="Side profile">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/pcbeditor.webp" data-cap="PCB layout — ready for JLCPCB manufacture">
+          <img width="1800" height="1350" loading="lazy" src="IMAGES/RC mini Car/pcbeditor.webp" alt="PCB layout">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/schematicversion 1.webp" data-cap="EasyEDA schematic — ESP32-C3, TB6612FNG, servo">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/schematicversion 1.webp" alt="Schematic">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/build-photo.webp" data-cap="Build — components laid out">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/build-photo.webp" alt="Build photo">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/IMG_20260210_104743_221.webp" data-cap="RC car — detail shot">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/IMG_20260210_104743_221.webp" alt="RC car detail">
+        </div>
+      </div>
+    </div>
+
+    <div class="snap-info">
+
+      <div>
+        <div class="snap-label">Key Components</div>
+        <div class="snap-comp-grid">
+          <div class="snap-comp" data-tip="Car MCU: ESP-NOW receiver, PWM output, 240 MHz, 520 KB SRAM">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP32 (Car)</div>
+          </div>
+          <div class="snap-comp" data-tip="Handset MCU: ESP-NOW transmitter with joystick and dead-zone logic">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP32 (Remote)</div>
+          </div>
+          <div class="snap-comp" data-tip="Dual H-bridge, 1.2 A continuous / 3.2 A peak, PWM speed control">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="15" height="12" rx="2"/><line x1="20" y1="16" x2="27" y2="16"/><circle cx="24.5" cy="16" r="2.5"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="3" y1="16" x2="5" y2="16"/><line x1="3" y1="20" x2="5" y2="20"/><path d="M10 16 L13 13 M10 16 L13 19" stroke-width="1.5"/></svg></div>
+            <div class="snap-comp-name">TB6612FNG</div>
+          </div>
+          <div class="snap-comp" data-tip="9g servo, front-wheel steering, 180° range, PWM signal">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"/><circle cx="13" cy="16" r="4"/><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"/><line x1="22" y1="13" x2="27" y2="13"/><line x1="22" y1="16" x2="27" y2="16"/><line x1="22" y1="19" x2="27" y2="19"/><path d="M13 12 L18 7" stroke-width="2"/></svg></div>
+            <div class="snap-comp-name">SG90 Servo</div>
+          </div>
+          <div class="snap-comp" data-tip="ESP-NOW 2.4 GHz peer-to-peer, ~30 m range, &lt;2 ms latency">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP-NOW</div>
+          </div>
+          <div class="snap-comp" data-tip="Designed in Fusion 360, printed in PLA, motor mounts + battery tray">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
+            <div class="snap-comp-name">3D Chassis</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="snap-label">Build Progress</div>
+        <div class="snap-journey">
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Concept</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">CAD Design</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">3D Print</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Wiring</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Firmware</div></div>
+          <div class="snap-step now"><div class="snap-dot">→</div><div class="snap-step-lbl">PCB v2</div></div>
+        </div>
+      </div>
+
+      <div class="snap-learned">
+        <div class="snap-label">What I Learned</div>
+        <ul>
+          <li>ESP-NOW requires both devices on the same WiFi channel — there's no error message when it's wrong, just silence. Took me embarrassingly long to find in the docs.</li>
+          <li>Nobody tells you joystick ADCs are noisy. Without dead zones (~8% on each axis) the car creeps and twitches at rest. Spent an afternoon thinking the motor driver was faulty.</li>
+          <li>LEDC PWM in Arduino Core v3+ needs explicit channel assignment. The old <code>analogWrite()</code> approach silently stopped working — nowhere obvious in the changelog. Cost me a full day.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="snap-stats">
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="2" data-suffix=" boards">2 boards</div>
+      <div class="snap-stat-lbl">ESP32 Modules</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="30" data-suffix=" m">30 m</div>
+      <div class="snap-stat-lbl">Wireless Range</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="1.2" data-suffix=" A" data-decimals="1">1.2 A</div>
+      <div class="snap-stat-lbl">Motor Driver</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="4" data-suffix=" wheels">4 wheels</div>
+      <div class="snap-stat-lbl">Driven Wheels</div>
+    </div>
+  </div>
+
+  <div class="snap-scroll-cue">Chassis design, wiring, and firmware walkthrough below <span class="snap-arrow-anim">↓</span></div>
 </div>
-</div>
+<!-- ── End Snapshot ── -->
 
 <div class="content">
 
@@ -269,15 +749,15 @@ body.edit-mode #eb-hint{display:block}
 </div>
 <div class="gallery">
   <div class="gallery-item wide">
-    <img src="IMAGES/RC%20mini%20Car/top%20viw%20pic.jpg" alt="Assembled RC car top-down view" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/top%20viw%20pic.webp" alt="Assembled RC car top-down view" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">Assembled car — LiPo, TB6612FNG, XIAO ESP32-C3 mounted on chassis</div>
   </div>
   <div class="gallery-item">
-    <img src="IMAGES/RC%20mini%20Car/sideview.jpg" alt="Three-quarter view of RC car" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/sideview.webp" alt="Three-quarter view of RC car" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption" contenteditable="false">Three-quarter angle — front servo steering and 3D-printed wheel mounts</div>
   </div>
   <div class="gallery-item">
-    <img src="IMAGES/RC%20mini%20Car/circuit%20.jpg" alt="Bench test setup" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/circuit%20.webp" alt="Bench test setup" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">Bench test — XIAO, TB6612FNG, servo and motor validated before mounting</div>
   </div>
 </div>
@@ -325,7 +805,7 @@ body.edit-mode #eb-hint{display:block}
 <div style="margin-top:28px">
   <model-viewer src="IMAGES/RC%20mini%20Car/CHASIS%20MINI%20CAR.glb" alt="Mini RC Car Chassis — Interactive 3D View" camera-controls="" auto-rotate="" auto-rotate-delay="1500" rotation-per-second="18deg" shadow-intensity="1" exposure="1.1" environment-image="neutral" style="width:100%;height:420px;border-radius:12px;background:var(--surface);border:1px solid var(--border);" ar-status="not-presenting">
   </model-viewer>
-  <div class="gallery-caption" style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);">Interactive 3D model — drag to rotate · scroll to zoom</div>
+  <div class="gallery-caption" style="margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--text-muted);">Interactive 3D model — drag to rotate · scroll to zoom</div>
 </div>
 </div>
 
@@ -369,11 +849,11 @@ body.edit-mode #eb-hint{display:block}
 </div>
 <div class="gallery" style="margin-top:20px">
   <div class="gallery-item wide screenshot">
-    <img src="IMAGES/RC%20mini%20Car/schematicversion%201.jpg" alt="EasyEDA schematic" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/schematicversion%201.webp" alt="EasyEDA schematic" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">EasyEDA schematic — ESP32-C3, TB6612FNG, servo header, power switch and decoupling</div>
   </div>
   <div class="gallery-item screenshot">
-    <img src="IMAGES/RC%20mini%20Car/pcbeditor.jpg" alt="PCB layout" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+    <img width="1800" height="1350" loading="lazy" src="IMAGES/RC%20mini%20Car/pcbeditor.webp" alt="PCB layout" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
     <div class="gallery-caption">PCB layout — ready for JLCPCB manufacture</div>
   </div>
 </div>
@@ -403,6 +883,25 @@ body.edit-mode #eb-hint{display:block}
 </div>
 </div>
 
+
+<div class="section" id="demo">
+<div class="section-header"><h2 class="section-title">Demo</h2><div class="section-line"></div></div>
+<div class="portrait-demo">
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata">
+      <source src="IMAGES/RC mini Car/mini-rc-demo1.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">Driving test — forward &amp; reverse</div>
+  </div>
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata">
+      <source src="IMAGES/RC mini Car/mini-rc-demo2.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">Steering — left &amp; right lock</div>
+  </div>
+</div>
+</div>
+
 <div class="section" id="next">
 <div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
 <div class="decision-list">
@@ -420,19 +919,25 @@ body.edit-mode #eb-hint{display:block}
   </div>
   <div class="decision">
     <div class="decision-title">PWM &amp; Dead Zone Tuning</div>
-    <div class="decision-body">Profile optimal <strong>PWM frequency and dead zone parameters</strong> for low-speed control precision and reliable direction switching. Current firmware uses hardcoded dead zones — a runtime tuning mode will allow configuring these via the transmitter joystick with values stored in EEPROM.</div>
+    <div class="decision-body">Dial in the right <strong>PWM frequency and dead zone parameters</strong> for low-speed control precision and reliable direction switching. Current firmware uses hardcoded dead zones — a runtime tuning mode will allow configuring these via the transmitter joystick with values stored in EEPROM.</div>
   </div>
 </div>
 </div>
 
 
 
+
+<div class="proj-nav">
+  <a href="large-rc-car-project.html" class="pnav-btn pnav-prev">← Large RC Car</a>
+  <a href="index.html" class="pnav-home">⌂ Portfolio</a>
+  <a href="nes-emulator-project-main.html" class="pnav-btn pnav-next">RetroDS →</a>
+</div>
 <div class="footer">
-<div class="footer-left">Andres Moreno Navarro &nbsp;/&nbsp; Electrical and Electronics Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>ESP32 Mini RC Car &nbsp;·&nbsp; Fusion 360 &nbsp;·&nbsp; EasyEDA &amp; JLCPCB &nbsp;·&nbsp; Feb–Mar 2026</div>
-<div class="footer-right">ESP32 Mini RC Car<br>Revision 1.0 &nbsp;·&nbsp; 2026</div>
+<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>ESP32 Mini RC Car &nbsp;·&nbsp; Fusion 360 &nbsp;·&nbsp; EasyEDA &amp; JLCPCB &nbsp;·&nbsp; Feb–Mar 2026</div>
+<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a><br><a href="esp32-s3-project-main.html" style="color:var(--ink-2);text-decoration:none;">Next: ESP32-S3 PCB →</a></div>
 </div>
 
-<div id="lb" style="display: none;"><button id="lb-close">✕</button><img id="lb-img" src="file:///home/andres/Documents/GitHub/andresmoreno2702-gif.github.io/IMAGES/RC%20mini%20Car/sideview.jpg" alt="" style="outline: rgba(37, 99, 235, 0.35) dashed 1px;"></div>
+<div id="lb" style="display: none;"><button id="lb-close">✕</button><img loading="lazy" id="lb-img" src="IMAGES/RC mini Car/sideview.webp" alt="" style="outline: rgba(37, 99, 235, 0.35) dashed 1px;"></div>
 
 <script>
 const lb=document.getElementById('lb');
@@ -448,15 +953,44 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 });
 
-let dark=localStorage.getItem('theme')!=='light';
-document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  dark=!dark;
-  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-  document.getElementById('themeBtn').textContent=dark?'🌙':'☀️';
-  localStorage.setItem('theme',dark?'dark':'light');
-});
+/* ── THEME TOGGLE ── */
+(()=>{
+  const html=document.documentElement;
+  const btn=document.getElementById('themeBtn');
+  const stored=localStorage.getItem('portfolio-theme');
+  if(stored) html.dataset.theme=stored;
+  else html.dataset.theme='dark';
+  btn.addEventListener('click',()=>{
+    const next=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=next;
+    localStorage.setItem('portfolio-theme',next);
+  });
+})();
+/* ── NAV SCROLL ── */
+addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('up',scrollY>40);
+},{passive:true});
+
+// ── Scroll Progress Bar ──────────────────────────────────
+(function(){
+  const bar = document.getElementById('progress-bar');
+  if(!bar) return;
+  window.addEventListener('scroll', function(){
+    const scrolled = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (scrolled/max)*100 : 0) + '%';
+  }, {passive: true});
+})();
+
+// ── Cursor Glow ──────────────────────────────────────────
+(function(){
+  const glow = document.getElementById('cursorGlow');
+  if(!glow) return;
+  let mx=window.innerWidth/2, my=window.innerHeight/2, cx=mx, cy=my, raf;
+  window.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; if(!glow._vis){glow.style.opacity='1';glow._vis=true;} }, {passive:true});
+  function tick(){ cx+=(mx-cx)*.09; cy+=(my-cy)*.09; glow.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; raf=requestAnimationFrame(tick); }
+  raf=requestAnimationFrame(tick);
+})();
 
 // ── Edit Mode ─────────────────────────────────────────────
 (function () {
@@ -622,7 +1156,7 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
       btn.addEventListener('click', () => {
         snapshot();
         const item = document.createElement('div'); item.className = 'gallery-item';
-        item.innerHTML = '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'%3E%3Crect width=\'300\' height=\'200\' fill=\'%231a2235\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%234a5a78\' font-family=\'monospace\' font-size=\'14\'%3EClick to swap image%3C/text%3E%3C/svg%3E" alt="New image"><div class="gallery-caption">Caption</div>';
+        item.innerHTML = '<img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'%3E%3Crect width=\'300\' height=\'200\' fill=\'%231a2235\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%234a5a78\' font-family=\'monospace\' font-size=\'14\'%3EClick to swap image%3C/text%3E%3C/svg%3E" alt="New image"><div class="gallery-caption">Caption</div>';
         gallery.insertBefore(item, btn); initGalleryItem(item); attachImgSwap(); enableText();
       });
       gallery.appendChild(btn);
@@ -649,5 +1183,68 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   document.addEventListener('keydown', e => { if (e.ctrlKey && e.shiftKey && e.key === 'E') { e.preventDefault(); if (editMode) { activateEditMode(); return; } const pw = prompt('Enter password to enable edit mode:'); if (pw === EDIT_PASS) activateEditMode(); } });
 })();
 </script><div style="display: none; position: fixed; bottom: 70px; right: 24px; z-index: 9001; background: rgb(22, 163, 74); color: rgb(255, 255, 255); padding: 6px 14px; border-radius: 6px; font-family: &quot;DM Mono&quot;, monospace; font-size: 11px; pointer-events: none;">✓ Saved!</div><div style="display: none; position: fixed; background: rgba(37, 99, 235, 0.92); color: rgb(255, 255, 255); font-family: &quot;DM Mono&quot;, monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; pointer-events: none; z-index: 9500; white-space: nowrap; left: 1212px; top: 417px;">Click to swap image</div>
+
+<script id="snap-js">
+(function(){
+  // ── Photo carousel ──
+  document.querySelectorAll('.snap-thumb').forEach(function(thumb){
+    thumb.addEventListener('click', function(){
+      var wrap = thumb.closest('.snap-photo-wrap');
+      var main = wrap.querySelector('.snap-photo-main img');
+      var cap  = wrap.querySelector('.snap-photo-caption');
+      main.style.opacity = '0';
+      main.style.transition = 'opacity 0.18s ease';
+      setTimeout(function(){
+        main.src = thumb.dataset.src;
+        main.style.opacity = '1';
+        if(cap && thumb.dataset.cap) cap.textContent = thumb.dataset.cap;
+      }, 180);
+      wrap.querySelectorAll('.snap-thumb').forEach(function(t){ t.classList.remove('active'); });
+      thumb.classList.add('active');
+    });
+  });
+
+  // ── Click main photo to open lightbox ──
+  document.querySelectorAll('.snap-photo-main').forEach(function(el){
+    el.addEventListener('click', function(){
+      var img = el.querySelector('img');
+      if(img && window.openLightbox) { window.openLightbox(img.src); return; }
+      // Fallback: open in #lb if present
+      var lb = document.getElementById('lb');
+      if(lb && img) {
+        var lbImg = lb.querySelector('img');
+        if(lbImg) lbImg.src = img.src;
+        lb.style.display = 'flex';
+      }
+    });
+  });
+
+  // ── Animated counters ──
+  function animCount(el){
+    var target   = parseFloat(el.dataset.target) || 0;
+    var prefix   = el.dataset.prefix  || '';
+    var suffix   = el.dataset.suffix  || '';
+    var decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
+    var dur = 1000, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var prog = Math.min((ts - start)/dur, 1);
+      var ease = 1 - Math.pow(1-prog, 3);
+      el.textContent = prefix + (ease*target).toFixed(decimals) + suffix;
+      if(prog < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var cio = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !e.target.dataset.counted){
+        e.target.dataset.counted = '1';
+        animCount(e.target);
+      }
+    });
+  },{threshold:0.5});
+  document.querySelectorAll('.snap-counter').forEach(function(el){ cio.observe(el); });
+})();
+</script>
 
 </body></html>

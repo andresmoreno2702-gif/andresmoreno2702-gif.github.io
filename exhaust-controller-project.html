@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#111214">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Exhaust Cutout Controller · Andrés Moreno</title>
+<meta name="description" content="First ever hardware project — an Arduino Nano Every exhaust cutout controller for a VW Golf Mk6. 3D-printed Fusion 360 enclosure, MD13S Cytron motor driver, 12V DC power from the car. Over-engineered and proud of it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+#progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
+.cursor-glow{position:fixed;pointer-events:none;z-index:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 65%);transform:translate(-50%,-50%);transition:opacity 0.5s ease;opacity:0;}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f4;--bg-2:#f0efe9;--ink:#111110;--ink-2:#5a5a55;--ink-3:#9e9d96;
+  --line:rgba(17,17,16,0.08);--line-2:rgba(17,17,16,0.18);
+  --accent:#3b82f6;--accent-soft:rgba(59,130,246,0.09);
+  --card:#ffffff;--surface:#f0efe9;--surface2:#e8e7e0;
+  --border:rgba(17,17,16,0.08);--border2:rgba(17,17,16,0.18);
+  --text:#111110;--text-muted:#9e9d96;--text-dim:#5a5a55;
+  --red:#dc2626;--green:#16a34a;--amber:#d97706;--accent2:#2563eb;--accent3:#7c3aed;
+  --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'DM Mono','JetBrains Mono',monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);--nav-bg:rgba(248,247,244,.88);
+}
+[data-theme="dark"]{
+  --bg:#111214;--bg-2:#17181c;--ink:#e8e7e3;--ink-2:#8c8c96;--ink-3:#50505a;
+  --line:rgba(232,231,227,0.07);--line-2:rgba(232,231,227,0.16);
+  --accent:#3b82f6;--accent-soft:rgba(59,130,246,0.12);
+  --card:#17181c;--surface:#17181c;--surface2:#1d1e23;
+  --border:rgba(232,231,227,0.07);--border2:rgba(232,231,227,0.16);
+  --text:#e8e7e3;--text-muted:#8c8c96;--text-dim:#8c8c96;
+  --red:#f87171;--green:#22c55e;--amber:#f59e0b;--accent2:#60a5fa;--accent3:#a78bfa;
+  --nav-bg:rgba(17,18,20,.88);
+}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .stat-card{background:var(--surface);}
+[data-theme="light"] .spec-block{background:var(--surface);}
+[data-theme="light"] .decision{background:var(--surface);}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
+/* Hero */
+.hero{position:relative;padding:72px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(93,188,255,0.13) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.6;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
+[data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(0,102,204,0.09) 1.5px,transparent 0);}
+@keyframes grid-drift{from{background-position:0 0;}to{background-position:36px 36px;}}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+.hero h1{font-family:var(--sans);font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:10px}
+.hero h1 span{color:var(--accent);font-style:italic;}
+.hero-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.badge{font-family:var(--mono);font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.badge-blue{color:var(--accent2);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
+.badge-amber{color:var(--amber);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.badge-red{color:var(--red);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.06)}
+/* Layout */
+.content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.section{margin-top:64px;scroll-margin-top:72px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-title{font-family:var(--sans);font-size:22px;font-weight:800;letter-spacing:-.02em}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+/* Stats */
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
+.stat-card.blue::after{background:var(--accent2)}.stat-card.amber::after{background:var(--amber)}.stat-card.red::after{background:var(--red)}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-sub{font-size:12px;color:var(--text-muted)}
+/* Prose */
+.prose{color:var(--text-dim);line-height:1.85}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--text);font-weight:600}
+/* Two col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+/* Spec block */
+.spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:var(--accent-soft)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid var(--border);gap:20px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:13px;color:var(--text-muted);flex:1}
+.spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
+.spec-val.ok{color:var(--green)}.spec-val.warn{color:var(--amber)}.spec-val.bad{color:var(--red)}
+/* Decision */
+.decision-list{display:flex;flex-direction:column;gap:16px}
+.decision{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px}
+.decision.amber{border-left-color:var(--amber)}.decision.red{border-left-color:var(--red)}.decision.green{border-left-color:var(--green)}
+.decision-title{font-weight:600;color:var(--text);margin-bottom:6px;font-size:14px}
+.decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+/* Timeline */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent)}
+.timeline-item{position:relative;margin-bottom:40px;display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;}
+.tl-text{grid-column:1;grid-row:1;}
+.timeline-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
+.timeline-dot.amber{background:var(--amber);box-shadow:0 0 0 2px var(--amber)}
+.timeline-dot.red{background:var(--red);box-shadow:0 0 0 2px var(--red)}
+.timeline-step{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.timeline-step.blue{color:var(--accent2)}.timeline-step.amber{color:var(--amber)}.timeline-step.red{color:var(--red)}
+.timeline-heading{font-weight:600;color:var(--text);margin-bottom:6px;font-size:15px}
+.timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
+.timeline-img{grid-column:2;grid-row:1;border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+.timeline-img img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover;max-height:260px;}
+.timeline-img-cap{padding:8px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
+/* Snapshot section */
+.snapshot{border-bottom:1px solid var(--border);background:var(--bg);position:relative;overflow:hidden;}
+.snapshot::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 60%);pointer-events:none;opacity:.5;}
+.snap-quote{max-width:1200px;margin:0 auto;padding:48px 56px 36px;position:relative;}
+.snap-quote::before{content:'';position:absolute;left:56px;top:48px;width:3px;height:calc(100% - 84px);background:linear-gradient(to bottom,var(--accent),transparent);border-radius:2px;}
+.snap-quote p{font-family:var(--sans);font-size:clamp(1rem,1.6vw,1.35rem);line-height:1.65;color:var(--text-dim);padding-left:28px;max-width:72ch;}
+.snap-quote p em{color:var(--accent);font-style:italic;}
+.snapshot-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;padding:0 56px 48px;align-items:start;}
+.snap-photo-wrap{display:flex;flex-direction:column;gap:12px;}
+.snap-photo-main{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface);aspect-ratio:4/3;cursor:zoom-in;}
+.snap-photo-main img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease);}
+.snap-photo-main:hover img{transform:scale(1.03);}
+.snap-photo-caption{position:absolute;bottom:0;left:0;right:0;padding:32px 14px 10px;background:linear-gradient(to top,rgba(5,9,18,.9) 0%,transparent 100%);font-family:var(--mono);font-size:10px;color:rgba(238,240,243,.7);letter-spacing:.1em;text-transform:uppercase;}
+.snap-thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
+.snap-thumb{border-radius:8px;overflow:hidden;border:1px solid var(--border);cursor:pointer;aspect-ratio:4/3;transition:border-color .2s,transform .2s;}
+.snap-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.snap-thumb:hover{border-color:var(--accent);transform:translateY(-2px);}
+.snap-thumb.active{border-color:var(--accent);border-width:2px;}
+.snap-info{display:flex;flex-direction:column;gap:24px;padding-top:2px;}
+.snap-label{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.snap-label::before{content:'';display:inline-block;width:18px;height:1px;background:var(--accent);}
+.snap-comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.snap-comp{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:10px;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;cursor:default;position:relative;}
+.snap-comp:hover{border-color:var(--accent);transform:translateY(-2px);}
+.snap-comp-icon{width:32px;height:32px;color:var(--accent);flex-shrink:0;}
+.snap-comp-icon svg{width:100%;height:100%;}
+.snap-comp-name{font-family:var(--mono);font-size:9px;text-align:center;color:var(--text-muted);letter-spacing:.04em;line-height:1.3;}
+.snap-comp::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:10px;padding:8px 12px;border-radius:8px;width:max-content;max-width:220px;line-height:1.5;z-index:40;pointer-events:none;opacity:0;transition:opacity .2s;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.snap-comp:hover::after{opacity:1;}
+.snap-journey{display:flex;gap:0;align-items:center;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;}
+.snap-step{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;min-width:48px;position:relative;}
+.snap-step+.snap-step::before{content:'';position:absolute;left:-50%;right:50%;top:11px;height:2px;background:var(--border);}
+.snap-step.done+.snap-step::before{background:var(--accent);}
+.snap-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;position:relative;z-index:1;}
+.snap-step.done .snap-dot{background:var(--accent);color:var(--bg);font-size:11px;}
+.snap-step:not(.done) .snap-dot{background:var(--surface);border:2px solid var(--border);color:var(--text-muted);}
+.snap-step-lbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);text-align:center;}
+.snap-step.done .snap-step-lbl{color:var(--text);}
+.snap-stats{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);padding:0 56px;}
+.snap-stat{padding:28px 0;border-right:1px solid var(--border);padding-left:32px;padding-right:24px;}
+.snap-stat:first-child{padding-left:0;}
+.snap-stat:last-child{border-right:none;}
+.snap-counter{font-family:var(--mono);font-size:2rem;font-weight:500;color:var(--accent);line-height:1;margin-bottom:6px;letter-spacing:-.02em;}
+.snap-stat-lbl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);}
+.snap-scroll-cue{max-width:1200px;margin:0 auto;padding:20px 56px 28px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);display:flex;align-items:center;gap:8px;}
+.snap-arrow-anim{animation:bounce-y 1.6s ease infinite;display:inline-block;color:var(--accent);}
+@keyframes bounce-y{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+@media(max-width:900px){
+  .snapshot-inner{grid-template-columns:1fr;padding:0 24px 32px;gap:28px;}
+  .snap-quote{padding:28px 24px 20px;}.snap-quote::before{left:24px;top:28px;}
+  .snap-quote p{padding-left:18px;}
+  .snap-stats{grid-template-columns:repeat(2,1fr);padding:0 24px;}
+  .snap-stat{padding:20px 16px;}
+  .snap-scroll-cue{padding:14px 24px 20px;}
+  .snap-thumbs{grid-template-columns:repeat(3,1fr);}
+  .timeline-item{grid-template-columns:1fr;gap:16px;}
+  .timeline-img{grid-column:1;grid-row:auto;}
+  .tl-text{grid-column:1;grid-row:auto;}
+}
+/* Gallery */
+.gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
+.gallery-item{flex:0 0 auto;width:calc(33.333% - 12px);border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;display:flex;flex-direction:column}
+.gallery-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.gallery-item.wide{width:calc(66.666% - 8px)}
+.gallery-item img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover;max-height:180px;cursor:zoom-in}
+.gallery-caption{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto}
+/* Lesson box */
+.lessons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lesson-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px 28px;position:relative;overflow:hidden}
+.lesson-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--accent3))}
+.lesson-number{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.lesson-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px}
+.lesson-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+/* Next card */
+.next-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:border-color .2s,transform .2s;text-decoration:none}
+.next-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.next-card-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+.next-card-title{font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--text);margin-bottom:6px}
+.next-card-body{font-size:13px;color:var(--text-muted)}
+.next-card-arrow{font-size:24px;color:var(--accent);flex-shrink:0;transition:transform .2s}
+.next-card:hover .next-card-arrow{transform:translateX(4px)}
+/* Footer */
+.footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-right{text-align:right}
+/* Lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
+#lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;background:none;border:none}
+#lb-close:hover{opacity:1}
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
+.nav-brand{font-size:14px;font-weight:800;letter-spacing:-.02em;color:var(--text);text-decoration:none;font-family:var(--sans);}
+.nav-brand i{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);padding:4px 0;position:relative;transition:color .2s;text-decoration:none;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--accent);transition:width .3s var(--ease);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.thm{width:34px;height:34px;border:1.5px solid var(--border2);border-radius:50%;background:transparent;color:var(--text-muted);cursor:pointer;display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+.thm .ico-moon{display:block;}.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}[data-theme="light"] .thm .ico-sun{display:block;}
+@media(max-width:860px){.nav-links{display:none;}}
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}
+  .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}.footer{padding:20px 24px}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
+  .lessons-grid{grid-template-columns:1fr}
+}
+
+.outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:66ch}
+.oc-label{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--green);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;padding-top:3px;line-height:1}
+.oc-text{font-size:14px;color:var(--ink-2);line-height:1.65}
+[data-theme="dark"] .outcome-callout{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.25)}
+
+.proj-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:28px 0;border-top:1px solid var(--border,var(--bd));margin-top:48px;flex-wrap:wrap;}
+.pnav-btn{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2,var(--text2));padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border,var(--bd));text-decoration:none;transition:all .25s;}
+.pnav-btn:hover{background:var(--accent-soft,rgba(59,130,246,.1));border-color:var(--accent,#3b82f6);color:var(--accent,#3b82f6);}
+.pnav-home{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3,var(--text3));text-decoration:none;transition:color .2s;}
+.pnav-home:hover{color:var(--accent,#3b82f6);}
+.pnav-prev{margin-right:auto;}
+.pnav-next{margin-left:auto;}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="cursor-glow" id="glow"></div>
+<div id="lb" onclick="closeLb()"><button id="lb-close" onclick="closeLb()">✕</button><img loading="lazy" id="lb-img" src="" alt=""></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-brand">AMN<i>.</i></a>
+  <div class="nav-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="#overview">Overview</a>
+    <a href="#build">Build</a>
+    <a href="#electronics">Electronics</a>
+    <a href="#lessons">Lessons</a>
+  </div>
+  <div class="nav-right">
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">First Ever Project · June 2025</div>
+    <h1>Exhaust Cutout<br><span>Controller</span></h1>
+    <div class="hero-sub">Arduino Nano Every · MD13S Cytron · Fusion 360 · 12V Car Power</div>
+    <div class="hero-meta">
+      <span class="badge badge-green">✓ Installed & Working</span>
+      <span class="badge badge-blue">Arduino Nano Every</span>
+      <span class="badge badge-amber">Fusion 360 Enclosure</span>
+      <span class="badge badge-red">First Project</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECT SNAPSHOT ── -->
+<div class="snapshot">
+
+  <div class="snap-quote">
+    <p>My first hardware project — I wanted exhaust cutout valves on a VW Golf Mk6 and decided to put an <em>Arduino in the middle of it</em>, which in hindsight added complexity for no real benefit. But the enclosure came out well, the firmware worked first try, and I learned everything I needed to know about what <em>not to do</em> next time.</p>
+  </div>
+
+  <div class="snapshot-inner">
+
+    <div class="snap-photo-wrap">
+      <div class="snap-photo-main" onclick="openLb(this.querySelector('img'))">
+        <img id="snap-main-img" width="1350" height="1800" loading="lazy"
+          src="IMAGES/Exhaust Controller/finished-unit.webp" alt="Finished exhaust controller unit">
+        <div class="snap-photo-caption" id="snap-main-cap">Finished unit — louvred enclosure &amp; panel-mount switch</div>
+      </div>
+      <div class="snap-thumbs">
+        <div class="snap-thumb active" data-src="IMAGES/Exhaust Controller/finished-unit.webp" data-cap="Finished unit — louvred enclosure &amp; panel-mount switch">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/finished-unit.webp" alt="Finished unit">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-open.webp" data-cap="Enclosure halves — moulded screw posts">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-open.webp" alt="Enclosure open">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/electronics-installed.webp" data-cap="Internals — MD13S, buck converter, Arduino mounted">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/electronics-installed.webp" alt="Electronics installed">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/arduino-nano.webp" data-cap="Arduino Nano Every with wiring">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/arduino-nano.webp" alt="Arduino Nano">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/finished-wired.webp" data-cap="Fully wired — switch, power and motor connectors">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/finished-wired.webp" alt="Wired">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/assembly.webp" data-cap="Mid-assembly — components being fitted">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/assembly.webp" alt="Assembly">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/wiring.webp" data-cap="Wiring harness — sleeved and routed">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/wiring.webp" alt="Wiring harness">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-parts.webp" data-cap="Enclosure parts — before assembly">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-parts.webp" alt="Enclosure parts">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-parts2.webp" data-cap="Enclosure — moulded screw posts detail">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-parts2.webp" alt="Enclosure detail">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/exhaust-new.webp" data-cap="Exhaust cutout controller — installed view">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/exhaust-new.webp" alt="Installed view">
+        </div>
+      </div>
+    </div>
+
+    <div class="snap-info">
+
+      <div>
+        <div class="snap-label">Key Components</div>
+        <div class="snap-comp-grid">
+          <div class="snap-comp" data-tip="Arduino Nano Every — ATmega4809, 20 MHz, 48 KB flash, debounced button input">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">Arduino Nano Every</div>
+          </div>
+          <div class="snap-comp" data-tip="MD13S Cytron 13A motor driver — massively oversized for a 1–2A actuator, but it worked">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="15" height="12" rx="2"/><line x1="20" y1="16" x2="27" y2="16"/><circle cx="24.5" cy="16" r="2.5"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="3" y1="16" x2="5" y2="16"/><line x1="3" y1="20" x2="5" y2="20"/><path d="M10 16 L13 13 M10 16 L13 19" stroke-width="1.5"/></svg></div>
+            <div class="snap-comp-name">MD13S Cytron</div>
+          </div>
+          <div class="snap-comp" data-tip="3A DC-DC buck converter — 12V car battery → 5V logic. Right call.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="8" width="24" height="16" rx="2"/><path d="M10 16 L13 12 L16 16 L19 12 L22 16"/><line x1="4" y1="20" x2="28" y2="20"/></svg></div>
+            <div class="snap-comp-name">3A Buck Conv.</div>
+          </div>
+          <div class="snap-comp" data-tip="Push button with firmware debounce — toggles exhaust valve open/closed state">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="16" cy="16" r="8"/><circle cx="16" cy="16" r="4"/><line x1="16" y1="4" x2="16" y2="8"/><line x1="16" y1="24" x2="16" y2="28"/></svg></div>
+            <div class="snap-comp-name">Push Button</div>
+          </div>
+          <div class="snap-comp" data-tip="Exhaust cutout valve actuator — DC motor driving butterfly valve, ~1–2A peak draw">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="16" cy="16" r="10"/><path d="M16 6 Q22 16 16 26 Q10 16 16 6"/><line x1="6" y1="16" x2="26" y2="16"/></svg></div>
+            <div class="snap-comp-name">Valve Actuator</div>
+          </div>
+          <div class="snap-comp" data-tip="Fusion 360 — custom enclosure with moulded screw posts, louvred top cover, grommet cable exit">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
+            <div class="snap-comp-name">Fusion 360</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="snap-label">Build Progress</div>
+        <div class="snap-journey">
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Concept</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">CAD Design</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">3D Print</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Wiring</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Firmware</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Installed</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="snap-label">What I Learned</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;border-left:3px solid var(--accent);">
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.65;padding-left:14px;position:relative;">
+              <span style="position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);display:block;"></span>
+              A voltage divider is for reading signals, not powering circuits. Use an LDO for stable voltage under load.
+            </li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.65;padding-left:14px;position:relative;">
+              <span style="position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);display:block;"></span>
+              Designing an enclosure around the components — not cramming them into a generic box — made the final unit look properly finished.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="snap-stats">
+    <div class="snap-stat">
+      <div class="snap-counter">12 V</div>
+      <div class="snap-stat-lbl">Car Power Input</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter">13 A</div>
+      <div class="snap-stat-lbl">Driver (overkill)</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter">3 A</div>
+      <div class="snap-stat-lbl">Buck Converter</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter">#1</div>
+      <div class="snap-stat-lbl">First Project Ever</div>
+    </div>
+  </div>
+
+  <div class="snap-scroll-cue">Build walkthrough &amp; electronics below <span class="snap-arrow-anim">↓</span></div>
+</div>
+<!-- ── End Snapshot ── -->
+
+<div class="content">
+
+  <section class="section" id="overview">
+    <div class="overview-grid">
+      <div class="stat-card">
+        <div class="stat-label">MCU</div>
+        <div class="stat-value" style="font-size:16px;">Nano Every</div>
+        <div class="stat-sub">Arduino ATmega328P</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Motor Driver</div>
+        <div class="stat-value" style="font-size:16px;">MD13S</div>
+        <div class="stat-sub">Cytron 13A DC driver</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">Car Power</div>
+        <div class="stat-value">12V</div>
+        <div class="stat-sub">Stepped to 5V via buck</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">Project #</div>
+        <div class="stat-value">01</div>
+        <div class="stat-sub">First hardware project ever</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Exhaust cutout valves are butterfly valves fitted in the exhaust pipe — open them and the exhaust bypasses the silencer, giving a much louder tone. Normally these are controlled by a simple toggle switch wired directly to a relay. I decided to put an Arduino in the middle of that, which in hindsight added complexity for no real benefit. But I learned a lot doing it.</p>
+      <p>The car runs 12V. I needed 5V for the Arduino Nano Every and a logic-level signal to drive the MD13S motor driver controlling the valve actuator. I used a 3A DC-DC buck converter to step the 12V down to 5V, which was the right call. I also used a <strong>voltage divider to get 3.3V</strong> for a reference signal — I now know this is not the correct approach for powering anything; the output voltage drops under load. A proper LDO regulator is the right answer. Lesson learned.</p>
+      <p>The enclosure was the part I put the most thought into. Designed entirely in Fusion 360, printed in black PLA — the box has moulded posts so every PCB and module screws in at a fixed position. The top cover has ventilation louvres. The wiring exits through a grommet hole. For a first project, it looked properly finished.</p>
+    </div>
+  </section>
+
+  <section class="section" id="build">
+    <div class="section-header">
+      <h2 class="section-title">Build</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="tl-text">
+          <div class="timeline-step">Step 01</div>
+          <div class="timeline-heading">Enclosure design in Fusion 360</div>
+          <div class="timeline-body">Modelled a rectangular enclosure with internal mounting posts at exactly the right positions for the Arduino Nano Every and the MD13S driver. The top cover has horizontal louvres for airflow and a flat mounting face. Designed so all components screw in — no hot glue, no cable ties.</div>
+        </div>
+        <div class="timeline-img">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-open.webp" alt="3D-printed enclosure halves" onclick="openLb(this)">
+          <div class="timeline-img-cap">Printed enclosure — base and cover halves</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot blue"></div>
+        <div class="tl-text">
+          <div class="timeline-step blue">Step 02</div>
+          <div class="timeline-heading">Electronics — power circuit and driver</div>
+          <div class="timeline-body">12V in from the car battery → 3A DC-DC buck converter → 5V for the Arduino Nano Every. The <strong>MD13S Cytron 13A motor driver</strong> is overkill for an exhaust valve actuator (which draws maybe 1–2A peak), but it was what was available and easy to wire. I also added a voltage divider for a 3.3V reference — incorrect approach, later replaced with an LDO concept mentally, if not physically.</div>
+        </div>
+        <div class="timeline-img">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/electronics-installed.webp" alt="Electronics installed in enclosure" onclick="openLb(this)">
+          <div class="timeline-img-cap">Electronics mounted — MD13S, buck converter, Arduino</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot amber"></div>
+        <div class="tl-text">
+          <div class="timeline-step amber">Step 03</div>
+          <div class="timeline-heading">Arduino Nano Every — firmware</div>
+          <div class="timeline-body">The firmware is simple: read a debounced push button input, toggle a boolean state, drive the MD13S direction pins accordingly to open or close the valve. The car DRL red LED lights up when the cutout is open — wired through the same output to give a visual status indicator on the dash without needing a separate LED.</div>
+        </div>
+        <div class="timeline-img">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/arduino-nano.webp" alt="Arduino Nano Every" onclick="openLb(this)">
+          <div class="timeline-img-cap">Arduino Nano Every with wiring</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot red"></div>
+        <div class="tl-text">
+          <div class="timeline-step red">Step 04</div>
+          <div class="timeline-heading">Assembly and wiring harness</div>
+          <div class="timeline-body">All boards screwed into the enclosure posts. Wiring exits through a single grommet hole, split into a sleeved harness — power in (12V from fuse box), motor output to valve, and switch/LED wires to dash. The finished unit bolts under the dash or into the boot with two screws through the enclosure flanges.</div>
+        </div>
+        <div class="timeline-img">
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/finished-wired.webp" alt="Finished unit with wiring harness" onclick="openLb(this)">
+          <div class="timeline-img-cap">Finished controller — enclosure, switch, wiring harness</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="electronics">
+    <div class="section-header">
+      <h2 class="section-title">Electronics</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:24px;">
+      <div class="spec-block">
+        <div class="spec-block-header">Component List</div>
+        <div class="spec-row"><span class="spec-key">Microcontroller</span><span class="spec-val">Arduino Nano Every (ATmega328P)</span></div>
+        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val warn">MD13S Cytron 13A (oversized)</span></div>
+        <div class="spec-row"><span class="spec-key">Buck converter</span><span class="spec-val ok">3A DC-DC step-down · 12V → 5V</span></div>
+        <div class="spec-row"><span class="spec-key">3.3V reference</span><span class="spec-val bad">Voltage divider (wrong approach)</span></div>
+        <div class="spec-row"><span class="spec-key">Input</span><span class="spec-key">Push button with debounce in firmware</span></div>
+        <div class="spec-row"><span class="spec-key">Indicator</span><span class="spec-val">Car red DRL LED — open/closed status</span></div>
+        <div class="spec-row"><span class="spec-key">Power input</span><span class="spec-val">12V car fuse box</span></div>
+        <div class="spec-row"><span class="spec-key">Enclosure</span><span class="spec-val ok">Fusion 360, 3D-printed PLA</span></div>
+      </div>
+      <div class="spec-block">
+        <div class="spec-block-header">What I'd Do Differently</div>
+        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val">L9110S or small relay — 1–2A is enough</span></div>
+        <div class="spec-row"><span class="spec-key">3.3V supply</span><span class="spec-val">AMS1117-3.3 LDO, not a voltage divider</span></div>
+        <div class="spec-row"><span class="spec-key">MCU</span><span class="spec-val">ATtiny85 — no need for full Arduino</span></div>
+        <div class="spec-row"><span class="spec-key">Wiring</span><span class="spec-val">Proper connector housing, not bare headers</span></div>
+        <div class="spec-row"><span class="spec-key">Enclosure mount</span><span class="spec-val">DIN rail clips instead of bolt holes</span></div>
+      </div>
+    </div>
+
+    <div class="decision-list">
+      <div class="decision red">
+        <div class="decision-title">Voltage divider for 3.3V — the wrong call</div>
+        <div class="decision-body">A voltage divider uses two resistors to create a ratio of the input voltage. It works fine with no load — but as soon as you draw current, the output voltage drops because the resistor values change the division ratio under load. The correct approach for powering a circuit at 3.3V from 5V is an LDO regulator (like the AMS1117-3.3), which maintains a stable output regardless of load. I only figured this out after the project was already installed.</div>
+      </div>
+      <div class="decision amber">
+        <div class="decision-title">MD13S 13A motor driver for a 1A actuator</div>
+        <div class="decision-body">The MD13S is a 13A capable driver meant for large motors. The exhaust valve actuator draws maybe 1–2A peak. Using a 13A driver here is like using a truck to deliver a letter — it works, but you're carrying around hardware that exists for a completely different application. A simple relay or an L9110S module would have been smaller, cheaper, and less confusing to wire.</div>
+      </div>
+      <div class="decision green">
+        <div class="decision-title">The enclosure design was worth the effort</div>
+        <div class="decision-body">Spending time in Fusion 360 designing proper mounting posts for every component was the best decision of the project. Everything screwed in firmly, nothing shifted during installation, and the finished unit looked like something that belonged in a car. This approach — designing enclosures around components rather than cramming components into a generic box — carried over to every project after this one.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="lessons">
+    <div class="section-header">
+      <h2 class="section-title">What I Learned</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="lessons-grid" style="margin-bottom:40px;">
+      <div class="lesson-box">
+        <div class="lesson-number">Lesson 01</div>
+        <div class="lesson-title">Voltage regulators, not voltage dividers</div>
+        <div class="lesson-body">A voltage divider is for reading a signal, not powering a circuit. If you need a stable lower voltage under load, use an LDO. This is the kind of thing that seems fine when you test it with a multimeter and no load attached — then fails the moment you connect something real.</div>
+      </div>
+      <div class="lesson-box">
+        <div class="lesson-number">Lesson 02</div>
+        <div class="lesson-title">Match components to the actual requirement</div>
+        <div class="lesson-body">An exhaust valve actuator does not need a 13A motor driver. Checking the actual motor current spec before choosing the driver would have saved money and board space. This lesson directly influenced every component selection after this project.</div>
+      </div>
+      <div class="lesson-box">
+        <div class="lesson-number">Lesson 03</div>
+        <div class="lesson-title">A designed enclosure is worth the CAD time</div>
+        <div class="lesson-body">The firmware took an afternoon. The enclosure design took two days. The firmware runs quietly in the background — the enclosure is what you see and handle every time you use the thing. Getting it right mattered more than it seemed at the time.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="margin-top:48px;">
+    <div class="section-header">
+      <h2 class="section-title">What came next</h2>
+      <div class="section-line"></div>
+    </div>
+    <a href="large-rc-car-project.html" class="next-card">
+      <div>
+        <div class="next-card-label">Project 02</div>
+        <div class="next-card-title">Large RC Car — v1</div>
+        <div class="next-card-body">First big self-designed project. Fusion 360 chassis, custom ESP32-NOW remote — same over-engineering instincts, but on a bigger scale.</div>
+      </div>
+      <div class="next-card-arrow">→</div>
+    </a>
+  </section>
+
+</div>
+
+
+<div class="proj-nav">
+  
+  <a href="index.html" class="pnav-home">⌂ Portfolio</a>
+  <a href="large-rc-car-project.html" class="pnav-btn pnav-next">Large RC Car →</a>
+</div>
+<footer class="footer">
+  <div class="footer-left">Exhaust Cutout Controller<br>Arduino Nano Every · MD13S · Fusion 360 · 2025</div>
+  <div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to portfolio</a><br>Andrés Moreno Navarro</div>
+</footer>
+
+<script>
+(()=>{
+  const html=document.documentElement,btn=document.getElementById('themeBtn');
+  const s=localStorage.getItem('portfolio-theme');
+  if(s) html.dataset.theme=s;
+  btn.addEventListener('click',()=>{
+    const n=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=n; localStorage.setItem('portfolio-theme',n);
+  });
+})();
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{ nav.classList.toggle('up',window.scrollY>10); },{passive:true});
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('progress-bar'),h=document.documentElement;
+  el.style.width=((h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';
+},{passive:true});
+const glow=document.getElementById('glow');
+document.addEventListener('mousemove',e=>{ glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';glow.style.opacity='1'; });
+document.addEventListener('mouseleave',()=>{ glow.style.opacity='0'; });
+function openLb(img){ const lb=document.getElementById('lb');document.getElementById('lb-img').src=img.src;lb.style.display='flex';document.body.style.overflow='hidden'; }
+function closeLb(){ document.getElementById('lb').style.display='none';document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
+window.openLb=openLb;window.closeLb=closeLb;
+
+// Snapshot thumbnail switcher
+(function(){
+  const thumbs=document.querySelectorAll('.snap-thumb');
+  const main=document.getElementById('snap-main-img');
+  const cap=document.getElementById('snap-main-cap');
+  if(!thumbs.length||!main)return;
+  thumbs.forEach(t=>{
+    t.addEventListener('click',()=>{
+      thumbs.forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      main.src=t.dataset.src;
+      if(cap&&t.dataset.cap)cap.textContent=t.dataset.cap.replace(/&amp;/g,'&');
+    });
+  });
+})();
+
+// Scroll-active nav
+(function(){
+  const links = document.querySelectorAll('nav a[href^="#"]');
+  if(!links.length) return;
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('on'));
+        const a = document.querySelector('nav a[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('on');
+      }
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section[id],div[id].section').forEach(s=>obs.observe(s));
+})();
+</script>
+</body>
+</html>

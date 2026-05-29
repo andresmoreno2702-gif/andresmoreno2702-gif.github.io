@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#111214">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>VHDL Digital Systems · Andrés Moreno</title>
+<meta name="description" content="VHDL designs on the Intel DE10-Lite FPGA — D-latch, 7-segment decoder, 8-bit synchronous counter, clock divider. Written in VHDL, synthesised in Quartus Prime, simulated in ModelSim. ELEC2311 at UWA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+#progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
+.cursor-glow{position:fixed;pointer-events:none;z-index:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 65%);transform:translate(-50%,-50%);transition:opacity 0.5s ease;opacity:0;}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f4;--bg-2:#f0efe9;--ink:#111110;--ink-2:#5a5a55;--ink-3:#9e9d96;
+  --line:rgba(17,17,16,0.08);--line-2:rgba(17,17,16,0.18);
+  --accent:#3b82f6;--accent-soft:rgba(59,130,246,0.09);
+  --card:#ffffff;--surface:#f0efe9;--surface2:#e8e7e0;
+  --border:rgba(17,17,16,0.08);--border2:rgba(17,17,16,0.18);
+  --text:#111110;--text-muted:#9e9d96;--text-dim:#5a5a55;
+  --red:#dc2626;--green:#16a34a;--amber:#d97706;--accent2:#2563eb;--accent3:#7c3aed;
+  --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'DM Mono','JetBrains Mono',monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);--nav-bg:rgba(248,247,244,.88);
+}
+[data-theme="dark"]{
+  --bg:#111214;--bg-2:#17181c;--ink:#e8e7e3;--ink-2:#8c8c96;--ink-3:#50505a;
+  --line:rgba(232,231,227,0.07);--line-2:rgba(232,231,227,0.16);
+  --accent:#3b82f6;--accent-soft:rgba(59,130,246,0.12);
+  --card:#17181c;--surface:#17181c;--surface2:#1d1e23;
+  --border:rgba(232,231,227,0.07);--border2:rgba(232,231,227,0.16);
+  --text:#e8e7e3;--text-muted:#8c8c96;--text-dim:#8c8c96;
+  --red:#f87171;--green:#22c55e;--amber:#f59e0b;--accent2:#60a5fa;--accent3:#a78bfa;
+  --nav-bg:rgba(17,18,20,.88);
+}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .stat-card{background:var(--surface);}
+[data-theme="light"] .spec-block{background:var(--surface);}
+[data-theme="light"] .code-block{background:#f0efe9;border-color:rgba(17,17,16,0.12);}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
+/* Hero */
+.hero{position:relative;padding:110px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(167,139,250,.07) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(167,139,250,0.12) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.5;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
+[data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(124,58,237,0.07) 1.5px,transparent 0);}
+@keyframes grid-drift{from{background-position:0 0;}to{background-position:36px 36px;}}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent3)}
+.hero h1{font-family:var(--sans);font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:10px}
+.hero h1 span{color:var(--accent3);font-style:italic;}
+.hero-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.badge{font-family:var(--mono);font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.badge-blue{color:var(--accent2);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
+.badge-amber{color:var(--amber);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.badge-purple{color:var(--accent3);border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.06)}
+/* Layout */
+.content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.section{margin-top:64px;scroll-margin-top:72px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-title{font-family:var(--sans);font-size:22px;font-weight:800;letter-spacing:-.02em}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+/* Stats */
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent3);opacity:.7}
+.stat-card.blue::after{background:var(--accent2)}.stat-card.amber::after{background:var(--amber)}.stat-card.green::after{background:var(--green)}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-sub{font-size:12px;color:var(--text-muted)}
+/* Prose */
+.prose{color:var(--text-dim);line-height:1.85}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--text);font-weight:600}
+/* Two col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+/* Spec block */
+.spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent3);letter-spacing:.08em;text-transform:uppercase;background:rgba(167,139,250,0.06)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid var(--border);gap:20px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:13px;color:var(--text-muted);flex:1}
+.spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
+.spec-val.ok{color:var(--green)}
+/* Code block */
+.code-block{background:#0d0e11;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-family:var(--mono);font-size:12px;line-height:1.8}
+.code-header{padding:10px 16px;border-bottom:1px solid var(--border);font-size:10px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between;background:rgba(167,139,250,0.04)}
+.code-header span{color:var(--accent3);font-size:11px}
+.code-body{padding:18px 20px;overflow-x:auto}
+.code-body pre{margin:0;color:#c9d1d9;white-space:pre}
+/* VHDL syntax highlight colours */
+.kw{color:#ff79c6}    /* keywords: library, use, entity, architecture, port, signal, process, if, case, when, begin, end, others, generic, constant */
+.ty{color:#8be9fd}    /* types: STD_LOGIC, STD_LOGIC_VECTOR, integer */
+.cm{color:#6272a4;font-style:italic} /* comments */
+.st{color:#f1fa8c}    /* string/bit literals */
+.fn{color:#50fa7b}    /* entity/architecture names */
+.pu{color:#ff79c6}    /* punctuation emphasis */
+/* Design card */
+.design-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.design-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 22px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.design-card:hover{border-color:var(--accent3);transform:translateY(-2px)}
+.design-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent3);opacity:.5}
+.design-card.blue::before{background:var(--accent2)}.design-card.green::before{background:var(--green)}.design-card.amber::before{background:var(--amber)}
+.design-icon{font-family:var(--mono);font-size:22px;color:var(--accent3);margin-bottom:10px;line-height:1}
+.design-card.blue .design-icon{color:var(--accent2)}.design-card.green .design-icon{color:var(--green)}.design-card.amber .design-icon{color:var(--amber)}
+.design-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.design-body{font-size:12px;color:var(--text-muted);line-height:1.65}
+/* Gallery */
+.gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
+.gallery-item{flex:0 0 auto;width:calc(50% - 8px);border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;display:flex;flex-direction:column}
+.gallery-item:hover{border-color:var(--accent3);transform:translateY(-2px)}
+.gallery-item.full{width:100%}
+.gallery-item img{width:100%;display:block;object-fit:contain;background:var(--surface2);cursor:zoom-in}
+.gallery-item img.photo{object-fit:cover;aspect-ratio:16/9}
+.gallery-caption{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto}
+/* Photo selector */
+.snap-photo-wrap{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.snap-photo-main{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface);aspect-ratio:16/9;cursor:zoom-in;}
+.snap-photo-main img{width:100%;height:100%;object-fit:contain;background:var(--surface2);display:block;transition:transform .5s var(--ease);}
+.snap-photo-main:hover img{transform:scale(1.03);}
+.snap-photo-caption{position:absolute;bottom:0;left:0;right:0;padding:32px 14px 10px;background:linear-gradient(to top,rgba(5,9,18,.9) 0%,transparent 100%);font-family:var(--mono);font-size:10px;color:rgba(238,240,243,.7);letter-spacing:.1em;text-transform:uppercase;}
+.snap-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.snap-thumb{border-radius:8px;overflow:hidden;border:1px solid var(--border);cursor:pointer;aspect-ratio:16/9;transition:border-color .2s,transform .2s;}
+.snap-thumb img{width:100%;height:100%;object-fit:contain;background:var(--surface2);display:block;}
+.snap-thumb:hover{border-color:var(--accent3);transform:translateY(-2px);}
+.snap-thumb.active{border-color:var(--accent3);border-width:2px;}
+@media(max-width:900px){.snap-thumbs{grid-template-columns:repeat(2,1fr);}}
+/* Footer */
+.footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-right{text-align:right}
+/* Lightbox */
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
+#lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;background:none;border:none}
+#lb-close:hover{opacity:1}
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
+.nav-brand{font-size:14px;font-weight:800;letter-spacing:-.02em;color:var(--text);text-decoration:none;font-family:var(--sans);}
+.nav-brand i{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);padding:4px 0;position:relative;transition:color .2s;text-decoration:none;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--accent3);transition:width .3s var(--ease);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.thm{width:34px;height:34px;border:1.5px solid var(--border2);border-radius:50%;background:transparent;color:var(--text-muted);cursor:pointer;display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+.thm .ico-moon{display:block;}.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}[data-theme="light"] .thm .ico-sun{display:block;}
+@media(max-width:860px){.nav-links{display:none;}}
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}
+  .design-grid{grid-template-columns:repeat(2,1fr)}
+  .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}.footer{padding:20px 24px}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.full{width:100%}
+}
+
+.outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:66ch}
+.oc-label{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--green);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;padding-top:3px;line-height:1}
+.oc-text{font-size:14px;color:var(--ink-2);line-height:1.65}
+[data-theme="dark"] .outcome-callout{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.25)}
+
+.copy-btn{position:absolute;top:10px;right:10px;font-family:var(--mono,'JetBrains Mono',monospace);font-size:10px;padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.15);background:rgba(30,31,40,.9);color:#8c8c96;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;z-index:10;}
+.copy-btn:hover{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.4);color:#60a5fa;}
+
+.proj-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:28px 0;border-top:1px solid var(--border,var(--bd));margin-top:48px;flex-wrap:wrap;}
+.pnav-btn{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2,var(--text2));padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border,var(--bd));text-decoration:none;transition:all .25s;}
+.pnav-btn:hover{background:var(--accent-soft,rgba(59,130,246,.1));border-color:var(--accent,#3b82f6);color:var(--accent,#3b82f6);}
+.pnav-home{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3,var(--text3));text-decoration:none;transition:color .2s;}
+.pnav-home:hover{color:var(--accent,#3b82f6);}
+.pnav-prev{margin-right:auto;}
+.pnav-next{margin-left:auto;}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="cursor-glow" id="glow"></div>
+<div id="lb" onclick="closeLb()"><button id="lb-close" onclick="closeLb()">✕</button><img loading="lazy" id="lb-img" src="" alt=""></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-brand">AMN<i>.</i></a>
+  <div class="nav-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="#designs">Designs</a>
+    <a href="#code">Code</a>
+    <a href="#tools">Tools</a>
+    <a href="#simulation">Simulation</a>
+  </div>
+  <div class="nav-right">
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">ELEC2311 · UWA · 2025</div>
+    <h1>VHDL Digital<br><span>System Design</span></h1>
+    <div class="hero-sub">DE10-Lite FPGA · Quartus Prime · ModelSim · Intel Cyclone V</div>
+    <div class="hero-meta">
+      <span class="badge badge-green">✓ Complete</span>
+      <span class="badge badge-purple">VHDL</span>
+      <span class="badge badge-blue">DE10-Lite FPGA</span>
+      <span class="badge badge-amber">Quartus Prime</span>
+    </div>
+    <div class="prose" style="max-width:66ch;margin-top:8px;">
+      <p>Second-year digital design unit at UWA. Designed and synthesised a series of VHDL modules on the Intel DE10-Lite FPGA — D-latches, flip-flops, 7-segment decoders, 8-bit counters, and a clock divider. Everything written from scratch, simulated in ModelSim, and verified on real hardware.</p>
+    </div>
+    <div class="outcome-callout">
+      <span class="oc-label">Result</span>
+      <span class="oc-text">Designed and synthesised 6 digital circuits on Intel DE10-Lite FPGA — D-latch, flip-flop, 7-segment decoder, 8-bit counter, clock divider, and full adder — all verified with ModelSim waveforms.</span>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <section class="section" id="designs">
+    <div class="overview-grid">
+      <div class="stat-card">
+        <div class="stat-label">Platform</div>
+        <div class="stat-value" style="font-size:15px;">DE10-Lite</div>
+        <div class="stat-sub">Intel Cyclone V FPGA</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Language</div>
+        <div class="stat-value">VHDL</div>
+        <div class="stat-sub">IEEE 1076 standard</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">Synthesis</div>
+        <div class="stat-value" style="font-size:15px;">Quartus</div>
+        <div class="stat-sub">Quartus Prime Lite</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Simulation</div>
+        <div class="stat-value" style="font-size:15px;">ModelSim</div>
+        <div class="stat-sub">Testbench-driven</div>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-bottom:32px;">
+      <p>ELEC2311 introduces digital design as a hardware description problem, not just circuit drawing. VHDL is used to describe hardware behaviour which is then synthesised into gate-level netlists by Quartus Prime and programmed onto the DE10-Lite's Cyclone V FPGA. The board runs a 50 MHz onboard clock and exposes switches, push buttons, LEDs, and HEX displays for I/O.</p>
+      <p>The unit covered three modelling styles — <strong>dataflow</strong> (concurrent signal assignments), <strong>behavioural</strong> (processes with sequential logic), and <strong>structural</strong> (component instantiation). Every design was first verified with a testbench in ModelSim before being targeted to hardware.</p>
+    </div>
+
+    <div class="design-grid">
+      <div class="design-card">
+        <div class="design-icon">▣</div>
+        <div class="design-title">D-Latch (positive level)</div>
+        <div class="design-body">Level-sensitive latch — transparent when CLK=1, holds when CLK=0. Written as a behavioural process with an intentional incomplete if-else to infer latch behaviour. RTL verified in Quartus viewer.</div>
+      </div>
+      <div class="design-card blue">
+        <div class="design-icon">◉</div>
+        <div class="design-title">D Flip-Flop with Testbench</div>
+        <div class="design-body">Edge-triggered D flip-flop with full testbench. The testbench drives D and CLK with a 50 ns clock period and checks Q at each rising edge. Waveform verified in ModelSim.</div>
+      </div>
+      <div class="design-card green">
+        <div class="design-icon">▦</div>
+        <div class="design-title">7-Segment Decoder</div>
+        <div class="design-body">4-bit binary input → 7-segment HEX0 output covering 0–F. Implemented as a case statement in a process(all) block targeting the DE10-Lite's active-low segment driver. Switch inputs mapped to LEDR simultaneously.</div>
+      </div>
+      <div class="design-card amber">
+        <div class="design-icon">⌁</div>
+        <div class="design-title">8-bit Synchronous Counter</div>
+        <div class="design-body">Up counter with synchronous reset driven from the 50 MHz board clock. Uses an integer signal and increments on each rising edge. Reset holds count at 0 when asserted.</div>
+      </div>
+      <div class="design-card">
+        <div class="design-icon">∿</div>
+        <div class="design-title">Clock Divider to 1 Hz</div>
+        <div class="design-body">Divides the 50 MHz DE10-Lite clock down to 1 Hz using a parameterised counter. The generic Freq_in allows the divisor to be changed at elaboration time without editing the architecture. Used to drive visible LED blink rates.</div>
+      </div>
+      <div class="design-card blue">
+        <div class="design-icon">+</div>
+        <div class="design-title">1-bit Full Adder</div>
+        <div class="design-body">Structural full adder with carry-in and carry-out. Uses a concurrent XOR for the sum signal and a process for carry propagation. Written for the mid-unit mock test — shows mixed concurrent and sequential modelling.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="code">
+    <div class="section-header">
+      <h2 class="section-title">Code</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="prose" style="margin-bottom:24px;">
+      <p>Two representative designs — the 7-segment decoder (combinational dataflow/behavioural) and the clock divider (sequential behavioural with a generic). Both target the DE10-Lite's standard port names directly.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <div class="code-block">
+        <div class="code-header">
+          7_SEGMENT_DISPLAY.vhd
+          <span>DE10-Lite · Combinational</span>
+        </div>
+        <div class="code-body"><pre><span class="kw">library</span> IEEE;
+<span class="kw">use</span> IEEE.STD_LOGIC_1164.ALL;
+
+<span class="kw">entity</span> <span class="fn">top</span> <span class="kw">is</span>
+  <span class="kw">port</span> (
+    CLOCK_50 : <span class="kw">in</span>  <span class="ty">STD_LOGIC</span>;
+    SW       : <span class="kw">in</span>  <span class="ty">STD_LOGIC_VECTOR</span>(9 <span class="kw">downto</span> 0);
+    LEDR     : <span class="kw">out</span> <span class="ty">STD_LOGIC_VECTOR</span>(9 <span class="kw">downto</span> 0);
+    HEX0     : <span class="kw">out</span> <span class="ty">STD_LOGIC_VECTOR</span>(6 <span class="kw">downto</span> 0)
+  );
+<span class="kw">end entity</span>;
+
+<span class="kw">architecture</span> <span class="fn">rtl</span> <span class="kw">of</span> <span class="fn">top</span> <span class="kw">is</span>
+<span class="kw">begin</span>
+  LEDR(3 <span class="kw">downto</span> 0) <= SW(3 <span class="kw">downto</span> 0);  <span class="cm">-- mirror switch inputs to LEDs</span>
+
+  <span class="kw">process</span>(all)
+  <span class="kw">begin</span>
+    <span class="kw">case</span> SW(3 <span class="kw">downto</span> 0) <span class="kw">is</span>
+      <span class="kw">when</span> <span class="st">"0000"</span> => HEX0 <= <span class="st">"1000000"</span>; <span class="cm">-- 0</span>
+      <span class="kw">when</span> <span class="st">"0001"</span> => HEX0 <= <span class="st">"1111001"</span>; <span class="cm">-- 1</span>
+      <span class="kw">when</span> <span class="st">"0010"</span> => HEX0 <= <span class="st">"0100100"</span>; <span class="cm">-- 2</span>
+      <span class="kw">when</span> <span class="st">"0011"</span> => HEX0 <= <span class="st">"0110000"</span>; <span class="cm">-- 3</span>
+      <span class="cm">-- ... 0100 through 1111 (A–F) ...</span>
+      <span class="kw">when others</span> => HEX0 <= <span class="st">"0001110"</span>; <span class="cm">-- F</span>
+    <span class="kw">end case</span>;
+  <span class="kw">end process</span>;
+<span class="kw">end architecture</span>;</pre>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          Clk_divider_to_1Hz.vhd
+          <span>DE10-Lite · Sequential · 50 MHz → 1 Hz</span>
+        </div>
+        <div class="code-body"><pre><span class="kw">entity</span> <span class="fn">Clk_divider_to_1Hz</span> <span class="kw">is</span>
+  <span class="kw">generic</span>(
+    Freq_in : <span class="ty">integer</span> := 50000000  <span class="cm">-- 50 MHz onboard clock</span>
+  );
+  <span class="kw">port</span> (
+    clk_in  : <span class="kw">in</span>  <span class="ty">STD_LOGIC</span>;
+    reset   : <span class="kw">in</span>  <span class="ty">STD_LOGIC</span>;
+    clk_out : <span class="kw">out</span> <span class="ty">STD_LOGIC</span>
+  );
+<span class="kw">end</span> <span class="fn">Clk_divider_to_1Hz</span>;
+
+<span class="kw">architecture</span> <span class="fn">Behav</span> <span class="kw">of</span> <span class="fn">Clk_divider_to_1Hz</span> <span class="kw">is</span>
+  <span class="kw">signal</span> temp    : <span class="ty">STD_LOGIC</span>;
+  <span class="kw">signal</span> counter : <span class="ty">integer</span>;
+  <span class="kw">constant</span> N     : <span class="ty">integer</span> := 2;  <span class="cm">-- f_out = N/2 Hz</span>
+<span class="kw">begin</span>
+  frequency_divider: <span class="kw">process</span>(reset, clk_in)
+  <span class="kw">begin</span>
+    <span class="kw">if</span> (reset = <span class="st">'1'</span>) <span class="kw">then</span>
+      temp    <= <span class="st">'0'</span>;
+      counter <= 0;
+    <span class="kw">elsif rising_edge</span>(clk_in) <span class="kw">then</span>
+      <span class="kw">if</span> (counter = Freq_in/N) <span class="kw">then</span>
+        temp    <= <span class="kw">NOT</span>(temp);  <span class="cm">-- toggle output</span>
+        counter <= 0;
+      <span class="kw">else</span>
+        counter <= counter + 1;
+      <span class="kw">end if</span>;
+    <span class="kw">end if</span>;
+  <span class="kw">end process</span>;
+
+  clk_out <= temp;
+<span class="kw">end</span> <span class="fn">Behav</span>;</pre>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="tools">
+    <div class="section-header">
+      <h2 class="section-title">Tools & Flow</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="two-col" style="margin-bottom:24px;">
+      <div class="spec-block">
+        <div class="spec-block-header">Quartus Prime — Synthesis</div>
+        <div class="spec-row"><span class="spec-key">Target device</span><span class="spec-val">Intel Cyclone V (DE10-Lite)</span></div>
+        <div class="spec-row"><span class="spec-key">Entry method</span><span class="spec-val">VHDL source files</span></div>
+        <div class="spec-row"><span class="spec-key">Verification</span><span class="spec-val ok">RTL Viewer — netlist inspection</span></div>
+        <div class="spec-row"><span class="spec-key">Pin assignment</span><span class="spec-val">DE10-Lite Qsf file (standard)</span></div>
+        <div class="spec-row"><span class="spec-key">Programming</span><span class="spec-val">USB-Blaster → .sof file</span></div>
+      </div>
+      <div class="spec-block">
+        <div class="spec-block-header">ModelSim — Simulation</div>
+        <div class="spec-row"><span class="spec-key">Testbench style</span><span class="spec-val">Separate _tb entity</span></div>
+        <div class="spec-row"><span class="spec-key">Clock period</span><span class="spec-val ok">50 ns (20 MHz sim clock)</span></div>
+        <div class="spec-row"><span class="spec-key">Verification</span><span class="spec-val">Waveform visual inspection</span></div>
+        <div class="spec-row"><span class="spec-key">DUT instantiation</span><span class="spec-val">PORT MAP in testbench</span></div>
+        <div class="spec-row"><span class="spec-key">Stimulus</span><span class="spec-val">Signal assignments + wait statements</span></div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>The design flow for every module was: write VHDL source → compile in Quartus and check for syntax errors → run synthesis and inspect the RTL Viewer to confirm the inferred hardware matches intent → write a testbench → simulate in ModelSim and check waveforms → if simulation passes, program the DE10-Lite and verify on hardware.</p>
+      <p><strong>The key insight from this unit</strong>: VHDL describes hardware that runs concurrently. A process does not execute sequentially the way a C function does — all processes in an architecture run in parallel, triggered by their sensitivity lists. Getting this mental model right early was the most important thing the unit taught.</p>
+    </div>
+  </section>
+
+  <section class="section" id="simulation">
+    <div class="section-header">
+      <h2 class="section-title">Simulation & Synthesis</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="snap-photo-wrap">
+      <div class="snap-photo-main" onclick="openLb(this.querySelector('img'))">
+        <img width="1800" height="1012" loading="lazy" src="IMAGES/VHDL/modelsim-waveform.webp" alt="ModelSim waveform — D flip-flop testbench" id="snap-main-img">
+        <div class="snap-photo-caption" id="snap-main-cap">ModelSim — D flip-flop testbench waveform</div>
+      </div>
+      <div class="snap-thumbs">
+        <div class="snap-thumb active" data-src="IMAGES/VHDL/modelsim-waveform.webp" data-cap="ModelSim — D flip-flop testbench waveform">
+          <img width="1800" height="1012" loading="lazy" src="IMAGES/VHDL/modelsim-waveform.webp" alt="ModelSim waveform">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/VHDL/quartus-rtl-dlatch.webp" data-cap="Quartus RTL Viewer — D-Latch synthesised netlist">
+          <img width="738" height="492" loading="lazy" src="IMAGES/VHDL/quartus-rtl-dlatch.webp" alt="RTL viewer">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/VHDL/modelsim-sim2.webp" data-cap="ModelSim — simulation run, signal timing">
+          <img width="1800" height="1012" loading="lazy" src="IMAGES/VHDL/modelsim-sim2.webp" alt="ModelSim sim">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/VHDL/mocktest-circuit.webp" data-cap="Mock test — circuit schematic on paper">
+          <img width="1062" height="810" loading="lazy" src="IMAGES/VHDL/mocktest-circuit.webp" alt="Mock test circuit">
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery">
+      <div class="gallery-item full">
+        <img width="1800" height="1012" loading="lazy" src="IMAGES/VHDL/modelsim-waveform.webp" alt="ModelSim waveform — D flip-flop testbench" onclick="openLb(this)" style="max-height:280px;">
+        <div class="gallery-caption">ModelSim — D flip-flop testbench waveform (CLK, D, Q signals over time)</div>
+      </div>
+      <div class="gallery-item">
+        <img width="738" height="492" loading="lazy" src="IMAGES/VHDL/quartus-rtl-dlatch.webp" alt="Quartus RTL viewer — D-Latch" onclick="openLb(this)" style="max-height:260px;">
+        <div class="gallery-caption">Quartus RTL Viewer — D-Latch synthesised netlist</div>
+      </div>
+      <div class="gallery-item">
+        <img width="1800" height="1012" loading="lazy" src="IMAGES/VHDL/modelsim-sim2.webp" alt="ModelSim simulation" onclick="openLb(this)" style="max-height:260px;">
+        <div class="gallery-caption">ModelSim — simulation run, signal timing verification</div>
+      </div>
+      <div class="gallery-item">
+        <img width="1062" height="810" loading="lazy" src="IMAGES/VHDL/mocktest-circuit.webp" alt="Mock test circuit" onclick="openLb(this)" style="max-height:260px;">
+        <div class="gallery-caption">Mock test — circuit schematic on paper</div>
+      </div>
+    </div>
+
+    <div class="spec-block">
+      <div class="spec-block-header">Key Concepts Applied</div>
+      <div class="spec-row"><span class="spec-key">Concurrent vs sequential</span><span class="spec-val">Signal assignments outside process = concurrent; inside = sequential</span></div>
+      <div class="spec-row"><span class="spec-key">Latch inference</span><span class="spec-val">Incomplete if-else in a clocked process → Quartus infers a latch</span></div>
+      <div class="spec-row"><span class="spec-key">rising_edge()</span><span class="spec-val ok">Correct way to describe synchronous logic (not clk'event)</span></div>
+      <div class="spec-row"><span class="spec-key">Generic constants</span><span class="spec-val">Freq_in generic lets clock divider be reused at any frequency</span></div>
+      <div class="spec-row"><span class="spec-key">Sensitivity list</span><span class="spec-val">process(all) catches all signals — avoids simulation/synthesis mismatch</span></div>
+      <div class="spec-row"><span class="spec-key">PORT MAP</span><span class="spec-val">Testbench instantiates DUT with named association — clearer than positional</span></div>
+    </div>
+  </section>
+
+</div>
+
+
+<div class="proj-nav">
+  <a href="nes-emulator-project-main.html" class="pnav-btn pnav-prev">← RetroDS</a>
+  <a href="index.html" class="pnav-home">⌂ Portfolio</a>
+  <a href="esp32-s3-project-main.html" class="pnav-btn pnav-next">ESP32-S3 Dev Board →</a>
+</div>
+<footer class="footer">
+  <div class="footer-left">VHDL Digital System Design<br>ELEC2311 · UWA · DE10-Lite · Quartus Prime · 2025</div>
+  <div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to portfolio</a><br>Andrés Moreno Navarro</div>
+</footer>
+
+<script>
+(()=>{
+  const html=document.documentElement,btn=document.getElementById('themeBtn');
+  const s=localStorage.getItem('portfolio-theme');
+  if(s) html.dataset.theme=s;
+  btn.addEventListener('click',()=>{
+    const n=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=n;localStorage.setItem('portfolio-theme',n);
+  });
+})();
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{ nav.classList.toggle('up',window.scrollY>10); },{passive:true});
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('progress-bar'),h=document.documentElement;
+  el.style.width=((h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';
+},{passive:true});
+const glow=document.getElementById('glow');
+document.addEventListener('mousemove',e=>{ glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';glow.style.opacity='1'; });
+document.addEventListener('mouseleave',()=>{ glow.style.opacity='0'; });
+function openLb(img){ const lb=document.getElementById('lb');document.getElementById('lb-img').src=img.src;lb.style.display='flex';document.body.style.overflow='hidden'; }
+// Snapshot thumbnail switcher
+(()=>{
+  const thumbs=document.querySelectorAll('.snap-thumb');
+  const main=document.querySelector('.snap-photo-main img');
+  const cap=document.getElementById('snap-main-cap');
+  if(!thumbs.length||!main)return;
+  thumbs.forEach(t=>{
+    t.addEventListener('click',()=>{
+      thumbs.forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      main.src=t.dataset.src;
+      if(cap&&t.dataset.cap) cap.textContent=t.dataset.cap;
+    });
+  });
+})();
+function closeLb(){ document.getElementById('lb').style.display='none';document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
+window.openLb=openLb;window.closeLb=closeLb;
+
+// Scroll-active nav
+(function(){
+  const links = document.querySelectorAll('nav a[href^="#"]');
+  if(!links.length) return;
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('on'));
+        const a = document.querySelector('nav a[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('on');
+      }
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section[id],div[id].section').forEach(s=>obs.observe(s));
+})();
+</script>
+
+// Copy code buttons
+document.querySelectorAll('pre').forEach(pre=>{
+  if(pre.parentElement.style.position !== 'relative') pre.parentElement.style.position='relative';
+  const btn = document.createElement('button');
+  btn.className='copy-btn';
+  btn.textContent='Copy';
+  btn.addEventListener('click',()=>{
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(()=>{
+      btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent='Copy',1800);
+    }).catch(()=>{btn.textContent='Error';setTimeout(()=>btn.textContent='Copy',1800);});
+  });
+  pre.parentElement.insertBefore(btn,pre);
+});
+
+</body>
+</html>
