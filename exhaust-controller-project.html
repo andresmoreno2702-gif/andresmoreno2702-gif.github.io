@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Exhaust Cutout Controller · Andrés Moreno</title>
-<meta name="description" content="First ever hardware project — an Arduino Nano Every exhaust cutout controller for a VW Golf Mk6. 3D-printed Fusion 360 enclosure, MD13S Cytron motor driver, 12V DC power from the car. Over-engineered and proud of it.">
+<meta name="description" content="First ever hardware project — an Arduino Nano (ATmega328P) exhaust cutout controller for a VW Golf Mk6. 3D-printed Fusion 360 enclosure, MD13S Cytron motor driver, 12V DC power from the car. Over-engineered and proud of it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -269,10 +269,10 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="hero-inner">
     <div class="hero-tag">First Ever Project · June 2025</div>
     <h1>Exhaust Cutout<br><span>Controller</span></h1>
-    <div class="hero-sub">Arduino Nano Every · MD13S Cytron · Fusion 360 · 12V Car Power</div>
+    <div class="hero-sub">Arduino Nano · MD13S Cytron · Fusion 360 · 12V Car Power</div>
     <div class="hero-meta">
       <span class="badge badge-green">✓ Installed & Working</span>
-      <span class="badge badge-blue">Arduino Nano Every</span>
+      <span class="badge badge-blue">Arduino Nano (ATmega328P)</span>
       <span class="badge badge-amber">Fusion 360 Enclosure</span>
       <span class="badge badge-red">First Project</span>
     </div>
@@ -304,7 +304,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/electronics-installed.webp" data-cap="Internals — MD13S, buck converter, Arduino mounted">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/electronics-installed.webp" alt="Electronics installed">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/arduino-nano.webp" data-cap="Arduino Nano Every with wiring">
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/arduino-nano.webp" data-cap="Arduino Nano with wiring">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/arduino-nano.webp" alt="Arduino Nano">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/finished-wired.webp" data-cap="Fully wired — switch, power and motor connectors">
@@ -333,9 +333,9 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div>
         <div class="snap-label">Key Components</div>
         <div class="snap-comp-grid">
-          <div class="snap-comp" data-tip="Arduino Nano Every — ATmega4809, 20 MHz, 48 KB flash, debounced button input">
+          <div class="snap-comp" data-tip="Arduino Nano (ATmega328P) — ATmega328P, 16 MHz, 32 KB flash, CH340 USB driver, debounced button input">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
-            <div class="snap-comp-name">Arduino Nano Every</div>
+            <div class="snap-comp-name">Arduino Nano</div>
           </div>
           <div class="snap-comp" data-tip="MD13S Cytron 13A motor driver — massively oversized for a 1–2A actuator, but it worked">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="15" height="12" rx="2"/><line x1="20" y1="16" x2="27" y2="16"/><circle cx="24.5" cy="16" r="2.5"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="3" y1="16" x2="5" y2="16"/><line x1="3" y1="20" x2="5" y2="20"/><path d="M10 16 L13 13 M10 16 L13 19" stroke-width="1.5"/></svg></div>
@@ -352,6 +352,10 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
           <div class="snap-comp" data-tip="Exhaust cutout valve actuator — DC motor driving butterfly valve, ~1–2A peak draw">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="16" cy="16" r="10"/><path d="M16 6 Q22 16 16 26 Q10 16 16 6"/><line x1="6" y1="16" x2="26" y2="16"/></svg></div>
             <div class="snap-comp-name">Valve Actuator</div>
+          </div>
+          <div class="snap-comp" data-tip="Waterproof inline fuse holder — main 12V power line protection">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="10" y="12" width="12" height="8" rx="2"/><line x1="4" y1="16" x2="10" y2="16"/><line x1="22" y1="16" x2="28" y2="16"/><line x1="13" y1="14" x2="13" y2="18"/><line x1="19" y1="14" x2="19" y2="18"/></svg></div>
+            <div class="snap-comp-name">Fuse Holder</div>
           </div>
           <div class="snap-comp" data-tip="Fusion 360 — custom enclosure with moulded screw posts, louvred top cover, grommet cable exit">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
@@ -420,7 +424,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="overview-grid">
       <div class="stat-card">
         <div class="stat-label">MCU</div>
-        <div class="stat-value" style="font-size:16px;">Nano Every</div>
+        <div class="stat-value" style="font-size:16px;">Nano</div>
         <div class="stat-sub">Arduino ATmega328P</div>
       </div>
       <div class="stat-card blue">
@@ -442,7 +446,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="prose">
       <p>Exhaust cutout valves are butterfly valves fitted in the exhaust pipe — open them and the exhaust bypasses the silencer, giving a much louder tone. Normally these are controlled by a simple toggle switch wired directly to a relay. I decided to put an Arduino in the middle of that, which in hindsight added complexity for no real benefit. But I learned a lot doing it.</p>
-      <p>The car runs 12V. I needed 5V for the Arduino Nano Every and a logic-level signal to drive the MD13S motor driver controlling the valve actuator. I used a 3A DC-DC buck converter to step the 12V down to 5V, which was the right call. I also used a <strong>voltage divider to get 3.3V</strong> for a reference signal — I now know this is not the correct approach for powering anything; the output voltage drops under load. A proper LDO regulator is the right answer. Lesson learned.</p>
+      <p>The car runs 12V. I needed 5V for the Arduino Nano and a logic-level signal to drive the MD13S motor driver controlling the valve actuator. I used a 3A DC-DC buck converter to step the 12V down to 5V, which was the right call. I also used a <strong>voltage divider to get 3.3V</strong> for a reference signal — I later confirmed through university coursework that this is not the correct approach for powering a circuit; the output voltage drops under load. A proper LDO regulator is the right answer, and it does work in this project only because the 3.3V line carries very little current.</p>
       <p>The enclosure was the part I put the most thought into. Designed entirely in Fusion 360, printed in black PLA — the box has moulded posts so every PCB and module screws in at a fixed position. The top cover has ventilation louvres. The wiring exits through a grommet hole. For a first project, it looked properly finished.</p>
     </div>
   </section>
@@ -459,7 +463,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="tl-text">
           <div class="timeline-step">Step 01</div>
           <div class="timeline-heading">Enclosure design in Fusion 360</div>
-          <div class="timeline-body">Modelled a rectangular enclosure with internal mounting posts at exactly the right positions for the Arduino Nano Every and the MD13S driver. The top cover has horizontal louvres for airflow and a flat mounting face. Designed so all components screw in — no hot glue, no cable ties.</div>
+          <div class="timeline-body">Modelled a rectangular enclosure with internal mounting posts at exactly the right positions for the Arduino Nano and the MD13S driver. The top cover has horizontal louvres for airflow and a flat mounting face. Designed so all components screw in — no hot glue, no cable ties.</div>
         </div>
         <div class="timeline-img">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-open.webp" alt="3D-printed enclosure halves" onclick="openLb(this)">
@@ -472,7 +476,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="tl-text">
           <div class="timeline-step blue">Step 02</div>
           <div class="timeline-heading">Electronics — power circuit and driver</div>
-          <div class="timeline-body">12V in from the car battery → 3A DC-DC buck converter → 5V for the Arduino Nano Every. The <strong>MD13S Cytron 13A motor driver</strong> is overkill for an exhaust valve actuator (which draws maybe 1–2A peak), but it was what was available and easy to wire. I also added a voltage divider for a 3.3V reference — incorrect approach, later replaced with an LDO concept mentally, if not physically.</div>
+          <div class="timeline-body">12V in from the car battery → 3A DC-DC buck converter → 5V for the Arduino Nano. The <strong>MD13S Cytron 13A motor driver</strong> is overkill for an exhaust valve actuator (which draws maybe 1–2A peak), but it was what was available and easy to wire. I also added a voltage divider for a 3.3V reference — as I later learned in university, this is not the correct approach for powering a circuit, but it functions in this project because the 3.3V line draws very little current.</div>
         </div>
         <div class="timeline-img">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/electronics-installed.webp" alt="Electronics installed in enclosure" onclick="openLb(this)">
@@ -484,12 +488,12 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="timeline-dot amber"></div>
         <div class="tl-text">
           <div class="timeline-step amber">Step 03</div>
-          <div class="timeline-heading">Arduino Nano Every — firmware</div>
-          <div class="timeline-body">The firmware is simple: read a debounced push button input, toggle a boolean state, drive the MD13S direction pins accordingly to open or close the valve. The car DRL red LED lights up when the cutout is open — wired through the same output to give a visual status indicator on the dash without needing a separate LED.</div>
+          <div class="timeline-heading">Arduino Nano — firmware</div>
+          <div class="timeline-body">The Arduino Nano firmware is simple: read a debounced push button input, toggle a boolean state, drive the MD13S direction pins accordingly to open or close the valve. The car DRL red LED lights up when the cutout is open — wired through the same output to give a visual status indicator on the dash without needing a separate LED.</div>
         </div>
         <div class="timeline-img">
-          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/arduino-nano.webp" alt="Arduino Nano Every" onclick="openLb(this)">
-          <div class="timeline-img-cap">Arduino Nano Every with wiring</div>
+          <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/arduino-nano.webp" alt="Arduino Nano" onclick="openLb(this)">
+          <div class="timeline-img-cap">Arduino Nano with wiring</div>
         </div>
       </div>
 
@@ -517,13 +521,14 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="two-col" style="margin-bottom:24px;">
       <div class="spec-block">
         <div class="spec-block-header">Component List</div>
-        <div class="spec-row"><span class="spec-key">Microcontroller</span><span class="spec-val">Arduino Nano Every (ATmega328P)</span></div>
+        <div class="spec-row"><span class="spec-key">Microcontroller</span><span class="spec-val">Arduino Nano (ATmega328P, 16 MHz, CH340)</span></div>
         <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val warn">MD13S Cytron 13A (oversized)</span></div>
         <div class="spec-row"><span class="spec-key">Buck converter</span><span class="spec-val ok">3A DC-DC step-down · 12V → 5V</span></div>
         <div class="spec-row"><span class="spec-key">3.3V reference</span><span class="spec-val bad">Voltage divider (wrong approach)</span></div>
         <div class="spec-row"><span class="spec-key">Input</span><span class="spec-key">Push button with debounce in firmware</span></div>
         <div class="spec-row"><span class="spec-key">Indicator</span><span class="spec-val">Car red DRL LED — open/closed status</span></div>
         <div class="spec-row"><span class="spec-key">Power input</span><span class="spec-val">12V car fuse box</span></div>
+        <div class="spec-row"><span class="spec-key">Fuse</span><span class="spec-val ok">Waterproof inline fuse holder — main power line</span></div>
         <div class="spec-row"><span class="spec-key">Enclosure</span><span class="spec-val ok">Fusion 360, 3D-printed PLA</span></div>
       </div>
       <div class="spec-block">
@@ -539,7 +544,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="decision-list">
       <div class="decision red">
         <div class="decision-title">Voltage divider for 3.3V — the wrong call</div>
-        <div class="decision-body">A voltage divider uses two resistors to create a ratio of the input voltage. It works fine with no load — but as soon as you draw current, the output voltage drops because the resistor values change the division ratio under load. The correct approach for powering a circuit at 3.3V from 5V is an LDO regulator (like the AMS1117-3.3), which maintains a stable output regardless of load. I only figured this out after the project was already installed.</div>
+        <div class="decision-body">A voltage divider uses two resistors to create a ratio of the input voltage. It works fine with no load — but as soon as you draw current, the output voltage drops because the resistor values change the division ratio under load. The correct approach for powering a circuit at 3.3V from 5V is an LDO regulator (like the AMS1117-3.3), which maintains a stable output regardless of load. I later confirmed this through university coursework — it's one of those things that works in a low-current situation and hides its own flaw until it doesn't.</div>
       </div>
       <div class="decision amber">
         <div class="decision-title">MD13S 13A motor driver for a 1A actuator</div>
@@ -600,7 +605,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <a href="large-rc-car-project.html" class="pnav-btn pnav-next">Large RC Car →</a>
 </div>
 <footer class="footer">
-  <div class="footer-left">Exhaust Cutout Controller<br>Arduino Nano Every · MD13S · Fusion 360 · 2025</div>
+  <div class="footer-left">Exhaust Cutout Controller<br>Arduino Nano · MD13S · Fusion 360 · 2025</div>
   <div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to portfolio</a><br>Andrés Moreno Navarro</div>
 </footer>
 

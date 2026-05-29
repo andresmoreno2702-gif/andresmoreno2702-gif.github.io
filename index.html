@@ -518,6 +518,19 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 /* hero seek line */
 .hero-seek{display:flex;align-items:center;gap:8px;margin-top:1rem;
   font-family:var(--mono);font-size:11px;color:var(--blue2);letter-spacing:.1em;text-transform:uppercase;}
+
+/* ── Also Built cards ── */
+.also-card{display:flex;flex-direction:column;background:var(--bg3);border:1px solid var(--bd);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s;}
+.also-card:hover{border-color:var(--blue2);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.18);}
+.also-img-wrap{position:relative;height:180px;overflow:hidden;background:#000;}
+.also-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 35%;transition:transform .35s;}
+.also-card:hover .also-img-wrap img{transform:scale(1.04);}
+.also-img-tag{position:absolute;top:10px;left:10px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(4px);}
+.also-body{padding:16px 18px 18px;}
+.also-title{font-size:15px;font-weight:700;margin-bottom:6px;}
+.also-desc{font-size:12px;color:var(--text3);line-height:1.65;margin-bottom:12px;}
+.also-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.also-tags span{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:3px;background:rgba(59,130,246,.1);color:var(--blue2);border:1px solid rgba(59,130,246,.2);}
 </style>
 </head>
 <body>
@@ -634,7 +647,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
         <div class="aprose rv">
           <p>Part-time <b>Electrical and Electronic Engineering</b> student at the University of Western Australia, based in Perth. My evenings tend to involve datasheets, a soldering iron, and at least one thing that isn't working yet.</p>
           <p>I work across the <b>full hardware stack</b> — schematic capture and PCB layout in KiCad, enclosures in Fusion 360, and getting microcontrollers to do what I want on ESP32. I build things to understand how they actually work, not to end up with something I'm afraid to open.</p>
-          <p>Right now I'm on revision two of the <b>RetroDS PCB</b> — moving from a hand-soldered perfboard to a proper 2-layer board in KiCad, with the MAX98357A audio amp finally wired in.</p>
+          <p>Right now I'm on revision two of the <b>RetroDS PCB</b> — moving from a hand-soldered perfboard to a proper 4-layer board in KiCad, with the MAX98357A audio amp finally wired in.</p>
         </div>
 
         <!-- SKILL BARS -->
@@ -714,7 +727,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
             <div class="ti"><div class="tdot"></div>
               <div class="tdate">2023</div>
               <div class="ttl">First Arduino project — exhaust cutout controller</div>
-              <div class="tds">Arduino Nano Every, relay, 3D-printed dash enclosure for a VW Golf Mk6.</div>
+              <div class="tds">Arduino Nano, relay, 3D-printed dash enclosure for a VW Golf Mk6.</div>
             </div>
             <div class="ti"><div class="tdot"></div>
               <div class="tdate">2024</div>
@@ -787,7 +800,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
       <div class="feat-body">
         <div class="feat-cat">PCB Design</div>
         <div class="feat-name">ESP32-S3-MINI<br><i>Dev Board</i></div>
-        <p class="feat-desc">Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power, 50Ω impedance-controlled RF traces, CP2102N USB–UART, WS2812B RGB. 0 DRC errors. First board I ever had manufactured.</p>
+        <p class="feat-desc">Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power (native USB — no bridge chip), 50Ω impedance-controlled RF traces, TLV75801PDRV LDO, ENS210 sensor, WS2812B RGB. 0 DRC errors. First board I ever had manufactured.</p>
         <div class="feat-chips">
           <span class="fchip">KiCad 9</span>
           <span class="fchip">4-Layer PCB</span>
@@ -815,6 +828,29 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     <button class="fp" data-f="Digital Design">Digital Design</button>
   </div>
   <div id="pl"></div>
+</section>
+
+<!-- ── ALSO BUILT ── -->
+<section class="sec" id="also-built" style="padding-top:0;padding-bottom:0">
+  <div class="sec-sub rv" style="margin-top:3rem;margin-bottom:.7rem">Also Built</div>
+  <div class="rv" style="font-size:13px;color:var(--text3);margin-bottom:1.5rem;max-width:52ch;line-height:1.6">
+    Outside the main EE work — mechanical design and fabrication in Fusion 360.
+  </div>
+  <div id="also-built-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-bottom:3rem">
+    <a href="number-plate-holder-project.html" class="also-card rv">
+      <div class="also-img-wrap">
+        <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Number Plate Holder — three iterations side by side" loading="lazy" style="object-position:center 30%">
+        <div class="also-img-tag">CAD & Fabrication</div>
+      </div>
+      <div class="also-body">
+        <div class="also-title">Number Plate Holder</div>
+        <div class="also-desc">4-stage design evolution — started with a fixed bracket, ended with an adjustable two-piece design that fits any plate size.</div>
+        <div class="also-tags">
+          <span>Fusion 360</span><span>3D Print</span><span>4 Iterations</span>
+        </div>
+      </div>
+    </a>
+  </div>
 </section>
 
 <section class="sec" id="resume" style="padding-top:0">
@@ -897,7 +933,7 @@ const P=[
    status:'done',meta:'PCB Design · 2026',link:'esp32-s3-project-main.html',
    img:'IMAGES/ESP32 S3 Board/3dview-Photoroom.webp',imgFit:'contain',imgPos:{s:1,px:50,py:34},cat:'PCB Design',glyph:'⚡',
    tldr:'Custom 4-layer dev board for ESP32-S3-MINI-1-N8. USB-C, 50Ω impedance-controlled RF traces, full decoupling. Designed in KiCad 9, manufactured at JLCPCB. First board ever fabricated.',
-   comps:['ESP32-S3-MINI','CP2102N','AMS1117-3.3','USB-C','WS2812B'],
+   comps:['ESP32-S3-MINI','Native USB','TLV75801PDRV','ENS210','WS2812B'],
    tags:['KiCad','ESP32-S3','4-Layer PCB','USB-C','JLCPCB'],
    desc:'Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power, 50Ω impedance-matched RF traces, proper power decoupling. Designed in KiCad 9, manufactured by JLCPCB.',
    stats:[{n:'4',l:'PCB Layers'},{n:'50Ω',l:'RF Traces'},{n:'0',l:'DRC Errors'}],
@@ -906,11 +942,11 @@ const P=[
    name:'RetroDS — NES <i>Handheld</i>',
    status:'wip',meta:'Embedded Systems · 2026',link:'nes-emulator-project-main.html',
    img:'IMAGES/NES emulator/retro-card.webp',imgFit:'contain',imgPos:{s:2.26,px:0,py:65.16},cat:'Embedded Systems',glyph:'▦',
-   tldr:'Hand-soldered NES emulator on ESP32. Full 6502+PPU emulation, ST7789 240×240 IPS, MicroSD ROM loading. Custom 2-layer PCB with MAX98357A audio in progress.',
+   tldr:'Hand-soldered NES emulator on ESP32. Full 6502+PPU emulation, ST7789 240×240 IPS, MicroSD ROM loading. Custom 4-layer PCB with MAX98357A audio in progress.',
    comps:['ESP32-WROOM-32E','ST7789 IPS','MicroSD','MAX98357A','LiPo'],
    tags:['ESP32','NES 6502','ST7789','KiCad','Arduino'],
    desc:'Hand-soldered handheld NES emulator. Full 6502+PPU core on ESP32, 240×240 IPS display via 27 MHz SPI, MicroSD ROM loading, 8 buttons.',
-   stats:[{n:'240MHz',l:'ESP32 Core'},{n:'27MHz',l:'SPI Display'},{n:'6',l:'Buttons'}],
+   stats:[{n:'240MHz',l:'ESP32 Core'},{n:'27MHz',l:'SPI Display'},{n:'8',l:'Buttons'}],
    hl:['NES 6502 + PPU emulation in C++ — cycle-accurate for most games','ST7789 240×240 at 27 MHz SPI (30 MHz caused corruption)','MicroSD FAT32 ROM loading up to 512 kB','Every perfboard wire resoldered at least once','PCB revision: ESP32-S3-WROOM-1U + MAX98357A audio']},
   {id:'rccar',title:'Wireless RC Car',
    name:'Wireless <i>RC Car</i>',
@@ -926,22 +962,22 @@ const P=[
    name:'Exhaust Cutout <i>Controller</i>',
    status:'done',meta:'Firmware · 2025',link:'exhaust-controller-project.html',
    img:'IMAGES/Exhaust Controller/exhaust-new.webp',imgFit:'contain',imgPos:{s:2.26,px:0,py:80},cat:'Firmware',glyph:'✦',
-   tldr:'First ever project — Arduino Nano Every exhaust cutout controller for a VW Golf Mk6. MD13S Cytron motor driver, 3A buck converter, 3D-printed Fusion 360 enclosure with screwed-in component mounts.',
-   comps:['Arduino Nano Every','MD13S Cytron','3A Buck Converter','Fusion 360'],
+   tldr:'First ever project — Arduino Nano (ATmega328P) exhaust cutout controller for a VW Golf Mk6. MD13S Cytron motor driver, 3A buck converter, 3D-printed Fusion 360 enclosure with screwed-in component mounts.',
+   comps:['Arduino Nano','MD13S Cytron','3A Buck Converter','Fusion 360'],
    tags:['Arduino','MD13S','Firmware','Fusion 360','3D Print'],
-   desc:'First hardware project ever. Arduino Nano Every controlling exhaust cutout valves on a VW Golf Mk6. MD13S 13A motor driver, 12V→5V buck converter, push button with debounce, DRL LED indicator. 3D-printed enclosure designed in Fusion 360 with moulded mounting posts.',
+   desc:'First hardware project ever. Arduino Nano (ATmega328P) controlling exhaust cutout valves on a VW Golf Mk6. MD13S 13A motor driver, 12V→5V buck converter, push button with debounce, DRL LED indicator. 3D-printed enclosure designed in Fusion 360 with moulded mounting posts.',
    stats:[{n:'13A',l:'Motor Driver'},{n:'12V→5V',l:'Buck Converter'},{n:'1st',l:'Ever Built'}],
    hl:['MD13S Cytron 13A motor driver for valve actuation','3A DC-DC buck converter — 12V car power to 5V','Debounced push button + DRL LED status indicator','Fusion 360 enclosure with screwed-in component mounts','Voltage divider for 3.3V (wrong — learned it should be an LDO)']},
   {id:'bigrc',title:'Large RC Car — v1',
    name:'Large RC Car — <i>v1</i>',
    status:'done',meta:'Embedded Systems · 2025',link:'large-rc-car-project.html',
    img:'IMAGES/Large RC Car/large-rc-with-remote.webp',imgPos:{s:1,px:0,py:92.86},cat:'Embedded Systems',glyph:'◎',
-   tldr:'First self-designed RC car — 3D-printed Fusion 360 chassis, Ackermann steering, L298N motor driver, and a custom 3D-printed gamepad remote using ESP32-NOW. The project that started everything.',
-   comps:['ESP32-C3','L298N','ESP32-NOW','Fusion 360','3D Print'],
-   tags:['ESP32','ESP-NOW','L298N','Fusion 360','3D Print'],
-   desc:'First scratch-built RC car. Full Fusion 360 chassis, servo Ackermann steering, L298N H-bridge, LiPo. Custom gamepad remote — modelled, printed, and wired from scratch — using ESP32-NOW for low-latency wireless.',
-   stats:[{n:'ESP-NOW',l:'Wireless'},{n:'3S LiPo',l:'7.4V Power'},{n:'v1',l:'Starting Point'}],
-   hl:['Chassis fully designed in Fusion 360 — Ackermann steering geometry','Custom gamepad remote: 3D-printed body, dual joysticks, ESP32-NOW','L298N H-bridge for motor direction + PWM speed control','ESP32-C3 SuperMini on both car and remote','Over-engineered — directly inspired the lighter, faster small RC car']},
+   tldr:'First self-designed RC car — 3D-printed Fusion 360 chassis, Ackermann steering, DRV8876 motor driver, and a custom 3D-printed gamepad remote using ESP32-NOW. The project that started everything.',
+   comps:['ESP32 WROOM','DRV8876','ESP32-NOW','Fusion 360','3D Print'],
+   tags:['ESP32','ESP-NOW','DRV8876','Fusion 360','3D Print'],
+   desc:'First scratch-built RC car. Full Fusion 360 chassis, servo Ackermann steering, DRV8876 H-bridge, 2S LiPo. Custom gamepad remote — modelled, printed, and wired from scratch — using ESP32-NOW for low-latency wireless.',
+   stats:[{n:'ESP-NOW',l:'Wireless'},{n:'2S LiPo',l:'7.4V Power'},{n:'v1',l:'Starting Point'}],
+   hl:['Chassis fully designed in Fusion 360 — Ackermann steering geometry','Custom gamepad remote: 3D-printed body, dual joysticks, ESP32-NOW','DRV8876 H-bridge for motor direction + PWM speed control','ESP32 WROOM on both car and remote','Over-engineered — directly inspired the lighter, faster small RC car']},
   {id:'vhdl',title:'VHDL Digital Systems',
    name:'VHDL Digital <i>Systems</i>',
    status:'done',meta:'ELEC2311 · UWA · 2025',link:'vhdl-project-main.html',

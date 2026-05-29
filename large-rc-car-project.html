@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Large RC Car — v1 · Andrés Moreno</title>
-<meta name="description" content="First self-designed RC car — 3D-printed chassis in Fusion 360, Ackermann steering, L298N motor driver, and a custom 3D-printed ESP32-NOW gamepad remote. The project that started everything.">
+<meta name="description" content="First self-designed RC car — 3D-printed chassis in Fusion 360, Ackermann steering, DRV8876 motor driver, and a custom 3D-printed ESP32-NOW gamepad remote. The project that started everything.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -346,7 +346,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div>
       <div class="hero-tag">Personal Project · Jul – Aug 2025</div>
       <h1>Large RC Car<br><span>v1 — where it started</span></h1>
-      <div class="hero-sub">ESP32-C3 · DRV8833 · ESP32-NOW · Fusion 360 · 3D Printing</div>
+      <div class="hero-sub">ESP32 WROOM · DRV8876 · ESP32-NOW · Fusion 360 · 3D Printing</div>
       <div class="hero-meta">
         <span class="badge badge-green">✓ Working</span>
         <span class="badge badge-blue">ESP32-NOW Wireless</span>
@@ -394,10 +394,10 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/chassis-underside.webp" data-cap="Assembled chassis — underside drivetrain view">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/chassis-underside.webp" alt="Chassis underside">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Large RC Car/early-electronics.webp" data-cap="Electronics assembly — ESP32-C3, DRV8833, LiPo wiring">
+        <div class="snap-thumb" data-src="IMAGES/Large RC Car/early-electronics.webp" data-cap="Electronics assembly — ESP32 WROOM, DRV8876, LiPo wiring">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Early electronics">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-assembly.webp" data-cap="Remote assembly — joysticks, ESP32-C3, wiring">
+        <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-assembly.webp" data-cap="Remote assembly — joysticks, ESP32 WROOM, wiring">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/remote-slicer.webp" data-cap="Bambu Studio — remote shell slicer preview">
@@ -417,17 +417,17 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div>
         <div class="snap-label">Key Components</div>
         <div class="snap-comp-grid">
-          <div class="snap-comp" data-tip="Car MCU: ESP32-C3 SuperMini — ESP-NOW receiver, PWM output for motor + servo">
+          <div class="snap-comp" data-tip="Car MCU: ESP32 WROOM — ESP-NOW receiver, PWM output for motor + servo">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
-            <div class="snap-comp-name">ESP32-C3 (Car)</div>
+            <div class="snap-comp-name">ESP32 WROOM (Car)</div>
           </div>
-          <div class="snap-comp" data-tip="Remote MCU: ESP32-C3 SuperMini — ESP-NOW transmitter, dual joystick ADC">
+          <div class="snap-comp" data-tip="Remote MCU: ESP32 WROOM — ESP-NOW transmitter, dual joystick ADC">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
-            <div class="snap-comp-name">ESP32-C3 (Remote)</div>
+            <div class="snap-comp-name">ESP32 WROOM (Remote)</div>
           </div>
-          <div class="snap-comp" data-tip="DRV8833 dual H-bridge — 1.5 A continuous, PWM speed &amp; direction control">
+          <div class="snap-comp" data-tip="DRV8876 single H-bridge — IN1/IN2 mode, 20 kHz PWM speed &amp; direction control">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="15" height="12" rx="2"/><line x1="20" y1="16" x2="27" y2="16"/><circle cx="24.5" cy="16" r="2.5"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="3" y1="16" x2="5" y2="16"/><line x1="3" y1="20" x2="5" y2="20"/><path d="M10 16 L13 13 M10 16 L13 19" stroke-width="1.5"/></svg></div>
-            <div class="snap-comp-name">DRV8833</div>
+            <div class="snap-comp-name">DRV8876</div>
           </div>
           <div class="snap-comp" data-tip="SG90 servo — Ackermann front-wheel steering, 180° range, PWM signal">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"/><circle cx="13" cy="16" r="4"/><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"/><line x1="22" y1="13" x2="27" y2="13"/><line x1="22" y1="16" x2="27" y2="16"/><line x1="22" y1="19" x2="27" y2="19"/><path d="M13 12 L18 7" stroke-width="2"/></svg></div>
@@ -478,7 +478,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="snap-stats">
     <div class="snap-stat">
       <div class="snap-counter">2</div>
-      <div class="snap-stat-lbl">ESP32-C3 Boards</div>
+      <div class="snap-stat-lbl">ESP32 WROOM Boards</div>
     </div>
     <div class="snap-stat">
       <div class="snap-counter">~50 m</div>
@@ -506,7 +506,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="stat-card">
         <div class="stat-label">Controller</div>
         <div class="stat-value">ESP32</div>
-        <div class="stat-sub">C3 SuperMini on car + remote</div>
+        <div class="stat-sub">WROOM on car + remote</div>
       </div>
       <div class="stat-card blue">
         <div class="stat-label">Wireless</div>
@@ -515,8 +515,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       </div>
       <div class="stat-card amber">
         <div class="stat-label">Motor Driver</div>
-        <div class="stat-value">DRV8833</div>
-        <div class="stat-sub">TB6612FNG / DRV8833 dual H-bridge</div>
+        <div class="stat-value">DRV8876</div>
+        <div class="stat-sub">DRV8876 single H-bridge</div>
       </div>
       <div class="stat-card purple">
         <div class="stat-label">Steering</div>
@@ -527,8 +527,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="prose">
       <p>The idea was simple: build an RC car where I designed every part — chassis geometry, remote body, firmware. I started in Fusion 360, modelling the suspension geometry before I had even ordered the wheels. The chassis came out properly: four rubber tyres, a servo-steered Ackermann front axle, and a rear-wheel drive layout.</p>
-      <p>The remote was the part I was most proud of. Instead of using an off-the-shelf transmitter, I modelled a gamepad from scratch, 3D-printed the shell in two halves, fitted two analog joystick modules inside, and ran everything through an ESP32-C3 using ESP32-NOW. The latency was good. The control feel was actually decent.</p>
-      <p><strong>What went wrong:</strong> I kept adding things. The L298N is bulky. The wiring got heavy. The battery I chose was more capacity than the small motor needed. By the time it was all assembled and bolted down, the car worked but moved like it was carrying twice its own weight. The lesson stuck — directly led to the small RC car, which uses none of the excess.</p>
+      <p>The remote was the part I was most proud of. Instead of using an off-the-shelf transmitter, I modelled a gamepad from scratch, 3D-printed the shell in two halves, fitted two analog joystick modules inside, and ran everything through an ESP32 WROOM using ESP32-NOW. The latency was good. The control feel was actually decent.</p>
+      <p><strong>What went wrong:</strong> I kept adding things. A 5A boost converter to push 12V to the motor, an oversized 3500mAh LiPo, a buck converter, the motor driver — each module seemed justified at the time. By the time it was all assembled and bolted down, the car worked but moved like it was carrying twice its own weight. The DRV8876 and motor were fine. The problem was the weight. The lesson stuck — directly led to the small RC car, which uses none of the excess.</p>
     </div>
   </section>
 
@@ -570,12 +570,12 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="timeline-dot amber"></div>
         <div class="tl-text">
           <div class="timeline-step amber">Step 03</div>
-          <div class="timeline-heading">Electronics — ESP32-C3 + DRV8833</div>
-          <div class="timeline-body">The car runs an <strong>ESP32-C3 SuperMini</strong> as the receiver. It listens for ESP32-NOW packets from the remote and maps joystick values to PWM signals — left joystick Y-axis for throttle/reverse, right joystick X-axis for servo steering angle. The <strong>DRV8833</strong> handles motor direction and PWM speed control. Power came from a WLtoys 14401 2S 7.4V 3500mAh LiPo through a 3A buck converter for the ESP32 and a separate 5A boost converter for the motor. That boost converter was the first mistake — more voltage didn't fix what was fundamentally a weight problem.</div>
+          <div class="timeline-heading">Electronics — ESP32 WROOM + DRV8876</div>
+          <div class="timeline-body">The car runs an <strong>ESP32 WROOM</strong> as the receiver. It listens for ESP32-NOW packets from the remote and maps joystick values to PWM signals — left joystick Y-axis for throttle/reverse, right joystick X-axis for servo steering angle. The <strong>DRV8876</strong> handles motor direction and PWM speed control via IN1/IN2 mode. Power came from a WLtoys 144001 2S 7.4V 3500mAh LiPo — the 3A buck converter stepped it down to 5V for the ESP32 and electronics, while the 5A boost converter pushed 12V directly to the motor. That boost converter was the first mistake — more voltage didn't fix what was fundamentally a weight problem.</div>
         </div>
         <div class="timeline-img">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Electronics on workbench during assembly" onclick="openLb(this)">
-          <div class="timeline-img-cap">Electronics assembly — ESP32-C3, DRV8833, LiPo wiring</div>
+          <div class="timeline-img-cap">Electronics assembly — ESP32 WROOM, DRV8876, LiPo wiring</div>
         </div>
       </div>
 
@@ -584,7 +584,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="tl-text">
           <div class="timeline-step">Step 04</div>
           <div class="timeline-heading">Assembly and first drive</div>
-          <div class="timeline-body">Getting everything fitted into the chassis without shorting anything was the hardest part. The L298N module is wider than the chassis centre rail, so the electronics sat on top of the frame rather than inside it — raising the centre of mass. First drive test confirmed the car worked correctly: steering responsive, throttle smooth, ESP32-NOW had no noticeable lag. But it was slow — way slower than expected for the motor spec. The weight was the culprit.</div>
+          <div class="timeline-body">Getting everything fitted into the chassis without shorting anything was the hardest part. With a buck converter, a boost converter, the DRV8876 driver, and the oversized LiPo, the electronics stack sat on top of the frame rather than inside it — raising the centre of mass. First drive test confirmed the car worked correctly: steering responsive, throttle smooth, ESP32-NOW had no noticeable lag. But it was slow — way slower than expected for the motor spec. The weight was the culprit.</div>
         </div>
         <div class="timeline-img">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/chassis-underside.webp" alt="Assembled RC car chassis bottom view" onclick="openLb(this)">
@@ -617,14 +617,15 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="remote-card-sub">Designed from scratch</div>
         <div class="remote-card-title">Gamepad remote</div>
         <div class="remote-card-body">
-          Instead of using an off-the-shelf transmitter I modelled a full gamepad shell in Fusion 360. The body was split into two printable halves, designed to fit exactly around two KY-023 analog joystick modules and an ESP32-C3 board. Printed in black PLA with hand-fit tolerances — no fasteners for the shell, just press-fit clips.
+          Instead of using an off-the-shelf transmitter I modelled a full gamepad shell in Fusion 360. The body was split into two printable halves, designed to fit exactly around two KY-023 analog joystick modules and an ESP32 WROOM board. Printed in black PLA with hand-fit tolerances — no fasteners for the shell, just press-fit clips. The joystick thumb-caps are custom 3D-modelled covers that screw on and off, allowing the sticks to be swapped or adjusted without disassembling the remote.
         </div>
         <ul class="remote-spec-list">
           <li>Modelled in Fusion 360, printed on Bambu</li>
           <li>Dual KY-023 analog joystick modules</li>
-          <li>ESP32-C3 SuperMini transmitter</li>
+          <li>ESP32 WROOM transmitter</li>
           <li>ESP32-NOW protocol — no pairing, peer-to-peer MAC</li>
-          <li>AA batteries, fits inside grip section</li>
+          <li>3.7V 18650 3000mAh 20C Li-ion cell, fits inside grip section</li>
+          <li>Screw-on/off 3D-printed joystick thumb-cap covers</li>
         </ul>
       </div>
     </div>
@@ -636,7 +637,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       </div>
       <div class="gallery-item">
         <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/remote-assembly.webp" alt="Remote assembly on workbench with components" onclick="openLb(this)" style="max-height:200px;object-fit:cover;">
-        <div class="gallery-caption">Remote assembly — joysticks, ESP32-C3, wiring</div>
+        <div class="gallery-caption">Remote assembly — joysticks, ESP32 WROOM, wiring</div>
       </div>
     </div>
 
@@ -647,7 +648,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="spec-row"><span class="spec-key">Packet rate</span><span class="spec-val ok">~20 Hz (joystick polling)</span></div>
       <div class="spec-row"><span class="spec-key">Typical range</span><span class="spec-val ok">~50 m line-of-sight</span></div>
       <div class="spec-row"><span class="spec-key">Latency</span><span class="spec-val ok">~2 ms one-way</span></div>
-      <div class="spec-row"><span class="spec-key">Power</span><span class="spec-val">AA batteries in grip</span></div>
+      <div class="spec-row"><span class="spec-key">Power</span><span class="spec-val">3.7V 18650 3000mAh 20C Li-ion in grip</span></div>
     </div>
   </section>
 
@@ -738,23 +739,23 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="two-col">
       <div class="spec-block">
         <div class="spec-block-header">Large RC Car — v1</div>
-        <div class="spec-row"><span class="spec-key">MCU</span><span class="spec-val">ESP32-C3 SuperMini</span></div>
-        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val">DRV8833 / TB6612FNG</span></div>
+        <div class="spec-row"><span class="spec-key">MCU</span><span class="spec-val">ESP32 WROOM</span></div>
+        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val">DRV8876</span></div>
         <div class="spec-row"><span class="spec-key">Chassis</span><span class="spec-val">3D-printed PLA, full size</span></div>
         <div class="spec-row"><span class="spec-key">Steering</span><span class="spec-val">Ackermann servo</span></div>
-        <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val warn">WLtoys 14401 2S 7.4V 3500mAh (oversized)</span></div>
+        <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val warn">WLtoys 144001 2S 7.4V 3500mAh (oversized)</span></div>
         <div class="spec-row"><span class="spec-key">Power modules</span><span class="spec-val warn">3A buck + 5A boost (unnecessary)</span></div>
         <div class="spec-row"><span class="spec-key">Remote</span><span class="spec-val ok">Custom 3D-printed gamepad</span></div>
         <div class="spec-row"><span class="spec-key">Speed</span><span class="spec-val bad">Very slow (overweight)</span></div>
       </div>
       <div class="spec-block">
         <div class="spec-block-header">Small RC Car — v2 (result)</div>
-        <div class="spec-row"><span class="spec-key">MCU</span><span class="spec-val">ESP32-C3 SuperMini</span></div>
-        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val ok">DRV8833 (right-sized)</span></div>
+        <div class="spec-row"><span class="spec-key">MCU</span><span class="spec-val">ESP32-C3 XIAO</span></div>
+        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val ok">TB6612FNG (right-sized)</span></div>
         <div class="spec-row"><span class="spec-key">Chassis</span><span class="spec-val">3D-printed, compact</span></div>
         <div class="spec-row"><span class="spec-key">Steering</span><span class="spec-val">Simplified servo mount</span></div>
         <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val ok">Matched to motor spec</span></div>
-        <div class="spec-row"><span class="spec-key">Remote</span><span class="spec-val">Reused from v1</span></div>
+        <div class="spec-row"><span class="spec-key">Remote</span><span class="spec-val">Breadboard C3 SuperMini sender</span></div>
         <div class="spec-row"><span class="spec-key">Speed</span><span class="spec-val ok">Noticeably faster</span></div>
       </div>
     </div>
@@ -787,7 +788,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <footer class="footer">
   <div class="footer-left">
     Large RC Car — v1<br>
-    ESP32-NOW · Fusion 360 · L298N · 2025
+    ESP32-NOW · Fusion 360 · DRV8876 · 2025
   </div>
   <div class="footer-right">
     <a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to portfolio</a><br>

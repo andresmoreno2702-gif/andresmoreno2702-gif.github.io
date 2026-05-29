@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Number Plate Holder · Andrés Moreno</title>
+<meta name="description" content="Four-stage Fusion 360 design evolution — from a fixed custom rear plate holder to a universal adjustable bracket that fits any number plate size.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f9fb;--surface:#fff;--border:#e4e7ec;--text:#111827;--text-muted:#6b7280;--text-dim:#9ca3af;
+  --accent:#3b82f6;--accent2:#a78bfa;--accent3:#f59e0b;--green:#22c55e;--red:#ef4444;
+  --nav-h:60px;--mono:'DM Mono',monospace;--ease:cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#0a0e1a;--surface:#111827;--border:#1f2937;--text:#f1f5f9;--text-muted:#94a3b8;--text-dim:#475569;
+  --accent:#60a5fa;--accent2:#c4b5fd;--accent3:#fbbf24;--green:#4ade80;--red:#f87171;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+
+/* NAV */
+#nav{position:sticky;top:0;z-index:100;height:var(--nav-h);backdrop-filter:blur(12px);background:rgba(10,14,26,.85);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem}
+[data-theme="light"] #nav{background:rgba(248,249,251,.88)}
+.nav-brand{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.04em}
+.nav-brand i{color:var(--accent)}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%)}
+.nav-links a{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.on{color:var(--text)}
+.nav-right{display:flex;align-items:center}
+.thm{background:none;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;cursor:pointer;display:grid;place-items:center;transition:all .3s var(--ease)}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.thm .ico-moon{display:block}.thm .ico-sun{display:none}
+[data-theme="light"] .thm .ico-moon{display:none}[data-theme="light"] .thm .ico-sun{display:block}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* HERO */
+.hero{padding:56px 2.5rem 40px;max-width:960px;margin:0 auto}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+.hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
+.hero h1 span{color:var(--accent)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.badge{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:4px;letter-spacing:.06em}
+.badge-blue{background:rgba(96,165,250,.12);color:var(--accent);border:1px solid rgba(96,165,250,.25)}
+.badge-amber{background:rgba(251,191,36,.1);color:var(--accent3);border:1px solid rgba(251,191,36,.2)}
+.badge-green{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2)}
+.badge-purple{background:rgba(196,181,253,.1);color:var(--accent2);border:1px solid rgba(196,181,253,.2)}
+.hero-desc{font-size:15px;color:var(--text-muted);max-width:60ch;line-height:1.75}
+
+/* LAYOUT */
+.content{max-width:960px;margin:0 auto;padding:0 2.5rem 80px}
+.section{margin-bottom:52px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.section-title{font-size:18px;font-weight:700}
+.section-line{flex:1;height:1px;background:var(--border)}
+.prose p{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+.prose p:last-child{margin-bottom:0}
+.prose strong{color:var(--text);font-weight:600}
+
+/* HERO COMPARISON PHOTO */
+.hero-photo{max-width:960px;margin:0 auto;padding:0 2.5rem 36px}
+.hero-photo-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--border);position:relative;background:var(--surface)}
+.hero-photo-wrap img{width:100%;display:block;max-height:480px;object-fit:cover;object-position:center 55%;cursor:zoom-in}
+.hero-photo-caption{font-family:var(--mono);font-size:11px;color:var(--text-dim);padding:10px 16px;text-align:center;border-top:1px solid var(--border)}
+
+/* SNAP PHOTO SELECTOR */
+.snap-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:48px}
+.snap-photo-main{position:relative;height:360px;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.snap-photo-main img{width:100%;height:100%;object-fit:contain;transition:opacity .15s;cursor:zoom-in}
+.snap-photo-main video{width:100%;height:100%;object-fit:contain}
+.snap-cap{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:7px 14px;background:rgba(0,0,0,.35);position:absolute;bottom:0;left:0;right:0;text-align:center;backdrop-filter:blur(4px)}
+.snap-thumbs{display:flex;gap:6px;padding:10px;overflow-x:auto;background:var(--bg);border-top:1px solid var(--border)}
+.snap-thumb{flex:0 0 68px;height:50px;border-radius:5px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
+.snap-thumb img,.snap-thumb video{width:100%;height:100%;object-fit:cover}
+.snap-thumb.active{border-color:var(--accent)}
+.snap-thumb.is-video::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;background:rgba(0,0,0,.45);pointer-events:none}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:36px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
+.stat-card.blue::after{background:var(--accent2)}
+.stat-card.amber::after{background:var(--accent3)}
+.stat-card.green::after{background:var(--green)}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.stat-value{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text);line-height:1;margin-bottom:3px}
+.stat-sub{font-size:11px;color:var(--text-muted)}
+
+/* INSIGHT */
+.insight{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.2);border-radius:10px;padding:22px 26px;margin-bottom:44px;position:relative}
+.insight::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--accent);border-radius:3px 0 0 3px}
+.insight-label{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.insight-title{font-size:15px;font-weight:700;margin-bottom:7px}
+.insight-body{font-size:13px;color:var(--text-muted);line-height:1.75}
+.insight-body strong{color:var(--text);font-weight:600}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:grid;grid-template-columns:72px 1fr;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:35px;top:40px;bottom:0;width:2px;background:var(--border)}
+.tl-left{display:flex;flex-direction:column;align-items:center;padding-top:4px}
+.tl-num{font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:6px;line-height:1.4}
+.tl-dot{width:26px;height:26px;border-radius:50%;background:var(--surface);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-muted);flex-shrink:0;z-index:1}
+.tl-dot.c1{background:rgba(96,165,250,.12);border-color:var(--accent);color:var(--accent)}
+.tl-dot.c2{background:rgba(196,181,253,.12);border-color:var(--accent2);color:var(--accent2)}
+.tl-dot.c3{background:rgba(251,191,36,.1);border-color:var(--accent3);color:var(--accent3)}
+.tl-dot.c4{background:rgba(74,222,128,.1);border-color:var(--green);color:var(--green)}
+.tl-body{padding:0 0 40px 20px}
+.tl-heading{font-size:15px;font-weight:700;margin-bottom:4px;padding-top:2px}
+.tl-sub{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.07em;margin-bottom:10px}
+.tl-text{font-size:13px;color:var(--text-muted);line-height:1.75}
+.tl-text strong{color:var(--text);font-weight:600}
+.tl-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.tl-img img{width:100%;display:block;max-height:300px;object-fit:contain;background:var(--bg);cursor:zoom-in}
+.tl-img video{width:100%;display:block;max-height:300px;object-fit:contain;background:#000}
+.tl-img-cap{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:6px 12px;border-top:1px solid var(--border);text-align:center}
+.tl-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.tl-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.tl-no-img{margin-top:12px;padding:12px 16px;background:rgba(96,165,250,.03);border:1px dashed var(--border);border-radius:6px;font-family:var(--mono);font-size:10px;color:var(--text-dim);text-align:center}
+
+/* VIDEO GRID */
+.vid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.vid-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#000}
+.vid-wrap video{width:100%;display:block;aspect-ratio:9/16;object-fit:contain}
+.vid-wrap.wide video{aspect-ratio:16/9}
+.vid-cap{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:5px 10px;text-align:center;border-top:1px solid var(--border);background:var(--surface)}
+
+/* SPEC */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.spec-block-header{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);padding:9px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);gap:12px;font-size:13px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{color:var(--text-muted)}
+.spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
+.spec-val.ok{color:var(--green)}
+.spec-val.warn{color:var(--accent3)}
+
+/* PROJ NAV + FOOTER */
+.proj-nav{border-top:1px solid var(--border);display:flex;justify-content:center;padding:28px 2.5rem}
+.proj-nav a{font-family:var(--mono);font-size:12px;padding:8px 22px;border-radius:6px;text-decoration:none;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);color:var(--accent);transition:all .2s}
+.proj-nav a:hover{background:rgba(96,165,250,.15)}
+.footer{padding:22px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:960px;margin:0 auto}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
+.footer a{color:var(--text-dim);text-decoration:none}
+.footer a:hover{color:var(--accent)}
+
+/* LIGHTBOX */
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb.open{display:flex}
+#lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:4px}
+
+@media(max-width:640px){
+  .hero,.content,.hero-photo,.footer{padding-left:1.25rem;padding-right:1.25rem}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .tl-item{grid-template-columns:52px 1fr}
+  .tl-item::before{left:25px}
+  .tl-2col,.tl-3col,.vid-grid,.two-col{grid-template-columns:1fr}
+  .snap-photo-main{height:260px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-brand">AMN<i>.</i></a>
+  <div class="nav-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="#overview">Overview</a>
+    <a href="#stages">Stages</a>
+    <a href="#specs">Specs</a>
+  </div>
+  <div class="nav-right">
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">CAD & Fabrication · Fusion 360</div>
+  <h1>Number Plate<br><span>Holder</span></h1>
+  <div class="hero-meta">
+    <span class="badge badge-blue">Fusion 360</span>
+    <span class="badge badge-amber">3D Printed PLA</span>
+    <span class="badge badge-purple">Mechanical Design</span>
+    <span class="badge badge-green">4 Iterations</span>
+  </div>
+  <p class="hero-desc">
+    Four designs, one goal: a clean plate mount with no visible screw holes. The first two were fixed to my exact plate dimensions. Realising that was a design mistake, not a constraint, led to the final adjustable version — same result, any plate size.
+  </p>
+</div>
+
+<!-- HERO COMPARISON PHOTO — the three versions side by side -->
+<div class="hero-photo">
+  <div class="hero-photo-wrap">
+    <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three plate holder versions side by side — full design evolution" onclick="openLb(this)">
+    <div class="hero-photo-caption">Left → right: v1 large rear · v3 simplified rear · v4 universal half — all three printed, side by side</div>
+  </div>
+</div>
+
+<!-- PHOTO + VIDEO SELECTOR -->
+<div style="max-width:960px;margin:0 auto;padding:0 2.5rem">
+  <div class="snap-wrap">
+    <div class="snap-photo-main" id="snap-main">
+      <img id="snap-img" src="IMAGES/Number Plate Holder/front-on-car.webp" alt="">
+      <div class="snap-cap" id="snap-cap">Front bracket installed — Audi honeycomb grille</div>
+    </div>
+    <div class="snap-thumbs" id="snap-thumbs">
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-on-car.webp" data-cap="Front bracket installed — Audi honeycomb grille">
+        <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-plate-photo.webp" data-cap="Front bracket holding the plate — bracket clips through mesh, screw locks from inside">
+        <img src="IMAGES/Number Plate Holder/front-plate-photo.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-render-exploded.webp" data-cap="Front bracket — exploded view showing bracket bar + threaded post + T-nut base">
+        <img src="IMAGES/Number Plate Holder/front-render-exploded.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/front-render-assembled.webp" data-cap="Front bracket — assembled render">
+        <img src="IMAGES/Number Plate Holder/front-render-assembled.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/all-three-versions.webp" data-cap="All three rear versions side by side — v1 large, v3 simplified, v4 universal half">
+        <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" data-cap="Adjustable rear holder — printed, close-up of sliding mechanism">
+        <img src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" data-cap="Adjustable rear holder — top view, full bracket">
+        <img src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" data-cap="Fusion 360 — Rear Adjustable Plate Holder CAD model">
+        <img src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/universal-disassembled.webp" data-cap="Universal holder — two halves separated, ready to slide together">
+        <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="">
+      </div>
+      <div class="snap-thumb" data-type="img" data-src="IMAGES/Number Plate Holder/universal-top.webp" data-cap="Universal holder — top view showing the slot grid adjustment system">
+        <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="">
+      </div>
+      <div class="snap-thumb is-video" data-type="vid" data-src="IMAGES/Number Plate Holder/fusion360-animation.mp4" data-cap="Fusion 360 — adjustable rear bracket animation">
+        <img src="IMAGES/Number Plate Holder/fusion360-adjustable.webp" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <section class="section" id="overview">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Iterations</div>
+        <div class="stat-value">4</div>
+        <div class="stat-sub">Specific → universal</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Final width</div>
+        <div class="stat-value">370mm</div>
+        <div class="stat-sub">Two 185mm halves</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-label">Mechanism</div>
+        <div class="stat-value">Slots</div>
+        <div class="stat-sub">Slide + screw lock</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Tool</div>
+        <div class="stat-value">Fusion</div>
+        <div class="stat-sub">Fusion 360 + PLA</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>The goal from the start was a clean plate mount — no visible screws from the front, nothing that looks aftermarket. Four versions later, the design is universal. But the first three needed to exist for the fourth to make sense.</p>
+    </div>
+  </section>
+
+  <!-- INSIGHT -->
+  <div class="insight">
+    <div class="insight-label">The design point</div>
+    <div class="insight-title">The constraint wasn't in the problem — it was in the assumption</div>
+    <div class="insight-body">The first three designs worked perfectly for my plate. The problem was I had hard-coded my plate dimensions into the sketch without realising it was a decision, not a fact. Once I noticed that, the fix was obvious: <strong>make the width a variable, not a constant</strong>. The final version uses a slot-and-slide mechanism so anyone can set it to their plate size. Same design, same print, any car.</div>
+  </div>
+
+  <!-- DESIGN STAGES -->
+  <section class="section" id="stages">
+    <div class="section-header">
+      <h2 class="section-title">Design Stages</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- STAGE 1 -->
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-num">Stage<br>01</div>
+          <div class="tl-dot c1">1</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-heading">Rear plate holder — first attempt</div>
+          <div class="tl-sub">Fusion 360 · Large · Fixed dimensions · Custom sized to one plate</div>
+          <div class="tl-text">
+            The first bracket — measured the rear plate, modelled a holder to match exactly.
+            Large profile, solid construction, printed in black PLA.
+            Fitted correctly and held the plate cleanly.
+            <br><br>
+            <strong>What I didn't notice yet:</strong> every dimension was hard-coded to my specific plate.
+            The design was working, so the assumption felt invisible.
+            You can see this version on the left in the comparison photo — the largest of the three, most material.
+          </div>
+          <div class="tl-img">
+            <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three versions — Stage 1 is the large piece on the left" onclick="openLb(this)">
+            <div class="tl-img-cap">Left piece: Stage 1 — first large rear holder. Largest, most material, fixed dimensions.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 2 -->
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-num">Stage<br>02</div>
+          <div class="tl-dot c2">2</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-heading">Front mesh bracket — screw pressure mechanism</div>
+          <div class="tl-sub">Fusion 360 · Clips into Audi honeycomb grille · M3 screw lock</div>
+          <div class="tl-text">
+            The front presented a different problem — mounting to an Audi honeycomb grille without drilling any holes.
+            The design clips behind the grille mesh from the inside using two printed feet that wedge between the hexagonal cells.
+            A central threaded post accepts an M3 screw that clamps the whole thing in place, using the mesh itself as the clamping surface.
+            <br><br>
+            <strong>More mechanically interesting than the rear:</strong> the bracket had to be thin enough to clear the grille opening,
+            rigid enough under road vibration, and the screw geometry had to self-align to the mesh geometry.
+            The screw post and T-nut base were modelled as a proper threaded fastener pair — not just a friction fit.
+            <br><br>
+            Printed, installed, still in use. Still fixed to my plate size though.
+          </div>
+          <div class="tl-2col">
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/front-render-exploded.webp" alt="Front bracket exploded" onclick="openLb(this)">
+              <div class="tl-img-cap">Exploded — bracket bar + threaded post + T-nut base</div>
+            </div>
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/front-render-assembled.webp" alt="Front bracket assembled" onclick="openLb(this)">
+              <div class="tl-img-cap">Assembled — screw pulls post through mesh cell</div>
+            </div>
+          </div>
+          <div class="tl-img" style="margin-top:10px">
+            <img src="IMAGES/Number Plate Holder/front-on-car.webp" alt="Installed on Audi grille" onclick="openLb(this)" style="max-height:320px;object-fit:cover;object-position:center 35%">
+            <div class="tl-img-cap">Installed — flush behind the Audi honeycomb grille, invisible from the front</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 3 -->
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-num">Stage<br>03</div>
+          <div class="tl-dot c3">3</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-heading">Rear holder — simplified using front as reference</div>
+          <div class="tl-sub">Fusion 360 · Stripped back · Less material, same function</div>
+          <div class="tl-text">
+            After designing the front bracket, I went back to the rear with a different perspective.
+            The front had taught me to think about what the geometry actually needs to do —
+            what carries load, what's just material.
+            <br><br>
+            Applied that to the rear: cut out everything that wasn't structurally necessary.
+            The slot pattern replaced solid infill, corner bosses stayed because they take the mounting load,
+            the rest was removed.
+            Same clamping action, noticeably less PLA, faster print.
+            <br><br>
+            <strong>Still the same plate dimensions.</strong> That realisation came later.
+            Middle piece in the comparison photo.
+          </div>
+          <div class="tl-img">
+            <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three versions — Stage 3 is the middle piece" onclick="openLb(this)">
+            <div class="tl-img-cap">Middle piece: Stage 3 — simplified rear holder. Less material, same function, still fixed size.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 4 -->
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-num">Stage<br>04</div>
+          <div class="tl-dot c4">4</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-heading">Adjustable universal holder</div>
+          <div class="tl-sub">Fusion 360 · Sliding mechanism · Fits any number plate width</div>
+          <div class="tl-text">
+            Looked at the Stage 3 design and asked: which dimensions actually need to be fixed?
+            <br><br>
+            The answer was none of them. The plate width varies by country and registration type.
+            There's no reason the bracket needs to be sized to one specific plate —
+            the only thing that matters is that the two end clips are the right distance apart.
+            <br><br>
+            <strong>Solution:</strong> split the bracket into two identical sliding halves.
+            Each half has a set of elongated slots. The two pieces interlock and slide freely along their shared axis,
+            then lock at any position when a central screw is tightened through the overlapping slots.
+            The slot grid also reduces material compared to a solid bracket — adjustment and weight saving from the same feature.
+            <br><br>
+            Print the same two files, set it to your plate width, tighten. Works for any standard plate size.
+          </div>
+
+          <div class="tl-2col">
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/adjustable-rear-top.webp" alt="Adjustable bracket top view" onclick="openLb(this)">
+              <div class="tl-img-cap">Printed — top view showing sliding mechanism and screw lock</div>
+            </div>
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/adjustable-rear-closeup.webp" alt="Adjustable bracket close-up" onclick="openLb(this)">
+              <div class="tl-img-cap">Close-up — sliding joint detail and M3 lock hole</div>
+            </div>
+          </div>
+
+          <div class="tl-2col" style="margin-top:10px">
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="Two-piece disassembled" onclick="openLb(this)">
+              <div class="tl-img-cap">Flat panel variant — two halves before assembly</div>
+            </div>
+            <div class="tl-img">
+              <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="Flat panel assembled" onclick="openLb(this)">
+              <div class="tl-img-cap">Flat panel variant — slot grid visible from top</div>
+            </div>
+          </div>
+
+          <!-- VIDEOS -->
+          <div style="margin-top:18px">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Mechanism in action</div>
+            <div class="vid-grid">
+              <div class="vid-wrap">
+                <video controls playsinline preload="metadata">
+                  <source src="IMAGES/Number Plate Holder/demo-adjust1.mp4" type="video/mp4">
+                </video>
+                <div class="vid-cap">Adjustment demo</div>
+              </div>
+              <div class="vid-wrap">
+                <video controls playsinline preload="metadata">
+                  <source src="IMAGES/Number Plate Holder/demo-adjust2.mp4" type="video/mp4">
+                </video>
+                <div class="vid-cap">Sliding mechanism</div>
+              </div>
+              <div class="vid-wrap wide">
+                <video controls playsinline preload="metadata">
+                  <source src="IMAGES/Number Plate Holder/demo-adjust3.mp4" type="video/mp4">
+                </video>
+                <div class="vid-cap">Full range of motion</div>
+              </div>
+            </div>
+            <div class="tl-img" style="margin-top:10px">
+              <video controls playsinline preload="metadata" style="width:100%;display:block;max-height:240px;object-fit:contain;background:#111">
+                <source src="IMAGES/Number Plate Holder/fusion360-animation.mp4" type="video/mp4">
+              </video>
+              <div class="tl-img-cap">Fusion 360 — CAD model animation of the adjustable rear bracket</div>
+            </div>
+          </div>
+
+          <div class="tl-img" style="margin-top:14px">
+            <img src="IMAGES/Number Plate Holder/universal-dimensions.webp" alt="Dimensions drawing" onclick="openLb(this)">
+            <div class="tl-img-cap">Dimensioned sketch — 370mm total, 100mm height, sliding range covers standard plate widths</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section class="section" id="specs">
+    <div class="section-header">
+      <h2 class="section-title">Specs</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="two-col">
+      <div class="spec-block">
+        <div class="spec-block-header">Front Bracket (Stage 2)</div>
+        <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360</span></div>
+        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PLA — black</span></div>
+        <div class="spec-row"><span class="spec-key">Mount method</span><span class="spec-val ok">Clips into grille cells</span></div>
+        <div class="spec-row"><span class="spec-key">Fastener</span><span class="spec-val">M3 screw + printed T-nut</span></div>
+        <div class="spec-row"><span class="spec-key">Plate size</span><span class="spec-val warn">Fixed — custom to one plate</span></div>
+        <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val ok">Installed and in use</span></div>
+      </div>
+      <div class="spec-block">
+        <div class="spec-block-header">Universal Holder (Stage 4)</div>
+        <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360</span></div>
+        <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PLA — black</span></div>
+        <div class="spec-row"><span class="spec-key">Pieces</span><span class="spec-val">2 identical halves</span></div>
+        <div class="spec-row"><span class="spec-key">Total width</span><span class="spec-val ok">370mm (2 × 185mm)</span></div>
+        <div class="spec-row"><span class="spec-key">Height</span><span class="spec-val">100mm</span></div>
+        <div class="spec-row"><span class="spec-key">Adjustment</span><span class="spec-val ok">Any plate width — slot lock</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="proj-nav">
+  <a href="index.html">← Back to Portfolio</a>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">Number Plate Holder · Fusion 360 · 4 Iterations</div>
+  <div class="footer-right"><a href="index.html">andresmoreno.dev</a></div>
+</footer>
+
+<div id="lb" onclick="closeLb()"><img id="lb-img" src="" alt=""></div>
+
+<script>
+// Theme
+(function(){
+  const btn=document.getElementById('themeBtn');
+  if(!btn) return;
+  btn.addEventListener('click',()=>{
+    const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+    document.documentElement.dataset.theme=next;
+    localStorage.setItem('portfolio-theme',next);
+  });
+})();
+
+// Snap selector — handles both images and videos
+(function(){
+  const thumbs=document.querySelectorAll('.snap-thumb');
+  const mainEl=document.getElementById('snap-main');
+  const capEl=document.getElementById('snap-cap');
+
+  function setThumb(th){
+    thumbs.forEach(t=>t.classList.remove('active'));
+    th.classList.add('active');
+    const type=th.dataset.type;
+    const src=th.dataset.src;
+    const cap=th.dataset.cap||'';
+    capEl.textContent=cap;
+    // Remove existing media
+    const old=mainEl.querySelector('img,video');
+    if(old) old.remove();
+    if(type==='vid'){
+      const v=document.createElement('video');
+      v.controls=true; v.playsInline=true; v.autoplay=true;
+      v.innerHTML=`<source src="${src}" type="video/mp4">`;
+      mainEl.insertBefore(v,capEl);
+    } else {
+      const i=document.createElement('img');
+      i.src=src; i.alt=cap;
+      i.onclick=()=>openLb(i);
+      mainEl.insertBefore(i,capEl);
+    }
+  }
+
+  thumbs.forEach(th=>th.addEventListener('click',()=>setThumb(th)));
+  // activate first
+  if(thumbs.length) setThumb(thumbs[0]);
+})();
+
+// Lightbox
+function openLb(img){document.getElementById('lb').classList.add('open');document.getElementById('lb-img').src=img.src;}
+function closeLb(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+
+// Scroll-active nav
+(function(){
+  const links=document.querySelectorAll('nav a[href^="#"]');
+  if(!links.length) return;
+  const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.remove('on'));const a=document.querySelector('nav a[href="#'+en.target.id+'"]');if(a)a.classList.add('on');}});},{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+})();
+</script>
+</body>
+</html>

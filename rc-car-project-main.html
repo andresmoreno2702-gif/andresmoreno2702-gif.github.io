@@ -738,7 +738,7 @@ body.edit-mode #eb-hint{display:block}
 </div>
 <div class="prose">
   <p>A fully custom-designed and 3D-printed remote-controlled car built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed on a Creality Ender-3 S1 Pro. Drive is handled by a small 3 V hobby DC motor controlled via a <strong>TB6612FNG dual H-bridge</strong>, while steering uses an SG90-class servo for Ackermann-style front-wheel control.</p>
-  <p>Wireless control is achieved via <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on the handheld controller (transmitter). PWM motor control uses the LEDC API with joystick dead zones for precise low-speed handling.</p>
+  <p>Wireless control is achieved via <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on a breadboard sender (transmitter): an ESP32-C3 SuperMini with two KY-023 analog joystick modules, separate from the large RC car's custom gamepad remote. PWM motor control uses the LEDC API with joystick dead zones for precise low-speed handling.</p>
   <p>A full custom PCB was designed in <strong>EasyEDA</strong> consolidating the XIAO ESP32-C3, TB6612FNG motor driver, servo connector, power switch, decoupling capacitors, and an LED power indicator onto a single board sized to fit the chassis. PCB is designed and ready for JLCPCB manufacture.</p>
 </div>
 <div class="gallery">
