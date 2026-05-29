@@ -632,7 +632,7 @@ body.edit-mode #eb-hint{display:block}
         <div class="snap-thumb" data-src="IMAGES/RC mini Car/circuit.webp" data-cap="Wiring — breadboard phase">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/circuit.webp" alt="Circuit">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dmodel picture.webp" data-cap="Fusion 360 — CAD Model">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dmodel picture.webp" data-cap="Fusion 360 — CAD Model" data-pos="center 80%">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/3dmodel picture.webp" alt="3D model CAD">
         </div>
         <div class="snap-thumb" data-src="IMAGES/RC mini Car/small-rc-car-new.webp" data-cap="Assembled RC Car — side profile">
@@ -1190,6 +1190,7 @@ addEventListener('scroll',()=>{
       main.style.transition = 'opacity 0.18s ease';
       setTimeout(function(){
         main.src = thumb.dataset.src;
+        main.style.objectPosition = thumb.dataset.pos || 'center center';
         main.style.opacity = '1';
         if(cap && thumb.dataset.cap) cap.textContent = thumb.dataset.cap;
       }, 180);
