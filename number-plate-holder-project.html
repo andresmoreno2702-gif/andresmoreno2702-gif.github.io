@@ -193,7 +193,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
     <span class="badge badge-green">4 Iterations</span>
   </div>
   <p class="hero-desc">
-    Four designs, one goal: a clean plate mount with no visible screw holes. The first three were fixed to my exact plate dimensions. Realising that was a design mistake, not a constraint, led to the final adjustable version — same result, any plate size.
+    Four iterations on the same idea: a plate mount with no visible screws. The first three were locked to my exact plate size. The fourth made it adjustable for any plate.
   </p>
 </div>
 
@@ -269,7 +269,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
   <div class="insight">
     <div class="insight-label">The design point</div>
     <div class="insight-title">The constraint wasn't in the problem — it was in the assumption</div>
-    <div class="insight-body">The first three designs worked perfectly for my plate. The problem was I had hard-coded my plate dimensions into the sketch without realising it was a decision, not a fact. Once I noticed that, the fix was obvious: <strong>make the width a variable, not a constant</strong>. The final version uses a slot-and-slide mechanism so anyone can set it to their plate size. Same design, same print, any car.</div>
+    <div class="insight-body">Three designs in, everything worked. The issue was I'd built my plate's exact dimensions into the sketch without realising it was a choice. Once I saw that, the fix was simple: <strong>make the width adjustable, not fixed</strong>. Same two printed halves, any plate size.</div>
   </div>
 
   <!-- DESIGN STAGES -->
@@ -288,29 +288,24 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <div class="tl-dot c1">1</div>
         </div>
         <div class="tl-body">
-          <div class="tl-heading">Rear plate holder — first attempt</div>
-          <div class="tl-sub">Fusion 360 · Large · Fixed dimensions · Custom sized to one plate</div>
+          <div class="tl-heading">Rear plate holder — first design</div>
+          <div class="tl-sub">Fusion 360 · Flat panel · PETG · Fixed to one plate size</div>
           <div class="tl-text">
-            Measured the rear plate, modelled a holder around those exact dimensions.
-            Large profile, solid construction — printed in PLA for the first prototype, then switched to black PETG for the final print, which is stronger and more heat-resistant for an outdoor car mount.
-            It fitted, held the plate, did the job.
-            <br><br>
-            <strong>What I didn't notice yet:</strong> every dimension was hard-coded to my specific plate.
-            The design was working, so the constraint felt like a given rather than a choice.
-            In the photo: left is the original factory holder the car came with; centre is the Stage 1 final — the largest of the three, most material used; right is the first prototype half, cut down once I saw it was heavier and bulkier than it needed to be.
+            Measured the plate, modelled a two-panel holder around those dimensions. Prototyped in PLA, final print in black PETG for outdoor durability.
+            Worked well — but every dimension was sized to my specific plate without me realising that was a choice.
           </div>
           <div class="tl-img">
             <img src="IMAGES/Number Plate Holder/all-three-versions.webp" alt="Three rear plate holders side by side" onclick="openLb(this)">
-            <div class="tl-img-cap">Left: original factory holder · Centre: Stage 1 final (largest) · Right: first prototype half — cut down after noticing the excess bulk</div>
+            <div class="tl-img-cap">Left: original factory holder · Centre: Stage 1 final · Right: first prototype half</div>
           </div>
           <div class="tl-2col" style="margin-top:10px">
             <div class="tl-img">
-              <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="Flat panel — two halves" onclick="openLb(this)">
-              <div class="tl-img-cap">Flat panel design — two halves before assembly</div>
+              <img src="IMAGES/Number Plate Holder/universal-disassembled.webp" alt="Stage 1 — two panels disassembled" onclick="openLb(this)">
+              <div class="tl-img-cap">Stage 1 — two-panel design, disassembled</div>
             </div>
             <div class="tl-img">
-              <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="Flat panel — top view slot grid" onclick="openLb(this)">
-              <div class="tl-img-cap">Flat panel — slot grid visible from top</div>
+              <img src="IMAGES/Number Plate Holder/universal-top.webp" alt="Stage 1 — top view" onclick="openLb(this)">
+              <div class="tl-img-cap">Stage 1 — top view showing panel profile</div>
             </div>
           </div>
         </div>
@@ -323,16 +318,14 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <div class="tl-dot c2">2</div>
         </div>
         <div class="tl-body">
-          <div class="tl-heading">Front mesh bracket — screw pressure mechanism</div>
-          <div class="tl-sub">Fusion 360 · Clips into Audi honeycomb grille · M3 screw lock</div>
+          <div class="tl-heading">Front mesh bracket</div>
+          <div class="tl-sub">Fusion 360 · Clips into Audi honeycomb grille · M3 screw lock · PETG</div>
           <div class="tl-text">
-            The front was a different challenge — mounting to an Audi honeycomb grille with no holes drilled anywhere.
-            Two printed feet wedge between the hexagonal grille cells from behind. A central threaded post then pulls a T-nut tight against the inside face of the mesh when the M3 screw is tightened, using the grille itself as the clamping surface.
+            Different problem: mount to an Audi honeycomb grille with no holes drilled.
+            Two printed feet wedge behind the grille cells; an M3 screw through a threaded post clamps tight against the mesh from inside.
+            Had to be thin enough to clear the grille opening and stiff enough for road vibration — the post and T-nut base are a proper fastener pair, not a friction fit.
             <br><br>
-            <strong>More mechanically involved than the rear:</strong> the bracket had to be thin enough to pass through the grille opening, stiff enough to handle road vibration, and the post geometry had to register correctly against the mesh cell pattern.
-            The screw post and T-nut were designed as a proper fastener pair — the screw applies clamping force rather than just holding by friction.
-            <br><br>
-            Still printed in PETG, still installed, still in use. Still fixed to my plate dimensions, though.
+            Still installed and in use.
           </div>
           <div class="tl-2col">
             <div class="tl-img">
@@ -366,20 +359,16 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
           <div class="tl-dot c3">3</div>
         </div>
         <div class="tl-body">
-          <div class="tl-heading">Rear holder — simplified using front as reference</div>
-          <div class="tl-sub">Fusion 360 · Stripped back · Less material, same function</div>
+          <div class="tl-heading">Rear holder — redesigned</div>
+          <div class="tl-sub">Fusion 360 · Simplified profile · Less material, same function</div>
           <div class="tl-text">
-            Designing the front bracket changed how I thought about the rear one.
-            Working out what each face of the front bracket actually needed to do — which surfaces carry load and which are just geometry — made it obvious the rear design had a lot of unnecessary material.
-            <br><br>
-            Went back to the rear and stripped it down: slot cutouts replaced solid infill, the corner bosses stayed because they take the mounting load, everything else came out.
-            Same clamping action as Stage 1, noticeably less material, faster to print.
-            <br><br>
-            <strong>Still sized to my exact plate dimensions though.</strong> That part hadn't changed yet.
+            After building the front bracket, it was obvious the Stage 1 rear design had more material than it needed.
+            Redesigned it using the same thinking: keep what carries load, remove the rest.
+            Slot cutouts replaced solid infill, corner bosses stayed. Simpler print, same clamping action.
           </div>
           <div class="tl-img">
-            <img src="IMAGES/Number Plate Holder/simplified-plate-comparison.webp" alt="Simplified rear holder installed on car, old design held for comparison" onclick="openLb(this)">
-            <div class="tl-img-cap">Stage 3 installed on the car — simplified clip arms. Old slotted design held for scale comparison.</div>
+            <img src="IMAGES/Number Plate Holder/simplified-plate-comparison.webp" alt="Stage 3 installed, Stage 1 held for comparison" onclick="openLb(this)">
+            <div class="tl-img-cap">Installed on the car: Stage 3 (simplified clips). Being held: Stage 1 flat-panel original.</div>
           </div>
         </div>
       </div>
@@ -392,20 +381,12 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
         </div>
         <div class="tl-body">
           <div class="tl-heading">Adjustable universal holder</div>
-          <div class="tl-sub">Fusion 360 · Sliding mechanism · Fits any number plate width</div>
+          <div class="tl-sub">Fusion 360 · Sliding mechanism · M3 screw lock · Any plate width</div>
           <div class="tl-text">
-            Looking at the Stage 3 design, I asked: which of these dimensions actually have to be fixed?
+            One question looking at Stage 3: which dimensions actually need to be fixed? None of them.
             <br><br>
-            The answer was none of them. Number plate widths vary by country and registration type — there is no single correct width.
-            The only thing that matters mechanically is that the two end clips are the right distance apart.
-            Everything else is just the bracket filling the space between them.
-            <br><br>
-            <strong>Solution:</strong> split the bracket into two identical sliding halves.
-            Each half has a row of elongated slots. The halves interlock and slide freely along the shared axis,
-            then lock at any position when a central M3 screw is tightened through the overlapping slot pair.
-            The same slot pattern that enables adjustment also reduces material compared to a solid bracket — both problems solved by the same feature.
-            <br><br>
-            Two identical prints, slide to your plate width, tighten the screw. Works for any standard plate size.
+            Split the design into two identical sliding halves. Each half has a row of elongated slots — the halves interlock, slide to whatever plate width you need, and lock with a central M3 screw through the overlapping slots.
+            The same slot pattern that allows adjustment also reduces material. Two prints, one screw, works for any plate.
           </div>
 
           <div class="tl-img" style="margin-top:14px">
