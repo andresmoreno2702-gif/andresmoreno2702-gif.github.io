@@ -643,7 +643,17 @@ window.openLb=openLb;window.closeLb=closeLb;
     t.addEventListener('click',()=>{
       thumbs.forEach(x=>x.classList.remove('active'));
       t.classList.add('active');
+      main.style.cssText='';
       main.src=t.dataset.src;
+      var ezH=parseFloat(t.dataset.ezH);
+      if(isFinite(ezH)&&ezH>0){
+        main.style.height=ezH+'px';main.style.width='auto';main.style.objectFit='fill';
+        main.style.top=(parseFloat(t.dataset.ezCy)||0)+'px';
+        main.style.left=(parseFloat(t.dataset.ezCx)||0)+'px';
+        main.style.maxWidth='none';main.style.maxHeight='none';
+        main.style.aspectRatio='unset';main.style.display='block';
+        main.style.position='relative';main.style.flex='0 0 auto';
+      }else{main.style.objectPosition=t.dataset.pos||'';}
       if(cap&&t.dataset.cap)cap.textContent=t.dataset.cap.replace(/&amp;/g,'&');
     });
   });

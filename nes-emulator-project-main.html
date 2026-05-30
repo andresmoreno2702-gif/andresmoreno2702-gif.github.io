@@ -645,7 +645,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
       <span class="badge badge-blue">8× GPIO Buttons</span>
       <span class="badge badge-amber">LiPo · USB-C Charge</span>
       <span class="badge badge-green">Prototype ✓ · PCB In Progress</span>
-      <span class="badge badge-amber">KiCAD PCB · In Progress</span>
+      <span class="badge badge-amber">KiCad PCB · In Progress</span>
     </div>
     <div class="outcome-callout">
       <span class="oc-label">Result</span>
@@ -832,13 +832,13 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
 </div>
 <div class="prose">
   <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240×240 IPS TFT display</strong>. ROMs are loaded from a MicroSD card at runtime. Audio was written in firmware but not wired into the prototype — it is implemented on the PCB.</p>
-  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, MicroSD breakout, and power management ICs. A custom 4-layer KiCAD PCB is currently in progress to consolidate everything onto a single compact board.</p>
+  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, MicroSD breakout, and power management ICs. A custom 4-layer KiCad PCB is currently in progress to consolidate everything onto a single compact board.</p>
 </div>
 <div class="gallery" id="overviewGallery">
-  <div class="gallery-item" draggable="true" style="width: 379px; height: 463px; min-height: unset;">
+  <div class="gallery-item" style="width: 379px; height: 463px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/20260325_195616.webp" alt="Completed RetroDS device" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 410px; max-height: none; width: 100%;">
     <div class="gallery-caption">Completed prototype — front panel with display and button layout</div>
-  </div><div class="gallery-item wide" draggable="true" style="width: 435px; height: 463px; min-height: unset;">
+  </div><div class="gallery-item wide" style="width: 435px; height: 463px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/image-1773987503810.webp" alt="RetroDS breadboard prototype" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 410px; max-height: none; width: 100%;">
     <div class="gallery-caption">Breadboard prototype — ESP32, ST7789 display, SD card reader and button rows</div>
   </div>
@@ -1135,22 +1135,22 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
   </div>
 </div>
 <div class="gallery" style="margin-top:24px">
-  <div class="gallery-item" draggable="true" style="width: 358px; height: 348px; min-height: unset;">
+  <div class="gallery-item" style="width: 358px; height: 348px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/20260319_162646.webp" alt="Early component work" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 310px; max-height: none; width: 100%;">
     <div class="gallery-caption">Early component layout and wiring</div>
   </div>
-  <div class="gallery-item" draggable="true" style="width: 327px; height: 355px; min-height: unset;">
+  <div class="gallery-item" style="width: 327px; height: 355px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/20260321_140704.webp" alt="Perfboard component placement" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 310px; max-height: none; width: 100%;">
     <div class="gallery-caption" contenteditable="false"><span style="letter-spacing: 0.8px;">Bread Board Prototyping</span></div>
   </div>
-  <div class="gallery-item" draggable="true" style="width: 333px; height: 355px; min-height: unset;">
+  <div class="gallery-item" style="width: 333px; height: 355px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/20260321_140722.webp" alt="Soldering in progress" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 310px; max-height: none; width: 100%;">
     <div class="gallery-caption" contenteditable="false">Bread Board Prototyping</div>
   </div>
-  <div class="gallery-item" draggable="true" style="width: 345px; height: 350px; min-height: unset;">
+  <div class="gallery-item" style="width: 345px; height: 350px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/20260322_200012.webp" alt="Wiring harness" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 310px; max-height: none; width: 100%;">
     <div class="gallery-caption" contenteditable="false">PROTOTYPING</div>
-  </div><div class="gallery-item" draggable="true" style="width: 359px; height: 347px; min-height: unset;">
+  </div><div class="gallery-item" style="width: 359px; height: 347px; min-height: unset;">
     <img width="1350" height="1800" loading="lazy" src="IMAGES/NES%20emulator/20260321_140728.webp" alt="Wiring detail" style="aspect-ratio: auto; object-fit: cover; cursor: zoom-in; height: 310px; max-height: none; width: 100%;">
     <div class="gallery-caption" contenteditable="false"><span style="letter-spacing: 0.8px;">Bread Board Prototyping</span></div>
   </div>
@@ -1195,11 +1195,11 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>With the perfboard prototype validated, I am designing a custom 4-layer PCB in <strong>KiCAD</strong> to replace it. The schematic and layout carry over every verified connection, with key improvements: a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgrades the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB PSRAM, and improved performance for emulation and audio.</p>
+  <p>With the perfboard prototype validated, I am designing a custom 4-layer PCB in <strong>KiCad</strong> to replace it. The schematic and layout carry over every verified connection, with key improvements: a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgrades the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB PSRAM, and improved performance for emulation and audio.</p>
 </div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">Custom PCB — KiCAD · In Progress</div>
+    <div class="decision-title">Custom PCB — KiCad · In Progress</div>
     <div class="decision-body">A 4-layer board with dedicated ground and power planes, ground reference and dedicated 3.3 V and 5 V power polygons. Display and button footprints face the top; ESP32 and audio module on the back. Consolidates the two-board perfboard stack into a single rigid PCB — eliminating all point-to-point wiring and improving mechanical reliability. Two additional BOOT and RESET tactile buttons are routed to the back of the board — they will be hidden inside the casing once built, but accessible when the case is open for reflashing or debugging firmware.</div>
   </div>
   <div class="decision blue">
@@ -1266,7 +1266,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
 <div class="footer">
   <div class="footer-left">
     <a href="index.html" style="color:var(--accent);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">← Back to Portfolio</a><br>
-    Andres Moreno Navarro &nbsp;/&nbsp; EE Student · University of Western Australia<br>
+    Andrés Moreno Navarro &nbsp;/&nbsp; EE Student · University of Western Australia<br>
     RetroDS — ESP32 NES Handheld Console &nbsp;·&nbsp; Feb–May 2026
   </div>
   <div class="footer-right">
@@ -1482,43 +1482,6 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
   });
 });
 
-// ── Edit Mode ─────────────────────────────────────────────
-(function () {
-  const toolbar = document.createElement('div');
-  toolbar.id = 'eb-toolbar';
-  toolbar.style.cssText = 'display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;flex-wrap:wrap;';
-  const bs = 'background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:10px 18px;font-family:\'JetBrains Mono\',monospace;font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;';
-  const btnUndo = document.createElement('button'); btnUndo.textContent = '↩ Undo'; btnUndo.style.cssText = bs + 'color:#8b9bb8;'; btnUndo.disabled = true;
-  const btnSave = document.createElement('button'); btnSave.textContent = '💾 Save'; btnSave.style.cssText = bs + 'background:#16a34a;border-color:#16a34a;';
-  const btnExport = document.createElement('button'); btnExport.textContent = '⬇ Export'; btnExport.style.cssText = bs + 'background:rgba(37,99,235,.25);border-color:rgba(37,99,235,.5);';
-  const btnConnect = document.createElement('button'); btnConnect.textContent = '⚙ GitHub'; btnConnect.style.cssText = bs;
-  const btnExit = document.createElement('button'); btnExit.textContent = '✕ Exit'; btnExit.style.cssText = bs + 'background:rgba(239,68,68,.25);border-color:rgba(239,68,68,.5);color:#fca5a5;';
-  btnExit.addEventListener('click', () => activateEditMode());
-  toolbar.append(btnUndo, btnSave, btnExport, btnConnect, btnExit);
-  document.body.appendChild(toolbar);
-  const saveFlash = document.createElement('div');
-  saveFlash.id = 'eb-save-flash';
-  saveFlash.style.cssText = 'display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'JetBrains Mono\',monospace;font-size:11px;pointer-events:none;';
-  saveFlash.textContent = '✓ Saved!'; document.body.appendChild(saveFlash);
-  const imgTip = document.createElement('div');
-  imgTip.style.cssText = 'display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;font-family:\'JetBrains Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
-  imgTip.textContent = 'Click to swap image'; document.body.appendChild(imgTip);
-  const ebHint = document.createElement('div'); ebHint.id = 'eb-hint';
-  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Drag hero photo &mdash; reposition freely<br>Click image &mdash; swap it &nbsp;|&nbsp; Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height (no gap)<br>&#8593; &#8595; buttons &mdash; move gallery item or section<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder within gallery';
-  document.body.appendChild(ebHint);
-  let editMode = false;
-  const SAVE_KEY = 'nes_page_content';
-  const GH_REPO = 'andresmoreno2702-gif/andresmoreno2702-gif.github.io';
-  const GH_FILE = 'nes-emulator-project-main.html';
-  const GH_BRANCH = 'main';
-  const PAT_KEY = 'gh_pat';
-  function cleanSnap() { const clone = document.querySelector('.content').cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn').forEach(el => el.remove()); clone.querySelectorAll('[data-eb-init],[data-txt],[data-ies],[data-drag-setup]').forEach(el => { el.removeAttribute('data-eb-init'); el.removeAttribute('data-txt'); el.removeAttribute('data-ies'); el.removeAttribute('data-drag-setup'); }); return clone.innerHTML; }
-  async function blobsToBase64() { for (const img of [...document.querySelectorAll('img[src^="blob:"]')]) { try { const c = document.createElement('canvas'); c.width = img.naturalWidth || 300; c.height = img.naturalHeight || 200; c.getContext('2d').drawImage(img, 0, 0); img.src = c.toDataURL(); } catch (e) { } } }
-  function fullPageClean() { const clone = document.documentElement.cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn,#eb-toolbar,#eb-save-flash,#eb-hint').forEach(el => el.remove()); ['data-eb-init', 'data-txt', 'data-ies', 'data-drag-setup'].forEach(a => clone.querySelectorAll('[' + a + ']').forEach(el => el.removeAttribute(a))); clone.querySelector('body').classList.remove('edit-mode'); return '<!DOCTYPE html>\n' + clone.outerHTML; }
-  const undoStack = [];
-  function snapshot() { undoStack.push(cleanSnap()); if (undoStack.length > 50) undoStack.shift(); btnUndo.disabled = false; }
-  btnUndo.addEventListener('click', () => { if (!undoStack.length) return; document.querySelector('.content').innerHTML = undoStack.pop(); if (!undoStack.length) btnUndo.disabled = true; document.querySelectorAll('.gallery-item').forEach(initGalleryItem); document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock); attachImgSwap(); enableText(); });
-  (() => { const saved = localStorage.getItem(SAVE_KEY); if (saved) document.querySelector('.content').innerHTML = saved; })();
   (() => { try { const pos = localStorage.getItem('hero_board_pos'); if (pos) { const {x,y} = JSON.parse(pos); const hb = document.querySelector('.hero-board'); if (hb) hb.style.transform = 'translate(' + x + 'px,' + y + 'px)'; } } catch(e) {} })();
   function updateConnectBtn() { const tok = localStorage.getItem(PAT_KEY); btnConnect.textContent = tok ? '● Connected' : '⚙ GitHub'; if (tok) btnConnect.style.color = '#4ade80'; else btnConnect.style.color = ''; }
   updateConnectBtn();
@@ -1714,8 +1677,19 @@ document.querySelectorAll('.notes-tab').forEach(tab => {
       main.style.transition = 'opacity 0.18s ease';
       setTimeout(function(){
         main.src = thumb.dataset.src;
-        main.style.objectPosition = thumb.dataset.pos || 'center center';
-        main.style.opacity = '1';
+        main.style.cssText = '';
+        var ezH = parseFloat(thumb.dataset.ezH);
+        if (isFinite(ezH) && ezH > 0) {
+          main.style.height = ezH + 'px'; main.style.width = 'auto';
+          main.style.objectFit = 'fill';
+          main.style.top  = (parseFloat(thumb.dataset.ezCy) || 0) + 'px';
+          main.style.left = (parseFloat(thumb.dataset.ezCx) || 0) + 'px';
+          main.style.maxWidth = 'none'; main.style.maxHeight = 'none';
+          main.style.aspectRatio = 'unset'; main.style.display = 'block';
+          main.style.position = 'relative'; main.style.flex = '0 0 auto';
+        } else {
+          main.style.objectPosition = thumb.dataset.pos || 'center center';
+        }
         if(cap && thumb.dataset.cap) cap.textContent = thumb.dataset.cap;
       }, 180);
       wrap.querySelectorAll('.snap-thumb').forEach(function(t){ t.classList.remove('active'); });

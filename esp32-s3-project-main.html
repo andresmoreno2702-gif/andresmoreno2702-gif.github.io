@@ -217,471 +217,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 .gallery-item model-viewer{display:block;}
 [data-theme="light"] model-viewer{--progress-bar-color:var(--accent);}
 </style>
-<style>
-    #edit-toggle{display:none;}
-    #edit-toggle.active{display:none;}
-    #edit-toolbar{
-      display:none;position:fixed;bottom:24px;right:180px;z-index:9000;
-      gap:8px;align-items:center;
-    }
-    body.edit-mode #edit-toolbar{display:flex;}
-    #edit-toolbar button{
-      background:rgba(10,14,26,.95);color:#fff;
-      border:1px solid rgba(255,255,255,.2);border-radius:50px;
-      padding:10px 18px;font-family:var(--mono);font-size:12px;
-      cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;
-    }
-    #btn-undo{color:#8b9bb8;}
-    #btn-undo:hover{background:#1a2235;color:#fff;}
-    #btn-undo:disabled{opacity:.3;cursor:not-allowed;}
-    #btn-save{background:#16a34a;border-color:#16a34a;}
-    #btn-save:hover{background:#15803d;}
-    #btn-export{background:rgba(93,188,255,.2);border-color:rgba(93,188,255,.45);}
-    #btn-export:hover{background:#5dbcff;color:#0a0e16;}
-    #btn-connect{background:rgba(10,14,26,.95);border-color:rgba(255,255,255,.2);}
-    #btn-connect:hover{background:#1a2235;}
-    #btn-connect.connected{border-color:#16a34a;color:#4ade80;}
-    #save-flash{
-      display:none;position:fixed;bottom:70px;right:180px;z-index:9001;
-      background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;
-      font-family:var(--mono);font-size:11px;pointer-events:none;
-    }
-    #edit-hint{
-      display:none;position:fixed;bottom:68px;right:24px;z-index:9000;
-      background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.3);
-      border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;
-      color:#8b9bb8;line-height:2.1;pointer-events:none;
-    }
-    body.edit-mode #edit-hint{display:block;}
-
-    /* Gallery items in edit mode — smooth transitions for grid reflow */
-    body.edit-mode .gallery{position:relative;}
-    body.edit-mode .gallery-item{
-      position:relative;outline:2px dashed rgba(93,188,255,.45);
-      transition:transform 0.18s ease,opacity 0.18s ease;
-      cursor:grab;box-sizing:border-box;
-    }
-    body.edit-mode .gallery-item:active{cursor:grabbing;}
-    body.edit-mode .gallery-item.eb-dragging{
-      opacity:0.35;transform:scale(0.96);
-    }
-    body.edit-mode .gallery-item.eb-over{
-      outline:2px solid #5dbcff;background:rgba(93,188,255,.08);
-      transform:scale(1.02);
-    }
-    /* Drop placeholder */
-    .eb-placeholder{
-      border-radius:8px;border:2px dashed #5dbcff;
-      background:rgba(93,188,255,.07);
-      transition:all 0.15s ease;
-      pointer-events:none;
-    }
-
-    /* Controls bar */
-    .eb-bar{
-      display:none;position:absolute;top:0;left:0;right:0;
-      background:rgba(10,14,26,.9);z-index:500;
-      flex-wrap:wrap;gap:2px;padding:3px 5px;
-      border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0;
-    }
-    body.edit-mode .eb-bar{display:flex;}
-    .eb-bar button{
-      background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);
-      border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;
-      cursor:pointer;white-space:nowrap;transition:background .15s;
-    }
-    .eb-bar button:hover{background:#5dbcff;color:#0a0e16}
-    .eb-bar button.red:hover{background:#ef4444;}
-    .eb-drag-handle{
-      margin-left:auto;font-size:13px;padding:0 4px;
-      cursor:grab;color:#4a5a78;user-select:none;line-height:1;
-    }
-
-    /* Corner resize */
-    .eb-corner{
-      display:none;position:absolute;bottom:0;right:0;
-      width:18px;height:18px;cursor:se-resize;z-index:600;
-      background:linear-gradient(135deg,transparent 50%,#5dbcff 50%);
-      border-bottom-right-radius:8px;
-    }
-    body.edit-mode .eb-corner{display:block;}
-
-    /* Images */
-    body.edit-mode img:not([data-no-edit]){
-      outline:1px dashed rgba(93,188,255,.25);cursor:pointer;
-    }
-    .eb-img-tip{
-      display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;
-      font-family:var(--mono);font-size:10px;padding:3px 8px;
-      border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;
-    }
-
-    /* Text */
-    body.edit-mode [data-txt]:hover{
-      outline:1px dashed rgba(93,188,255,.35);cursor:text;border-radius:2px;
-    }
-    body.edit-mode [data-txt][contenteditable="true"]{
-      outline:2px solid #5dbcff;border-radius:2px;
-    }
-
-    /* Add box */
-    .eb-add-btn{
-      display:none;width:100%;margin:10px 0 0;padding:8px;
-      font-family:var(--mono);font-size:11px;
-      background:rgba(93,188,255,.08);color:var(--accent2);
-      border:1px dashed rgba(93,188,255,.3);border-radius:6px;cursor:pointer;
-    }
-    body.edit-mode .eb-add-btn{display:block;}
-    .eb-add-btn:hover{background:rgba(93,188,255,.15);}
-  </style><style>
-    #edit-toggle{display:none;}
-    #edit-toggle.active{display:none;}
-    #edit-toolbar{
-      display:none;position:fixed;bottom:24px;right:180px;z-index:9000;
-      gap:8px;align-items:center;
-    }
-    body.edit-mode #edit-toolbar{display:flex;}
-    #edit-toolbar button{
-      background:rgba(10,14,26,.95);color:#fff;
-      border:1px solid rgba(255,255,255,.2);border-radius:50px;
-      padding:10px 18px;font-family:var(--mono);font-size:12px;
-      cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;
-    }
-    #btn-undo{color:#8b9bb8;}
-    #btn-undo:hover{background:#1a2235;color:#fff;}
-    #btn-undo:disabled{opacity:.3;cursor:not-allowed;}
-    #btn-save{background:#16a34a;border-color:#16a34a;}
-    #btn-save:hover{background:#15803d;}
-    #btn-export{background:rgba(93,188,255,.2);border-color:rgba(93,188,255,.45);}
-    #btn-export:hover{background:#5dbcff;color:#0a0e16;}
-    #btn-connect{background:rgba(10,14,26,.95);border-color:rgba(255,255,255,.2);}
-    #btn-connect:hover{background:#1a2235;}
-    #btn-connect.connected{border-color:#16a34a;color:#4ade80;}
-    #save-flash{
-      display:none;position:fixed;bottom:70px;right:180px;z-index:9001;
-      background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;
-      font-family:var(--mono);font-size:11px;pointer-events:none;
-    }
-    #edit-hint{
-      display:none;position:fixed;bottom:68px;right:24px;z-index:9000;
-      background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.3);
-      border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;
-      color:#8b9bb8;line-height:2.1;pointer-events:none;
-    }
-    body.edit-mode #edit-hint{display:block;}
-
-    /* Gallery items in edit mode — smooth transitions for grid reflow */
-    body.edit-mode .gallery{position:relative;}
-    body.edit-mode .gallery-item{
-      position:relative;outline:2px dashed rgba(93,188,255,.45);
-      transition:transform 0.18s ease,opacity 0.18s ease;
-      cursor:grab;box-sizing:border-box;
-    }
-    body.edit-mode .gallery-item:active{cursor:grabbing;}
-    body.edit-mode .gallery-item.eb-dragging{
-      opacity:0.35;transform:scale(0.96);
-    }
-    body.edit-mode .gallery-item.eb-over{
-      outline:2px solid #5dbcff;background:rgba(93,188,255,.08);
-      transform:scale(1.02);
-    }
-    /* Drop placeholder */
-    .eb-placeholder{
-      border-radius:8px;border:2px dashed #5dbcff;
-      background:rgba(93,188,255,.07);
-      transition:all 0.15s ease;
-      pointer-events:none;
-    }
-
-    /* Controls bar */
-    .eb-bar{
-      display:none;position:absolute;top:0;left:0;right:0;
-      background:rgba(10,14,26,.9);z-index:500;
-      flex-wrap:wrap;gap:2px;padding:3px 5px;
-      border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0;
-    }
-    body.edit-mode .eb-bar{display:flex;}
-    .eb-bar button{
-      background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);
-      border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;
-      cursor:pointer;white-space:nowrap;transition:background .15s;
-    }
-    .eb-bar button:hover{background:#5dbcff;color:#0a0e16}
-    .eb-bar button.red:hover{background:#ef4444;}
-    .eb-drag-handle{
-      margin-left:auto;font-size:13px;padding:0 4px;
-      cursor:grab;color:#4a5a78;user-select:none;line-height:1;
-    }
-
-    /* Corner resize */
-    .eb-corner{
-      display:none;position:absolute;bottom:0;right:0;
-      width:18px;height:18px;cursor:se-resize;z-index:600;
-      background:linear-gradient(135deg,transparent 50%,#5dbcff 50%);
-      border-bottom-right-radius:8px;
-    }
-    body.edit-mode .eb-corner{display:block;}
-
-    /* Images */
-    body.edit-mode img:not([data-no-edit]){
-      outline:1px dashed rgba(93,188,255,.25);cursor:pointer;
-    }
-    .eb-img-tip{
-      display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;
-      font-family:var(--mono);font-size:10px;padding:3px 8px;
-      border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;
-    }
-
-    /* Text */
-    body.edit-mode [data-txt]:hover{
-      outline:1px dashed rgba(93,188,255,.35);cursor:text;border-radius:2px;
-    }
-    body.edit-mode [data-txt][contenteditable="true"]{
-      outline:2px solid #5dbcff;border-radius:2px;
-    }
-
-    /* Add box */
-    .eb-add-btn{
-      display:none;width:100%;margin:10px 0 0;padding:8px;
-      font-family:var(--mono);font-size:11px;
-      background:rgba(93,188,255,.08);color:var(--accent2);
-      border:1px dashed rgba(93,188,255,.3);border-radius:6px;cursor:pointer;
-    }
-    body.edit-mode .eb-add-btn{display:block;}
-    .eb-add-btn:hover{background:rgba(93,188,255,.15);}
-  </style><style>
-    #edit-toggle{display:none;}
-    #edit-toggle.active{display:none;}
-    #edit-toolbar{
-      display:none;position:fixed;bottom:24px;right:180px;z-index:9000;
-      gap:8px;align-items:center;
-    }
-    body.edit-mode #edit-toolbar{display:flex;}
-    #edit-toolbar button{
-      background:rgba(10,14,26,.95);color:#fff;
-      border:1px solid rgba(255,255,255,.2);border-radius:50px;
-      padding:10px 18px;font-family:var(--mono);font-size:12px;
-      cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;
-    }
-    #btn-undo{color:#8b9bb8;}
-    #btn-undo:hover{background:#1a2235;color:#fff;}
-    #btn-undo:disabled{opacity:.3;cursor:not-allowed;}
-    #btn-save{background:#16a34a;border-color:#16a34a;}
-    #btn-save:hover{background:#15803d;}
-    #btn-export{background:rgba(93,188,255,.2);border-color:rgba(93,188,255,.45);}
-    #btn-export:hover{background:#5dbcff;color:#0a0e16;}
-    #btn-connect{background:rgba(10,14,26,.95);border-color:rgba(255,255,255,.2);}
-    #btn-connect:hover{background:#1a2235;}
-    #btn-connect.connected{border-color:#16a34a;color:#4ade80;}
-    #save-flash{
-      display:none;position:fixed;bottom:70px;right:180px;z-index:9001;
-      background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;
-      font-family:var(--mono);font-size:11px;pointer-events:none;
-    }
-    #edit-hint{
-      display:none;position:fixed;bottom:68px;right:24px;z-index:9000;
-      background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.3);
-      border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;
-      color:#8b9bb8;line-height:2.1;pointer-events:none;
-    }
-    body.edit-mode #edit-hint{display:block;}
-
-    /* Gallery items in edit mode — smooth transitions for grid reflow */
-    body.edit-mode .gallery{position:relative;}
-    body.edit-mode .gallery-item{
-      position:relative;outline:2px dashed rgba(93,188,255,.45);
-      transition:transform 0.18s ease,opacity 0.18s ease;
-      cursor:grab;box-sizing:border-box;
-    }
-    body.edit-mode .gallery-item:active{cursor:grabbing;}
-    body.edit-mode .gallery-item.eb-dragging{
-      opacity:0.35;transform:scale(0.96);
-    }
-    body.edit-mode .gallery-item.eb-over{
-      outline:2px solid #5dbcff;background:rgba(93,188,255,.08);
-      transform:scale(1.02);
-    }
-    /* Drop placeholder */
-    .eb-placeholder{
-      border-radius:8px;border:2px dashed #5dbcff;
-      background:rgba(93,188,255,.07);
-      transition:all 0.15s ease;
-      pointer-events:none;
-    }
-
-    /* Controls bar */
-    .eb-bar{
-      display:none;position:absolute;top:0;left:0;right:0;
-      background:rgba(10,14,26,.9);z-index:500;
-      flex-wrap:wrap;gap:2px;padding:3px 5px;
-      border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0;
-    }
-    body.edit-mode .eb-bar{display:flex;}
-    .eb-bar button{
-      background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);
-      border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;
-      cursor:pointer;white-space:nowrap;transition:background .15s;
-    }
-    .eb-bar button:hover{background:#5dbcff;color:#0a0e16}
-    .eb-bar button.red:hover{background:#ef4444;}
-    .eb-drag-handle{
-      margin-left:auto;font-size:13px;padding:0 4px;
-      cursor:grab;color:#4a5a78;user-select:none;line-height:1;
-    }
-
-    /* Corner resize */
-    .eb-corner{
-      display:none;position:absolute;bottom:0;right:0;
-      width:18px;height:18px;cursor:se-resize;z-index:600;
-      background:linear-gradient(135deg,transparent 50%,#5dbcff 50%);
-      border-bottom-right-radius:8px;
-    }
-    body.edit-mode .eb-corner{display:block;}
-
-    /* Images */
-    body.edit-mode img:not([data-no-edit]){
-      outline:1px dashed rgba(93,188,255,.25);cursor:pointer;
-    }
-    .eb-img-tip{
-      display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;
-      font-family:var(--mono);font-size:10px;padding:3px 8px;
-      border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;
-    }
-
-    /* Text */
-    body.edit-mode [data-txt]:hover{
-      outline:1px dashed rgba(93,188,255,.35);cursor:text;border-radius:2px;
-    }
-    body.edit-mode [data-txt][contenteditable="true"]{
-      outline:2px solid #5dbcff;border-radius:2px;
-    }
-
-    /* Add box */
-    .eb-add-btn{
-      display:none;width:100%;margin:10px 0 0;padding:8px;
-      font-family:var(--mono);font-size:11px;
-      background:rgba(93,188,255,.08);color:var(--accent2);
-      border:1px dashed rgba(93,188,255,.3);border-radius:6px;cursor:pointer;
-    }
-    body.edit-mode .eb-add-btn{display:block;}
-    .eb-add-btn:hover{background:rgba(93,188,255,.15);}
-  </style><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><style data-styled="active" data-styled-version="5.3.11"></style><style>
-    #edit-toggle{display:none;}
-    #edit-toggle.active{display:none;}
-    #edit-toolbar{
-      display:none;position:fixed;bottom:24px;right:180px;z-index:9000;
-      gap:8px;align-items:center;
-    }
-    body.edit-mode #edit-toolbar{display:flex;}
-    #edit-toolbar button{
-      background:rgba(10,14,26,.95);color:#fff;
-      border:1px solid rgba(255,255,255,.2);border-radius:50px;
-      padding:10px 18px;font-family:var(--mono);font-size:12px;
-      cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;
-    }
-    #btn-undo{color:#8b9bb8;}
-    #btn-undo:hover{background:#1a2235;color:#fff;}
-    #btn-undo:disabled{opacity:.3;cursor:not-allowed;}
-    #btn-save{background:#16a34a;border-color:#16a34a;}
-    #btn-save:hover{background:#15803d;}
-    #btn-export{background:rgba(93,188,255,.2);border-color:rgba(93,188,255,.45);}
-    #btn-export:hover{background:#5dbcff;color:#0a0e16;}
-    #btn-connect{background:rgba(10,14,26,.95);border-color:rgba(255,255,255,.2);}
-    #btn-connect:hover{background:#1a2235;}
-    #btn-connect.connected{border-color:#16a34a;color:#4ade80;}
-    #save-flash{
-      display:none;position:fixed;bottom:70px;right:180px;z-index:9001;
-      background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;
-      font-family:var(--mono);font-size:11px;pointer-events:none;
-    }
-    #edit-hint{
-      display:none;position:fixed;bottom:68px;right:24px;z-index:9000;
-      background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.3);
-      border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;
-      color:#8b9bb8;line-height:2.1;pointer-events:none;
-    }
-    body.edit-mode #edit-hint{display:block;}
-
-    /* Gallery items in edit mode — smooth transitions for grid reflow */
-    body.edit-mode .gallery{position:relative;}
-    body.edit-mode .gallery-item{
-      position:relative;outline:2px dashed rgba(93,188,255,.45);
-      transition:transform 0.18s ease,opacity 0.18s ease;
-      cursor:grab;box-sizing:border-box;
-    }
-    body.edit-mode .gallery-item:active{cursor:grabbing;}
-    body.edit-mode .gallery-item.eb-dragging{
-      opacity:0.35;transform:scale(0.96);
-    }
-    body.edit-mode .gallery-item.eb-over{
-      outline:2px solid #5dbcff;background:rgba(93,188,255,.08);
-      transform:scale(1.02);
-    }
-    /* Drop placeholder */
-    .eb-placeholder{
-      border-radius:8px;border:2px dashed #5dbcff;
-      background:rgba(93,188,255,.07);
-      transition:all 0.15s ease;
-      pointer-events:none;
-    }
-
-    /* Controls bar */
-    .eb-bar{
-      display:none;position:absolute;top:0;left:0;right:0;
-      background:rgba(10,14,26,.9);z-index:500;
-      flex-wrap:wrap;gap:2px;padding:3px 5px;
-      border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0;
-    }
-    body.edit-mode .eb-bar{display:flex;}
-    .eb-bar button{
-      background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);
-      border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;
-      cursor:pointer;white-space:nowrap;transition:background .15s;
-    }
-    .eb-bar button:hover{background:#5dbcff;color:#0a0e16}
-    .eb-bar button.red:hover{background:#ef4444;}
-    .eb-drag-handle{
-      margin-left:auto;font-size:13px;padding:0 4px;
-      cursor:grab;color:#4a5a78;user-select:none;line-height:1;
-    }
-
-    /* Corner resize */
-    .eb-corner{
-      display:none;position:absolute;bottom:0;right:0;
-      width:18px;height:18px;cursor:se-resize;z-index:600;
-      background:linear-gradient(135deg,transparent 50%,#5dbcff 50%);
-      border-bottom-right-radius:8px;
-    }
-    body.edit-mode .eb-corner{display:block;}
-
-    /* Images */
-    body.edit-mode img:not([data-no-edit]){
-      outline:1px dashed rgba(93,188,255,.25);cursor:pointer;
-    }
-    .eb-img-tip{
-      display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;
-      font-family:var(--mono);font-size:10px;padding:3px 8px;
-      border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;
-    }
-
-    /* Text */
-    body.edit-mode [data-txt]:hover{
-      outline:1px dashed rgba(93,188,255,.35);cursor:text;border-radius:2px;
-    }
-    body.edit-mode [data-txt][contenteditable="true"]{
-      outline:2px solid #5dbcff;border-radius:2px;
-    }
-
-    /* Add box */
-    .eb-add-btn{
-      display:none;width:100%;margin:10px 0 0;padding:8px;
-      font-family:var(--mono);font-size:11px;
-      background:rgba(93,188,255,.08);color:var(--accent2);
-      border:1px dashed rgba(93,188,255,.3);border-radius:6px;cursor:pointer;
-    }
-    body.edit-mode .eb-add-btn{display:block;}
-    .eb-add-btn:hover{background:rgba(93,188,255,.15);}
-  </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><style data-styled="active" data-styled-version="5.3.11"></style>
 
 <style id="snap-enhanced">
 /* ── Enhanced Snapshot Styles ── */
@@ -1059,7 +595,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     </div>
     <div class="outcome-callout">
       <span class="oc-label">Result</span>
-      <span class="oc-text">Designed a 4-layer ESP32-S3 development board in KiCad 9 — USB-C, ENS210 sensor, WS2812B LED, IPC-2141 USB impedance analysis — passed DRC with zero errors and manufactured at JLCPCB.</span>
+      <span class="oc-text">Designed a 4-layer ESP32-S3 dev board in KiCad 9 — USB-C, ENS210 sensor, WS2812B RGB LED, impedance-controlled USB traces — 0 DRC errors, manufactured at JLCPCB.</span>
     </div>
   </div>
   <div class="hero-board">
@@ -1075,7 +611,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 
   <!-- Pull-quote TL;DR -->
   <div class="snap-quote">
-    <p>I wanted a dev board I'd actually <em>designed myself</em> — not another module I just plugged in. Went 4-layer in KiCad because I'd read enough about RF interference to know a 2-layer board with a WiFi antenna is asking for trouble. The <em>USB-C CC resistors</em> nearly broke me — turns out without 5.1&thinsp;k&Omega; on both CC pins, USB-C chargers simply don't deliver power. Boards came back from JLCPCB and actually <em>worked first try</em>, which honestly surprised me.</p>
+    <p>I wanted a dev board I'd actually <em>designed myself</em> — not another module I just plugged in. Went 4-layer in KiCad because a solid GND plane directly under the RF module matters for EMI, and I needed impedance control for the USB traces — neither of those work reliably on 2 layers. The <em>USB-C CC resistors</em> nearly broke me — turns out without 5.1&thinsp;k&Omega; on both CC pins, USB-C chargers simply don't deliver power. Boards came back from JLCPCB and actually <em>worked first try</em> — USB enumerated immediately and the temperature sensor responded on the first I²C scan — which honestly surprised me.</p>
   </div>
 
   <div class="snapshot-inner">
@@ -1083,48 +619,48 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <!-- Photo carousel — real assembled board photos -->
     <div class="snap-photo-wrap">
       <div class="snap-photo-main">
-        <img width="961" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/DRC test.webp" alt="ESP32-S3 Dev Board — DRC pass">
-        <div class="snap-photo-caption">DRC — clean pass before routing</div>
+        <img width="720" height="510" loading="lazy" src="IMAGES/ESP32 S3 Board/DRC test.webp" alt="ESP32-S3 Dev Board — DRC pass" style="position: relative; width: auto; height: 380px; max-width: none; max-height: none; aspect-ratio: unset; display: block; object-fit: fill; top: 0px; left: 0px; transition: none;">
+        <div class="snap-photo-caption">DRC — 0 errors, post-route final check</div>
       </div>
       <div class="snap-thumbs">
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/dev-module-photo2.webp" data-cap="Dev module — photo 2">
-          <img width="961" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/dev-module-photo2.webp" alt="Dev module photo 2">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/dev-module-photo2.webp" data-cap="Assembled dev board — front view" data-ez-h="787" data-ez-cx="0" data-ez-cy="0">
+          <img width="961" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/dev-module-photo2.webp" alt="Assembled ESP32-S3 dev board — front view">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-01.webp" data-cap="Assembled PCB — May 2026" data-pos="center 65%">
-          <img width="720" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-01.webp" alt="Assembled board">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-01.webp" data-cap="Assembled PCB — May 2026" data-pos="center 65%" data-ez-h="1027" data-ez-cx="0" data-ez-cy="-70">
+          <img width="720" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-01.webp" alt="Assembled ESP32-S3 dev board">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-03.webp" data-cap="Close-up — USB-C connector area">
-          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-03.webp" alt="USB-C close-up">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-03.webp" data-cap="Close-up — USB-C connector area" data-ez-h="757" data-ez-cx="0" data-ez-cy="-80">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-03.webp" alt="ESP32-S3 dev board — USB-C connector area close-up">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-06.webp" data-cap="Assembled PCB — detail" data-pos="center 90%">
-          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-06.webp" alt="Board detail">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-06.webp" data-cap="Assembled PCB — bottom section detail" data-pos="center 90%" data-ez-h="757" data-ez-cx="0" data-ez-cy="0">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-06.webp" alt="ESP32-S3 dev board — PCB detail">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-07.webp" data-cap="Assembled PCB — component side" data-pos="center 65%">
-          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-07.webp" alt="Component side">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-07.webp" data-cap="Assembled PCB — component side" data-pos="center 65%" data-ez-h="787" data-ez-cx="0" data-ez-cy="-100">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-07.webp" alt="ESP32-S3 dev board — component side">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-08.webp" data-cap="Assembled PCB — close-up">
-          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-08.webp" alt="Close-up">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/esp32-real-08.webp" data-cap="Assembled PCB — component side close-up" data-ez-h="1027" data-ez-cx="0" data-ez-cy="0">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-08.webp" alt="ESP32-S3 dev board — component side close-up">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/Schematic Pic.webp" data-cap="Full schematic — KiCad 9">
-          <img width="1232" height="870" loading="lazy" src="IMAGES/ESP32 S3 Board/Schematic Pic.webp" alt="Schematic">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/Schematic Pic.webp" data-cap="Full schematic — KiCad 9" data-ez-h="427" data-ez-cx="0" data-ez-cy="0">
+          <img width="1232" height="870" loading="lazy" src="IMAGES/ESP32 S3 Board/Schematic Pic.webp" alt="Full ESP32-S3 schematic — KiCad 9">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/pinpositioning1.webp" data-cap="Component placement — fig. 1">
-          <img width="854" height="698" loading="lazy" src="IMAGES/ESP32 S3 Board/pinpositioning1.webp" alt="Component placement">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/pinpositioning1.webp" data-cap="Component placement — fig. 1" data-ez-h="427" data-ez-cx="0" data-ez-cy="0">
+          <img width="854" height="698" loading="lazy" src="IMAGES/ESP32 S3 Board/pinpositioning1.webp" alt="KiCad PCB editor — component placement, fig. 1">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/pinpositioning2.webp" data-cap="Component placement — fig. 2">
-          <img width="870" height="720" loading="lazy" src="IMAGES/ESP32 S3 Board/pinpositioning2.webp" alt="Component placement 2">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/pinpositioning2.webp" data-cap="Component placement — fig. 2" data-ez-h="427" data-ez-cx="0" data-ez-cy="0">
+          <img width="870" height="720" loading="lazy" src="IMAGES/ESP32 S3 Board/pinpositioning2.webp" alt="KiCad PCB editor — component placement, second view">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/adding 3d models.webp" data-cap="3D model view — placing components">
-          <img width="854" height="698" loading="lazy" src="IMAGES/ESP32 S3 Board/adding 3d models.webp" alt="3D model view">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/adding 3d models.webp" data-cap="3D model view — placing components" data-ez-h="427" data-ez-cx="0" data-ez-cy="0">
+          <img width="854" height="698" loading="lazy" src="IMAGES/ESP32 S3 Board/adding 3d models.webp" alt="KiCad 3D view — STEP models placed and aligned">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/constraintsJLCPCB.webp" data-cap="JLCPCB manufacturing constraints in KiCad">
-          <img width="1038" height="630" loading="lazy" src="IMAGES/ESP32 S3 Board/constraintsJLCPCB.webp" alt="JLCPCB constraints">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/constraintsJLCPCB.webp" data-cap="JLCPCB manufacturing constraints in KiCad" data-ez-h="337" data-ez-cx="10" data-ez-cy="0">
+          <img width="1038" height="630" loading="lazy" src="IMAGES/ESP32 S3 Board/constraintsJLCPCB.webp" alt="KiCad design rules — JLCPCB manufacturing constraints">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/USB Signal Impedance CHeck.webp" data-cap="IPC-2141 impedance calculation">
-          <img width="1362" height="882" loading="lazy" src="IMAGES/ESP32 S3 Board/USB Signal Impedance CHeck.webp" alt="Impedance calculation">
+        <div class="snap-thumb" data-src="IMAGES/ESP32 S3 Board/USB Signal Impedance CHeck.webp" data-cap="IPC-2141 impedance calculation" data-ez-h="367" data-ez-cx="0" data-ez-cy="0">
+          <img width="1362" height="882" loading="lazy" src="IMAGES/ESP32 S3 Board/USB Signal Impedance CHeck.webp" alt="IPC-2141 impedance calculation — USB differential pair">
         </div>
-        <div class="snap-thumb active" data-src="IMAGES/ESP32 S3 Board/DRC test.webp" data-cap="DRC — clean pass before routing">
-          <img loading="lazy" src="IMAGES/ESP32 S3 Board/DRC test.webp" alt="DRC test">
+        <div class="snap-thumb active" data-src="IMAGES/ESP32 S3 Board/DRC test.webp" data-cap="DRC — 0 errors, post-route final check" data-ez-h="380" data-ez-cx="0" data-ez-cy="0">
+          <img loading="lazy" src="IMAGES/ESP32 S3 Board/DRC test.webp" alt="KiCad DRC — 0 errors, post-route final check">
         </div>
       </div>
     </div>
@@ -1160,7 +696,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><path d="M16 13 Q19 16 16 19 Q13 16 16 13"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="23" y1="16" x2="27" y2="16"/></svg></div>
             <div class="snap-comp-name">ENS210 Sensor</div>
           </div>
-          <div class="snap-comp" data-tip="JLC04161H-3313 stack-up: Signal / GND / V+ / Signal">
+          <div class="snap-comp" data-tip="JLC04161H-3313 stack-up: Signal / GND / PWR / Signal">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
             <div class="snap-comp-name">4-Layer PCB</div>
           </div>
@@ -1184,7 +720,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
       <div class="snap-learned">
         <div class="snap-label">What I Learned</div>
         <ul>
-          <li>Impedance control isn't just about the traces — you have to pick a stack-up the fab actually supports. The JLCPCB JLC04161H-3313 preset made 50&Omega; routing achievable without custom impedance requests.</li>
+          <li>Impedance control isn't just about the traces — you have to pick a stack-up the fab actually supports. The JLCPCB JLC04161H-3313 stackup publishes its prepreg parameters, so calculating the 90&Omega; differential width for USB D&plusmn; was straightforward. If I'd picked a stackup without published Dk values, I'd have had to guess.</li>
           <li>USB-C CC resistors. Everyone mentions them, nobody explains why until you're sitting with a charger that won't power your board. 5.1&thinsp;k&Omega; on both CC pins = power. Without them = nothing. Two days of my life went into figuring this out.</li>
           <li>I had a floating GND island in my first layout that caused intermittent RF glitches under load. GND stitching vias every ~2&thinsp;mm fixed it — now I add them by habit before I even think about routing signals.</li>
         </ul>
@@ -1208,7 +744,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
       <div class="snap-stat-lbl">DRC Result</div>
     </div>
     <div class="snap-stat">
-      <div class="snap-counter" data-target="34" data-suffix=" parts">34 parts</div>
+      <div class="snap-counter" data-target="26" data-suffix=" parts">26 parts</div>
       <div class="snap-stat-lbl">Bill of Materials</div>
     </div>
   </div>
@@ -1228,25 +764,25 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
   <div class="stat-card red"><div class="stat-label">DRC Errors</div><div class="stat-value">0</div><div class="stat-sub" contenteditable="false">0 violations</div></div>
 </div>
 <div class="prose">
-  <p contenteditable="false" spellcheck="false">This is a custom development board built around the <strong>ESP32-S3-MINI-1-N8</strong> — Espressif's compact Wi-Fi and Bluetooth 5.0 module. The goal was to design something equivalent to a commercial dev board entirely from scratch: full control over every component, every trace, and every design decision. It breaks out all usable GPIOs, adds an on-board temperature and humidity sensor, an addressable RGB LED, and powers from a single USB-C cable or 5V rail.&nbsp;</p>
+  <p contenteditable="false" spellcheck="false">This is a custom development board built around the <strong>ESP32-S3-MINI-1-N8</strong> — Espressif's compact Wi-Fi and Bluetooth 5.0 module. The goal was straightforward: design something equivalent to a commercial dev board from scratch, understanding every part of it. It breaks out all usable GPIOs, adds an on-board temperature and humidity sensor, an addressable RGB LED, and powers from a single USB-C cable or 5V rail.&nbsp;</p>
   <p>The entire design was done in <strong>KiCad 9</strong>, from schematic capture through to manufacturing-ready Gerber files, targeting <strong>JLCPCB's 4-layer process</strong> with the JLC04161H-3313 stackup. The USB differential pair was analysed for impedance using <strong>IPC-2141</strong> calculations matched to that specific stackup, and all design rules were verified clean before ordering.</p>
-  <p>This was completed as an independent project during second year Electrical and Electronic Engineering at the <strong>University of Western Australia</strong>.</p>
+  <p>This was completed as an independent project during second year Electrical and Electronic Engineering at the <strong>University of Western Australia</strong>. It was also my first multi-layer PCB — prior hands-on work had been breadboards and single-layer designs, so KiCad, manufacturing tolerances, and impedance-controlled routing were all learned from scratch alongside the design.</p>
   <p style="margin-top:12px;padding:10px 14px;border-left:3px solid var(--accent3);background:rgba(245,158,11,.07);border-radius:0 6px 6px 0;font-size:13px;color:var(--accent3);"><strong>⚠ Note:</strong> The <code style="font-size:11px;background:rgba(0,0,0,.3);padding:2px 5px;border-radius:3px;">3V3</code> header pin is a <strong>regulated output only</strong> — do not apply external voltage to it. The TLV75801 LDO has no back-drive protection; powering through 3V3 with USB disconnected will damage the IC. Power the board via USB-C only. See Rev 2 for a planned fix.</p>
 </div>
-<div class="gallery" data-drag-setup="1" data-add-setup="1">
-  <div class="gallery-item wide" draggable="true" style="width: 714px; height: 409px; min-height: unset;">
+<div class="gallery">
+  <div class="gallery-item wide" style="width: 714px; height: 409px; min-height: unset;">
     <model-viewer src="IMAGES/ESP32 S3 Board/3drender.glb" alt="ESP32-S3 Dev Module — Interactive 3D View" camera-controls="" shadow-intensity="1" shadow-softness="0.5" exposure="1.3" environment-image="neutral" ar-status="not-presenting" style="width: 100%; height: 360px; background: transparent;" tone-mapping="commerce"></model-viewer>
     <div class="gallery-caption">Interactive 3D viewer — drag to rotate, scroll to zoom</div>
   </div>
-  <div class="gallery-item screenshot" draggable="true" style="width: 164px; height: 410px; min-height: unset;">
-    <img width="470" height="1088" loading="lazy" src="IMAGES/ESP32 S3 Board/horizontal3dview.webp" alt="PCB Editor" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: 460px;">
+  <div class="gallery-item screenshot" style="width: 164px; height: 410px; min-height: unset;">
+    <img width="470" height="1088" loading="lazy" src="IMAGES/ESP32 S3 Board/horizontal3dview.webp" alt="ESP32-S3 dev board — top-down 3D render" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: 460px;">
     <div class="gallery-caption">PCB — top-down render</div>
   </div>
   
   
   
   
-</div><button class="eb-add-btn">＋ Add new box</button>
+</div>
 </div>
 
 <div class="section" id="pinout">
@@ -1339,7 +875,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <div class="spec-row"><span class="spec-key">PP prepreg thickness (L1→L2)</span><span class="spec-val changed">0.0994 mm</span></div>
     <div class="spec-row"><span class="spec-key">Dielectric constant (Dk)</span><span class="spec-val changed">4.4 (prepreg)</span></div>
     <div class="spec-row"><span class="spec-key">Core thickness</span><span class="spec-val">1.265 mm</span></div>
-    <div class="spec-row"><span class="spec-key">Inner copper (L2/L3)</span><span class="spec-val">0.5 oz (15.2µm)</span></div>
+    <div class="spec-row"><span class="spec-key">Inner copper (L2/L3)</span><span class="spec-val">0.5 oz (17.5µm)</span></div>
   </div>
   <div class="spec-block">
     <div class="spec-block-header">KiCad Design Rules — JLCPCB</div>
@@ -1382,32 +918,32 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <div class="timeline-dot"></div>
     <div class="timeline-step">Phase 1 — Schematic Capture</div>
     <div class="timeline-heading">Component selection and schematic design in KiCad 9</div>
-    <div class="timeline-body">Selected components referencing Espressif application notes and IC datasheets. Designed full schematic including USB-C with CC pull-downs, TLV75801 LDO, ENS210 I²C sensor, WS2812B RGB LED, and GPIO breakout. ERC verified with 0 errors.</div>
-    <div class="timeline-img" style="max-width: 100%; position: relative; width: 633px; height: 466px; min-height: unset;"><img width="1232" height="870" loading="lazy" src="IMAGES/ESP32 S3 Board/Schematic Pic.webp" alt="Schematic" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: none; width: 100%;"><div class="timeline-img-cap">Full schematic — KiCad 9 schematic editor</div></div>
+    <div class="timeline-body">Components were chosen from Espressif application notes and each IC's datasheet — the CC resistors took the most time to track down (see What I Learned above). Completed the full schematic: USB-C with CC pull-downs, TLV75801 LDO, ENS210 I²C sensor, WS2812B RGB LED, and GPIO breakout. ERC came back clean on the first pass.</div>
+    <div class="timeline-img" style="max-width: 100%; position: relative; width: 633px; height: 466px; min-height: unset;"><img width="1232" height="870" loading="lazy" src="IMAGES/ESP32 S3 Board/Schematic Pic.webp" alt="Full ESP32-S3 schematic — KiCad 9 schematic editor" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: none; width: 100%;"><div class="timeline-img-cap">Full schematic — KiCad 9 schematic editor</div></div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Phase 2 — Impedance, Constraints &amp; Netclasses</div>
     <div class="timeline-heading">IPC-2141 differential pair impedance for JLCPCB JLC04161H-3313 stackup</div>
-    <div class="timeline-body">Used JLCPCB stackup JLC04161H-3313: PP prepreg 3313×1 with h = 0.0994 mm and Dk = 4.4. Applied IPC-2141 edge-coupled microstrip formula — the calculated target trace width for exactly 90 Ω differential is 0.142 mm (5.59 mil) at 0.15 mm spacing. The USB D± pair was routed at 0.15 mm (default netclass width), which is slightly wider than the target — giving an estimated ~88 Ω, well within USB 2.0 Full Speed tolerance of 90 Ω ±15%. Note: stackup values updated from original PCBWay calculation (h = 0.1855 mm, Dk = 4.74, w = 0.2251 mm).</div>
-    <div class="timeline-img" style="position: relative; width: 507px; height: 353px; min-height: unset;"><img width="1362" height="882" loading="lazy" src="IMAGES/ESP32 S3 Board/USB Signal Impedance CHeck.webp" alt="Impedance Calculator" style="cursor: zoom-in; max-height: 460px; height: auto; aspect-ratio: auto;"><div class="timeline-img-cap">IPC-2141 impedance calculation — recalculated for JLCPCB stackup</div></div>
+    <div class="timeline-body">Used JLCPCB stackup JLC04161H-3313: PP prepreg 3313×1 with h = 0.0994 mm and Dk = 4.4. Applied IPC-2141 edge-coupled microstrip formula — the calculated target trace width for exactly 90 Ω differential is 0.142 mm (5.59 mil) at 0.15 mm spacing. The USB D± pair was routed at 0.15 mm (default netclass width), which is slightly wider than the target — giving an estimated ~88 Ω, well within USB 2.0 Full Speed tolerance of 90 Ω ±15%.</div>
+    <div class="timeline-img" style="position: relative; width: 507px; height: 353px; min-height: unset;"><img width="1362" height="882" loading="lazy" src="IMAGES/ESP32 S3 Board/USB Signal Impedance CHeck.webp" alt="IPC-2141 impedance calculation — JLCPCB JLC04161H-3313 stackup" style="cursor: zoom-in; max-height: 460px; height: auto; aspect-ratio: auto;"><div class="timeline-img-cap">IPC-2141 impedance calculation — recalculated for JLCPCB stackup</div></div>
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-weight:500;color:var(--text);font-size:15px;margin-bottom:6px;">Design constraints — JLCPCB manufacturing rules</div>
     <div class="timeline-body">Before routing, design rules were configured to match JLCPCB's JLC04161H-3313 stackup requirements: minimum trace width 0.15 mm (JLCPCB's manufacturing capability is 0.09 mm — a more conservative limit was set in KiCad), minimum via diameter 0.45 mm (drill 0.3 mm), hole-to-hole clearance 0.5 mm, copper-to-board-edge clearance 0.3 mm, and minimum annular ring 0.1 mm. Rules were applied as a KiCad DRC constraint file and a clean DRC pass was confirmed before routing began.</div>
-    <div class="timeline-img" style="position:relative;min-height:unset;"><img width="1038" height="630" loading="lazy" src="IMAGES/ESP32 S3 Board/constraintsJLCPCB.webp" alt="JLCPCB Constraints" style="cursor:zoom-in;max-height:460px;height:auto;aspect-ratio:auto;"><div class="timeline-img-cap">JLCPCB manufacturing constraints configured in KiCad design rules</div></div>
+    <div class="timeline-img" style="position:relative;min-height:unset;"><img width="1038" height="630" loading="lazy" src="IMAGES/ESP32 S3 Board/constraintsJLCPCB.webp" alt="KiCad design rules — JLCPCB manufacturing constraints" style="cursor:zoom-in;max-height:460px;height:auto;aspect-ratio:auto;"><div class="timeline-img-cap">JLCPCB manufacturing constraints configured in KiCad design rules</div></div>
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-weight:500;color:var(--text);font-size:15px;margin-bottom:6px;">Netclasses — power and signal net classification</div>
     <div class="timeline-body">Nets were grouped into custom netclasses before routing: <strong>PWR</strong> (VBUS, VCC, GND) assigned 0.3 mm minimum trace width to handle higher current paths; <strong>SIG</strong> (GPIO, SPI, I2C, UART) kept at default 0.15 mm. The USB differential pair (D+/D−) was routed at 0.15 mm width and 0.15 mm spacing using the default netclass — within USB 2.0 Full Speed tolerance.</div>
-    <div class="timeline-img" style="position:relative;min-height:unset;"><img width="776" height="74" loading="lazy" src="IMAGES/ESP32 S3 Board/netclassesJLCPCB.webp" alt="Netclasses" style="cursor:zoom-in;max-height:460px;height:auto;aspect-ratio:auto;"><div class="timeline-img-cap">Custom netclasses defined for power, signal, and USB differential pair</div></div>
+    <div class="timeline-img" style="position:relative;min-height:unset;"><img width="776" height="74" loading="lazy" src="IMAGES/ESP32 S3 Board/netclassesJLCPCB.webp" alt="KiCad netclasses — power, signal, and USB differential pair" style="cursor:zoom-in;max-height:460px;height:auto;aspect-ratio:auto;"><div class="timeline-img-cap">Custom netclasses defined for power, signal, and USB differential pair</div></div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Phase 3 — Component Placement &amp; 3D Verification</div>
-    <div class="timeline-heading">Strategic placement following signal flow and thermal considerations</div>
-    <div class="timeline-body" contenteditable="false" spellcheck="false">Placed components following signal flow from USB-C through ESD protection, LDO, and ESP32-S3 module. Decoupling capacitors placed immediately adjacent to IC power pins.&nbsp;</div>
+    <div class="timeline-heading">Placing components in the right order before touching a single trace</div>
+    <div class="timeline-body" contenteditable="false" spellcheck="false">Worked through signal flow — USB-C first, then ESD protection, LDO, and the module last. Decoupling caps go right next to each IC's power pin, not just nearby.</div>
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-weight:500;color:var(--text);font-size:15px;margin-bottom:6px;">3D model alignment and mechanical clearance review</div>
     <div class="timeline-body">Added STEP 3D models to all components. PTS810 buttons required X-rotation to 90°. Pin headers required Y-rotation 180° and Z-offset −1.5 mm for correct through-hole placement. Reviewed in KiCad 3D viewer before Gerber export.</div>
     <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;">
-      <div class="timeline-img" style="flex:1 1 45%;max-width:48%;min-width:180px;position:relative;"><img width="854" height="698" loading="lazy" src="IMAGES/ESP32 S3 Board/pinpositioning1.webp" alt="Component Placement" style="cursor:zoom-in;"><div class="timeline-img-cap">Fig. 1 — Component Placement</div></div>
-      <div class="timeline-img" style="flex:1 1 45%;max-width:48%;min-width:180px;position:relative;"><img width="870" height="720" loading="lazy" src="IMAGES/ESP32 S3 Board/adding 3d models.webp" alt="3D Model View" style="cursor:zoom-in;"><div class="timeline-img-cap">Fig. 2 — 3D Model View</div></div>
+      <div class="timeline-img" style="flex: 0 0 auto; max-width: 48%; min-width: 180px; position: relative; width: 550px; height: 454px; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column;"><div data-pe-imgwrap="1" style="flex: 1 1 0%; min-height: 0px; width: 100%; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center;"><img width="854" height="698" loading="lazy" src="IMAGES/ESP32 S3 Board/pinpositioning1.webp" alt="KiCad PCB editor — component placement, fig. 1" style="cursor: zoom-in; position: relative; flex: 0 0 auto; width: auto; height: 398px; max-width: none; max-height: none; aspect-ratio: unset; display: block; object-fit: fill; top: 0px; left: 0px; transition: none;"></div><div class="timeline-img-cap">Fig. 1 — Component Placement</div></div>
+      <div class="timeline-img" style="flex: 0 0 auto; max-width: 48%; min-width: 180px; position: relative; width: 520px; height: 454px; overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column;"><div data-pe-imgwrap="1" style="flex: 1 1 0%; min-height: 0px; width: 100%; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center;"><img width="870" height="720" loading="lazy" src="IMAGES/ESP32 S3 Board/adding 3d models.webp" alt="KiCad 3D viewer — STEP models placed and aligned" style="cursor: zoom-in; position: relative; flex: 0 0 auto; width: auto; height: 420px; max-width: none; max-height: none; aspect-ratio: unset; display: block; object-fit: fill; top: 0px; left: 0px; transition: none;"></div><div class="timeline-img-cap">Fig. 2 — 3D Model View</div></div>
     </div>
   </div>
   <div class="timeline-item">
@@ -1415,7 +951,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <div class="timeline-step">Phase 4 — Routing &amp; Copper Pours</div>
     <div class="timeline-heading">Impedance-controlled routing, differential pairs, and GND pours on all 4 layers</div>
     <div class="timeline-body">Routed USB D± using KiCad interactive differential pair router at 0.15 mm width, 0.15 mm spacing. Applied GND copper pours across all four layers with via stitching. Zone priorities set per-layer to resolve DRC intersection errors.</div>
-    <div class="timeline-img" style="max-width: 100%; max-height: none; position: relative; width: 728px; height: 358px; min-height: unset;"><img width="666" height="292" loading="lazy" src="IMAGES/ESP32 S3 Board/PCBeditorview.webp" alt="PCB Layout" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: none; width: 100%;"><div class="timeline-img-cap" contenteditable="false">PCB editor — routed board with VISIBLE TOP LAYER TRACES</div></div>
+    <div class="timeline-img" style="max-width: 100%; max-height: none; position: relative; width: 728px; height: 358px; min-height: unset;"><img width="666" height="292" loading="lazy" src="IMAGES/ESP32 S3 Board/PCBeditorview.webp" alt="KiCad PCB editor — routed board, top copper layer" style="aspect-ratio: auto; height: auto; object-fit: contain; cursor: zoom-in; max-height: none; width: 100%;"><div class="timeline-img-cap" contenteditable="false">PCB editor — routed board, top copper layer</div></div>
   </div>
   
   
@@ -1425,10 +961,10 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 <div class="section" id="decisions">
 <div class="section-header"><h2 class="section-title">Key Engineering Decisions</h2><div class="section-line"></div></div>
 <div class="decision-list">
-  <div class="decision"><div class="decision-title">Native USB over USB-to-UART bridge</div><div class="decision-body">Uses the ESP32-S3 built-in USB Serial/JTAG controller via <code>GPIO19 (D−)</code> and <code>GPIO20 (D+)</code> instead of a CP2102N bridge. Eliminates one IC and reduces BOM cost without sacrificing programming or debug capability.</div></div>
-  <div class="decision blue"><div class="decision-title">USB D± impedance — IPC-2141 calculation for JLCPCB JLC04161H-3313</div><div class="decision-body">IPC-2141 edge-coupled microstrip calculation for the JLCPCB 3313 stackup (<code>h = 0.0994 mm</code>, <code>Dk = 4.4</code>) gives a target width of <code>0.142 mm (5.59 mil)</code> at <code>0.15 mm spacing</code> for exactly 90 Ω. The pair was routed at <code>0.15 mm</code> using the default netclass — slightly wider than the 0.142 mm target, giving an estimated impedance of ~88 Ω — well within the USB 2.0 Full Speed tolerance of 90 Ω ±15%.</div></div>
+  <div class="decision"><div class="decision-title">Native USB over USB-to-UART bridge</div><div class="decision-body">Uses the ESP32-S3 built-in USB Serial/JTAG controller via <code>GPIO19 (D−)</code> and <code>GPIO20 (D+)</code> instead of a CP2102N bridge. One fewer IC, lower BOM cost — serial and JTAG still work natively.</div></div>
+  <div class="decision blue"><div class="decision-title">USB D± impedance — routed to JLCPCB JLC04161H-3313 stackup</div><div class="decision-body">The JLC04161H-3313 stackup publishes its prepreg parameters, which made the IPC-2141 calculation straightforward — no guessing at Dk. Routed at <code>0.15 mm</code>, slightly above the 0.142 mm target, giving ~88 Ω — well inside the USB 2.0 Full Speed tolerance of 90 Ω ±15%. Full calculation walkthrough is in the Design Process section.</div></div>
   <div class="decision amber"><div class="decision-title">GPIO0, EN, and USB D± excluded from headers — replaced with power pins</div><div class="decision-body"><code>GPIO0</code> is reserved for the BOOT button, <code>EN</code> for the RESET button, and <code>GPIO19 (D−)</code> / <code>GPIO20 (D+)</code> are routed directly to the USB-C connector — none of these are safe or useful to expose on a general-purpose header. The four positions freed up are replaced with additional power and ground pins: each header provides <code>3V3</code> and <code>GND</code> at the top (pins 1–2) and a second <code>GND</code> and <code>5V VBUS</code> at the bottom (pins 21–22). This gives two ground references per header, which is practical for breadboard use and reduces the chance of floating grounds when connecting peripherals.</div></div>
-  <div class="decision"><div class="decision-title">4-layer stackup with dedicated GND plane on L2</div><div class="decision-body">Provides continuous GND reference directly beneath the signal layer, enabling impedance control for USB D±, reducing EMI from the ESP32-S3 Wi-Fi/BT radio, and providing a low-inductance return path for high-frequency signals.</div></div>
+  <div class="decision"><div class="decision-title">4-layer stackup with dedicated GND plane on L2</div><div class="decision-body">A solid GND plane directly under the signal layer is what makes impedance control and decent RF behaviour possible — the ESP32-S3 Wi-Fi/BT radio needs a clean ground reference, and a 2-layer board can't reliably provide either.</div></div>
   <div class="decision blue"><div class="decision-title">LDO package selection based on thermal analysis</div><div class="decision-body">TLV75801 WSON-6 selected over SOT-23: <code>RθJA = 80.3°C/W</code> vs <code>176.9°C/W</code>. At 300mA load (P = 0.51W), WSON-6 gives only +41°C junction rise vs +90°C for SOT-23. Thermal pad soldered to GND copper pour.</div></div>
   <div class="decision amber"><div class="decision-title">LDO feedback resistors — R3/R4 set Vout to 3.3V</div><div class="decision-body">R3 (1MΩ) and R4 (200kΩ) form the TLV75801 output voltage feedback divider. The 1:5 ratio sets the regulated output to 3.3V. Values chosen to minimise quiescent current through the divider while staying within the LDO's feedback input impedance spec.</div></div>
 </div>
@@ -1467,10 +1003,10 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 <div class="section-header"><h2 class="section-title">Future Improvements — Rev 2</h2><div class="section-line"></div></div>
 <div class="decision-list">
   <div class="decision amber"><div class="decision-title">LDO feedback divider — reduce resistor values in Rev 2</div><div class="decision-body">R3/R4 (1MΩ / 200kΩ) set Vout correctly but the high impedance increases sensitivity to PCB leakage. Rev 2 will scale down to <code>100kΩ / 20kΩ</code>, maintaining the same output voltage while lowering source impedance and improving noise rejection.</div></div>
-  <div class="decision blue"><div class="decision-title">WS2812B power supply — Rev 2 fix required</div><div class="decision-body">Standard WS2812B minimum VDD is 3.5V; the current 3.3V supply is out of spec. Rev 2 will add 5V power to the LED and a level shifter on the DIN line so the logic high exceeds the 0.7×VDD input threshold. If using a 3.3V-compatible variant (e.g. WS2812B-V5), state the exact part number.</div></div>
-  <div class="decision"><div class="decision-title">Footprint library consolidation</div><div class="decision-body">Migrate all custom footprints (ESP32-S3-MINI-1-N8, USB4105) into a project-local KiCad library to eliminate the footprint mismatch warnings in DRC and keep things reproducible.</div></div>
-  <div class="decision amber"><div class="decision-title">3V3 pin back-drive protection + bidirectional power input — Rev 2</div><div class="decision-body">Currently the <code>3V3</code> header pin is a regulated output only — do not apply external voltage to it. The TLV75801 LDO has no reverse current protection; powering through the 3V3 pin with USB disconnected back-drives the LDO output and can damage the IC. Rev 2 will add a series Schottky diode or ideal diode load switch on the LDO output, which will block reverse current and make it safe to power the board from an external 3.3V supply — enabling the board to run without USB-C.</div></div>
-  <div class="decision blue"><div class="decision-title">Consider ESP32-S3-MINI-1-N8R8 (PSRAM variant)</div><div class="decision-body">Same pinout and footprint as current module but adds 8MB PSRAM — no PCB changes required. Beneficial for display framebuffers, audio buffers, or any memory-intensive application.</div></div>
+  <div class="decision blue"><div class="decision-title">WS2812B power supply — Rev 2 fix required</div><div class="decision-body">Standard WS2812B minimum VDD is 3.5V; the current 3.3V supply is out of spec. Rev 2 will add 5V power to the LED and a level shifter on the DIN line so the logic high exceeds the 0.7×VDD input threshold. Alternatively, swapping to a 3.3V-compatible variant like the WS2812B-V5 would eliminate the level shifter entirely — something to evaluate in Rev 2.</div></div>
+  <div class="decision"><div class="decision-title">Footprint library consolidation</div><div class="decision-body">Rev 2 will move all custom footprints (ESP32-S3-MINI-1-N8, USB4105) into a project-local KiCad library. This eliminates the footprint mismatch warnings in DRC and makes the project self-contained — no dependency on my local library path.</div></div>
+  <div class="decision amber"><div class="decision-title">3V3 pin back-drive protection + bidirectional power input — Rev 2</div><div class="decision-body">The TLV75801 has no reverse current protection on its output — powering through the 3V3 header pin back-drives the LDO and will damage it. Rev 2 will add a series Schottky diode or ideal diode load switch, which blocks reverse current and makes it safe to power the board from an external 3.3V supply without USB-C.</div></div>
+  <div class="decision blue"><div class="decision-title">Upgrade path — ESP32-S3-MINI-1-N8R8 (PSRAM variant)</div><div class="decision-body">Same pinout and footprint as the current module but adds 8MB PSRAM — no PCB changes needed. Worth the swap for anything involving display framebuffers, audio buffers, or memory-intensive applications.</div></div>
 </div>
 </div>
 
@@ -1484,7 +1020,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 </div>
 <div class="footer">
 <div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>Designed with KiCad 9 &nbsp;·&nbsp; Manufactured by JLCPCB &nbsp;·&nbsp; IPC-2141 Compliant</div>
-<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a><br><a href="nes-emulator-project-main.html" style="color:var(--ink-2);text-decoration:none;">Next: RetroDS NES →</a></div>
+<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a></div>
 </div>
 
 
@@ -1705,196 +1241,6 @@ addEventListener('scroll',()=>{
   requestAnimationFrame(tick);
 })();
 
-// ── EDIT MODE ──────────────────────────────────────────────────────────────
-(function(){
-  const style=document.createElement('style');style.textContent=`
-    #edit-toggle{display:none;}
-    #edit-toggle.active{display:none;}
-    #edit-toolbar{
-      display:none;position:fixed;bottom:24px;right:180px;z-index:9000;
-      gap:8px;align-items:center;
-    }
-    body.edit-mode #edit-toolbar{display:flex;}
-    #edit-toolbar button{
-      background:rgba(10,14,26,.95);color:#fff;
-      border:1px solid rgba(255,255,255,.2);border-radius:50px;
-      padding:10px 18px;font-family:var(--mono);font-size:12px;
-      cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;
-    }
-    #btn-undo{color:#8b9bb8;}
-    #btn-undo:hover{background:#1a2235;color:#fff;}
-    #btn-undo:disabled{opacity:.3;cursor:not-allowed;}
-    #btn-save{background:#16a34a;border-color:#16a34a;}
-    #btn-save:hover{background:#15803d;}
-    #btn-export{background:rgba(93,188,255,.2);border-color:rgba(93,188,255,.45);}
-    #btn-export:hover{background:#5dbcff;color:#0a0e16;}
-    #btn-connect{background:rgba(10,14,26,.95);border-color:rgba(255,255,255,.2);}
-    #btn-connect:hover{background:#1a2235;}
-    #btn-connect.connected{border-color:#16a34a;color:#4ade80;}
-    #save-flash{
-      display:none;position:fixed;bottom:70px;right:180px;z-index:9001;
-      background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;
-      font-family:var(--mono);font-size:11px;pointer-events:none;
-    }
-    #edit-hint{
-      display:none;position:fixed;bottom:68px;right:24px;z-index:9000;
-      background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.3);
-      border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;
-      color:#8b9bb8;line-height:2.1;pointer-events:none;
-    }
-    body.edit-mode #edit-hint{display:block;}
-
-    /* Gallery items in edit mode — smooth transitions for grid reflow */
-    body.edit-mode .gallery{position:relative;}
-    body.edit-mode .gallery-item{
-      position:relative;outline:2px dashed rgba(93,188,255,.45);
-      transition:transform 0.18s ease,opacity 0.18s ease;
-      cursor:grab;box-sizing:border-box;
-    }
-    body.edit-mode .gallery-item:active{cursor:grabbing;}
-    body.edit-mode .gallery-item.eb-dragging{
-      opacity:0.35;transform:scale(0.96);
-    }
-    body.edit-mode .gallery-item.eb-over{
-      outline:2px solid #5dbcff;background:rgba(93,188,255,.08);
-      transform:scale(1.02);
-    }
-    /* Drop placeholder */
-    .eb-placeholder{
-      border-radius:8px;border:2px dashed #5dbcff;
-      background:rgba(93,188,255,.07);
-      transition:all 0.15s ease;
-      pointer-events:none;
-    }
-
-    /* Controls bar */
-    .eb-bar{
-      display:none;position:absolute;top:0;left:0;right:0;
-      background:rgba(10,14,26,.9);z-index:500;
-      flex-wrap:wrap;gap:2px;padding:3px 5px;
-      border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0;
-    }
-    body.edit-mode .eb-bar{display:flex;}
-    .eb-bar button{
-      background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);
-      border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;
-      cursor:pointer;white-space:nowrap;transition:background .15s;
-    }
-    .eb-bar button:hover{background:#5dbcff;color:#0a0e16}
-    .eb-bar button.red:hover{background:#ef4444;}
-    .eb-drag-handle{
-      margin-left:auto;font-size:13px;padding:0 4px;
-      cursor:grab;color:#4a5a78;user-select:none;line-height:1;
-    }
-
-    /* Corner resize */
-    .eb-corner{
-      display:none;position:absolute;bottom:0;right:0;
-      width:18px;height:18px;cursor:se-resize;z-index:600;
-      background:linear-gradient(135deg,transparent 50%,#5dbcff 50%);
-      border-bottom-right-radius:8px;
-    }
-    body.edit-mode .eb-corner{display:block;}
-
-    /* Images */
-    body.edit-mode img:not([data-no-edit]){
-      outline:1px dashed rgba(93,188,255,.25);cursor:pointer;
-    }
-    .eb-img-tip{
-      display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;
-      font-family:var(--mono);font-size:10px;padding:3px 8px;
-      border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;
-    }
-
-    /* Text */
-    body.edit-mode [data-txt]:hover{
-      outline:1px dashed rgba(93,188,255,.35);cursor:text;border-radius:2px;
-    }
-    body.edit-mode [data-txt][contenteditable="true"]{
-      outline:2px solid #5dbcff;border-radius:2px;
-    }
-
-    /* Add box */
-    .eb-add-btn{
-      display:none;width:100%;margin:10px 0 0;padding:8px;
-      font-family:var(--mono);font-size:11px;
-      background:rgba(93,188,255,.08);color:var(--accent2);
-      border:1px dashed rgba(93,188,255,.3);border-radius:6px;cursor:pointer;
-    }
-    body.edit-mode .eb-add-btn{display:block;}
-    .eb-add-btn:hover{background:rgba(93,188,255,.15);}
-  `;
-  document.head.appendChild(style);
-
-  const toggleBtn=document.createElement('button');
-  toggleBtn.id='edit-toggle';toggleBtn.textContent='✏️ Edit Mode';
-  document.body.appendChild(toggleBtn);
-
-  // Save / Undo toolbar
-  const toolbar=document.createElement('div');toolbar.id='edit-toolbar';
-  const btnUndo=document.createElement('button');btnUndo.id='btn-undo';btnUndo.textContent='↩ Undo';btnUndo.disabled=true;
-  const btnSave=document.createElement('button');btnSave.id='btn-save';btnSave.textContent='💾 Save';
-  const btnExport=document.createElement('button');btnExport.id='btn-export';btnExport.textContent='⬇ Export';
-  const btnConnect=document.createElement('button');btnConnect.id='btn-connect';btnConnect.textContent='⚙ GitHub';
-  toolbar.append(btnUndo,btnSave,btnExport,btnConnect);
-  document.body.appendChild(toolbar);
-  const saveFlash=document.createElement('div');saveFlash.id='save-flash';saveFlash.textContent='✓ Saved!';
-  document.body.appendChild(saveFlash);
-
-  const hint=document.createElement('div');hint.id='edit-hint';
-  hint.innerHTML='⠿ Drag box to reorder (snaps into grid)<br>↔ Corner handle to resize box<br>🖼 Click any image to swap<br>📝 Click any text to edit<br>+ / − Resize image · ✕ Delete box<br>💾 Save keeps changes after refresh';
-  document.body.appendChild(hint);
-
-  const imgTip=document.createElement('div');imgTip.className='eb-img-tip';imgTip.textContent='Click to swap image';
-  document.body.appendChild(imgTip);
-
-  let editMode=false;
-
-  // ── Helpers: clean clone & blob→base64 ──
-  function cleanSnap(){
-    const clone=document.querySelector('.content').cloneNode(true);
-    clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder').forEach(el=>el.remove());
-    ['data-eb-init','data-txt','data-ies'].forEach(a=>
-      clone.querySelectorAll('['+a+']').forEach(el=>el.removeAttribute(a)));
-    return clone.innerHTML;
-  }
-  async function blobsToBase64(){
-    for(const img of [...document.querySelectorAll('img[src^="blob:"]')]){
-      try{
-        const c=document.createElement('canvas');
-        c.width=img.naturalWidth||300;c.height=img.naturalHeight||200;
-        c.getContext('2d').drawImage(img,0,0);img.src=c.toDataURL();
-      }catch(e){}
-    }
-  }
-  function fullPageClean(){
-    const clone=document.documentElement.cloneNode(true);
-    clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,#edit-toggle,#edit-toolbar,#save-flash,#img-tip').forEach(el=>el.remove());
-    ['data-eb-init','data-txt','data-ies'].forEach(a=>
-      clone.querySelectorAll('['+a+']').forEach(el=>el.removeAttribute(a)));
-    clone.querySelector('body').classList.remove('edit-mode');
-    return '<!DOCTYPE html>\n'+clone.outerHTML;
-  }
-
-  // ── Undo stack ──
-  const undoStack=[];
-  function snapshot(){
-    undoStack.push(cleanSnap());
-    if(undoStack.length>50)undoStack.shift();
-    btnUndo.disabled=false;
-  }
-  btnUndo.addEventListener('click',()=>{
-    if(!undoStack.length)return;
-    document.querySelector('.content').innerHTML=undoStack.pop();
-    if(!undoStack.length)btnUndo.disabled=true;
-    document.querySelectorAll('.gallery-item').forEach(initGalleryItem);
-    document.querySelectorAll('.timeline-img,.hero-board,.stat-card').forEach(initOtherBlock);
-    attachImgSwap();enableText();
-  });
-
-  // ── Restore from localStorage on load ──
-  const SAVE_KEY='esp32_page_content';
-  (()=>{const saved=localStorage.getItem(SAVE_KEY);if(saved)document.querySelector('.content').innerHTML=saved;})();
 
   // ── GitHub API save ──
   const GH_REPO='andresmoreno2702-gif/andresmoreno2702-gif.github.io';
@@ -2148,20 +1494,59 @@ addEventListener('scroll',()=>{
     }
   });
 })();
-</script><div id="edit-hint">⠿ Drag box to reorder (snaps into grid)<br>↔ Corner handle to resize box<br>🖼 Click any image to swap<br>📝 Click any text to edit<br>+ / − Resize image · ✕ Delete box<br>💾 Save keeps changes after refresh</div><div class="eb-img-tip" style="display: none; left: 1071px; top: 508px;">Click to swap image</div><div id="edit-hint">⠿ Drag box to reorder (snaps into grid)<br>↔ Corner handle to resize box<br>🖼 Click any image to swap<br>📝 Click any text to edit<br>+ / − Resize image · ✕ Delete box<br>💾 Save keeps changes after refresh</div><div class="eb-img-tip" style="display: none; left: 1417px; top: 628px;">Click to swap image</div><div id="edit-hint">⠿ Drag box to reorder (snaps into grid)<br>↔ Corner handle to resize box<br>🖼 Click any image to swap<br>📝 Click any text to edit<br>+ / − Resize image · ✕ Delete box<br>💾 Save keeps changes after refresh</div><div class="eb-img-tip" style="display: none; left: 1158px; top: 596px;">Click to swap image</div><div id="edit-hint">⠿ Drag box to reorder (snaps into grid)<br>↔ Corner handle to resize box<br>🖼 Click any image to swap<br>📝 Click any text to edit<br>+ / − Resize image · ✕ Delete box<br>💾 Save keeps changes after refresh</div><div class="eb-img-tip" style="display: none; left: 1607px; top: 486px;">Click to swap image</div>
+</script>
 <div id="jsExtensionEmbedder"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="StyledViewport-sc-1famsgu-1 dLRKDU"></ol></div><div id="jsExtensionMenuParent"></div></div><div id="justdone-selection-anchor" style="position: absolute; left: 773.625px; top: 6584.45px; width: 0px; height: 0px; pointer-events: none; visibility: hidden; z-index: 999999;"></div><justdone-content-app id="justdone-content-app" style="z-index: 2147483647; position: fixed;"></justdone-content-app><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><script id="snap-js">
 (function(){
   // ── Photo carousel ──
+
+  // Pin the container height now (before any thumb clicks) so position:absolute
+  // imgs don't collapse it and position:relative imgs can't grow it.
+  // Also convert the baked active-photo inline style from position:relative to
+  // position:absolute so the container stays at aspect-ratio height on load.
+  document.querySelectorAll('.snap-photo-wrap').forEach(function(wrap){
+    var mainBox = wrap.querySelector('.snap-photo-main');
+    var main    = mainBox && mainBox.querySelector('img');
+    if (!main || !main.style.height) return;
+    var h = mainBox.getBoundingClientRect().height;
+    mainBox.dataset.snapH = h;
+    mainBox.style.height  = h + 'px';  // pin so content can't grow it
+    var cy = parseFloat(main.style.top)  || 0;
+    var cx = parseFloat(main.style.left) || 0;
+    main.style.position  = 'absolute';
+    main.style.top       = '50%';
+    main.style.left      = '50%';
+    main.style.transform = 'translate(calc(-50% + ' + cx + 'px), calc(-50% + ' + cy + 'px))';
+    main.style.flex      = 'none';
+    main.style.transition = 'none';
+  });
+
   document.querySelectorAll('.snap-thumb').forEach(function(thumb){
     thumb.addEventListener('click', function(){
-      var wrap = thumb.closest('.snap-photo-wrap');
-      var main = wrap.querySelector('.snap-photo-main img');
-      var cap  = wrap.querySelector('.snap-photo-caption');
+      var wrap    = thumb.closest('.snap-photo-wrap');
+      var mainBox = wrap.querySelector('.snap-photo-main');
+      var main    = mainBox.querySelector('img');
+      var cap     = wrap.querySelector('.snap-photo-caption');
+      var snapH   = parseFloat(mainBox.dataset.snapH) || 0;
       main.style.opacity = '0';
       main.style.transition = 'opacity 0.18s ease';
       setTimeout(function(){
         main.src = thumb.dataset.src;
-        main.style.opacity = '1';
+        main.style.cssText = '';
+        var ezH = parseFloat(thumb.dataset.ezH);
+        if (isFinite(ezH) && ezH > 0) {
+          var cx = parseFloat(thumb.dataset.ezCx) || 0;
+          var cy = parseFloat(thumb.dataset.ezCy) || 0;
+          main.style.height = ezH + 'px'; main.style.width = 'auto';
+          main.style.objectFit = 'fill';
+          main.style.position = 'absolute'; main.style.top = '50%'; main.style.left = '50%';
+          main.style.transform = 'translate(calc(-50% + ' + cx + 'px), calc(-50% + ' + cy + 'px))';
+          main.style.maxWidth = 'none'; main.style.maxHeight = 'none';
+          main.style.aspectRatio = 'unset'; main.style.display = 'block'; main.style.flex = 'none';
+          if (snapH > 0) mainBox.style.height = snapH + 'px';
+        } else {
+          main.style.objectPosition = thumb.dataset.pos || 'center center';
+          mainBox.style.height = '';
+        }
         if(cap && thumb.dataset.cap) cap.textContent = thumb.dataset.cap;
       }, 180);
       wrap.querySelectorAll('.snap-thumb').forEach(function(t){ t.classList.remove('active'); });

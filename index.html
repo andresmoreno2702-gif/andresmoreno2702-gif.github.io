@@ -800,7 +800,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
       <div class="feat-body">
         <div class="feat-cat">PCB Design</div>
         <div class="feat-name">ESP32-S3-MINI<br><i>Dev Board</i></div>
-        <p class="feat-desc">Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power (native USB — no bridge chip), 50Ω impedance-controlled RF traces, TLV75801PDRV LDO, ENS210 sensor, WS2812B RGB. 0 DRC errors. First board I ever had manufactured.</p>
+        <p class="feat-desc">Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power (native USB — no bridge chip), 90Ω impedance-controlled USB D± traces (IPC-2141), TLV75801PDRV LDO, ENS210 sensor, WS2812B RGB. 0 DRC errors. First board I ever had manufactured.</p>
         <div class="feat-chips">
           <span class="fchip">KiCad 9</span>
           <span class="fchip">4-Layer PCB</span>
@@ -810,7 +810,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
         </div>
         <div class="feat-nums">
           <div class="fnum"><div class="n">4</div><div class="l">Layers</div></div>
-          <div class="fnum"><div class="n">50Ω</div><div class="l">RF Traces</div></div>
+          <div class="fnum"><div class="n">90Ω</div><div class="l">USB D±</div></div>
           <div class="fnum"><div class="n">0</div><div class="l">DRC Errors</div></div>
         </div>
         <span class="feat-cta">View Full Project →</span>
@@ -932,12 +932,12 @@ const P=[
    name:'ESP32-S3-MINI <i>Dev Board</i>',
    status:'done',meta:'PCB Design · 2026',link:'esp32-s3-project-main.html',
    img:'IMAGES/ESP32 S3 Board/3dview-Photoroom.webp',imgFit:'contain',imgPos:{s:1,px:50,py:34},cat:'PCB Design',glyph:'⚡',
-   tldr:'Custom 4-layer dev board for ESP32-S3-MINI-1-N8. USB-C, 50Ω impedance-controlled RF traces, full decoupling. Designed in KiCad 9, manufactured at JLCPCB. First board ever fabricated.',
+   tldr:'Custom 4-layer dev board for ESP32-S3-MINI-1-N8 — USB-C (native USB, no bridge chip), 90Ω impedance-controlled D± traces, ENS210 sensor, WS2812B RGB. KiCad 9, manufactured by JLCPCB. First board I ever had made.',
    comps:['ESP32-S3-MINI','Native USB','TLV75801PDRV','ENS210','WS2812B'],
    tags:['KiCad','ESP32-S3','4-Layer PCB','USB-C','JLCPCB'],
-   desc:'Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power, 50Ω impedance-matched RF traces, proper power decoupling. Designed in KiCad 9, manufactured by JLCPCB.',
-   stats:[{n:'4',l:'PCB Layers'},{n:'50Ω',l:'RF Traces'},{n:'0',l:'DRC Errors'}],
-   hl:['4-layer stack-up with dedicated GND and power planes for signal integrity','50Ω impedance-controlled traces — calculated and verified','USB-C with correct 5.1kΩ CC resistors for power delivery','Full BOM and CPL — 0 DRC errors on final submission','First board ever manufactured. It worked first try.']},
+   desc:'Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C with native USB serial/JTAG — no bridge IC. 90Ω impedance-controlled D± traces (IPC-2141 for JLCPCB JLC04161H-3313 stackup), ENS210 temperature and humidity sensor on I²C, WS2812B RGB LED. Designed in KiCad 9, manufactured by JLCPCB. First board I ever had made.',
+   stats:[{n:'4',l:'PCB Layers'},{n:'90Ω',l:'USB D±'},{n:'0',l:'DRC Errors'}],
+   hl:['4-layer stack-up: signal / GND / power / signal — solid GND plane directly under the RF module','90Ω differential USB D± traces — IPC-2141 calculation for JLCPCB JLC04161H-3313 stackup','5.1kΩ CC resistors on both CC pins — without them, USB-C chargers won\'t negotiate power','0 DRC errors — post-route final check before Gerbers went to JLCPCB','First board I ever had made. Worked first try.']},
   {id:'retro',title:'RetroDS — NES Handheld',
    name:'RetroDS — NES <i>Handheld</i>',
    status:'wip',meta:'Embedded Systems · 2026',link:'nes-emulator-project-main.html',
@@ -952,12 +952,12 @@ const P=[
    name:'Wireless <i>RC Car</i>',
    status:'wip',meta:'Embedded Systems · Ongoing',link:'rc-car-project-main.html',
    img:'IMAGES/RC mini Car/small-rc-car-new.webp',imgPos:{s:1,px:100,py:80.34},cat:'Embedded Systems',glyph:'⌁',
-   tldr:'Scratch-built RC car — 3D-printed chassis, ESP-NOW wireless, TB6612FNG H-bridge, SG90 servo. No router needed.',
-   comps:['XIAO ESP32-C3','TB6612FNG','SG90 Servo','ESP-NOW','Fusion 360'],
+   tldr:'Scratch-built RC car — 3D-printed chassis and wheels, ESP-NOW wireless, TB6612FNG H-bridge, micro digital servo. No router needed.',
+   comps:['XIAO ESP32-C3','TB6612FNG','Micro Servo','ESP-NOW','Fusion 360'],
    tags:['ESP32-C3','ESP-NOW','TB6612FNG','Fusion 360','3D Print'],
-   desc:'3D-printed RC car with ESP-NOW peer-to-peer wireless, TB6612FNG motor control, and servo steering. No router needed.',
-   stats:[{n:'<2ms',l:'ESP-NOW RTT'},{n:'3×',l:'Chassis Revisions'},{n:'720p',l:'Demo Video'}],
-   hl:['ESP-NOW peer-to-peer — sub-10ms latency, no router','TB6612FNG dual H-bridge with PWM speed control','3D-printed chassis in Fusion 360, iterated 3 times','Joystick dead zones to prevent center creep','Channel mismatch debug took embarrassingly long']},
+   desc:'3D-printed RC car — including the wheels — with ESP-NOW peer-to-peer wireless, TB6612FNG motor control, and servo steering. No router needed.',
+   stats:[{n:'<2ms',l:'ESP-NOW RTT'},{n:'12K',l:'Motor RPM'},{n:'720p',l:'Demo Video'}],
+   hl:['ESP-NOW peer-to-peer — sub-2ms latency, no router','TB6612FNG dual H-bridge with PWM speed control','Chassis and wheels fully 3D printed in Fusion 360','Joystick dead zones to prevent center creep','Channel mismatch debug took embarrassingly long']},
   {id:'exhaust',title:'Exhaust Cutout Controller',
    name:'Exhaust Cutout <i>Controller</i>',
    status:'done',meta:'Firmware · 2025',link:'exhaust-controller-project.html',
@@ -965,7 +965,7 @@ const P=[
    tldr:'First ever project — Arduino Nano (ATmega328P) exhaust cutout controller for a VW Golf Mk6. MD13S Cytron motor driver, 3A buck converter, 3D-printed Fusion 360 enclosure with screwed-in component mounts.',
    comps:['Arduino Nano','MD13S Cytron','3A Buck Converter','Fusion 360'],
    tags:['Arduino','MD13S','Firmware','Fusion 360','3D Print'],
-   desc:'First hardware project ever. Arduino Nano (ATmega328P) controlling exhaust cutout valves on a VW Golf Mk6. MD13S 13A motor driver, 12V→5V buck converter, push button with debounce, DRL LED indicator. 3D-printed enclosure designed in Fusion 360 with moulded mounting posts.',
+   desc:'First hardware project ever. Arduino Nano (ATmega328P) controlling exhaust cutout valves on a VW Golf Mk6. MD13S 13A motor driver, 12V→5V buck converter, push button with debounce, DRL LED indicator. 3D-printed enclosure in Fusion 360 — each component screws into its own mount.',
    stats:[{n:'13A',l:'Motor Driver'},{n:'12V→5V',l:'Buck Converter'},{n:'1st',l:'Ever Built'}],
    hl:['MD13S Cytron 13A motor driver for valve actuation','3A DC-DC buck converter — 12V car power to 5V','Debounced push button + DRL LED status indicator','Fusion 360 enclosure with screwed-in component mounts','Voltage divider for 3.3V (wrong — learned it should be an LDO)']},
   {id:'bigrc',title:'Large RC Car — v1',
