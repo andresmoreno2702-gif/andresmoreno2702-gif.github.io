@@ -196,28 +196,6 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   .footer{padding:20px 24px}
   .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
 }
-/* ── Edit Mode ───────────────────────────────────────────── */
-body.edit-mode .gallery-item{outline:2px dashed rgba(93,188,255,.45);cursor:grab;position:relative}
-body.edit-mode .gallery-item:active{cursor:grabbing}
-body.edit-mode .gallery-item.eb-dragging{opacity:.35;transform:scale(.96)}
-body.edit-mode .gallery-item.eb-over{outline:2px solid #5dbcff;background:rgba(93,188,255,.08);transform:scale(1.02)}
-.eb-placeholder{border-radius:8px;border:2px dashed #5dbcff;background:rgba(93,188,255,.07);pointer-events:none}
-.eb-bar{display:none;position:absolute;top:0;left:0;right:0;background:rgba(10,14,26,.9);z-index:500;flex-wrap:wrap;gap:2px;padding:3px 5px;border-bottom:1px solid rgba(93,188,255,.3);border-radius:7px 7px 0 0}
-body.edit-mode .eb-bar{display:flex}
-.eb-bar button{background:rgba(93,188,255,.15);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;white-space:nowrap;transition:background .15s}
-.eb-bar button:hover{background:#5dbcff;color:#0a0e16}
-.eb-bar button.red:hover{background:#ef4444}
-.eb-drag-handle{margin-left:auto;font-size:13px;padding:0 4px;cursor:grab;color:#4a5a78;user-select:none;line-height:1}
-.eb-corner{display:none;position:absolute;bottom:0;right:0;width:18px;height:18px;cursor:se-resize;z-index:600;background:linear-gradient(135deg,transparent 50%,#5dbcff 50%);border-bottom-right-radius:8px}
-body.edit-mode .eb-corner{display:block}
-body.edit-mode img:not([data-no-edit]){outline:1px dashed rgba(93,188,255,.35);cursor:pointer}
-body.edit-mode [data-txt]:hover{outline:1px dashed rgba(93,188,255,.45);cursor:text;border-radius:2px}
-body.edit-mode [data-txt][contenteditable="true"]{outline:2px solid #5dbcff;border-radius:2px}
-.eb-add-btn{display:none;width:100%;margin:10px 0 0;padding:8px;font-family:var(--mono);font-size:11px;background:rgba(93,188,255,.08);color:var(--accent2);border:1px dashed rgba(93,188,255,.4);border-radius:6px;cursor:pointer}
-body.edit-mode .eb-add-btn{display:block}
-.eb-add-btn:hover{background:rgba(93,188,255,.15)}
-#eb-hint{display:none;position:fixed;bottom:68px;right:24px;z-index:9000;background:rgba(10,14,26,.97);border:1px solid rgba(93,188,255,.4);border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:11px;color:#8b9bb8;line-height:2.2;pointer-events:none}
-body.edit-mode #eb-hint{display:block}
 </style>
 
 
@@ -582,19 +560,19 @@ body.edit-mode #eb-hint{display:block}
     <div class="hero-meta">
       <span class="badge badge-teal">XIAO ESP32-C3</span>
       <span class="badge badge-blue">TB6612FNG Dual H-Bridge</span>
-      <span class="badge badge-amber">SG90 Servo Steering</span>
+      <span class="badge badge-amber">Micro Digital Servo Steering</span>
       <span class="badge badge-teal">ESP-NOW · ~2 ms RTT</span>
       <span class="badge badge-green">Assembled &amp; Tested</span>
     </div>
     <div class="hero-meta">
       <span class="badge badge-blue">Fusion 360 Chassis</span>
       <span class="badge badge-amber">Creality Ender-3 S1 Pro</span>
-      <span class="badge badge-blue">Custom PCB — EasyEDA</span>
+      <span class="badge badge-blue">Custom PCB — KiCad</span>
     </div>
   
     <div class="outcome-callout">
       <span class="oc-label">Result</span>
-      <span class="oc-text">Built a minimal-component RC car applying lessons from v1 — XIAO ESP32-C3, TB6612FNG H-bridge, SG90 servo steering, and a custom PCB — fully assembled and driving.</span>
+      <span class="oc-text">Designed and built a fully custom RC car from scratch — chassis in Fusion 360, electronics on breakout boards, wireless control via ESP-NOW. Fully assembled and driving; custom PCB in progress.</span>
     </div>
 </div>
 </div>
@@ -606,42 +584,39 @@ body.edit-mode #eb-hint{display:block}
 <div class="snapshot">
 
   <div class="snap-quote">
-    <p>Started this because I couldn't find an RC car kit that didn't feel like a toy. Designed the chassis in Fusion 360, printed it in PLA — the <em>wheel mounts went through three revisions</em> before they stopped snapping under load. ESP-NOW ended up being the right wireless choice once I fixed a channel mismatch that was causing complete dropouts. The car currently runs on a tangle of jumper wires; a <em>proper PCB is in progress</em>.</p>
+    <p>Started this because I couldn't find an RC car kit that didn't feel like a toy. Designed the chassis in Fusion 360, printed everything in PLA — including the wheels. ESP-NOW ended up being the right wireless choice once I fixed a channel mismatch that was causing complete dropouts. The current build runs on breakout boards and jumper wires; a custom PCB is in progress — <em>started in EasyEDA, now migrated to KiCad</em> — targeting JLCPCB manufacture in the coming weeks.</p>
   </div>
 
   <div class="snapshot-inner">
 
     <div class="snap-photo-wrap">
-      <div class="snap-photo-main">
-        <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/top viw pic.webp" alt="RC Mini Car top view">
-        <div class="snap-photo-caption">Assembled RC Car — Top View</div>
+      <div class="snap-photo-main" style="display:flex;flex-direction:column;overflow:hidden;position:relative;">
+        <div data-pe-imgwrap="1" style="flex:1 1 0%;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/sideview.webp" alt="RC Mini Car side view" style="position:relative;flex:0 0 auto;width:auto;height:787px;max-width:none;max-height:none;aspect-ratio:unset;display:block;object-fit:fill;top:-120px;left:0px;"></div>
+        <div class="snap-photo-caption">Side Profile — 3D Printed Chassis</div>
       </div>
       <div class="snap-thumbs">
-        <div class="snap-thumb active" data-src="IMAGES/RC mini Car/top viw pic.webp" data-cap="Assembled RC Car — Top View">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/top viw pic.webp" data-cap="Assembled RC Car — Top View" data-ez-h="770" data-ez-cx="0" data-ez-cy="-70">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/top viw pic.webp" alt="Top view">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/sideview.webp" data-cap="Side Profile — 3D Printed Chassis">
+        <div class="snap-thumb active" data-src="IMAGES/RC mini Car/sideview.webp" data-cap="Side Profile — 3D Printed Chassis" data-ez-h="787" data-ez-cx="0" data-ez-cy="-120">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/sideview.webp" alt="Side view">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/assembling.webp" data-cap="Assembly in progress">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/assembling.webp" data-cap="Assembly in progress" data-ez-h="757" data-ez-cx="0" data-ez-cy="0">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/assembling.webp" alt="Assembly">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dprinting.webp" data-cap="3D Printing — PLA chassis">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dprinting.webp" data-cap="3D Printing — PLA chassis" data-ez-h="787" data-ez-cx="0" data-ez-cy="0">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/3dprinting.webp" alt="3D printing">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/circuit.webp" data-cap="Wiring — breadboard phase">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/circuit.webp" data-cap="Wiring — breadboard phase" data-ez-h="787" data-ez-cx="0" data-ez-cy="-60">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/circuit.webp" alt="Circuit">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dmodel picture.webp" data-cap="Fusion 360 — CAD Model" data-pos="center 80%">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/3dmodel picture.webp" data-cap="Fusion 360 — CAD Model" data-pos="center 80%" data-ez-h="787" data-ez-cx="0" data-ez-cy="-100">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/3dmodel picture.webp" alt="3D model CAD">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/small-rc-car-new.webp" data-cap="Assembled RC Car — side profile">
-          <img width="960" height="1280" loading="lazy" src="IMAGES/RC mini Car/small-rc-car-new.webp" alt="Side profile">
-        </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/pcbeditor.webp" data-cap="PCB layout — ready for JLCPCB manufacture">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/pcbeditor.webp" data-cap="PCB layout — in progress, targeting JLCPCB manufacture" data-ez-h="427" data-ez-cx="0" data-ez-cy="0">
           <img width="1800" height="1350" loading="lazy" src="IMAGES/RC mini Car/pcbeditor.webp" alt="PCB layout">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/RC mini Car/schematicversion 1.webp" data-cap="EasyEDA schematic — ESP32-C3, TB6612FNG, servo">
+        <div class="snap-thumb" data-src="IMAGES/RC mini Car/schematicversion 1.webp" data-cap="EasyEDA schematic — ESP32-C3, TB6612FNG, servo" data-ez-h="757" data-ez-cx="0" data-ez-cy="0">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/RC mini Car/schematicversion 1.webp" alt="Schematic">
         </div>
       </div>
@@ -652,7 +627,7 @@ body.edit-mode #eb-hint{display:block}
       <div>
         <div class="snap-label">Key Components</div>
         <div class="snap-comp-grid">
-          <div class="snap-comp" data-tip="Car MCU: ESP-NOW receiver, PWM output, 240 MHz, 520 KB SRAM">
+          <div class="snap-comp" data-tip="Car MCU: ESP-NOW receiver, PWM output, 160 MHz, 400 KB SRAM">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
             <div class="snap-comp-name">ESP32 (Car)</div>
           </div>
@@ -664,15 +639,15 @@ body.edit-mode #eb-hint{display:block}
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="15" height="12" rx="2"/><line x1="20" y1="16" x2="27" y2="16"/><circle cx="24.5" cy="16" r="2.5"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="3" y1="16" x2="5" y2="16"/><line x1="3" y1="20" x2="5" y2="20"/><path d="M10 16 L13 13 M10 16 L13 19" stroke-width="1.5"/></svg></div>
             <div class="snap-comp-name">TB6612FNG</div>
           </div>
-          <div class="snap-comp" data-tip="9g servo, front-wheel steering, 180° range, PWM signal">
+          <div class="snap-comp" data-tip="Surpass Hobby micro digital servo, 13.5 g, plastic gear — lightweight front-wheel steering, 180° range, PWM signal">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"/><circle cx="13" cy="16" r="4"/><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"/><line x1="22" y1="13" x2="27" y2="13"/><line x1="22" y1="16" x2="27" y2="16"/><line x1="22" y1="19" x2="27" y2="19"/><path d="M13 12 L18 7" stroke-width="2"/></svg></div>
-            <div class="snap-comp-name">SG90 Servo</div>
+            <div class="snap-comp-name">Micro Servo</div>
           </div>
           <div class="snap-comp" data-tip="ESP-NOW 2.4 GHz peer-to-peer, ~30 m range, &lt;2 ms latency">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
             <div class="snap-comp-name">ESP-NOW</div>
           </div>
-          <div class="snap-comp" data-tip="Designed in Fusion 360, printed in PLA, motor mounts + battery tray">
+          <div class="snap-comp" data-tip="Designed in Fusion 360, printed in PLA, motor mounts + electronics bay">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
             <div class="snap-comp-name">3D Chassis</div>
           </div>
@@ -697,6 +672,7 @@ body.edit-mode #eb-hint{display:block}
           <li>ESP-NOW requires both devices on the same WiFi channel — there's no error message when it's wrong, just silence. Took me embarrassingly long to find in the docs.</li>
           <li>Nobody tells you joystick ADCs are noisy. Without dead zones (~8% on each axis) the car creeps and twitches at rest. Spent an afternoon thinking the motor driver was faulty.</li>
           <li>LEDC PWM in Arduino Core v3+ needs explicit channel assignment. The old <code>analogWrite()</code> approach silently stopped working — nowhere obvious in the changelog. Cost me a full day.</li>
+          <li>The XIAO ESP32-C3's built-in LiPo connector and onboard 3.3 V regulator eliminated an entire buck converter compared to v1. Battery connects directly to the XIAO, motor module, and servo — three connections, no conversion stage, one less thing to fail.</li>
         </ul>
       </div>
 
@@ -705,20 +681,20 @@ body.edit-mode #eb-hint{display:block}
 
   <div class="snap-stats">
     <div class="snap-stat">
-      <div class="snap-counter" data-target="2" data-suffix=" boards">2 boards</div>
-      <div class="snap-stat-lbl">ESP32 Modules</div>
+      <div class="snap-counter" data-target="2" data-suffix=" ms">2 ms</div>
+      <div class="snap-stat-lbl">ESP-NOW RTT</div>
     </div>
     <div class="snap-stat">
       <div class="snap-counter" data-target="30" data-suffix=" m">30 m</div>
       <div class="snap-stat-lbl">Wireless Range</div>
     </div>
     <div class="snap-stat">
-      <div class="snap-counter" data-target="1.2" data-suffix=" A" data-decimals="1">1.2 A</div>
-      <div class="snap-stat-lbl">Motor Driver</div>
+      <div class="snap-counter" data-target="20" data-suffix=" kHz">20 kHz</div>
+      <div class="snap-stat-lbl">Motor PWM</div>
     </div>
     <div class="snap-stat">
-      <div class="snap-counter" data-target="4" data-suffix=" wheels">4 wheels</div>
-      <div class="snap-stat-lbl">Driven Wheels</div>
+      <div class="snap-counter" data-target="12" data-suffix="K">12K</div>
+      <div class="snap-stat-lbl">Motor RPM</div>
     </div>
   </div>
 
@@ -737,18 +713,18 @@ body.edit-mode #eb-hint{display:block}
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Built</div><div class="stat-sub">Assembled &amp; bench-tested</div></div>
 </div>
 <div class="prose">
-  <p>A fully custom-designed and 3D-printed remote-controlled car built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed on a Creality Ender-3 S1 Pro. Drive is handled by a small 3 V hobby DC motor controlled via a <strong>TB6612FNG dual H-bridge</strong>, while steering uses an SG90-class servo for Ackermann-style front-wheel control.</p>
-  <p>Wireless control is achieved via <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on a breadboard sender (transmitter): an ESP32-C3 SuperMini with two KY-023 analog joystick modules, separate from the large RC car's custom gamepad remote. PWM motor control uses the LEDC API with joystick dead zones for precise low-speed handling.</p>
-  <p>A full custom PCB was designed in <strong>EasyEDA</strong> consolidating the XIAO ESP32-C3, TB6612FNG motor driver, servo connector, power switch, decoupling capacitors, and an LED power indicator onto a single board sized to fit the chassis. PCB is designed and ready for JLCPCB manufacture.</p>
+  <p>A custom-designed, 3D-printed RC car — including the wheels — built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed on a Creality Ender-3 S1 Pro. Drive is handled by a DC 130 dual-shaft motor (3V–6V, 12,000 RPM, direct drive) controlled via a <strong>TB6612FNG H-bridge module</strong>, while steering uses a Surpass Hobby micro digital servo (13.5 g, plastic gear) for Ackermann-style front-wheel control.</p>
+  <p>Wireless control runs over <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on a breadboard transmitter: an ESP32-C3 SuperMini with two KY-023 analog joystick modules. Motor speed is controlled with LEDC PWM and joystick dead zones to keep low-speed movement stable.</p>
+  <p>The XIAO's built-in LiPo connector and onboard 3.3 V regulator eliminates the need for an external buck converter — the 3.7 V battery connects directly to the XIAO, motor module, and servo. A custom PCB is in progress to replace the current protoboard wiring — targeting JLCPCB manufacture in the coming weeks.</p>
 </div>
 <div class="gallery">
-  <div class="gallery-item" style="width:calc(50% - 8px)">
-    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/sideview.webp" alt="Three-quarter view of RC car" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
-    <div class="gallery-caption">Three-quarter angle — front servo steering and 3D-printed wheel mounts</div>
-  </div>
-  <div class="gallery-item" style="width:calc(50% - 8px)">
-    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/circuit%20.webp" alt="Bench test setup" style="aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+  <div class="gallery-item" style="overflow:hidden;position:relative;flex:0 0 auto;box-sizing:border-box;display:flex;flex-direction:column;">
+    <div data-pe-imgwrap="1" style="flex:1 1 0%;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/circuit%20.webp" alt="Bench test setup" style="aspect-ratio:unset;object-fit:fill;background:var(--surface2);cursor:zoom-in;position:relative;flex:0 0 auto;width:auto;height:730px;max-width:none;max-height:none;display:block;top:-40px;left:0px;"></div>
     <div class="gallery-caption">Bench test — XIAO, TB6612FNG, servo and motor validated before mounting</div>
+  </div>
+  <div class="gallery-item" style="overflow:hidden;position:relative;flex:0 0 auto;box-sizing:border-box;display:flex;flex-direction:column;">
+    <div data-pe-imgwrap="1" style="flex:1 1 0%;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/sideview.webp" alt="Three-quarter view of RC car" style="aspect-ratio:unset;object-fit:fill;background:var(--surface2);cursor:zoom-in;position:relative;flex:0 0 auto;width:auto;height:730px;max-width:none;max-height:none;display:block;top:-110px;left:0px;"></div>
+    <div class="gallery-caption">Three-quarter angle — front servo steering and 3D-printed wheel mounts</div>
   </div>
 </div>
 </div>
@@ -756,14 +732,14 @@ body.edit-mode #eb-hint{display:block}
 <div class="section" id="cad">
 <div class="section-header"><h2 class="section-title">CAD Design &amp; 3D Printing</h2><div class="section-line"></div></div>
 <div class="prose">
-  <p>The full chassis was designed parametrically in <strong>Fusion 360</strong> as a multi-body assembly with separate components for the main body, front steering knuckles, wheel mounts, motor bracket, and servo bracket. All geometry was designed to integrate directly with the SG90 servo geometry and standard RC hobby wheels.</p>
+  <p>The full chassis was designed parametrically in <strong>Fusion 360</strong> as a multi-body assembly: main body, front steering knuckles, wheel mounts, motor bracket, servo bracket, and the wheels themselves — all 3D printed. Every component was designed to fit the micro digital servo and the DC 130 motor directly.</p>
 </div>
 <div class="timeline">
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-step">Phase 1 — Fusion 360 Design</div>
     <div class="timeline-heading">Full chassis assembly with 4 wheels, motor mount, servo bracket, and electronics bay</div>
-    <div class="timeline-body">The chassis was designed as a complete parametric assembly in Fusion 360. Components include: main chassis plate, front axle steering knuckles for Ackermann geometry, rear motor bracket sized to the 3 V hobby DC motor, SG90 servo bracket with horn clearance, four wheel mounts, and a top electronics bay for the PCB and LiPo cell. All tolerances were set to account for FDM dimensional variation on the Ender-3 S1 Pro.</div>
+    <div class="timeline-body">The chassis was designed as a complete parametric assembly in Fusion 360. Components include: main chassis plate, front axle steering knuckles for Ackermann geometry, rear motor bracket sized to the DC 130 dual-shaft motor, servo bracket with horn clearance, four wheel mounts, and a top electronics bay for the PCB and LiPo cell. The wheels were also designed and printed, keeping the entire build self-made. All tolerances were set to account for FDM dimensional variation on the Ender-3 S1 Pro.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
@@ -778,8 +754,8 @@ body.edit-mode #eb-hint{display:block}
     <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">Fusion 360 parametric</span></div>
     <div class="spec-row"><span class="spec-key">Chassis type</span><span class="spec-val">Multi-body assembly</span></div>
     <div class="spec-row"><span class="spec-key">Steering geometry</span><span class="spec-val ok">Ackermann front-wheel</span></div>
-    <div class="spec-row"><span class="spec-key">Servo clearance</span><span class="spec-val ok">Modelled for SG90</span></div>
-    <div class="spec-row"><span class="spec-key">Motor mount</span><span class="spec-val">3 V hobby DC motor</span></div>
+    <div class="spec-row"><span class="spec-key">Servo clearance</span><span class="spec-val ok">Modelled for micro digital servo</span></div>
+    <div class="spec-row"><span class="spec-key">Motor mount</span><span class="spec-val">DC 130 dual-shaft motor</span></div>
   </div>
   <div class="spec-block">
     <div class="spec-block-header">3D Printing — Ender-3 S1 Pro</div>
@@ -801,7 +777,7 @@ body.edit-mode #eb-hint{display:block}
 <div class="section" id="electronics">
 <div class="section-header"><h2 class="section-title">Electronics &amp; PCB Design</h2><div class="section-line"></div></div>
 <div class="prose">
-  <p>The electronics stack is built around the <strong>XIAO ESP32-C3</strong> paired with a <strong>TB6612FNG dual H-bridge</strong> motor driver. A complete custom PCB was designed in <strong>EasyEDA</strong>, integrating all components onto a single board sized to fit within the chassis electronics bay. The PCB design is complete and ready for manufacture via JLCPCB.</p>
+  <p>The electronics stack is built around the <strong>XIAO ESP32-C3</strong> paired with a <strong>TB6612FNG H-bridge module</strong>. Supporting circuitry sits on a small protoboard: a power switch, red LED indicator, electrolytic capacitor for motor voltage spike suppression, and battery and motor connectors. A 100 nF ceramic capacitor is soldered across the motor terminals for brush noise suppression. A custom PCB replacing all of this is in progress in <strong>KiCad</strong> — the schematic was started in EasyEDA before being migrated to KiCad — targeting JLCPCB manufacture in the coming weeks.</p>
 </div>
 <table class="comp-table" style="margin-bottom:28px">
 <thead><tr><th>TB6612FNG Pin</th><th>ESP32-C3 GPIO</th><th>Function</th></tr></thead>
@@ -810,9 +786,9 @@ body.edit-mode #eb-hint{display:block}
 <tr><td class="part">BIN1</td><td class="ref">D4</td><td style="font-size:12px;color:var(--text-muted)">Motor direction bit 1</td></tr>
 <tr><td class="part">BIN2</td><td class="ref">D5</td><td style="font-size:12px;color:var(--text-muted)">Motor direction bit 2</td></tr>
 <tr><td class="part">STBY</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Standby — pulled high to enable driver</td></tr>
-<tr><td class="part">VM</td><td class="ref">3.7 V LiPo</td><td style="font-size:12px;color:var(--text-muted)">Motor power supply (direct from LiPo)</td></tr>
-<tr><td class="part">VCC</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Logic power supply</td></tr>
-<tr><td class="part">Servo Signal</td><td class="ref">D7</td><td style="font-size:12px;color:var(--text-muted)">PWM steering servo (SG90)</td></tr>
+<tr><td class="part">VM</td><td class="ref">3.7 V LiPo</td><td style="font-size:12px;color:var(--text-muted)">Motor power supply (direct from LiPo, no regulation)</td></tr>
+<tr><td class="part">VCC</td><td class="ref">3.3 V</td><td style="font-size:12px;color:var(--text-muted)">Logic power — from XIAO's onboard 3.3 V regulator</td></tr>
+<tr><td class="part">Servo Signal</td><td class="ref">D7</td><td style="font-size:12px;color:var(--text-muted)">PWM steering (Surpass Hobby micro digital servo)</td></tr>
 </tbody>
 </table>
 
@@ -821,29 +797,44 @@ body.edit-mode #eb-hint{display:block}
     <div class="spec-block-header">Firmware — Motor Control</div>
     <div class="spec-row"><span class="spec-key">Framework</span><span class="spec-val">Arduino / ESP32-C3 Core</span></div>
     <div class="spec-row"><span class="spec-key">PWM API</span><span class="spec-val">LEDC (ESP32-Arduino v3+)</span></div>
-    <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">Configurable</span></div>
+    <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">~8% per axis (configurable)</span></div>
     <div class="spec-row"><span class="spec-key">Direction control</span><span class="spec-val">BIN1/BIN2 + PWMB</span></div>
-    <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">SG90 servo via D7</span></div>
+    <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">Micro servo via D7</span></div>
     <div class="spec-row"><span class="spec-key">Wireless</span><span class="spec-val">ESP-NOW P2P · ~2 ms RTT</span></div>
   </div>
   <div class="spec-block">
-    <div class="spec-block-header">PCB — EasyEDA Design</div>
-    <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">EasyEDA schematic + layout</span></div>
+    <div class="spec-block-header">PCB — KiCad Design</div>
+    <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-val">EasyEDA → KiCad</span></div>
     <div class="spec-row"><span class="spec-key">Board layers</span><span class="spec-val">2-layer</span></div>
     <div class="spec-row"><span class="spec-key">MCU footprint</span><span class="spec-val">XIAO ESP32-C3</span></div>
     <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val">TB6612FNG breakout</span></div>
     <div class="spec-row"><span class="spec-key">Connectors</span><span class="spec-val">Servo header · power switch</span></div>
-    <div class="spec-row"><span class="spec-key">Manufacture status</span><span class="spec-val warn">Pending — JLCPCB</span></div>
+    <div class="spec-row"><span class="spec-key">Manufacture status</span><span class="spec-val warn">Design in progress — JLCPCB</span></div>
   </div>
 </div>
 <div class="gallery" style="margin-top:20px">
-  <div class="gallery-item wide screenshot">
-    <img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/schematicversion%201.webp" alt="EasyEDA schematic" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
+  <div class="gallery-item wide screenshot" style="overflow:hidden;position:relative;flex:0 0 auto;box-sizing:border-box;display:flex;flex-direction:column;">
+    <div data-pe-imgwrap="1" style="flex:1 1 0%;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img width="1350" height="1800" loading="lazy" src="IMAGES/RC%20mini%20Car/schematicversion%201.webp" alt="EasyEDA schematic" style="aspect-ratio:unset;object-fit:fill;background:var(--surface2);cursor:zoom-in;position:relative;flex:0 0 auto;width:auto;height:700px;max-width:none;max-height:none;display:block;top:0px;left:0px;"></div>
     <div class="gallery-caption">EasyEDA schematic — ESP32-C3, TB6612FNG, servo header, power switch and decoupling</div>
   </div>
-  <div class="gallery-item screenshot">
-    <img width="1800" height="1350" loading="lazy" src="IMAGES/RC%20mini%20Car/pcbeditor.webp" alt="PCB layout" style="aspect-ratio: 16 / 9; object-fit: contain; background: var(--surface2); cursor: zoom-in; outline: rgba(37, 99, 235, 0.35) dashed 1px;">
-    <div class="gallery-caption">PCB layout — ready for JLCPCB manufacture</div>
+  <div class="gallery-item screenshot" style="overflow:hidden;position:relative;flex:0 0 auto;box-sizing:border-box;display:flex;flex-direction:column;">
+    <div data-pe-imgwrap="1" style="flex:1 1 0%;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img width="1800" height="1350" loading="lazy" src="IMAGES/RC%20mini%20Car/pcbeditor.webp" alt="PCB layout" style="aspect-ratio:unset;object-fit:fill;background:var(--surface2);cursor:zoom-in;position:relative;flex:0 0 auto;width:auto;height:460px;max-width:none;max-height:none;display:block;top:0px;left:-20px;"></div>
+    <div class="gallery-caption">PCB layout — in progress, targeting JLCPCB manufacture</div>
+  </div>
+</div>
+
+<div style="margin-top:28px;">
+  <div style="font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:18px;height:1px;background:var(--accent);flex-shrink:0;"></span>Firmware</div>
+  <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;">Written in Arduino C++ using the ESP-NOW API and the LEDC driver directly. The receiver auto-calibrates joystick centres on power-up (~60 packets at 50 Hz) and requires the throttle to sit at centre briefly before arming — preventing a motor spin on connect. Motor PWM runs at 20 kHz on an 11-bit timer; servo outputs 50 Hz with pulse width constrained to 1000–2000 µs. A 400 ms failsafe cuts the motor if packets stop arriving.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <button onclick="toggleRCFw('receiver',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Car receiver code</button>
+    <button onclick="toggleRCFw('sender',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Remote sender code</button>
+  </div>
+  <div id="rc-fw-receiver" style="display:none;margin-top:10px;">
+    <pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow:auto;max-height:420px;font-family:var(--mono);font-size:11px;color:var(--text-dim);line-height:1.65;margin:0;"><code id="rc-fw-receiver-code"></code></pre>
+  </div>
+  <div id="rc-fw-sender" style="display:none;margin-top:10px;">
+    <pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow:auto;max-height:420px;font-family:var(--mono);font-size:11px;color:var(--text-dim);line-height:1.65;margin:0;"><code id="rc-fw-sender-code"></code></pre>
   </div>
 </div>
 </div>
@@ -855,19 +846,19 @@ body.edit-mode #eb-hint{display:block}
     <div class="timeline-dot"></div>
     <div class="timeline-step">Phase 1 — Bench Testing</div>
     <div class="timeline-heading">Motor, servo, and driver validated independently before chassis mounting</div>
-    <div class="timeline-body">Before final assembly, each subsystem was bench-tested independently. The TB6612FNG motor driver was tested for bidirectional PWM control with the XIAO ESP32-C3 using both LEDC channels. The SG90 servo was validated for full range of motion on GPIO D1. Drive motor direction and speed control were confirmed functional at varying PWM duty cycles. All bench tests used LiPo power through a bench PSU current limiter for safety.</div>
+    <div class="timeline-body">Before final assembly, each subsystem was bench-tested independently. The TB6612FNG motor driver was tested for bidirectional PWM control with the XIAO ESP32-C3 using both LEDC channels. The micro digital servo was validated for full range of motion on GPIO D7. Motor direction switching and speed control were verified across the full PWM range. All bench tests ran from LiPo power through a bench PSU current limiter for safety.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
     <div class="timeline-step blue">Phase 2 — Chassis Assembly</div>
     <div class="timeline-heading">3D-printed chassis assembled with motor, servo, and wheel mounts</div>
-    <div class="timeline-body">All 3D-printed chassis parts assembled in sequence: rear motor bracket press-fitted and secured, front steering knuckles inserted with press-fit axle pins, SG90 servo mounted in its bracket with horn connected to the steering linkage, and all four wheels attached. Mechanical fit and steering range of motion verified before electronics installation.</div>
+    <div class="timeline-body">All 3D-printed chassis parts assembled in sequence: rear motor bracket press-fitted and secured, front steering knuckles inserted with press-fit axle pins, micro digital servo mounted in its bracket with horn connected to the steering linkage, and all four wheels attached. Fit and full steering range were checked before installing any electronics.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot amber"></div>
     <div class="timeline-step amber">Phase 3 — Electronics Mounting</div>
     <div class="timeline-heading">XIAO ESP32-C3, TB6612FNG breakout, and LiPo mounted to chassis top plate</div>
-    <div class="timeline-body">Electronics mounted directly to the chassis top plate using double-sided tape and standoffs. XIAO ESP32-C3 positioned for USB-C access. TB6612FNG breakout wired to all motor and GPIO pins per pin mapping table. LiPo cell positioned for centre-of-gravity balance. Full wireless control test confirmed with ESP-NOW transmitter board — car drives and steers correctly in both directions.</div>
+    <div class="timeline-body">Electronics mounted to the chassis top plate. XIAO ESP32-C3 positioned for USB-C access, with its antenna sticker adhered to the chassis exterior for unobstructed RF. TB6612FNG module wired to all motor and GPIO pins per pin mapping table. LiPo cell positioned for centre-of-gravity balance. Wireless control tested end-to-end with the ESP-NOW transmitter — car drives and steers correctly in both directions.</div>
   </div>
 </div>
 </div>
@@ -888,6 +879,12 @@ body.edit-mode #eb-hint{display:block}
     </video>
     <div class="video-cap">Steering — left &amp; right lock</div>
   </div>
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata">
+      <source src="IMAGES/RC mini Car/miniRCcarvideo.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">Full drive — steering and throttle</div>
+  </div>
 </div>
 </div>
 
@@ -895,12 +892,12 @@ body.edit-mode #eb-hint{display:block}
 <div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
 <div class="decision-list">
   <div class="decision">
-    <div class="decision-title">PCB Manufacture &amp; Testing — JLCPCB</div>
-    <div class="decision-body">Submit the completed EasyEDA PCB design to <strong>JLCPCB for 2-layer fabrication</strong>. Assemble the custom PCB and validate all subsystems: motor driver PWM, servo control, power supply, and ESP-NOW wireless link. Replace the current breakout-board wiring with the clean PCB-mounted solution.</div>
+    <div class="decision-title">PCB Design, Manufacture &amp; Testing — JLCPCB</div>
+    <div class="decision-body">Complete the KiCad PCB design and submit to <strong>JLCPCB for 2-layer fabrication</strong>. Assemble the custom PCB and validate all subsystems: motor driver PWM, servo control, power supply, and ESP-NOW wireless link. Replace the current breakout-board wiring with the clean PCB-mounted solution.</div>
   </div>
   <div class="decision blue">
     <div class="decision-title">Handheld Transmitter Controller Build</div>
-    <div class="decision-body">Build a handheld joystick transmitter using a second <strong>XIAO ESP32-C3</strong> with the ESP-NOW TX firmware. The controller will feature an analog joystick for throttle/steering and a 3D-printed ergonomic enclosure designed in Fusion 360 to fit the hand comfortably.</div>
+    <div class="decision-body">Design a dedicated handheld transmitter around a <strong>XIAO ESP32-C3</strong> with the ESP-NOW TX firmware. The controller will feature a dual-axis analog joystick for throttle and steering, housed in a 3D-printed ergonomic enclosure designed in Fusion 360.</div>
   </div>
   <div class="decision amber">
     <div class="decision-title">Body Shell — Fusion 360 &amp; 3D Print</div>
@@ -908,7 +905,7 @@ body.edit-mode #eb-hint{display:block}
   </div>
   <div class="decision">
     <div class="decision-title">PWM &amp; Dead Zone Tuning</div>
-    <div class="decision-body">Dial in the right <strong>PWM frequency and dead zone parameters</strong> for low-speed control precision and reliable direction switching. Current firmware uses hardcoded dead zones — a runtime tuning mode will allow configuring these via the transmitter joystick with values stored in EEPROM.</div>
+    <div class="decision-body">Dial in the right <strong>PWM frequency and dead zone parameters</strong> for low-speed control precision and reliable direction switching. Current firmware uses hardcoded dead zones — a runtime tuning mode via the joystick will make it possible to dial these in on the fly and save them to EEPROM.</div>
   </div>
 </div>
 </div>
@@ -923,8 +920,8 @@ body.edit-mode #eb-hint{display:block}
 </div>
 </div>
 <div class="footer">
-<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>ESP32 Mini RC Car &nbsp;·&nbsp; Fusion 360 &nbsp;·&nbsp; EasyEDA &amp; JLCPCB &nbsp;·&nbsp; Feb–Mar 2026</div>
-<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a><br><a href="esp32-s3-project-main.html" style="color:var(--ink-2);text-decoration:none;">Next: ESP32-S3 PCB →</a></div>
+<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>ESP32 Mini RC Car &nbsp;·&nbsp; Fusion 360 &nbsp;·&nbsp; KiCad &amp; JLCPCB &nbsp;·&nbsp; Feb–Mar 2026</div>
+<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a><br><a href="nes-emulator-project-main.html" style="color:var(--ink-2);text-decoration:none;">Next: RetroDS NES →</a></div>
 </div>
 
 <div id="lb" style="display: none;"><button id="lb-close">✕</button><img loading="lazy" id="lb-img" src="IMAGES/RC mini Car/sideview.webp" alt="" style="outline: rgba(37, 99, 235, 0.35) dashed 1px;"></div>
@@ -982,49 +979,6 @@ addEventListener('scroll',()=>{
   raf=requestAnimationFrame(tick);
 })();
 
-// ── Edit Mode ─────────────────────────────────────────────
-(function () {
-  const toolbar = document.createElement('div');
-  toolbar.id = 'eb-toolbar';
-  toolbar.style.cssText = 'display:none;position:fixed;bottom:24px;right:24px;z-index:9000;gap:8px;align-items:center;flex-wrap:wrap;';
-  const bs = 'background:rgba(10,14,26,.95);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:10px 18px;font-family:\'JetBrains Mono\',monospace;font-size:12px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:background .2s;';
-  const btnUndo = document.createElement('button'); btnUndo.textContent = '↩ Undo'; btnUndo.style.cssText = bs + 'color:#8b9bb8;'; btnUndo.disabled = true;
-  const btnSave = document.createElement('button'); btnSave.textContent = '💾 Save'; btnSave.style.cssText = bs + 'background:#16a34a;border-color:#16a34a;';
-  const btnExport = document.createElement('button'); btnExport.textContent = '⬇ Export'; btnExport.style.cssText = bs + 'background:rgba(93,188,255,.25);border-color:rgba(93,188,255,.5);';
-  const btnConnect = document.createElement('button'); btnConnect.textContent = '⚙ GitHub'; btnConnect.style.cssText = bs;
-  const btnExit = document.createElement('button'); btnExit.textContent = '✕ Exit'; btnExit.style.cssText = bs + 'background:rgba(239,68,68,.25);border-color:rgba(239,68,68,.5);color:#fca5a5;';
-  btnExit.addEventListener('click', () => activateEditMode());
-  toolbar.append(btnUndo, btnSave, btnExport, btnConnect, btnExit);
-  document.body.appendChild(toolbar);
-  const saveFlash = document.createElement('div');
-  saveFlash.id = 'eb-save-flash';
-  saveFlash.style.cssText = 'display:none;position:fixed;bottom:70px;right:24px;z-index:9001;background:#16a34a;color:#fff;padding:6px 14px;border-radius:6px;font-family:\'JetBrains Mono\',monospace;font-size:11px;pointer-events:none;';
-  saveFlash.textContent = '✓ Saved!'; document.body.appendChild(saveFlash);
-  const imgTip = document.createElement('div');
-  imgTip.style.cssText = 'display:none;position:fixed;background:rgba(93,188,255,.92);color:#fff;font-family:\'JetBrains Mono\',monospace;font-size:10px;padding:3px 8px;border-radius:4px;pointer-events:none;z-index:9500;white-space:nowrap;';
-  imgTip.textContent = 'Click to swap image'; document.body.appendChild(imgTip);
-  const ebHint = document.createElement('div'); ebHint.id = 'eb-hint';
-  ebHint.innerHTML = 'Ctrl+Shift+E &mdash; exit edit mode<br>Click image &mdash; swap it &nbsp;|&nbsp; Click text &mdash; edit it<br>+ / &minus; &mdash; resize image height<br>&#8593; &#8595; buttons &mdash; move gallery item or section<br>&#9633; corner &mdash; drag to resize box<br>&#8991; handle &mdash; drag to reorder within gallery<br>&#43; Add Image Box &mdash; insert new gallery item';
-  document.body.appendChild(ebHint);
-
-  let editMode = false;
-  const SAVE_KEY = 'rccar_page_content';
-  const GH_REPO = 'andresmoreno2702-gif/andresmoreno2702-gif.github.io';
-  const GH_FILE = 'rc-car-project-main.html';
-  const GH_BRANCH = 'main';
-  const PAT_KEY = 'gh_pat';
-
-  function cleanSnap() { const clone = document.querySelector('.content').cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn').forEach(el => el.remove()); ['data-eb-init','data-txt','data-ies','data-drag-setup'].forEach(a => clone.querySelectorAll('['+a+']').forEach(el => el.removeAttribute(a))); return clone.innerHTML; }
-  async function blobsToBase64() { for (const img of [...document.querySelectorAll('img[src^="blob:"]')]) { try { const c = document.createElement('canvas'); c.width = img.naturalWidth || 300; c.height = img.naturalHeight || 200; c.getContext('2d').drawImage(img, 0, 0); img.src = c.toDataURL(); } catch (e) {} } }
-  function fullPageClean() { const clone = document.documentElement.cloneNode(true); clone.querySelectorAll('.eb-bar,.eb-corner,.eb-placeholder,.eb-add-btn,#eb-toolbar,#eb-save-flash,#eb-hint').forEach(el => el.remove()); ['data-eb-init','data-txt','data-ies','data-drag-setup'].forEach(a => clone.querySelectorAll('['+a+']').forEach(el => el.removeAttribute(a))); clone.querySelector('body').classList.remove('edit-mode'); return '<!DOCTYPE html>\n' + clone.outerHTML; }
-
-  let unsavedChanges = false;
-  window.addEventListener('beforeunload', e => { if (unsavedChanges) { e.preventDefault(); e.returnValue = ''; } });
-
-  const undoStack = [];
-  function snapshot() { undoStack.push(cleanSnap()); if (undoStack.length > 50) undoStack.shift(); btnUndo.disabled = false; unsavedChanges = true; }
-  btnUndo.addEventListener('click', () => { if (!undoStack.length) return; document.querySelector('.content').innerHTML = undoStack.pop(); if (!undoStack.length) btnUndo.disabled = true; document.querySelectorAll('.gallery-item').forEach(initGalleryItem); document.querySelectorAll('.timeline-img,.stat-card').forEach(initOtherBlock); attachImgSwap(); enableText(); });
-  (() => { const saved = localStorage.getItem(SAVE_KEY); if (saved) document.querySelector('.content').innerHTML = saved; })();
 
   function updateConnectBtn() { const tok = localStorage.getItem(PAT_KEY); btnConnect.textContent = tok ? '● Connected' : '⚙ GitHub'; if (tok) btnConnect.style.color = '#4ade80'; else btnConnect.style.color = ''; }
   updateConnectBtn();
@@ -1048,131 +1002,7 @@ addEventListener('scroll',()=>{
   });
 
   btnExport.addEventListener('click', async () => { await blobsToBase64(); const blob = new Blob([fullPageClean()], { type: 'text/html' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'rc-car-project-main.html'; a.click(); URL.revokeObjectURL(a.href); });
-
-  // ── Image swap ──
-  function pickImage(img) { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.addEventListener('change', () => { if (!inp.files[0]) return; snapshot(); img.src = URL.createObjectURL(inp.files[0]); img.style.cssText = 'aspect-ratio:auto;height:auto;max-height:none;width:100%;object-fit:cover;'; }); inp.click(); }
-  function attachImgSwap() { document.querySelectorAll('img:not([data-no-edit]):not([data-ies])').forEach(img => { img.dataset.ies = '1'; img.addEventListener('click', e => { if (!editMode) return; e.stopPropagation(); pickImage(img); }); img.addEventListener('mousemove', e => { if (!editMode) return; imgTip.style.display = 'block'; imgTip.style.left = (e.clientX + 12) + 'px'; imgTip.style.top = (e.clientY + 12) + 'px'; }); img.addEventListener('mouseleave', () => imgTip.style.display = 'none'); }); }
-
-  // ── Text editing ──
-  const TSEL = 'h1,h2,h3,p,li,span,a,.hero-tag,.hero-sub,.badge,.section-title,.gallery-caption,.timeline-step,.timeline-heading,.timeline-body,.stat-value,.stat-label,.stat-sub,.prose p,.decision-title,.decision-body,.spec-key,.spec-val,.footer-left,.footer-right,td,th,.timeline-img-cap,.part,.ref';
-  function enableText() { document.querySelectorAll(TSEL).forEach(el => { if (el.dataset.txt) return; if (el.querySelector('div,section,article,nav')) return; el.dataset.txt = '1'; el.addEventListener('click', e => { if (!editMode) return; e.stopPropagation(); snapshot(); el.contentEditable = 'true'; el.focus(); }); el.addEventListener('blur', () => el.contentEditable = 'false'); el.addEventListener('keydown', e => { if (e.key === 'Escape') { el.contentEditable = 'false'; el.blur(); } }); }); }
-
-  // ── Corner resize ──
-  function makeResizable(block) {
-    if (block.querySelector('.eb-corner')) return;
-    const corner = document.createElement('div'); corner.className = 'eb-corner'; block.appendChild(corner);
-    corner.addEventListener('mousedown', e => {
-      e.preventDefault(); e.stopPropagation();
-      const sx = e.clientX, sy = e.clientY, sw = block.offsetWidth, sh = block.offsetHeight;
-      block.style.width = sw + 'px'; block.style.height = sh + 'px'; block.style.minHeight = 'unset';
-      const mm = ev => { block.style.width = Math.max(80, sw + (ev.clientX - sx)) + 'px'; block.style.height = Math.max(50, sh + (ev.clientY - sy)) + 'px'; };
-      const mu = () => { window.removeEventListener('mousemove', mm); window.removeEventListener('mouseup', mu); };
-      window.addEventListener('mousemove', mm); window.addEventListener('mouseup', mu);
-    });
-  }
-
-  // ── Gallery item controls bar ──
-  function initGalleryItem(item) {
-    if (item.dataset.ebInit) return; item.dataset.ebInit = '1';
-    if (getComputedStyle(item).position === 'static') item.style.position = 'relative';
-    item.setAttribute('draggable', 'true');
-    const img = item.querySelector('img');
-    const bar = document.createElement('div'); bar.className = 'eb-bar';
-    if (img) {
-      const bi = document.createElement('button'); bi.textContent = '+'; bi.title = 'Increase image height';
-      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = (c + 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
-      const si = document.createElement('button'); si.textContent = '−'; si.title = 'Decrease image height';
-      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = Math.max(40, c - 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
-      bar.append(bi, si);
-    }
-    const up = document.createElement('button'); up.textContent = '↑'; up.title = 'Move item up';
-    up.addEventListener('click', e => { e.stopPropagation(); snapshot(); const prev = item.previousElementSibling; if (prev && prev.classList.contains('gallery-item')) item.parentNode.insertBefore(item, prev); });
-    const dn = document.createElement('button'); dn.textContent = '↓'; dn.title = 'Move item down';
-    dn.addEventListener('click', e => { e.stopPropagation(); snapshot(); const next = item.nextElementSibling; if (next && next.classList.contains('gallery-item')) item.parentNode.insertBefore(next, item); });
-    const del = document.createElement('button'); del.textContent = '✕'; del.className = 'red'; del.title = 'Delete box';
-    del.addEventListener('click', e => { e.stopPropagation(); snapshot(); if (confirm('Delete this box?')) item.remove(); });
-    bar.append(up, dn, del);
-    const dh = document.createElement('span'); dh.className = 'eb-drag-handle'; dh.textContent = '⠇'; dh.title = 'Drag to reorder';
-    bar.appendChild(dh);
-    item.insertBefore(bar, item.firstChild);
-    makeResizable(item);
-  }
-
-  // ── Timeline image / stat card controls ──
-  function initOtherBlock(block) {
-    if (block.dataset.ebInit) return; block.dataset.ebInit = '1';
-    if (getComputedStyle(block).position === 'static') block.style.position = 'relative';
-    const img = block.querySelector('img');
-    const bar = document.createElement('div'); bar.className = 'eb-bar';
-    if (img) {
-      const bi = document.createElement('button'); bi.textContent = '+'; bi.title = 'Increase image height';
-      bi.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = (c + 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
-      const si = document.createElement('button'); si.textContent = '−'; si.title = 'Decrease image height';
-      si.addEventListener('click', e => { e.stopPropagation(); snapshot(); const c = parseInt(img.style.height) || img.offsetHeight || 120; img.style.height = Math.max(40, c - 50) + 'px'; img.style.maxHeight = 'none'; img.style.width = '100%'; img.style.objectFit = 'cover'; img.style.aspectRatio = 'auto'; });
-      bar.append(bi, si);
-    }
-    block.insertBefore(bar, block.firstChild);
-    makeResizable(block);
-  }
-
-  // ── Section move up/down ──
-  function initSection(section) {
-    if (section.dataset.ebInit) return; section.dataset.ebInit = '1';
-    section.style.position = 'relative';
-    const bar = document.createElement('div'); bar.className = 'eb-bar';
-    const up = document.createElement('button'); up.textContent = '↑ Move Section Up'; up.title = 'Move this section up';
-    up.addEventListener('click', e => { e.stopPropagation(); snapshot(); const prev = section.previousElementSibling; if (prev) section.parentNode.insertBefore(section, prev); });
-    const dn = document.createElement('button'); dn.textContent = '↓ Move Section Down'; dn.title = 'Move this section down';
-    dn.addEventListener('click', e => { e.stopPropagation(); snapshot(); const next = section.nextElementSibling; if (next) section.parentNode.insertBefore(next, section); });
-    bar.append(up, dn);
-    section.insertBefore(bar, section.firstChild);
-  }
-
-  // ── Gallery drag-to-reorder ──
-  function setupGridDrag(gallery) {
-    let dragEl = null, placeholder = null;
-    gallery.addEventListener('dragstart', e => { dragEl = e.target.closest('.gallery-item'); if (!dragEl) return; setTimeout(() => dragEl.classList.add('eb-dragging'), 0); placeholder = document.createElement('div'); placeholder.className = 'eb-placeholder'; placeholder.style.width = dragEl.offsetWidth + 'px'; placeholder.style.height = dragEl.offsetHeight + 'px'; if (dragEl.classList.contains('wide')) placeholder.style.gridColumn = 'span 2'; e.dataTransfer.effectAllowed = 'move'; });
-    gallery.addEventListener('dragover', e => { e.preventDefault(); const target = e.target.closest('.gallery-item'); if (!target || target === dragEl) return; const rect = target.getBoundingClientRect(); if (e.clientX < rect.left + rect.width / 2) gallery.insertBefore(placeholder, target); else gallery.insertBefore(placeholder, target.nextSibling); });
-    gallery.addEventListener('drop', e => { e.preventDefault(); if (!dragEl || !placeholder) return; gallery.insertBefore(dragEl, placeholder); cleanup(); });
-    gallery.addEventListener('dragend', cleanup);
-    function cleanup() { if (dragEl) dragEl.classList.remove('eb-dragging'); if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder); dragEl = null; placeholder = null; }
-  }
-
-  // ── Add image box ──
-  function setupAddBox() {
-    document.querySelectorAll('.gallery').forEach(gallery => {
-      if (gallery.querySelector('.eb-add-btn')) return;
-      const btn = document.createElement('button'); btn.className = 'eb-add-btn'; btn.textContent = '+ Add Image Box';
-      btn.addEventListener('click', () => {
-        snapshot();
-        const item = document.createElement('div'); item.className = 'gallery-item';
-        item.innerHTML = '<img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'%3E%3Crect width=\'300\' height=\'200\' fill=\'%231a2235\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%234a5a78\' font-family=\'monospace\' font-size=\'14\'%3EClick to swap image%3C/text%3E%3C/svg%3E" alt="New image"><div class="gallery-caption">Caption</div>';
-        gallery.insertBefore(item, btn); initGalleryItem(item); attachImgSwap(); enableText();
-      });
-      gallery.appendChild(btn);
-    });
-  }
-
-  // ── Activate / deactivate ──
-  function activateEditMode() {
-    editMode = !editMode;
-    document.body.classList.toggle('edit-mode', editMode);
-    if (editMode) {
-      toolbar.style.display = 'flex';
-      document.querySelectorAll('.gallery').forEach(gallery => { if (!gallery.dataset.dragSetup) { gallery.dataset.dragSetup = '1'; setupGridDrag(gallery); } });
-      document.querySelectorAll('.gallery-item').forEach(initGalleryItem);
-      document.querySelectorAll('.timeline-img,.stat-card').forEach(initOtherBlock);
-      document.querySelectorAll('.section').forEach(initSection);
-      attachImgSwap(); enableText(); setupAddBox();
-    } else {
-      toolbar.style.display = 'none'; imgTip.style.display = 'none';
-    }
-  }
-
-  const EDIT_PASS = 'morenavaa321';
-  document.addEventListener('keydown', e => { if (e.ctrlKey && e.shiftKey && e.key === 'E') { e.preventDefault(); if (editMode) { activateEditMode(); return; } const pw = prompt('Enter password to enable edit mode:'); if (pw === EDIT_PASS) activateEditMode(); } });
-})();
-</script><div style="display: none; position: fixed; bottom: 70px; right: 24px; z-index: 9001; background: rgb(22, 163, 74); color: rgb(255, 255, 255); padding: 6px 14px; border-radius: 6px; font-family: &quot;DM Mono&quot;, monospace; font-size: 11px; pointer-events: none;">✓ Saved!</div><div style="display: none; position: fixed; background: rgba(37, 99, 235, 0.92); color: rgb(255, 255, 255); font-family: &quot;DM Mono&quot;, monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; pointer-events: none; z-index: 9500; white-space: nowrap; left: 1212px; top: 417px;">Click to swap image</div>
+</script>
 
 <script id="snap-js">
 (function(){
@@ -1186,8 +1016,19 @@ addEventListener('scroll',()=>{
       main.style.transition = 'opacity 0.18s ease';
       setTimeout(function(){
         main.src = thumb.dataset.src;
-        main.style.objectPosition = thumb.dataset.pos || 'center center';
-        main.style.opacity = '1';
+        main.style.cssText = '';
+        var ezH = parseFloat(thumb.dataset.ezH);
+        if (isFinite(ezH) && ezH > 0) {
+          main.style.height = ezH + 'px'; main.style.width = 'auto';
+          main.style.objectFit = 'fill';
+          main.style.top  = (parseFloat(thumb.dataset.ezCy) || 0) + 'px';
+          main.style.left = (parseFloat(thumb.dataset.ezCx) || 0) + 'px';
+          main.style.maxWidth = 'none'; main.style.maxHeight = 'none';
+          main.style.aspectRatio = 'unset'; main.style.display = 'block';
+          main.style.position = 'relative'; main.style.flex = '0 0 auto';
+        } else {
+          main.style.objectPosition = thumb.dataset.pos || 'center center';
+        }
         if(cap && thumb.dataset.cap) cap.textContent = thumb.dataset.cap;
       }, 180);
       wrap.querySelectorAll('.snap-thumb').forEach(function(t){ t.classList.remove('active'); });
@@ -1235,6 +1076,273 @@ addEventListener('scroll',()=>{
     });
   },{threshold:0.5});
   document.querySelectorAll('.snap-counter').forEach(function(el){ cio.observe(el); });
+})();
+</script>
+
+<script>
+// Firmware code toggle
+function toggleRCFw(id, btn) {
+  var el = document.getElementById('rc-fw-' + id);
+  var show = el.style.display === 'none';
+  el.style.display = show ? 'block' : 'none';
+  btn.textContent = (show ? '▼ ' : '▶ ') + btn.textContent.slice(2);
+}
+(function(){
+  var receiverCode = [
+    '// small rc car receiver',
+    '#include <Arduino.h>',
+    '#include <WiFi.h>',
+    '#include <esp_now.h>',
+    '#include "esp_wifi.h"',
+    '#include "driver/ledc.h"',
+    '#include <cstring>',
+    '',
+    '// ===================== PINS =====================',
+    '// TB6612 (Channel B)',
+    '#define BIN1  6      // GPIO6 = D4',
+    '#define BIN2  7      // GPIO7 = D5',
+    '#define PWMB  10     // GPIO10 = D10',
+    '// STBY: tie to 3V3 (HIGH)',
+    '',
+    '// Servo',
+    '#define SERVO_PIN 20 // GPIO20 = D7',
+    '',
+    '// ===================== ESPNOW PACKET =====================',
+    'typedef struct __attribute__((packed)) {',
+    '  uint16_t ax;   // 0..4095 steering',
+    '  uint16_t ay;   // 0..4095 throttle',
+    '  uint16_t seq;',
+    '} JoyPacket;',
+    '',
+    'static JoyPacket rxBuf = {2048, 2048, 0};',
+    'static uint32_t  rxMs = 0;',
+    'static uint32_t  rxCount = 0;',
+    'portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;',
+    '',
+    '// ===================== SETTINGS =====================',
+    'const int WIFI_CH = 1;',
+    'const uint32_t FAILSAFE_MS = 400;',
+    '',
+    'bool centersReady = false;',
+    'uint32_t calCount = 0;',
+    'uint32_t calSumX = 0, calSumY = 0;',
+    'const uint32_t CAL_SAMPLES = 60;   // ~60 packets @50Hz ≈ 1.2s',
+    '',
+    'int centerX = 2048;',
+    'int centerY = 2048;',
+    '',
+    'const int DEADZONE = 140;',
+    'const int ARM_DEADZONE = 180;',
+    'const int MAX_SPAN = 1800;',
+    'const uint16_t ARM_PACKETS_REQUIRED = 20;',
+    '',
+    'bool armed = false;',
+    'uint16_t armCount = 0;',
+    '',
+    '// ===================== MOTOR PWM (LEDC) =====================',
+    'constexpr ledc_timer_t     M_TIMER = LEDC_TIMER_0;',
+    'constexpr ledc_mode_t      M_MODE  = LEDC_LOW_SPEED_MODE;',
+    'constexpr ledc_channel_t   M_CH    = LEDC_CHANNEL_0;',
+    'constexpr ledc_timer_bit_t M_BITS  = LEDC_TIMER_11_BIT;  // 0..2047',
+    'constexpr uint32_t         M_FREQ  = 20000;',
+    'const int PWM_MAX = (1 << 11) - 1;',
+    '',
+    '// ===================== SERVO PWM (LEDC) =====================',
+    'constexpr ledc_timer_t     S_TIMER = LEDC_TIMER_1;',
+    'constexpr ledc_mode_t      S_MODE  = LEDC_LOW_SPEED_MODE;',
+    'constexpr ledc_channel_t   S_CH    = LEDC_CHANNEL_1;',
+    'constexpr ledc_timer_bit_t S_BITS  = LEDC_TIMER_11_BIT;',
+    'constexpr uint32_t         S_FREQ  = 50;',
+    '',
+    'const int SERVO_PERIOD_US  = 20000;',
+    'const int SERVO_US_MIN     = 1000;',
+    'const int SERVO_US_MAX     = 2000;',
+    '',
+    'uint32_t servoUsToDuty(int us) {',
+    '  uint32_t maxDuty = (1u << S_BITS) - 1u;',
+    '  return (uint32_t)((uint64_t)us * maxDuty / SERVO_PERIOD_US);',
+    '}',
+    '',
+    'void setServoUs(int us) {',
+    '  us = constrain(us, SERVO_US_MIN, SERVO_US_MAX);',
+    '  ledc_set_duty(S_MODE, S_CH, servoUsToDuty(us));',
+    '  ledc_update_duty(S_MODE, S_CH);',
+    '}',
+    '',
+    'void motorSet(int cmd) {',
+    '  cmd = constrain(cmd, -PWM_MAX, PWM_MAX);',
+    '  if (cmd > 0) {',
+    '    digitalWrite(BIN1, HIGH); digitalWrite(BIN2, LOW);',
+    '    ledc_set_duty(M_MODE, M_CH, cmd); ledc_update_duty(M_MODE, M_CH);',
+    '  } else if (cmd < 0) {',
+    '    digitalWrite(BIN1, LOW); digitalWrite(BIN2, HIGH);',
+    '    ledc_set_duty(M_MODE, M_CH, -cmd); ledc_update_duty(M_MODE, M_CH);',
+    '  } else {',
+    '    digitalWrite(BIN1, LOW); digitalWrite(BIN2, LOW);',
+    '    ledc_set_duty(M_MODE, M_CH, 0); ledc_update_duty(M_MODE, M_CH);',
+    '  }',
+    '}',
+    '',
+    'void onDataRecv(const esp_now_recv_info_t*, const uint8_t* data, int len) {',
+    '  if (len != (int)sizeof(JoyPacket)) return;',
+    '  portENTER_CRITICAL(&mux);',
+    '  memcpy(&rxBuf, data, sizeof(JoyPacket));',
+    '  rxMs = millis(); rxCount++;',
+    '  portEXIT_CRITICAL(&mux);',
+    '}',
+    '',
+    'void setup() {',
+    '  Serial.begin(115200); delay(800);',
+    '  pinMode(BIN1, OUTPUT); pinMode(BIN2, OUTPUT);',
+    '',
+    '  ledc_timer_config_t mt = {};',
+    '  mt.speed_mode = M_MODE; mt.timer_num = M_TIMER;',
+    '  mt.duty_resolution = M_BITS; mt.freq_hz = M_FREQ;',
+    '  mt.clk_cfg = LEDC_AUTO_CLK; ledc_timer_config(&mt);',
+    '',
+    '  ledc_channel_config_t mc = {};',
+    '  mc.gpio_num = PWMB; mc.speed_mode = M_MODE; mc.channel = M_CH;',
+    '  mc.timer_sel = M_TIMER; mc.duty = 0; mc.hpoint = 0;',
+    '  mc.intr_type = LEDC_INTR_DISABLE; ledc_channel_config(&mc);',
+    '',
+    '  ledc_timer_config_t st = {};',
+    '  st.speed_mode = S_MODE; st.timer_num = S_TIMER;',
+    '  st.duty_resolution = S_BITS; st.freq_hz = S_FREQ;',
+    '  st.clk_cfg = LEDC_AUTO_CLK; ledc_timer_config(&st);',
+    '',
+    '  ledc_channel_config_t sc = {};',
+    '  sc.gpio_num = SERVO_PIN; sc.speed_mode = S_MODE; sc.channel = S_CH;',
+    '  sc.timer_sel = S_TIMER; sc.duty = servoUsToDuty(1500);',
+    '  sc.hpoint = 0; sc.intr_type = LEDC_INTR_DISABLE; ledc_channel_config(&sc);',
+    '',
+    '  motorSet(0); setServoUs(1500);',
+    '',
+    '  WiFi.mode(WIFI_STA); WiFi.setSleep(false);',
+    '  esp_wifi_set_channel(WIFI_CH, WIFI_SECOND_CHAN_NONE);',
+    '  esp_now_init();',
+    '  esp_now_register_recv_cb(onDataRecv);',
+    '  Serial.println("Waiting for packets... keep joystick RELEASED for auto-center.");',
+    '}',
+    '',
+    'void loop() {',
+    '  JoyPacket p; uint32_t t, count;',
+    '  portENTER_CRITICAL(&mux);',
+    '  memcpy(&p, &rxBuf, sizeof(JoyPacket)); t = rxMs; count = rxCount;',
+    '  portEXIT_CRITICAL(&mux);',
+    '',
+    '  bool linkOk = (count > 0) && ((millis() - t) < FAILSAFE_MS);',
+    '  if (!linkOk) {',
+    '    motorSet(0); setServoUs(1500);',
+    '    armed = false; armCount = 0;',
+    '    centersReady = false; calCount = 0; calSumX = 0; calSumY = 0;',
+    '    delay(5); return;',
+    '  }',
+    '',
+    '  // Auto-center calibration',
+    '  if (!centersReady) {',
+    '    calSumX += p.ax; calSumY += p.ay; calCount++;',
+    '    motorSet(0); setServoUs(1500);',
+    '    if (calCount >= CAL_SAMPLES) {',
+    '      centerX = calSumX / calCount; centerY = calSumY / calCount;',
+    '      centersReady = true; armed = false; armCount = 0;',
+    '    }',
+    '    delay(5); return;',
+    '  }',
+    '',
+    '  int dx = (int)p.ax - centerX;',
+    '  int dy = (int)p.ay - centerY;',
+    '',
+    '  // Servo (steering from X-axis)',
+    '  dx = constrain(dx, -MAX_SPAN, MAX_SPAN);',
+    '  float x = (float)dx / (float)MAX_SPAN;',
+    '  int us = SERVO_US_MIN + (int)((x + 1.0f) * 0.5f * (SERVO_US_MAX - SERVO_US_MIN));',
+    '  setServoUs(us);',
+    '',
+    '  // Arm logic (prevents startup spin)',
+    '  if (!armed) {',
+    '    if (abs(dy) < ARM_DEADZONE) armCount++; else armCount = 0;',
+    '    motorSet(0);',
+    '    if (armCount >= ARM_PACKETS_REQUIRED) armed = true;',
+    '    delay(5); return;',
+    '  }',
+    '',
+    '  // Motor (throttle from Y-axis)',
+    '  int cmd = 0;',
+    '  if (abs(dy) > DEADZONE) {',
+    '    dy = constrain(dy, -MAX_SPAN, MAX_SPAN);',
+    '    cmd = map(dy, -MAX_SPAN, MAX_SPAN, -PWM_MAX, PWM_MAX);',
+    '  }',
+    '  motorSet(cmd);',
+    '  delay(5);',
+    '}',
+  ].join('\n');
+
+  var senderCode = [
+    '// small rc car sender',
+    '#include <Arduino.h>',
+    '#include <WiFi.h>',
+    '#include <esp_now.h>',
+    '#include "esp_wifi.h"',
+    '#include <cstring>',
+    '',
+    '#define JOY_X 0   // steering (ADC)',
+    '#define JOY_Y 1   // throttle (ADC)',
+    '',
+    '// Receiver MAC — update to match your XIAO',
+    'uint8_t peerMac[] = {0x58, 0x8C, 0x81, 0xB0, 0xB9, 0xA4};',
+    '',
+    'typedef struct __attribute__((packed)) {',
+    '  uint16_t ax;   // 0..4095',
+    '  uint16_t ay;   // 0..4095',
+    '  uint16_t seq;',
+    '} JoyPacket;',
+    '',
+    'const int WIFI_CH = 1;   // must match receiver',
+    'uint16_t seqNo = 0;',
+    '',
+    '// ESP32 Arduino 3.x send callback signature',
+    'void onSent(const wifi_tx_info_t* info, esp_now_send_status_t status) {',
+    '  (void)info;',
+    '  static uint32_t last = 0;',
+    '  if (millis() - last > 250) {',
+    '    last = millis();',
+    '    Serial.printf("sent_cb: %s\\n", status == ESP_NOW_SEND_SUCCESS ? "OK" : "FAIL");',
+    '  }',
+    '}',
+    '',
+    'void setup() {',
+    '  Serial.begin(115200); delay(800);',
+    '  analogReadResolution(12);',
+    '  pinMode(JOY_X, INPUT); pinMode(JOY_Y, INPUT);',
+    '  analogSetPinAttenuation(JOY_X, ADC_11db);',
+    '  analogSetPinAttenuation(JOY_Y, ADC_11db);',
+    '',
+    '  WiFi.mode(WIFI_STA); WiFi.setSleep(false);',
+    '  esp_wifi_set_channel(WIFI_CH, WIFI_SECOND_CHAN_NONE);',
+    '',
+    '  esp_now_init();',
+    '  esp_now_register_send_cb(onSent);',
+    '',
+    '  esp_now_peer_info_t peer = {};',
+    '  memcpy(peer.peer_addr, peerMac, 6);',
+    '  peer.channel = WIFI_CH; peer.encrypt = false;',
+    '  esp_now_del_peer(peerMac);',
+    '  esp_now_add_peer(&peer);',
+    '  Serial.println("Peer added. Sending packets...");',
+    '}',
+    '',
+    'void loop() {',
+    '  JoyPacket p;',
+    '  p.ax = (uint16_t)analogRead(JOY_X);',
+    '  p.ay = (uint16_t)analogRead(JOY_Y);',
+    '  p.seq = seqNo++;',
+    '  esp_now_send(peerMac, (uint8_t*)&p, sizeof(p));',
+    '  delay(20); // 50 Hz',
+    '}',
+  ].join('\n');
+
+  document.getElementById('rc-fw-receiver-code').textContent = receiverCode;
+  document.getElementById('rc-fw-sender-code').textContent = senderCode;
 })();
 </script>
 
