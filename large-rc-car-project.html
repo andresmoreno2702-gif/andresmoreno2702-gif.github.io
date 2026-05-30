@@ -369,11 +369,11 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="snap-photo-wrap">
       <div class="snap-photo-main" onclick="openLb(this.querySelector('img'))" style="width: 572px; height: 429px; overflow: hidden; position: relative; flex: 0 0 auto; box-sizing: border-box; display: flex; flex-direction: column;">
-        <div data-pe-imgwrap="1" style="flex:1;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img id="snap-main-img" width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/workbench.webp" alt="Large RC car — final build" style="position: relative; flex: 0 0 auto; width: auto; height: 770px; max-width: none; max-height: none; aspect-ratio: unset; display: block; object-fit: fill; top: -150px; left: 0px; transition: none;"></div>
-        <div class="snap-photo-caption" id="snap-main-cap">Workbench during build</div>
+        <div data-pe-imgwrap="1" style="flex:1;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img id="snap-main-img" width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/large-rc-without-remote.webp" alt="Large RC car — final build" style="position: relative; flex: 0 0 auto; width: auto; height: 770px; max-width: none; max-height: none; aspect-ratio: unset; display: block; object-fit: fill; top: -150px; left: 0px; transition: none;"></div>
+        <div class="snap-photo-caption" id="snap-main-cap">Final build — no remote</div>
       </div>
       <div class="snap-thumbs">
-        <div class="snap-thumb" data-src="IMAGES/Large RC Car/large-rc-without-remote.webp" data-cap="Final build — no remote" data-pos="center 90%">
+        <div class="snap-thumb active" data-src="IMAGES/Large RC Car/large-rc-without-remote.webp" data-cap="Final build — no remote" data-pos="center 90%">
           <img width="960" height="1280" loading="lazy" src="IMAGES/Large RC Car/large-rc-without-remote.webp" alt="Car without remote" style="object-position:center 90%;">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/large-rc-with-remote.webp" data-cap="Fully assembled — car &amp; custom gamepad remote" data-pos="center 90%">
@@ -400,7 +400,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="snap-thumb" data-src="IMAGES/Large RC Car/early-build.webp" data-cap="Early build — chassis and components laid out">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-build.webp" alt="Early build">
         </div>
-        <div class="snap-thumb active" data-src="IMAGES/Large RC Car/workbench.webp" data-cap="Workbench during build">
+        <div class="snap-thumb" data-src="IMAGES/Large RC Car/workbench.webp" data-cap="Workbench during build">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/workbench.webp" alt="Workbench">
         </div>
       </div>
@@ -423,9 +423,9 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="15" height="12" rx="2"></rect><line x1="20" y1="16" x2="27" y2="16"></line><circle cx="24.5" cy="16" r="2.5"></circle><line x1="3" y1="12" x2="5" y2="12"></line><line x1="3" y1="16" x2="5" y2="16"></line><line x1="3" y1="20" x2="5" y2="20"></line><path d="M10 16 L13 13 M10 16 L13 19" stroke-width="1.5"></path></svg></div>
             <div class="snap-comp-name">DRV8876</div>
           </div>
-          <div class="snap-comp" data-tip="SG90 servo — Ackermann front-wheel steering, 180° range, PWM signal">
+          <div class="snap-comp" data-tip="MG996R servo — Ackermann front-wheel steering, all-metal gear, 13–15 kg·cm torque, 50 Hz PWM signal">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"></rect><circle cx="13" cy="16" r="4"></circle><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><line x1="22" y1="13" x2="27" y2="13"></line><line x1="22" y1="16" x2="27" y2="16"></line><line x1="22" y1="19" x2="27" y2="19"></line><path d="M13 12 L18 7" stroke-width="2"></path></svg></div>
-            <div class="snap-comp-name">SG90 Servo</div>
+            <div class="snap-comp-name">MG996R Servo</div>
           </div>
           <div class="snap-comp" data-tip="ESP32-NOW peer-to-peer, ~50 m line-of-sight, ~2 ms latency, no router needed">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"></path><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"></path><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"></path><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"></circle></svg></div>
@@ -456,7 +456,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
           <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
             <li style="font-size:12.5px;color:var(--text-dim);line-height:1.65;padding-left:14px;position:relative;">
               <span style="position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);display:block;"></span>
-              Adding a 5A boost converter missed the point entirely — the motor spec was fine. The problem was total system weight.
+              The weight came from the motor, MG996R metal-gear servo, boost converter, and PLA casings — not the electronics. The ESP32 and driver chips barely register on a scale.
             </li>
             <li style="font-size:12.5px;color:var(--text-dim);line-height:1.65;padding-left:14px;position:relative;">
               <span style="position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);display:block;"></span>
@@ -483,8 +483,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="snap-stat-lbl">2S LiPo Battery</div>
     </div>
     <div class="snap-stat">
-      <div class="snap-counter">4</div>
-      <div class="snap-stat-lbl">Rubber Tyres</div>
+      <div class="snap-counter">565 g</div>
+      <div class="snap-stat-lbl">Assembled Weight</div>
     </div>
   </div>
 
@@ -510,7 +510,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="stat-card amber">
         <div class="stat-label">Motor Driver</div>
         <div class="stat-value">DRV8876</div>
-        <div class="stat-sub">DRV8876 single H-bridge</div>
+        <div class="stat-sub">Single H-bridge · IN1/IN2 mode</div>
       </div>
       <div class="stat-card purple">
         <div class="stat-label">Steering</div>
@@ -520,9 +520,9 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     </div>
 
     <div class="prose">
-      <p>The idea was simple: build an RC car where I designed every part — chassis geometry, remote body, firmware. I started in Fusion 360, modelling the suspension geometry before I had even ordered the wheels. The chassis came out properly: four rubber tyres, a servo-steered Ackermann front axle, and a rear-wheel drive layout.</p>
+      <p>The idea was simple: build an RC car where I designed every part — chassis geometry, remote body, firmware. I started in Fusion 360, modelling the chassis geometry before I had even ordered the wheels. The chassis came out properly: four rubber tyres, a servo-steered Ackermann front axle, and a rear-wheel drive layout.</p>
       <p>The remote was the part I was most proud of. Instead of using an off-the-shelf transmitter, I modelled a gamepad from scratch, 3D-printed the shell in two halves, fitted two analog joystick modules inside, and ran everything through an ESP32 WROOM using ESP32-NOW. The latency was good. The control feel was actually decent.</p>
-      <p><strong>What went wrong:</strong> I kept adding things. A 5A boost converter to push 12V to the motor, an oversized 3500mAh LiPo, a buck converter, the motor driver — each module seemed justified at the time. By the time it was all assembled and bolted down, the car worked but moved like it was carrying twice its own weight. The DRV8876 and motor were fine. The problem was the weight. The lesson stuck — directly led to the small RC car, which uses none of the excess.</p>
+      <p><strong>What went wrong:</strong> I kept adding things. A 5A boost converter, an oversized 3500mAh LiPo, and a printed housing for every component. The real weight came from the motor itself, the MG996R metal-gear servo, the boost converter, and the stack of PLA casings I built around everything — not the electronics. The ESP32, buck converter, and DRV8876 barely register on a scale. At 565 g assembled, the motor had no performance headroom left. The lesson stuck — directly led to the small RC car, which came in at 101 g.</p>
     </div>
   </section>
 
@@ -565,7 +565,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="tl-text">
           <div class="timeline-step amber">Step 03</div>
           <div class="timeline-heading">Electronics — ESP32 WROOM + DRV8876</div>
-          <div class="timeline-body">The car runs an <strong>ESP32 WROOM</strong> as the receiver. It listens for ESP32-NOW packets from the remote and maps joystick values to PWM signals — left joystick Y-axis for throttle/reverse, right joystick X-axis for servo steering angle. The <strong>DRV8876</strong> handles motor direction and PWM speed control via IN1/IN2 mode. Power came from a WLtoys 144001 2S 7.4V 3500mAh LiPo — the 3A buck converter stepped it down to 5V for the ESP32 and electronics, while the 5A boost converter pushed 12V directly to the motor. That boost converter was the first mistake — more voltage didn't fix what was fundamentally a weight problem.</div>
+          <div class="timeline-body">The car runs an <strong>ESP32 WROOM</strong> as the receiver. It listens for ESP32-NOW packets from the remote and maps joystick values to PWM signals — Y-axis for throttle/reverse via 20 kHz 10-bit PWM on the <strong>DRV8876</strong> (IN1/IN2 mode), X-axis to servo angle constrained to 60–115° to match the Ackermann geometry. Power came from a WLtoys 144001 2S 7.4V 3500mAh LiPo — a 3A buck converter stepped it down to 5V for the ESP32, while a 5A boost converter pushed 12V to the <a href="https://www.aliexpress.com/item/1005006481382269.html" target="_blank" rel="noopener" style="color:var(--accent);">DC brushed gear motor ↗</a>. That boost converter was the mistake — the motor and MG996R metal-gear servo were already the heavy parts; adding more power chain on top just compounded the weight. Written in Arduino C++ — full receiver and sender code available in the Remote section below.</div>
         </div>
         <div class="timeline-img">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Large RC Car/early-electronics.webp" alt="Electronics on workbench during assembly" onclick="openLb(this)" style="object-position:center bottom;">
@@ -641,10 +641,25 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="spec-block-header">ESP32-NOW Protocol</div>
       <div class="spec-row"><span class="spec-key">Protocol</span><span class="spec-val">ESP32-NOW (IEEE 802.11 action frames)</span></div>
       <div class="spec-row"><span class="spec-key">Pairing method</span><span class="spec-val">Hardcoded MAC address</span></div>
-      <div class="spec-row"><span class="spec-key">Packet rate</span><span class="spec-val ok">~20 Hz (joystick polling)</span></div>
+      <div class="spec-row"><span class="spec-key">Packet rate</span><span class="spec-val ok">~50 Hz (20 ms loop)</span></div>
       <div class="spec-row"><span class="spec-key">Typical range</span><span class="spec-val ok">~50 m line-of-sight</span></div>
       <div class="spec-row"><span class="spec-key">Latency</span><span class="spec-val ok">~2 ms one-way</span></div>
       <div class="spec-row"><span class="spec-key">Power</span><span class="spec-val">3.7V 18650 3000mAh 20C Li-ion in grip</span></div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div style="font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:18px;height:1px;background:var(--accent);flex-shrink:0;"></span>Firmware</div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;">Written in Arduino C++ using the ESP-NOW API. The receiver maps joystick axes to 20 kHz 10-bit PWM on the DRV8876 (IN1/IN2 mode) and servo angle constrained to 60–115° for the Ackermann geometry. The sender reads GPIO34/35 with a 7-sample median filter and auto-calibrates joystick centres on power-up. Holding the BOOT button for 2 s triggers manual recalibration without a restart.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button onclick="toggleFw('receiver',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Car receiver code</button>
+        <button onclick="toggleFw('sender',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Remote sender code</button>
+      </div>
+      <div id="fw-receiver" style="display:none;margin-top:10px;">
+        <pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow:auto;max-height:420px;font-family:var(--mono);font-size:11px;color:var(--text-dim);line-height:1.65;margin:0;"><code id="fw-receiver-code"></code></pre>
+      </div>
+      <div id="fw-sender" style="display:none;margin-top:10px;">
+        <pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow:auto;max-height:420px;font-family:var(--mono);font-size:11px;color:var(--text-dim);line-height:1.65;margin:0;"><code id="fw-sender-code"></code></pre>
+      </div>
     </div>
   </section>
 
@@ -717,12 +732,12 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="lesson-box">
         <div class="lesson-number">Lesson 01</div>
         <div class="lesson-title">Choose components for the job, not the spec sheet</div>
-        <div class="lesson-body">Adding a 5A boost converter to squeeze more power out of the motor missed the point entirely. The motor spec was fine — the problem was total system weight. More voltage didn't compensate for extra kilograms of battery, converter modules, and wiring. I was solving the wrong problem.</div>
+        <div class="lesson-body">The boost converter felt like a logical fix — more voltage, more torque, faster car. But that reasoning was backwards. The motor wasn't the bottleneck; the weight of everything around it was. Choosing the right component means identifying the actual constraint first. I needed to strip mass, not add a power chain.</div>
       </div>
       <div class="lesson-box">
         <div class="lesson-number">Lesson 02</div>
         <div class="lesson-title">Weight kills performance faster than anything else</div>
-        <div class="lesson-body">Every part I added had a weight cost. When everything was assembled it was heavier than the motor was designed to push at speed. The car moved, but there was no performance headroom. Stripping the design back on v2 (the small RC car) gave me a much faster car with a simpler circuit.</div>
+        <div class="lesson-body">At 565 g this car weighed more than five times the v2 at 101 g — same wheel size, same concept, dramatically different result. The MG996R alone weighs ~55 g (six times an SG90), the motor adds more, and every printed casing compounds it. Mass has to be accelerated by the same motor. Strip the weight, keep the essentials, and the performance gap is immediate.</div>
       </div>
       <div class="lesson-box">
         <div class="lesson-number">Lesson 03</div>
@@ -742,16 +757,19 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val warn">WLtoys 144001 2S 7.4V 3500mAh (oversized)</span></div>
         <div class="spec-row"><span class="spec-key">Power modules</span><span class="spec-val warn">3A buck + 5A boost (unnecessary)</span></div>
         <div class="spec-row"><span class="spec-key">Remote</span><span class="spec-val ok">Custom 3D-printed gamepad</span></div>
+        <div class="spec-row"><span class="spec-key">Weight</span><span class="spec-val bad">565 g assembled</span></div>
         <div class="spec-row"><span class="spec-key">Speed</span><span class="spec-val bad">Very slow (overweight)</span></div>
       </div>
       <div class="spec-block">
         <div class="spec-block-header">Small RC Car — v2 (result)</div>
         <div class="spec-row"><span class="spec-key">MCU</span><span class="spec-val">ESP32-C3 XIAO</span></div>
-        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val ok">TB6612FNG (right-sized)</span></div>
+        <div class="spec-row"><span class="spec-key">Motor driver</span><span class="spec-val ok">TB6612FNG</span></div>
         <div class="spec-row"><span class="spec-key">Chassis</span><span class="spec-val">3D-printed, compact</span></div>
         <div class="spec-row"><span class="spec-key">Steering</span><span class="spec-val">Simplified servo mount</span></div>
-        <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val ok">Matched to motor spec</span></div>
-        <div class="spec-row"><span class="spec-key">Remote</span><span class="spec-val">Breadboard C3 SuperMini sender</span></div>
+        <div class="spec-row"><span class="spec-key">Battery</span><span class="spec-val ok">3.7V LiPo — direct to TB6612FNG VM</span></div>
+        <div class="spec-row"><span class="spec-key">Power modules</span><span class="spec-val ok">Not needed — integrated ESP32 battery input</span></div>
+        <div class="spec-row"><span class="spec-key">Remote</span><span class="spec-val">Breadboard C3 SuperMini</span></div>
+        <div class="spec-row"><span class="spec-key">Weight</span><span class="spec-val ok">101 g assembled</span></div>
         <div class="spec-row"><span class="spec-key">Speed</span><span class="spec-val ok">Noticeably faster</span></div>
       </div>
     </div>
@@ -767,7 +785,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div>
         <div class="next-card-label">Version 2</div>
         <div class="next-card-title">ESP32 Mini RC Car</div>
-        <div class="next-card-body">Everything learned from v1, stripped back to what actually mattered. Smaller driver chip, lighter chassis, same remote — faster result.</div>
+        <div class="next-card-body">Everything learned from v1, stripped back to what actually mattered. Smaller driver chip, lighter chassis, breadboard sender instead of a custom remote — faster result.</div>
       </div>
       <div class="next-card-arrow">→</div>
     </a>
@@ -851,6 +869,195 @@ window.openLb=openLb; window.closeLb=closeLb;
   });
 })();
 
+// Firmware code toggle
+function toggleFw(id, btn) {
+  var el = document.getElementById('fw-' + id);
+  var show = el.style.display === 'none';
+  el.style.display = show ? 'block' : 'none';
+  btn.textContent = (show ? '▼ ' : '▶ ') + btn.textContent.slice(2);
+}
+(function(){
+  var receiverCode = [
+    '#include <WiFi.h>',
+    '#include <esp_now.h>',
+    '#include <ESP32Servo.h>',
+    '#include <cstring>',
+    '',
+    '// ─── Control packet ───────────────────────────────────────',
+    'typedef struct {',
+    '  int16_t throttle;  // -1000..+1000',
+    '  int16_t steering;  // -1000..+1000',
+    '} CtrlData;',
+    'static CtrlData ctl = {0, 0};',
+    '',
+    '// ─── DRV8876 (IN1/IN2 mode) pins ─────────────────────────',
+    '// PMODE -> 3.3V (HIGH), nSLEEP -> 3.3V (HIGH) wired on board',
+    'const int DRV_IN1_PIN = 17;   // EN/IN1',
+    'const int DRV_IN2_PIN = 16;   // PH/IN2',
+    '',
+    '// ─── Servo ────────────────────────────────────────────────',
+    'const int SERVO_PIN       = 32;',
+    'const int SERVO_MIN_ANGLE = 60;   // Ackermann constraint',
+    'const int SERVO_MAX_ANGLE = 115;  // Ackermann constraint',
+    'Servo steerServo;',
+    '',
+    'const bool BRAKE_AT_ZERO = false;  // false = coast at zero throttle',
+    '',
+    '// ─── ESP-NOW receive callback ─────────────────────────────',
+    'void onDataRecv(const esp_now_recv_info_t* info, const uint8_t* data, int len) {',
+    '  if (len == sizeof(CtrlData)) memcpy(&ctl, data, sizeof(ctl));',
+    '}',
+    '',
+    'void setup() {',
+    '  Serial.begin(115200);',
+    '  delay(300);',
+    '  WiFi.mode(WIFI_STA);',
+    '  if (esp_now_init() != ESP_OK) { while (true) delay(500); }',
+    '  esp_now_register_recv_cb(onDataRecv);',
+    '',
+    '  steerServo.setPeriodHertz(50);',
+    '  steerServo.attach(SERVO_PIN, 500, 2400);',
+    '',
+    '  pinMode(DRV_IN1_PIN, OUTPUT);',
+    '  pinMode(DRV_IN2_PIN, OUTPUT);',
+    '',
+    '  // 20 kHz, 10-bit PWM on both DRV8876 inputs',
+    '  analogWriteFrequency(DRV_IN1_PIN, 20000);',
+    '  analogWriteFrequency(DRV_IN2_PIN, 20000);',
+    '  analogWriteResolution(DRV_IN1_PIN, 10);   // 0..1023',
+    '  analogWriteResolution(DRV_IN2_PIN, 10);',
+    '  analogWrite(DRV_IN1_PIN, 0);',
+    '  analogWrite(DRV_IN2_PIN, 0);',
+    '  Serial.println("Receiver ready — DRV8876 IN1/IN2 mode");',
+    '}',
+    '',
+    'void loop() {',
+    '  int16_t t = constrain(ctl.throttle, -1000, 1000);',
+    '  int duty  = map(abs(t), 0, 1000, 0, 1023);',
+    '',
+    '  if (abs(t) <= 20) {',
+    '    // coast or brake at zero throttle',
+    '    int v = BRAKE_AT_ZERO ? 1023 : 0;',
+    '    analogWrite(DRV_IN1_PIN, v);',
+    '    analogWrite(DRV_IN2_PIN, v);',
+    '  } else if (t > 0) {',
+    '    // forward',
+    '    analogWrite(DRV_IN1_PIN, duty);',
+    '    analogWrite(DRV_IN2_PIN, 0);',
+    '  } else {',
+    '    // reverse',
+    '    analogWrite(DRV_IN1_PIN, 0);',
+    '    analogWrite(DRV_IN2_PIN, duty);',
+    '  }',
+    '',
+    '  // Steering — constrained to Ackermann range',
+    '  int16_t s = ctl.steering;',
+    '  int angle = map(s, -1000, 1000, 0, 180);',
+    '  angle = constrain(angle, SERVO_MIN_ANGLE, SERVO_MAX_ANGLE);',
+    '  steerServo.write(angle);',
+    '',
+    '  delay(20);  // ~50 Hz',
+    '}'
+  ].join('\n');
+
+  var senderCode = [
+    '// ===== Sender v4: robust centres + recalc button (ESP32 v3.x) =====',
+    '#include <WiFi.h>',
+    '#include <esp_now.h>',
+    '#include <esp_wifi.h>',
+    '#include <math.h>',
+    '',
+    '// ---- Receiver MAC ----',
+    'uint8_t RECEIVER_MAC[6] = { 0x78, 0x1C, 0x3C, 0xF5, 0x80, 0xE4 };',
+    '',
+    'struct CtrlData { int16_t throttle; int16_t steering; } ctl = {0,0};',
+    '',
+    'const int PIN_VRY = 34;   // throttle (ADC-only GPIO)',
+    'const int PIN_VRX = 35;   // steering (ADC-only GPIO)',
+    'const int CAL_BTN = 0;    // BOOT button — hold ~2s to recalibrate',
+    '',
+    'const int  DEADZONE        = 250;   // ~6% of full-scale',
+    'const bool INVERT_THROTTLE = false;',
+    'const bool INVERT_STEERING = false;',
+    '',
+    'int centerY = 2048, centerX = 2048;',
+    '',
+    '// 7-sample median filter — reduces ADC noise without lag',
+    'int median7(int pin) {',
+    '  int v[7];',
+    '  for (int i=0;i<7;++i){ v[i]=analogRead(pin); delayMicroseconds(200); }',
+    '  for (int i=0;i<7;i++) for (int j=i+1;j<7;j++)',
+    '    if (v[j]<v[i]) { int t=v[i]; v[i]=v[j]; v[j]=t; }',
+    '  return v[3];',
+    '}',
+    '',
+    'int16_t axisToCmd(int raw, int center, bool invert) {',
+    '  int d = raw - center;',
+    '  if (abs(d) <= DEADZONE) return 0;',
+    '  float maxPos = 4095 - (center + DEADZONE);',
+    '  float maxNeg = center - DEADZONE;',
+    '  float out = (d>0) ? (d-DEADZONE)/maxPos : -(abs(d)-DEADZONE)/maxNeg;',
+    '  int16_t cmd = (int16_t)lrintf(out * 1000.0f);',
+    '  if (invert) cmd = -cmd;',
+    '  return constrain(cmd, -1000, 1000);',
+    '}',
+    '',
+    'void doCalibration(const char* why) {',
+    '  Serial.printf("Calibrating (%s)... keep sticks centred.\\n", why);',
+    '  delay(200);',
+    '  long sy=0, sx=0; const int N=300;',
+    '  for (int i=0;i<N;++i){ sy+=analogRead(PIN_VRY); sx+=analogRead(PIN_VRX); delay(2); }',
+    '  centerY = constrain((int)(sy/N), 1400, 2700);',
+    '  centerX = constrain((int)(sx/N), 1400, 2700);',
+    '  Serial.printf("Centers: Y=%d X=%d\\n", centerY, centerX);',
+    '}',
+    '',
+    'void setup() {',
+    '  Serial.begin(115200); delay(200);',
+    '  pinMode(CAL_BTN, INPUT_PULLUP);',
+    '  analogReadResolution(12);',
+    '  analogSetAttenuation(ADC_11db);',
+    '',
+    '  for (int i=3;i>0;--i) { Serial.printf("Centre sticks... %d\\n", i); delay(400); }',
+    '  doCalibration("boot");',
+    '',
+    '  WiFi.mode(WIFI_STA);',
+    '  if (esp_now_init()!=ESP_OK) { while(1) delay(1000); }',
+    '',
+    '  esp_now_peer_info_t peer{};',
+    '  memcpy(peer.peer_addr, RECEIVER_MAC, 6);',
+    '  peer.channel=0; peer.encrypt=false; peer.ifidx=WIFI_IF_STA;',
+    '  esp_now_add_peer(&peer);',
+    '  Serial.println("Sender ready.");',
+    '}',
+    '',
+    'void loop() {',
+    '  // Manual recalibration: hold BOOT ~2s',
+    '  static uint32_t pressedAt=0;',
+    '  if (digitalRead(CAL_BTN)==LOW) {',
+    '    if (!pressedAt) pressedAt = millis();',
+    '    if (millis()-pressedAt > 2000) { doCalibration("manual"); pressedAt=0; }',
+    '  } else pressedAt=0;',
+    '',
+    '  int rawY = median7(PIN_VRY);',
+    '  int rawX = median7(PIN_VRX);',
+    '',
+    '  // Gentle auto-recentering near centre (prevents slow drift)',
+    '  if (abs(rawY-centerY) < 220) centerY = (centerY*15+rawY)/16;',
+    '  if (abs(rawX-centerX) < 220) centerX = (centerX*15+rawX)/16;',
+    '',
+    '  ctl.throttle = axisToCmd(rawY, centerY, INVERT_THROTTLE);',
+    '  ctl.steering = axisToCmd(rawX, centerX, INVERT_STEERING);',
+    '',
+    '  esp_now_send(RECEIVER_MAC, (uint8_t*)&ctl, sizeof(ctl));',
+    '  delay(20);  // ~50 Hz',
+    '}'
+  ].join('\n');
+
+  document.getElementById('fw-receiver-code').textContent = receiverCode;
+  document.getElementById('fw-sender-code').textContent   = senderCode;
+})();
+
 // Scroll-active nav
 (function(){
   const links = document.querySelectorAll('nav a[href^="#"]');
@@ -868,7 +1075,6 @@ window.openLb=openLb; window.closeLb=closeLb;
 })();
 </script>
 
-<script src="editor.js"></script>
 
 
 </body></html>
