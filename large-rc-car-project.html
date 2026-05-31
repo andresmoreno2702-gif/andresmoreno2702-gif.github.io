@@ -7,11 +7,6 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Large RC Car — v1 · Andrés Moreno</title>
 <meta name="description" content="First self-designed RC car — 3D-printed chassis in Fusion 360, Ackermann steering, DRV8876 motor driver, and a custom 3D-printed ESP32-NOW gamepad remote. The project that started everything.">
-<meta property="og:title" content="Large RC Car v1 — Andrés Moreno">
-<meta property="og:description" content="First self-built RC car — Fusion 360 chassis, Ackermann steering, DRV8876 H-bridge, custom 3D-printed gamepad remote with ESP32-NOW wireless.">
-<meta property="og:image" content="https://andresmoreno2702-gif.github.io/IMAGES/Large%20RC%20Car/large-rc-without-remote.webp">
-<meta property="og:url" content="https://andresmoreno2702-gif.github.io/large-rc-car-project.html">
-<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&amp;family=DM+Mono:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
@@ -303,6 +298,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   .remote-card{grid-template-columns:1fr}
   .remote-card-img{border-right:none;border-bottom:1px solid var(--border);aspect-ratio:16/9;}
   .lessons-grid{grid-template-columns:1fr}
+  .remote-outer{grid-template-columns:1fr!important;}
+  .videos-grid{grid-template-columns:1fr!important;}
 }
 
 .outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:66ch}
@@ -609,7 +606,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="section-line"></div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-bottom:32px;">
+    <div class="remote-outer" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-bottom:32px;">
       <div class="remote-card" style="grid-template-columns:1fr;">
         <div class="remote-card-img" style="aspect-ratio: 16 / 9; border-right-width: medium; border-right-style: none; border-right-color: currentcolor; border-bottom: 1px solid var(--border); width: 531px; height: 298px; overflow: hidden; position: relative; flex: 0 0 auto; box-sizing: border-box; display: flex; flex-direction: column;">
           <div data-pe-imgwrap="1" style="flex:1;min-height:0;width:100%;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;"><img width="720" height="1280" loading="lazy" src="IMAGES/Large RC Car/remote-photo-new.webp" alt="Custom 3D-printed remote with dual joysticks" onclick="openLb(this)" style="width: auto; height: 699px; object-fit: fill; object-position: center top; display: block; position: relative; flex: 0 0 auto; max-width: none; max-height: none; aspect-ratio: unset; top: -100px; left: 0px; transition: none;"></div>
@@ -674,7 +671,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <h2 class="section-title">Videos</h2>
       <div class="section-line"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <div class="videos-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
       <div>
         <div class="video-wrap">
           <video controls="" playsinline="" preload="metadata" style="width:100%;aspect-ratio:3/4;display:block;object-fit:contain;background:#000;">
@@ -1089,6 +1086,7 @@ function toggleFw(id, btn) {
 })();
 </script>
 
+<script src="editor.js"></script>
 
 
 </body></html>
