@@ -301,7 +301,9 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   .remote-outer{grid-template-columns:1fr!important;}
   .videos-grid{grid-template-columns:1fr!important;}
   .gallery-item{max-width:100%;}
-  .snap-photo-main{width:100%!important;height:auto!important;}
+  .snap-photo-main{width:100%!important;height:auto!important;display:block!important;}
+  .snap-photo-main [data-pe-imgwrap]{position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;display:block!important;overflow:hidden!important;}
+  .snap-photo-main img{width:100%!important;height:100%!important;object-fit:cover!important;position:static!important;top:auto!important;left:auto!important;max-width:initial!important;max-height:initial!important;aspect-ratio:unset!important;flex:none!important;display:block!important;}
 }
 
 .outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:66ch}
@@ -1088,7 +1090,7 @@ function toggleFw(id, btn) {
 })();
 </script>
 
-<script src="editor.js"></script>
+
 
 
 </body></html>
