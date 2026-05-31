@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#111214">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andrés Moreno Navarro — EE · PCB · Embedded Systems</title>
-<meta name="description" content="Andrés Moreno — EE student at UWA Perth designing 4-layer PCBs in KiCad 9, building hardware around ESP32, and shipping embedded projects from scratch. Custom dev board, NES emulator, RC cars, VHDL designs.">
+<meta name="description" content="Andrés Moreno — EE student at UWA Perth designing 4-layer PCBs in KiCad 9, building hardware around ESP32, and building embedded projects from scratch. Custom dev board, NES emulator, RC cars, VHDL designs.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:title" content="Andrés Moreno — EE · PCB · Embedded Systems">
 <meta property="og:description" content="EE student at UWA Perth. Custom 4-layer PCBs, ESP32 firmware, NES emulator, RC cars. Built from scratch.">
@@ -291,7 +291,7 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
 .pc:hover .pglyph{color:var(--cc,var(--blue));transform:scale(1.1) rotate(-4deg);}
 /* badges */
 .pnum{position:absolute;top:.85rem;left:1rem;font-family:var(--mono);font-size:8.5px;
-  text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.35);}
+  text-transform:uppercase;letter-spacing:.15em;color:var(--text2);}
 .pst{position:absolute;top:.85rem;right:1rem;font-family:var(--mono);font-size:7.5px;
   text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:999px;}
 .done{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25);}
@@ -517,7 +517,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 .psl{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;}
 /* hero seek line */
 .hero-seek{display:flex;align-items:center;gap:8px;margin-top:1rem;
-  font-family:var(--mono);font-size:11px;color:var(--blue2);letter-spacing:.1em;text-transform:uppercase;}
+  font-family:var(--mono);font-size:14px;color:var(--blue2);letter-spacing:.06em;text-transform:uppercase;}
 
 /* ── Also Built cards ── */
 .also-card{display:flex;flex-direction:column;background:var(--bg3);border:1px solid var(--bd);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s,box-shadow .2s;}
@@ -547,7 +547,6 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     <a href="#contact">Contact</a>
   </div>
   <div class="nr">
-    <div class="nbadge"><span class="live"></span>Open to Internships</div>
     <button class="thm" id="themeBtn" aria-label="Toggle theme">
       <!-- Moon icon (shown in dark mode) -->
       <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -568,7 +567,6 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <header class="hero">
   <div class="hero-ey rv">
     <span class="tag">EE Student (Part-time) · UWA Perth</span>
-    <span class="tag tag-blue"><span class="live"></span>Open to Internships</span>
   </div>
   <div class="hero-grid">
     <div>
@@ -576,7 +574,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
         <span class="ln1">Andrés</span> <span class="ln2">Moreno</span> <span class="ln3">Navarro.</span>
       </h1>
       <div class="hero-seek rv" style="transition-delay:.1s">
-        <span class="live"></span>Seeking internships · 2026–2027
+        <span class="live"></span>Seeking internships · Now
       </div>
     </div>
     <div class="hero-right rv" style="transition-delay:.15s">
@@ -685,7 +683,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
             <div class="skill-item">
               <div class="skill-row">
                 <span class="skill-name">3D Printing / Slicing</span>
-                <span class="skill-pct">FDM · Bambu · Supports</span>
+                <span class="skill-pct">FDM · Creality · Ender-3</span>
               </div>
               <div class="skill-track"><div class="skill-fill" style="--w:80%"></div></div>
             </div>
@@ -877,7 +875,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     <div class="sec-sub">Contact</div>
   </div>
   <p class="rv" style="font-size:1.05rem;color:var(--text2);line-height:1.75;max-width:44ch;margin-bottom:2rem;">
-    Looking for internship opportunities for 2026–2027. Also happy to talk hardware, PCB design, or anything embedded. I reply to every message.
+    Looking for internship opportunities now. Also happy to talk hardware, PCB design, or anything embedded. I reply to every message.
   </p>
   <div class="cgrid rv">
     <a href="https://www.linkedin.com/in/andres-moreno-navarro27" target="_blank" class="cc">
@@ -973,7 +971,7 @@ const P=[
    status:'done',meta:'Embedded Systems · 2025',link:'large-rc-car-project.html',
    img:'IMAGES/Large RC Car/large-rc-with-remote.webp',imgPos:{s:1,px:0,py:92.86},cat:'Embedded Systems',glyph:'◎',
    tldr:'First self-designed RC car — 3D-printed Fusion 360 chassis, Ackermann steering, DRV8876 motor driver, and a custom 3D-printed gamepad remote using ESP32-NOW. The project that started everything.',
-   comps:['ESP32 WROOM','DRV8876','ESP32-NOW','Fusion 360','3D Print'],
+   comps:['ESP32 WROOM','DRV8876','ESP-NOW','Fusion 360','3D Print'],
    tags:['ESP32','ESP-NOW','DRV8876','Fusion 360','3D Print'],
    desc:'First scratch-built RC car. Full Fusion 360 chassis, servo Ackermann steering, DRV8876 H-bridge, 2S LiPo. Custom gamepad remote — modelled, printed, and wired from scratch — using ESP32-NOW for low-latency wireless.',
    stats:[{n:'ESP-NOW',l:'Wireless'},{n:'2S LiPo',l:'7.4V Power'},{n:'v1',l:'Starting Point'}],
