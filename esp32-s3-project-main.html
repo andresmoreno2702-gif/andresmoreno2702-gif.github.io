@@ -5,11 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>ESP32-S3 PCB Design — Andrés Moreno</title>
-<meta property="og:title" content="ESP32-S3 Dev Board — Andrés Moreno">
-<meta property="og:description" content="Custom 4-layer PCB for the ESP32-S3-MINI-1-N8. Native USB-C, 90Ω impedance-controlled traces, ENS210 sensor. KiCad 9, manufactured by JLCPCB.">
-<meta property="og:image" content="https://andresmoreno2702-gif.github.io/IMAGES/ESP32%20S3%20Board/3dview-Photoroom.webp">
-<meta property="og:url" content="https://andresmoreno2702-gif.github.io/esp32-s3-project-main.html">
-<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -174,7 +169,9 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',syst
 @media(max-width:900px){
   .hero-inner{grid-template-columns:1fr}.hero-board{display:none}
   .overview-grid{grid-template-columns:repeat(2,1fr)}
-  .gallery{grid-template-columns:1fr 1fr}.gallery-item.wide{grid-column:span 1}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
+  .gallery-item{max-width:100%;}
+  .comp-table{display:block;overflow-x:auto;}
   .two-col{grid-template-columns:1fr}
   .content{padding:0 24px 60px}.hero{padding:48px 24px 40px}
   .footer{padding:20px 24px}
@@ -1245,6 +1242,8 @@ addEventListener('scroll',()=>{
   function tick(){ cx+=(mx-cx)*.09; cy+=(my-cy)*.09; glow.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; requestAnimationFrame(tick); }
   requestAnimationFrame(tick);
 })();
+
+
 </script>
 <div id="jsExtensionEmbedder"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="StyledViewport-sc-1famsgu-1 dLRKDU"></ol></div><div id="jsExtensionMenuParent"></div></div><div id="justdone-selection-anchor" style="position: absolute; left: 773.625px; top: 6584.45px; width: 0px; height: 0px; pointer-events: none; visibility: hidden; z-index: 999999;"></div><justdone-content-app id="justdone-content-app" style="z-index: 2147483647; position: fixed;"></justdone-content-app><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><script id="snap-js">
 (function(){
@@ -1347,5 +1346,4 @@ addEventListener('scroll',()=>{
   document.querySelectorAll('.snap-counter').forEach(function(el){ cio.observe(el); });
 })();
 </script>
-
 </body></html>
