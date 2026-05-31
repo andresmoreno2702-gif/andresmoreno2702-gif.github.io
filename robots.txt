@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://andresmoreno.dev/sitemap.xml
+Sitemap: https://andresmoreno2702-gif.github.io/sitemap.xml

@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://andresmoreno.dev/</loc>
+    <loc>https://andresmoreno2702-gif.github.io/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://andresmoreno.dev/exhaust-controller-project.html</loc>
+    <loc>https://andresmoreno2702-gif.github.io/exhaust-controller-project.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://andresmoreno.dev/large-rc-car-project.html</loc>
+    <loc>https://andresmoreno2702-gif.github.io/large-rc-car-project.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://andresmoreno.dev/rc-car-project-main.html</loc>
+    <loc>https://andresmoreno2702-gif.github.io/rc-car-project-main.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://andresmoreno.dev/nes-emulator-project-main.html</loc>
+    <loc>https://andresmoreno2702-gif.github.io/nes-emulator-project-main.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://andresmoreno.dev/vhdl-project-main.html</loc>
+    <loc>https://andresmoreno2702-gif.github.io/vhdl-project-main.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://andresmoreno.dev/esp32-s3-project-main.html</loc>
+    <loc>https://andresmoreno2702-gif.github.io/esp32-s3-project-main.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andresmoreno2702-gif.github.io/number-plate-holder-project.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
