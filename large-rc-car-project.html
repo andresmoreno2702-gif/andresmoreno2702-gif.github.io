@@ -296,7 +296,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   .footer{padding:20px 24px}
   .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
   .remote-card{grid-template-columns:1fr}
-  .remote-card-img{border-right:none;border-bottom:1px solid var(--border);aspect-ratio:16/9;}
+  .remote-card-img{border-right:none;border-bottom:1px solid var(--border);aspect-ratio:16/9;width:100%!important;height:auto!important;}
+  .remote-card-img [data-pe-imgwrap] img{width:100%!important;height:100%!important;object-fit:cover!important;position:static!important;top:auto!important;left:auto!important;max-width:initial!important;max-height:initial!important;aspect-ratio:unset!important;flex:none!important;}
   .lessons-grid{grid-template-columns:1fr}
   .remote-outer{grid-template-columns:1fr!important;}
   .videos-grid{grid-template-columns:1fr!important;}
