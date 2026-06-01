@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0073)file:///C:/Users/andre/Downloads/ESP32_S3_Pinout_SVG_Andres_Moreno_6.html -->
 <html lang="en" data-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ESP32-S3 Pinout — Andres Moreno</title>
 <link href="./ESP32-S3-MINI-1-N8 PinoutOFFICAL — Andres Moreno_files/css2" rel="stylesheet">
@@ -154,7 +155,8 @@ document.addEventListener('DOMContentLoaded',function(){
   // ── Zoom controls ──
   const SVG_BASE = 1117;
   const SVG_H_BASE = 840;
-  let zoomLevel = 1.0;
+  const availableWidth = wrap.clientWidth || window.innerWidth;
+  let zoomLevel = availableWidth < SVG_BASE ? parseFloat((availableWidth / SVG_BASE).toFixed(2)) : 1.0;
   const wrap = document.querySelector('.svg-wrap');
   function applyZoom(){
     svg.setAttribute('width', Math.round(SVG_BASE * zoomLevel));
