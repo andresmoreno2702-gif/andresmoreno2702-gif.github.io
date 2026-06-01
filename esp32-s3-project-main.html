@@ -540,6 +540,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 .photo-note.right::before { display: none; }
 /* hide on very small screens */
 @media(max-width:600px){ .photo-note{ display:none; } }
+@media(max-width:640px){.snap-comp-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 <style>
 #progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
