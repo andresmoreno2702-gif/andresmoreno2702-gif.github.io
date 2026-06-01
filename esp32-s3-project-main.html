@@ -170,7 +170,7 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',syst
   .hero-inner{grid-template-columns:1fr}.hero-board{display:none}
   .overview-grid{grid-template-columns:repeat(2,1fr)}
   .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
-  .gallery-item{width:100%!important;max-width:100%!important;}
+  .gallery-item{width:100%!important;max-width:100%!important;height:auto!important;}
   .comp-table{display:block;overflow-x:auto;}
   .two-col{grid-template-columns:1fr}
   .content{padding:0 24px 60px}.hero{padding:48px 24px 40px}
@@ -484,6 +484,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
   .snap-scroll-cue { padding: 14px 24px 20px; }
   .photo-note { display: none; }
   .snap-thumbs { grid-template-columns: repeat(3,1fr); }
+  .snap-thumb { aspect-ratio: 3/4; }
   .snap-photo-main { display: block !important; }
   .snap-photo-main [data-pe-imgwrap] {
     position: absolute !important;
