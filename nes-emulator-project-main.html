@@ -635,7 +635,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
   <div>
     <div class="hero-tag">Engineering Design Portfolio — Embedded Systems</div>
     <h1>RetroDS — ESP32 <span>NES</span><br>Handheld Console</h1>
-    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 – Present</div>
+    <div class="hero-sub">Hand-Soldered Perfboard Build &nbsp;/&nbsp; Arduino Framework &nbsp;/&nbsp; Feb 2026 → PCB shipped as v2</div>
     <div class="hero-meta">
       <span class="badge badge-teal">ESP32-WROOM-32E · 240 MHz</span>
       <span class="badge badge-blue">ST7789 · 240×240 IPS</span>
@@ -645,8 +645,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
     <div class="hero-meta">
       <span class="badge badge-blue">8× GPIO Buttons</span>
       <span class="badge badge-amber">LiPo · USB-C Charge</span>
-      <span class="badge badge-green">Prototype ✓ · PCB In Progress</span>
-      <span class="badge badge-amber">KiCad PCB · In Progress</span>
+      <span class="badge badge-green">Prototype ✓ · PCB → v2</span>
+      <span class="badge badge-green">KiCad PCB · Shipped as v2</span>
     </div>
     <div class="outcome-callout">
       <span class="oc-label">Result</span>
@@ -833,7 +833,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
 </div>
 <div class="prose">
   <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240×240 IPS TFT display</strong>. ROMs are loaded from a MicroSD card at runtime. Audio was written in firmware but not wired into the prototype — it is implemented on the PCB.</p>
-  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, MicroSD breakout, and power management ICs. A custom 4-layer KiCad PCB is currently in progress to consolidate everything onto a single compact board.</p>
+  <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, MicroSD breakout, and power management ICs. That perfboard stack has since been consolidated onto a single custom 4-layer KiCad PCB, shipped as <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none">RetroDS v2</a>.</p>
 </div>
 <div class="gallery" id="overviewGallery">
   <div class="gallery-item" style="width: 379px; height: 463px; min-height: unset;">
@@ -1192,39 +1192,27 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
 <div class="section" id="pcb" style="position: relative;">
 <div class="section-header">
   <span class="section-num">08</span>
-  <h2 class="section-title">PCB &amp; Next Steps</h2>
+  <h2 class="section-title">PCB — Shipped as RetroDS v2</h2>
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>With the perfboard prototype validated, I am designing a custom 4-layer PCB in <strong>KiCad</strong> to replace it. The schematic and layout carry over every verified connection, with key improvements: a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgrades the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB PSRAM, and improved performance for emulation and audio.</p>
+  <p>With the perfboard prototype validated, the next step was a custom 4-layer PCB in <strong>KiCad</strong> — a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgraded the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB PSRAM, and improved performance for emulation and audio. That board is built, brought up, and working — see <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none">RetroDS v2</a> for the full PCB design, the fault-finding session that got it running, and the firmware rewrite that added sound, volume control, save games, and an on-screen game-select menu.</p>
 </div>
 <div class="decision-list">
-  <div class="decision">
-    <div class="decision-title">Custom PCB — KiCad · In Progress</div>
-    <div class="decision-body">A 4-layer board with dedicated ground and power planes, ground reference and dedicated 3.3 V and 5 V power polygons. Display and button footprints face the top; ESP32 and audio module on the back. Consolidates the two-board perfboard stack into a single rigid PCB — eliminating all point-to-point wiring and improving mechanical reliability. Two additional BOOT and RESET tactile buttons are routed to the back of the board — they will be hidden inside the casing once built, but accessible when the case is open for reflashing or debugging firmware.</div>
-  </div>
-  <div class="decision blue">
-    <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
   <div class="decision green">
     <div class="decision-title">Component Upgrades — Prototype → PCB</div>
     <div class="decision-body">
       A few components were upgraded or swapped for the PCB build:<br><br>
       <strong>Microcontroller:</strong> ESP32-WROOM-32E → <strong>ESP32-S3-WROOM-1U</strong>. The S3 has native USB (connects directly to the USB-C port — no extra chip needed), 8 MB of PSRAM for larger data buffers, and a faster processor.<br><br>
-      <strong>Audio:</strong> No audio in the prototype. The PCB adds a <strong>MAX98357A</strong> — a single chip that handles both digital-to-analog conversion and amplification, driving a speaker directly from the I2S bus. The firmware was already written and ready.<br><br>
-      <strong>Power management:</strong> The prototype used two off-the-shelf breakout modules (IP5306 boost converter + TP4056 charger). The PCB replaces these with dedicated ICs: <strong>MCP73871</strong> (proper LiPo charger with charge status outputs), <strong>AP2112K</strong> (clean 3.3 V regulator), and <strong>LC709203F</strong> (battery fuel gauge — tells the firmware the remaining charge percentage over I2C).<br><br>
+      <strong>Audio:</strong> No audio in the prototype. The PCB adds a <strong>MAX98357A</strong> — a single chip that handles both digital-to-analog conversion and amplification, driving a speaker directly from the I2S bus, with a 15-step volume control.<br><br>
+      <strong>Power management:</strong> The prototype used two off-the-shelf breakout modules (IP5306 boost converter + TP4056 charger). The PCB replaces these with dedicated ICs: <strong>MCP73871</strong> (proper LiPo charger with charge status outputs) and <strong>AP2112K</strong> (clean 3.3 V regulator).<br><br>
       <strong>USB protection:</strong> Added <strong>USBLC6-2SC6</strong> ESD protection on the USB data lines — important for a finished PCB connected to real USB ports.<br><br>
       <strong>SD card bus:</strong> The prototype bit-banged a software SPI to avoid sharing the hardware bus with the display. The PCB has two dedicated hardware SPI buses — one for the display, one for the SD card — no workaround needed.
     </div>
   </div>
-    <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint. Features a screen cutout, button holes aligned to D-pad and action buttons, USB-C port access, and a speaker outlet. Printed in PLA on a Creality Ender-3 S1 Pro.</div>
-  </div>
-  <div class="decision amber">
-    <div class="decision-title">Speaker &amp; Hardware Volume Control</div>
-    <div class="decision-body">Add a <strong>0.5 W 8Ω speaker</strong> driven by the <strong>MAX98357A Class D amplifier</strong> already on the PCB schematic. Volume is controlled via two dedicated hardware buttons (VOL_UP / VOL_DOWN) mapped to GPIO, with software scaling applied to the I2S audio stream.</div>
-  </div>
-  <div class="decision">
-    <div class="decision-title">ROM Selection Menu UI</div>
-    <div class="decision-body">Build an on-device ROM browser rendered on the ST7789 display — reads available <code>.nes</code> files from MicroSD and shows a scrollable list. D-pad to navigate, A to launch. Replaces the current single hardcoded ROM filename in firmware.</div>
+  <div class="decision blue">
+    <div class="decision-title">3D-Printed Enclosure — Fusion 360</div>
+    <div class="decision-body">A snap-fit shell designed in <strong>Fusion 360</strong> around the final PCB footprint. Features a screen cutout, button holes aligned to D-pad and action buttons, USB-C port access, and a speaker outlet. Printed in PLA on a Creality Ender-3 S1 Pro. Finished and fitted on RetroDS v2.</div>
   </div>
 </div>
 <div class="pinout-preview">

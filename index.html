@@ -590,7 +590,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     </div>
   </div>
   <div class="hero-stats rv" style="transition-delay:.25s">
-    <div class="hst"><div class="n">7</div><div class="l">Projects</div></div>
+    <div class="hst"><div class="n">8</div><div class="l">Projects</div></div>
     <div class="hst"><div class="n">UWA</div><div class="l">Engineering</div></div>
   </div>
 </header>
@@ -646,7 +646,6 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
         <div class="aprose rv">
           <p>Part-time <b>Electrical and Electronic Engineering</b> student at the University of Western Australia, based in Perth. My evenings tend to involve datasheets, a soldering iron, and at least one thing that isn't working yet.</p>
           <p>I do the whole build myself — schematic capture and PCB layout in KiCad, enclosures in Fusion 360, and getting microcontrollers to do what I want on ESP32. I build things to understand how they actually work, not to end up with something I'm afraid to open.</p>
-          <p>Right now I'm on revision two of the <b>RetroDS PCB</b> — moving from a hand-soldered perfboard to a proper 4-layer board in KiCad, with the MAX98357A audio amp finally wired in.</p>
         </div>
 
         <!-- SKILL BARS -->
@@ -702,13 +701,6 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
               </div>
               <div class="skill-track"><div class="skill-fill" style="--w:70%"></div></div>
             </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">SPI / I²C / UART Protocols</span>
-                <span class="skill-pct">Debug · Hardware peripherals</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:72%"></div></div>
-            </div>
           </div>
         </div>
 
@@ -740,8 +732,8 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
             </div>
             <div class="ti"><div class="tdot"></div>
               <div class="tdate">2026</div>
-              <div class="ttl">RetroDS NES Handheld + PCB v2 in progress</div>
-              <div class="tds">Full NES 6502+PPU emulator on ESP32. Hand-soldered → proper KiCad PCB.</div>
+              <div class="ttl">RetroDS NES Handheld — plus other 2026 builds</div>
+              <div class="tds">Full NES 6502+PPU emulator on ESP32, hand-soldered prototype then a custom 4-layer KiCad PCB (v2). Also shipped the ESP32-S3-MINI dev board, the SO-ARM100 robotic arm, and a wireless mini RC car this year.</div>
             </div>
           </div>
         </div>
@@ -781,44 +773,11 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <section class="sec" id="projects">
   <div class="sec-hd rv">
     <div class="sec-title">Selected <i>Work</i></div>
-    <div class="sec-sub">07 Projects</div>
-  </div>
-
-  <!-- Featured -->
-  <div class="feat rv">
-    <div class="sec-sub" style="margin-bottom:.7rem">Featured</div>
-    <a class="feat-card" href="esp32-s3-project-main.html">
-      <div class="feat-img">
-        <img id="feat-esp32-img" width="1143" height="1202" loading="lazy" src="IMAGES/ESP32 S3 Board/3dview-Photoroom.webp" alt="ESP32-S3 Dev Board" style="object-position:60% center;"
-          onerror="this.parentElement.innerHTML='<div class=feat-img-hold><div style=font-size:5rem;font-weight:800;color:var(--bd2);position:relative>⚡</div></div>'">
-        <div class="feat-badges">
-          <span class="fbdg fbdg-b">Featured</span>
-          <span class="fbdg fbdg-g">Complete</span>
-        </div>
-      </div>
-      <div class="feat-body">
-        <div class="feat-cat">PCB Design</div>
-        <div class="feat-name">ESP32-S3-MINI<br><i>Dev Board</i></div>
-        <p class="feat-desc">Custom 4-layer development board for the ESP32-S3-MINI-1-N8. USB-C power (native USB — no bridge chip), 90Ω impedance-controlled USB D± traces (IPC-2141), TLV75801PDRV LDO, ENS210 sensor, WS2812B RGB. 0 DRC errors. First board I ever had manufactured.</p>
-        <div class="feat-chips">
-          <span class="fchip">KiCad 9</span>
-          <span class="fchip">4-Layer PCB</span>
-          <span class="fchip">USB-C</span>
-          <span class="fchip">JLCPCB</span>
-          <span class="fchip">Impedance Control</span>
-        </div>
-        <div class="feat-nums">
-          <div class="fnum"><div class="n">4</div><div class="l">Layers</div></div>
-          <div class="fnum"><div class="n">90Ω</div><div class="l">USB D±</div></div>
-          <div class="fnum"><div class="n">0</div><div class="l">DRC Errors</div></div>
-        </div>
-        <span class="feat-cta">View Full Project →</span>
-      </div>
-    </a>
+    <div class="sec-sub">08 Projects</div>
   </div>
 
   <!-- Grid -->
-  <div class="sec-sub rv" style="margin-top:2.5rem;margin-bottom:.7rem">All Projects</div>
+  <div class="sec-sub rv" style="margin-top:1rem;margin-bottom:.7rem">All Projects</div>
   <div class="fbar rv" id="fb">
     <button class="fp on" data-f="all">All <span id="fcnt" style="opacity:.45;margin-left:3px">6</span></button>
     <button class="fp" data-f="PCB Design">PCB Design</button>
@@ -939,7 +898,7 @@ const P=[
    hl:['4-layer stack-up: signal / GND / power / signal — solid GND plane directly under the RF module','90Ω differential USB D± traces — IPC-2141 calculation for JLCPCB JLC04161H-3313 stackup','5.1kΩ CC resistors on both CC pins — without them, USB-C chargers won\'t negotiate power','0 DRC errors — post-route final check before Gerbers went to JLCPCB','First board I ever had made. Worked first try.']},
   {id:'roboticarm',title:'SO-ARM100 Robotic Arm',
    name:'SO-ARM100 <i>Robotic Arm</i>',
-   status:'wip',meta:'Embedded Systems · 2026',link:'robotic-arm-project.html',
+   status:'done',meta:'Embedded Systems · 2026',link:'robotic-arm-project.html',
    img:'IMAGES/Robotic Arm/arm-03-both-side.webp',imgPos:{s:1,px:50,py:40},cat:'Embedded Systems',glyph:'◈',
    tldr:'Leader-follower robotic arm built from the open-source SO-ARM100 design — sourced, printed and calibrated through LeRobot, then cut loose from USB with two ESP32-C3 boards mirroring all 6 joints wirelessly over ESP-NOW.',
    comps:['12x Feetech STS3215','2x ESP32-C3','ESP-NOW','LeRobot','Fusion 360 Clamp'],
@@ -949,17 +908,17 @@ const P=[
    hl:['Open-source SO-ARM100 hardware from TheRobotStudio, sourced and assembled from scratch','LeRobot Python tooling for servo calibration and homing offsets','Diagnosed and fixed a clone motor-controller board voltage pass-through fault','Cut the USB tether: two ESP32-C3 boards mirror joints wirelessly over ESP-NOW','Custom Fusion 360 desk clamp in PETG, engineered to survive clamping load']},
   {id:'retro',title:'RetroDS — NES Handheld',
    name:'RetroDS — NES <i>Handheld</i>',
-   status:'wip',meta:'Embedded Systems · 2026',link:'nes-emulator-project-main.html',
+   status:'done',meta:'Embedded Systems · 2026',link:'nes-emulator-project-main.html',
    img:'IMAGES/NES emulator/retro-card.webp',imgFit:'contain',imgPos:{s:2.26,px:0,py:65.16},cat:'Embedded Systems',glyph:'▦',
-   tldr:'Hand-soldered NES emulator on ESP32. Full 6502+PPU emulation, ST7789 240×240 IPS, MicroSD ROM loading. Custom 4-layer PCB with MAX98357A audio in progress.',
+   tldr:'Hand-soldered NES emulator on ESP32. Full 6502+PPU emulation, ST7789 240×240 IPS, MicroSD ROM loading. The custom 4-layer PCB with MAX98357A audio shipped as RetroDS v2.',
    comps:['ESP32-WROOM-32E','ST7789 IPS','MicroSD','MAX98357A','LiPo'],
    tags:['ESP32','NES 6502','ST7789','KiCad','Arduino'],
    desc:'Hand-soldered handheld NES emulator. Full 6502+PPU core on ESP32, 240×240 IPS display via 27 MHz SPI, MicroSD ROM loading, 8 buttons.',
    stats:[{n:'240MHz',l:'ESP32 Core'},{n:'27MHz',l:'SPI Display'},{n:'8',l:'Buttons'}],
-   hl:['NES 6502 + PPU emulation in C++ — cycle-accurate for most games','ST7789 240×240 at 27 MHz SPI (30 MHz caused corruption)','MicroSD FAT32 ROM loading up to 512 kB','Every perfboard wire resoldered at least once','PCB revision: ESP32-S3-WROOM-1U + MAX98357A audio']},
+   hl:['NES 6502 + PPU emulation in C++ — cycle-accurate for most games','ST7789 240×240 at 27 MHz SPI (30 MHz caused corruption)','MicroSD FAT32 ROM loading up to 512 kB','Every perfboard wire resoldered at least once','PCB revision shipped as RetroDS v2: ESP32-S3-WROOM-1U + MAX98357A audio']},
   {id:'retro2',title:'RetroDS v2 — Custom PCB',
    name:'RetroDS <i>v2</i> — Custom PCB',
-   status:'wip',meta:'Embedded Systems · 2026',link:'nes-emulator-v2-project.html',
+   status:'done',meta:'Embedded Systems · 2026',link:'nes-emulator-v2-project.html',
    img:'IMAGES/NES emulator v2/retro2-card.webp',imgFit:'cover',imgPos:{s:1,px:50,py:40},cat:'Embedded Systems',glyph:'▦',
    tldr:'RetroDS on a custom 4-layer PCB: ESP32-S3, MCP73871 Li-ion charger, MAX98357A audio, dedicated SD. Bring-up meant meter-driven fault-finding — a charger that would not conduct, then a hidden 3.3 V-to-ground short — then a firmware rewrite for the S3 that finally adds sound and save games.',
    comps:['ESP32-S3-WROOM-1U','ST7789 240×320','MCP73871','MAX98357A','LovyanGFX'],
@@ -969,7 +928,7 @@ const P=[
    hl:['Located a non-conducting MCP73871 charger by walking the USB→3V3 voltage ladder','Found a hidden 3.3 V-to-ground short by measuring resistance (not continuity) and bisecting the modules','TFT_eSPI → Arduino_GFX → LovyanGFX: DMA blit, from ~8 fps to ~15 fps','Added sound + 15-step perceptual volume and battery-backed save games (v1 had neither)','Charge status read from the charger STAT pins — no fuel gauge fitted (U4 out of stock)','Code review: fixed an 8–16 KB/game memory leak and five hard lock-ups on recoverable errors']},
   {id:'rccar',title:'Wireless RC Car',
    name:'Wireless <i>RC Car</i>',
-   status:'wip',meta:'Embedded Systems · Ongoing',link:'rc-car-project-main.html',
+   status:'done',meta:'Embedded Systems · 2026',link:'rc-car-project-main.html',
    img:'IMAGES/RC mini Car/small-rc-car-new.webp',imgPos:{s:1,px:100,py:80.34},cat:'Embedded Systems',glyph:'⌁',
    tldr:'Scratch-built RC car — 3D-printed chassis and wheels, ESP-NOW wireless, TB6612FNG H-bridge, micro digital servo. No router needed.',
    comps:['XIAO ESP32-C3','TB6612FNG','Micro Servo','ESP-NOW','Fusion 360'],
