@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#111214">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>SO-ARM100 Robotic Arm · Andrés Moreno</title>
+<meta name="description" content="SO-ARM100 leader-follower robotic arm — 12x STS3215 servos, LeRobot teleoperation, and a wireless upgrade replacing the USB tether with two ESP32-C3 boards over ESP-NOW.">
+<meta property="og:title" content="SO-ARM100 Robotic Arm · Andrés Moreno">
+<meta property="og:description" content="Leader-follower robotic arm pair built from TheRobotStudio's SO-ARM100 — LeRobot teleoperation, then a wireless ESP32-C3 / ESP-NOW upgrade to cut the USB tether.">
+<meta property="og:image" content="https://andresmoreno2702-gif.github.io/IMAGES/Robotic%20Arm/arm-01-both-front.webp">
+<meta property="og:url" content="https://andresmoreno2702-gif.github.io/robotic-arm-project.html">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+#progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
+.cursor-glow{position:fixed;pointer-events:none;z-index:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 65%);transform:translate(-50%,-50%);transition:opacity 0.5s ease;opacity:0;}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bg:          #f8f7f4;
+  --bg-2:        #f0efe9;
+  --ink:         #111110;
+  --ink-2:       #5a5a55;
+  --ink-3:       #9e9d96;
+  --line:        rgba(17,17,16,0.08);
+  --line-2:      rgba(17,17,16,0.18);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.09);
+  --card:        #ffffff;
+  --surface:     #f0efe9;
+  --surface2:    #e8e7e0;
+  --border:      rgba(17,17,16,0.08);
+  --border2:     rgba(17,17,16,0.18);
+  --text:        #111110;
+  --text-muted:  #9e9d96;
+  --text-dim:    #5a5a55;
+  --red:         #dc2626;
+  --green:       #16a34a;
+  --amber:       #d97706;
+  --accent2:     #2563eb;
+  --accent3:     #7c3aed;
+  --sans:        'Plus Jakarta Sans', system-ui, sans-serif;
+  --mono:        'DM Mono', 'JetBrains Mono', monospace;
+  --serif:       'Plus Jakarta Sans', system-ui, sans-serif;
+  --transition:  all 0.35s cubic-bezier(0.22,1,0.36,1);
+  --ease:        cubic-bezier(0.22,1,0.36,1);
+  --nav-bg:      rgba(248,247,244,.88);
+}
+[data-theme="dark"] {
+  --bg:          #111214;
+  --bg-2:        #17181c;
+  --ink:         #e8e7e3;
+  --ink-2:       #8c8c96;
+  --ink-3:       #50505a;
+  --line:        rgba(232,231,227,0.07);
+  --line-2:      rgba(232,231,227,0.16);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.12);
+  --card:        #17181c;
+  --surface:     #17181c;
+  --surface2:    #1d1e23;
+  --border:      rgba(232,231,227,0.07);
+  --border2:     rgba(232,231,227,0.16);
+  --text:        #e8e7e3;
+  --text-muted:  #8c8c96;
+  --text-dim:    #8c8c96;
+  --red:         #f87171;
+  --green:       #22c55e;
+  --amber:       #f59e0b;
+  --accent2:     #60a5fa;
+  --accent3:     #a78bfa;
+  --nav-bg:      rgba(17,18,20,.88);
+}
+[data-theme="light"] .hero::before{background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,102,204,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(0,102,204,.04) 0%,transparent 60%);}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .stat-card{background:var(--surface);border-color:var(--border);}
+[data-theme="light"] .spec-block{background:var(--surface);}
+[data-theme="light"] .decision{background:var(--surface);}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
+.hero{position:relative;padding:110px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(93,188,255,0.13) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.6;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
+[data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(0,102,204,0.09) 1.5px,transparent 0);}
+@keyframes grid-drift{from{background-position:0 0;}to{background-position:36px 36px;}}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:center}
+.hero-photo{display:flex;justify-content:center;align-items:center}
+.hero-photo img{width:100%;height:420px;object-fit:cover;object-position:center 30%;border-radius:12px;border:1px solid var(--border2);box-shadow:0 24px 60px rgba(0,0,0,.25)}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-photo{display:none}}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+.hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:10px}
+.hero h1 span{color:var(--accent);font-style:italic;}
+.hero-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.badge{font-family:var(--mono);font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.badge-blue{color:var(--accent2);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
+.badge-amber{color:var(--accent3);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.badge-teal{color:var(--accent);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
+.content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.section{margin-top:64px;scroll-margin-top:72px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-title{font-family:'Instrument Serif',serif;font-size:24px;font-weight:600;letter-spacing:-.01em}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
+.gallery-item{flex:0 0 auto;width:calc(33.333% - 12px);min-width:120px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;box-sizing:border-box;display:flex;flex-direction:column}
+.gallery-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.gallery-item img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.gallery-item.wide{width:calc(66.666% - 8px)}
+.gallery-item.half{width:calc(50% - 8px)}
+.gallery-item.screenshot img{object-fit:contain;background:var(--surface2)}
+.gallery-caption{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
+.stat-card.blue::after{background:var(--accent2)}
+.stat-card.amber::after{background:var(--accent3)}
+.stat-card.red::after{background:var(--red)}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-sub{font-size:12px;color:var(--text-muted)}
+.prose{color:var(--text-dim);line-height:1.85}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--text);font-weight:500}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px}
+.comp-table th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.comp-table td{padding:12px 16px;border-bottom:1px solid rgba(30,45,61,.6);color:var(--text-dim);vertical-align:top}
+.comp-table tr:hover td{background:rgba(93,188,255,.02)}
+.ref{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.part{font-family:var(--mono);font-size:11px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(93,188,255,.04)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid rgba(30,45,61,.5);gap:20px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:13px;color:var(--text-muted);flex:1}
+.spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
+.spec-val.ok{color:var(--green)}
+.spec-val.warn{color:var(--accent3)}
+.decision-list{display:flex;flex-direction:column;gap:16px}
+.decision{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px}
+.decision.blue{border-left-color:var(--accent2)}
+.decision.amber{border-left-color:var(--accent3)}
+.decision.red{border-left-color:var(--red)}
+.decision-title{font-weight:500;color:var(--text);margin-bottom:6px;font-size:14px}
+.decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+.decision-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent)}
+.timeline-item{position:relative;margin-bottom:36px}
+.timeline-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
+.timeline-dot.amber{background:var(--accent3);box-shadow:0 0 0 2px var(--accent3)}
+.timeline-dot.red{background:var(--red);box-shadow:0 0 0 2px var(--red)}
+.timeline-step{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.timeline-step.blue{color:var(--accent2)}
+.timeline-step.amber{color:var(--accent3)}
+.timeline-step.red{color:var(--red)}
+.timeline-heading{font-weight:500;color:var(--text);margin-bottom:6px;font-size:15px}
+.timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
+.timeline-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border);max-width:640px}
+.timeline-img img{width:100%;display:block}
+.timeline-img-cap{padding:8px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
+.footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-right{text-align:right}
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
+#lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;line-height:1;background:none;border:none}
+#lb-close:hover{opacity:1}
+.gallery-item img,.timeline-img img{cursor:zoom-in}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;
+  background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
+.nav-brand{font-size:14px;font-weight:800;letter-spacing:-.02em;cursor:pointer;
+  color:var(--text);text-decoration:none;font-family:var(--sans);}
+.nav-brand i{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text-muted);padding:4px 0;position:relative;transition:color .2s;text-decoration:none;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;
+  background:var(--accent);transition:width .3s var(--ease);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.thm{width:34px;height:34px;border:1.5px solid var(--border2);border-radius:50%;
+  background:transparent;color:var(--text-muted);cursor:pointer;
+  display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+.thm .ico-moon{display:block;}
+.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}
+[data-theme="light"] .thm .ico-sun{display:block;}
+@media(max-width:860px){.nav-links{display:none;}}
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}
+  .footer{padding:20px 24px}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
+  .gallery-item{width:100%!important;max-width:100%!important;}
+  .comp-table{display:block;overflow-x:auto;}
+}
+</style>
+
+<style id="snap-enhanced">
+.snapshot { border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+.snapshot::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%); pointer-events: none; opacity: 0.5; }
+.snap-quote { max-width: 1200px; margin: 0 auto; padding: 48px 56px 36px; position: relative; }
+.snap-quote::before { content: ''; position: absolute; left: 56px; top: 48px; width: 3px; height: calc(100% - 84px); background: linear-gradient(to bottom, var(--accent), transparent); border-radius: 2px; }
+.snap-quote p { font-family: var(--serif); font-size: clamp(1.1rem, 1.8vw, 1.5rem); line-height: 1.65; color: var(--text-dim); padding-left: 28px; max-width: 74ch; }
+.snap-quote p em { color: var(--accent); font-style: italic; }
+.snapshot-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding: 0 56px 48px; align-items: start; }
+.snap-photo-wrap { display: flex; flex-direction: column; gap: 12px; }
+.snap-photo-main { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); aspect-ratio: 4/3; cursor: zoom-in; }
+.snap-photo-main img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.snap-photo-main:hover img { transform: scale(1.03); }
+.snap-photo-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px 14px 10px; background: linear-gradient(to top, rgba(5,9,18,0.9) 0%, transparent 100%); font-family: var(--mono); font-size: 10px; color: rgba(238,240,243,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
+.snap-thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.snap-thumb { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 4/3; transition: border-color 0.2s, transform 0.2s; }
+.snap-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.snap-thumb:hover { border-color: var(--accent); transform: translateY(-2px); }
+.snap-thumb.active { border-color: var(--accent); border-width: 2px; }
+.snap-info { display: flex; flex-direction: column; gap: 24px; padding-top: 2px; }
+.snap-label { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.snap-label::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--accent); }
+.snap-comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.snap-comp { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); transition: border-color 0.2s, background 0.2s, transform 0.2s; cursor: default; position: relative; }
+.snap-comp:hover { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 6%, var(--surface)); transform: translateY(-2px); }
+.snap-comp-icon { width: 32px; height: 32px; color: var(--accent); flex-shrink: 0; }
+.snap-comp-icon svg { width: 100%; height: 100%; }
+.snap-comp-name { font-family: var(--mono); font-size: 9px; text-align: center; color: var(--text-muted); letter-spacing: 0.04em; line-height: 1.3; }
+.snap-comp::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: color-mix(in oklab, var(--bg) 96%, transparent); border: 1px solid var(--border2); backdrop-filter: blur(12px); color: var(--text); font-family: var(--mono); font-size: 10px; padding: 8px 12px; border-radius: 8px; white-space: nowrap; max-width: 260px; white-space: normal; width: max-content; max-width: 220px; line-height: 1.5; z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.2s; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.snap-comp:hover::after { opacity: 1; }
+.snap-journey { display: flex; gap: 0; align-items: center; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+.snap-step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; min-width: 62px; position: relative; }
+.snap-step + .snap-step::before { content: ''; position: absolute; left: -50%; right: 50%; top: 11px; height: 2px; background: var(--border); }
+.snap-step.done + .snap-step::before { background: var(--accent); }
+.snap-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; position: relative; z-index: 1; }
+.snap-step.done .snap-dot { background: var(--accent); color: var(--bg); font-size: 11px; }
+.snap-step.now .snap-dot { background: transparent; border: 2px solid var(--accent); color: var(--accent); font-weight: 700; box-shadow: 0 0 0 0 var(--accent); animation: snap-pulse 1.8s ease infinite; }
+.snap-step:not(.done):not(.now) .snap-dot { background: var(--surface); border: 2px solid var(--border); color: var(--text-muted); font-size: 9px; }
+@keyframes snap-pulse { 0% { box-shadow: 0 0 0 0 rgba(93,188,255,0.55); } 70% { box-shadow: 0 0 0 8px rgba(93,188,255,0); } 100% { box-shadow: 0 0 0 0 rgba(93,188,255,0); } }
+.snap-step-lbl { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); text-align: center; }
+.snap-step.done .snap-step-lbl { color: var(--text); }
+.snap-step.now .snap-step-lbl { color: var(--accent); }
+.snap-learned { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; border-left: 3px solid var(--accent); }
+.snap-learned ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.snap-learned ul li { font-size: 12.5px; color: var(--text-dim); line-height: 1.65; padding-left: 14px; position: relative; }
+.snap-learned ul li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.snap-learned ul li code { font-family: var(--mono); font-size: 10.5px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; color: var(--accent); }
+.snap-stats { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); padding: 0 56px; }
+.snap-stat { padding: 28px 0; border-right: 1px solid var(--border); padding-left: 32px; padding-right: 24px; position: relative; overflow: hidden; }
+.snap-stat:first-child { padding-left: 0; }
+.snap-stat:last-child { border-right: none; }
+.snap-counter { font-family: var(--mono); font-size: 2rem; font-weight: 500; color: var(--accent); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.snap-stat-lbl { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
+.snap-scroll-cue { max-width: 1200px; margin: 0 auto; padding: 20px 56px 28px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+.snap-arrow-anim { animation: bounce-y 1.6s ease infinite; display: inline-block; color: var(--accent); }
+@keyframes bounce-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+@media(max-width:900px) {
+  .snap-quote { padding: 28px 24px 20px; }
+  .snap-quote::before { left: 24px; }
+  .snap-quote p { padding-left: 18px; }
+  .snapshot-inner { grid-template-columns: 1fr; padding: 0 24px 32px; gap: 28px; }
+  .snap-stats { grid-template-columns: repeat(2,1fr); padding: 0 24px; }
+  .snap-stat { padding: 20px 16px; }
+  .snap-scroll-cue { padding: 14px 24px 20px; }
+  .snap-thumbs { grid-template-columns: repeat(3,1fr); }
+}
+</style>
+
+<style id="annotations">
+.outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:70ch}
+.oc-label{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--green);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;padding-top:3px;line-height:1}
+.oc-text{font-size:14px;color:var(--ink-2);line-height:1.65}
+[data-theme="dark"] .outcome-callout{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.25)}
+.video-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);}
+.video-cap{padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);}
+.video-wrap video{width:100%;display:block;}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}.snap-comp-grid{grid-template-columns:repeat(2,1fr);}}
+.portrait-demo{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.portrait-demo .video-wrap{flex:0 0 auto;width:min(300px,calc(50% - 10px))}
+.proj-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:28px 0;border-top:1px solid var(--border);margin-top:48px;flex-wrap:wrap;}
+.pnav-btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2);padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border);text-decoration:none;transition:all .25s;}
+.pnav-btn:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+.pnav-home{font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3);text-decoration:none;transition:color .2s;}
+.pnav-home:hover{color:var(--accent);}
+.pnav-prev{margin-right:auto;}
+.pnav-next{margin-left:auto;}
+.gh-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--accent);text-decoration:none;letter-spacing:.02em}
+.gh-link:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<nav id="nav">
+  <a href="index.html" class="nav-brand">AMN<i>.</i></a>
+  <div class="nav-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="#overview">Overview</a>
+    <a href="#servos">Servos</a>
+    <a href="#software">Software</a>
+    <a href="#wireless">Wireless Upgrade</a>
+    <a href="#electronics">Electronics</a>
+    <a href="#demo">Demo</a>
+    <a href="#next">Next Steps</a>
+  </div>
+  <div class="nav-right">
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+<div class="hero-inner">
+  <div>
+    <div class="hero-tag">Engineering Design Portfolio — Robotics &amp; Embedded Systems</div>
+    <h1>SO-ARM100 <span>Robotic Arm</span></h1>
+    <div class="hero-sub">Leader-Follower Teleoperation · 12× STS3215 Servos · ESP32-C3 Wireless Upgrade · Jun–Jul 2026</div>
+    <div class="hero-meta">
+      <span class="badge badge-teal">TheRobotStudio SO-ARM100</span>
+      <span class="badge badge-blue">12× Feetech STS3215 Servos</span>
+      <span class="badge badge-amber">LeRobot Teleoperation</span>
+      <span class="badge badge-green">ESP-NOW Wireless · ~100 Hz</span>
+    </div>
+    <div class="hero-meta">
+      <span class="badge badge-blue">2× ESP32-C3 Super Mini</span>
+      <span class="badge badge-teal">Prusa 3D-Printed Links</span>
+      <span class="badge badge-green">Working — Wireless Teleop</span>
+    </div>
+
+    <div class="outcome-callout">
+      <span class="oc-label">Result</span>
+      <span class="oc-text">TheRobotStudio's SO-ARM100 is an open-source design (Apache-2.0) — the parts were sourced, both arms 3D printed and assembled, and everything calibrated through LeRobot. The one piece that isn't in the official repo: two ESP32-C3 boards added afterward to mirror all 6 joints wirelessly over ESP-NOW, cutting the USB tether to the PC.</span>
+    </div>
+
+    <div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:10px">
+      <a class="gh-link" href="https://github.com/TheRobotStudio/SO-ARM100" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        TheRobotStudio/SO-ARM100 →
+      </a>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Apache-2.0 · open-source hardware &amp; software</span>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <img loading="lazy" src="IMAGES/Robotic Arm/arm-02-clamped-desk.webp" alt="Leader (red) and follower (black) arms, desk-clamped, monitor with the SO-ARM100 repo in the background">
+  </div>
+</div>
+</div>
+
+<!-- ── Project Snapshot ── -->
+<div class="snapshot">
+
+  <div class="snap-quote">
+    <p>Picked the SO-ARM100 over the pricier AM-ARM200 mostly on servo cost — same LeRobot-compatible teleoperation, cheaper parts. Sourced the 12 STS3215 servos as an Alibaba bundle, calibrated both arms in LeRobot, and had it working over USB in a day. The real project started after that: a cheap clone motor-controller board turned out to pass input voltage straight through to the servos with zero regulation, and the first attempt to wire an ESP32 directly onto the servo bus's data line fought the board's own direction-switching circuit. Routing through the board's dedicated UART header instead — and moving to <em>two</em> ESP32-C3 Super Minis talking ESP-NOW — is what finally cut the USB cable for good.</p>
+  </div>
+
+  <div class="snapshot-inner">
+
+    <div class="snap-photo-wrap">
+      <div class="snap-photo-main">
+        <img loading="lazy" src="IMAGES/Robotic Arm/arm-03-both-side.webp" alt="Leader and follower arms, side profile" id="snapMainImg">
+        <div class="snap-photo-caption" id="snapMainCap">Leader (red) &amp; follower (black) — desk-clamped, powered and idle</div>
+      </div>
+      <div class="snap-thumbs">
+        <div class="snap-thumb active" data-src="IMAGES/Robotic Arm/arm-03-both-side.webp" data-cap="Leader (red) &amp; follower (black) — desk-clamped, powered and idle">
+          <img loading="lazy" src="IMAGES/Robotic Arm/arm-03-both-side.webp" alt="Both arms side profile">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Robotic Arm/arm-01-both-front.webp" data-cap="Front view — gripper detail on both arms">
+          <img loading="lazy" src="IMAGES/Robotic Arm/arm-01-both-front.webp" alt="Both arms front view">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Robotic Arm/arm-02-clamped-desk.webp" data-cap="Desk-clamped mounting — both arms wired and powered">
+          <img loading="lazy" src="IMAGES/Robotic Arm/arm-02-clamped-desk.webp" alt="Arms clamped to desk">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Robotic Arm/arm-04-follower-front.webp" data-cap="Both arms facing the monitor — wider framing, full desk setup">
+          <img loading="lazy" src="IMAGES/Robotic Arm/arm-04-follower-front.webp" alt="Follower arm front">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Robotic Arm/arm-05-both-facing-monitor.webp" data-cap="Both arms facing the SO-ARM100 GitHub repo on screen">
+          <img loading="lazy" src="IMAGES/Robotic Arm/arm-05-both-facing-monitor.webp" alt="Both arms facing monitor">
+        </div>
+      </div>
+    </div>
+
+    <div class="snap-info">
+
+      <div>
+        <div class="snap-label">Key Components</div>
+        <div class="snap-comp-grid">
+          <div class="snap-comp" data-tip="Feetech STS3215 C001 — 7.4V, 19.5 kg.cm, 1:345 gear ratio, serial bus feedback servo. 6 per arm, 12 total.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"/><circle cx="13" cy="16" r="4"/><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"/><line x1="22" y1="13" x2="27" y2="13"/><line x1="22" y1="16" x2="27" y2="16"/><line x1="22" y1="19" x2="27" y2="19"/></svg></div>
+            <div class="snap-comp-name">STS3215 ×12</div>
+          </div>
+          <div class="snap-comp" data-tip="Leader board: reads all 6 leader joint positions, sends via ESP-NOW at 100 Hz">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP32-C3 (Leader)</div>
+          </div>
+          <div class="snap-comp" data-tip="Follower board: receives ESP-NOW packets, sync-writes goal positions, clamps to safe range">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP32-C3 (Follower)</div>
+          </div>
+          <div class="snap-comp" data-tip="2.4 GHz peer-to-peer, no router/AP needed, ~1-2 ms round trip observed">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP-NOW</div>
+          </div>
+          <div class="snap-comp" data-tip="Hugging Face LeRobot — used for motor ID assignment, calibration, and homing offsets">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="6" width="20" height="16" rx="2"/><circle cx="12" cy="13" r="1.8" fill="currentColor" stroke="none"/><circle cx="20" cy="13" r="1.8" fill="currentColor" stroke="none"/><path d="M11 18h10"/><path d="M9 6V3M23 6V3"/></svg></div>
+            <div class="snap-comp-name">LeRobot</div>
+          </div>
+          <div class="snap-comp" data-tip="Arm links printed from TheRobotStudio's STL files on a Prusa — the desk clamps are a custom Fusion 360 design, not from the repo">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
+            <div class="snap-comp-name">Prusa 3D Print</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="snap-label">Build Progress</div>
+        <div class="snap-journey">
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Sourcing</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Assembly</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">LeRobot Calib</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">USB Teleop</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">ESP-NOW Wireless</div></div>
+          <div class="snap-step now"><div class="snap-dot">→</div><div class="snap-step-lbl">Data Collection</div></div>
+        </div>
+      </div>
+
+      <div class="snap-learned">
+        <div class="snap-label">What I Learned</div>
+        <ul>
+          <li>The AliExpress clone motor-controller board ("Bus Servo Adapter A") passes input voltage <strong>straight through</strong> to the servo bus with no regulation. The STS3215 needs 4.5–8.4 V; the board accepts 9–12.6 V input. Only safe pairing: a dedicated <code>7.4V</code> supply — not the 12 V or 5 V I had lying around.</li>
+          <li>My first attempt tapped the servo bus data pin directly, in parallel with each arm's daisy chain. It fought the board's own direction-switching circuit and dropped packets constantly. Going through the board's dedicated <strong>UART header</strong> (jumper set to UART mode) fixed it instantly — the board already handles half-duplex switching internally.</li>
+          <li><code>arduino-esp32</code> v3.3.10 changed the ESP-NOW callback signatures without much warning: receive callbacks now take <code>esp_now_recv_info_t*</code> instead of a raw MAC pointer, send callbacks take <code>wifi_tx_info_t*</code>. Every ESP-NOW example online still shows the old signatures.</li>
+          <li><code>noInterrupts()</code> does <strong>not</strong> protect against the FreeRTOS WiFi task pre-empting your main loop — that's not a hardware ISR. Fixed it with a volatile double-buffer instead: the receive callback just copies the packet and flips a flag; the main loop reads it out on its own time.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="snap-stats">
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="12" data-suffix="">12</div>
+      <div class="snap-stat-lbl">STS3215 Servos</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="2" data-suffix=" ms">~2 ms</div>
+      <div class="snap-stat-lbl">ESP-NOW Latency</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="100" data-suffix=" Hz">100 Hz</div>
+      <div class="snap-stat-lbl">Joint Update Rate</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="6" data-suffix=" DOF">6 DOF</div>
+      <div class="snap-stat-lbl">Per Arm</div>
+    </div>
+  </div>
+
+  <div class="snap-scroll-cue">Sourcing, LeRobot setup, and the wireless ESP32-C3 upgrade below <span class="snap-arrow-anim">↓</span></div>
+</div>
+<!-- ── End Snapshot ── -->
+
+<div class="content">
+
+<div class="section" id="overview">
+<div class="section-header"><h2 class="section-title">Project Overview</h2><div class="section-line"></div></div>
+<div class="overview-grid">
+  <div class="stat-card"><div class="stat-label">Servos</div><div class="stat-value" style="font-size:18px;">12×</div><div class="stat-sub">Feetech STS3215 C001, 7.4V</div></div>
+  <div class="stat-card blue"><div class="stat-label">Control MCU</div><div class="stat-value" style="font-size:18px;">ESP32-C3</div><div class="stat-sub">×2, Super Mini form factor</div></div>
+  <div class="stat-card amber"><div class="stat-label">Wireless Link</div><div class="stat-value">~2</div><div class="stat-sub">ms ESP-NOW round trip</div></div>
+  <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Working</div><div class="stat-sub">Wireless teleop confirmed end-to-end</div></div>
+</div>
+<div class="prose">
+  <p>The <strong>SO-ARM100</strong> is TheRobotStudio's open-source leader-follower robotic arm (Apache-2.0), built for the Hugging Face <strong>LeRobot</strong> ecosystem — you physically move the leader arm, and the follower mirrors it in real time, the standard way to collect teleoperation data for training robot learning policies. It was chosen over the pricier AM-ARM200 mainly on servo economics — full comparison in the sourcing section below.</p>
+  <p>Everything through this point is stock SO-ARM100: the 12 <strong>Feetech STS3215</strong> servos and both motor-controller boards were bought as parts, the arm links were 3D printed from TheRobotStudio's original files on a <strong>Prusa</strong> printer, and both arms were assembled and calibrated through LeRobot's Python tooling — homing offsets and safe position limits get burned straight into each servo's EEPROM. The one part that isn't stock: the desk clamps, custom-modelled from scratch — more on that below.</p>
+  <p>What isn't in the official repo is the wireless link. The arm pair worked over USB from day one; built on top of that are two <strong>ESP32-C3 Super Mini</strong> boards that read the leader's joints and mirror them to the follower over <strong>ESP-NOW</strong>, no PC in the loop. Full breakdown in the Wireless Upgrade section below.</p>
+</div>
+<div class="gallery">
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Robotic Arm/arm-05-both-facing-monitor.webp" alt="Both arms clamped to the desk, facing the monitor with the SO-ARM100 GitHub repo open" style="object-position:center 30%">
+    <div class="gallery-caption">Both arms clamped and powered — SO-ARM100 GitHub repo open on screen for reference</div>
+  </div>
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Robotic Arm/arm-01-both-front.webp" alt="Close-up of both arms' bases showing the motor controller board and ESP32-C3" style="object-position:center 100%">
+    <div class="gallery-caption">Motor controller board and ESP32-C3 wired in — identical setup on both arms' bases</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="servos">
+<div class="section-header"><h2 class="section-title">Servos, Sourcing &amp; Mechanical</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>The SO-ARM100 has one real drop-in constraint: the <strong>Feetech STS3215</strong> serial bus servo. It's a proprietary 45.2 × 24.7 × 35 mm form factor with position feedback over a single-wire half-duplex bus — no cheaper PWM servo (MG996R and similar) can substitute, because those have no feedback and can't support LeRobot's teleoperation or policy-learning pipeline. The correct variant is the <strong>C001</strong>: 7.4 V, 19.5 kg·cm torque, 1:345 gear ratio. The 12 V/30 kg <strong>C018</strong> variant exists but is more expensive and isn't what the official BOM specifies.</p>
+  <p>Building a cheaper DIY equivalent — DC motor, gearbox, AS5048 magnetic encoder, custom driver PCB — was seriously considered and ruled out: at roughly $20–30 per joint plus hours of engineering per axis, it lands close to the STS3215's $13.89/unit Alibaba price without any of the reliability or drop-in compatibility.</p>
+</div>
+<div class="two-col">
+  <div class="spec-block">
+    <div class="spec-block-header">Servo — Feetech STS3215 (C001)</div>
+    <div class="spec-row"><span class="spec-key">Voltage</span><span class="spec-val">7.4 V</span></div>
+    <div class="spec-row"><span class="spec-key">Torque</span><span class="spec-val">19.5 kg·cm</span></div>
+    <div class="spec-row"><span class="spec-key">Gear ratio</span><span class="spec-val">1:345</span></div>
+    <div class="spec-row"><span class="spec-key">Dimensions</span><span class="spec-val">45.2 × 24.7 × 35 mm</span></div>
+    <div class="spec-row"><span class="spec-key">Interface</span><span class="spec-val ok">Half-duplex serial bus, position feedback</span></div>
+    <div class="spec-row"><span class="spec-key">Servos per arm</span><span class="spec-val">6 (12 total, two arms)</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Sourcing Decision</div>
+    <div class="spec-row"><span class="spec-key">Official BOM estimate</span><span class="spec-val">~$230 (two-arm set)</span></div>
+    <div class="spec-row"><span class="spec-key">Chosen: Alibaba bundle</span><span class="spec-val ok">$289.80 (12 servos + board + cables)</span></div>
+    <div class="spec-row"><span class="spec-key">AliExpress (separate)</span><span class="spec-val warn">~$325</span></div>
+    <div class="spec-row"><span class="spec-key">Amazon / eBay 12-pack</span><span class="spec-val warn">~$285–312</span></div>
+    <div class="spec-row"><span class="spec-key">Arm links</span><span class="spec-val">Prusa-printed, TheRobotStudio's STL files</span></div>
+    <div class="spec-row"><span class="spec-key">Desk clamps</span><span class="spec-val ok">Custom-designed, PETG</span></div>
+  </div>
+</div>
+<table class="comp-table" style="margin-top:20px">
+<thead><tr><th>Alternative Considered</th><th>Why Ruled Out</th></tr></thead>
+<tbody>
+<tr><td class="part">AM-ARM200</td><td style="font-size:12px;color:var(--text-muted)">~$380 full kit vs ~$230 — 3× STS3095 servos at ~$50 each drive the cost up</td></tr>
+<tr><td class="part">Moss Robot Arms</td><td style="font-size:12px;color:var(--text-muted)">Same servos, same cost, and being deprecated in favour of SO-ARM100</td></tr>
+<tr><td class="part">Koch v1.1</td><td style="font-size:12px;color:var(--text-muted)">Uses Dynamixel servos — notably more expensive per joint</td></tr>
+<tr><td class="part">MG996R-based arms</td><td style="font-size:12px;color:var(--text-muted)">No position feedback — can't support LeRobot teleoperation or policy training</td></tr>
+<tr><td class="part">DIY servo (DC + encoder)</td><td style="font-size:12px;color:var(--text-muted)">~$20–30/joint plus hours of engineering per axis — lands at the STS3215 price anyway</td></tr>
+</tbody>
+</table>
+<div class="two-col" style="margin-top:20px;align-items:center">
+  <img loading="lazy" src="IMAGES/Robotic Arm/arm-06-clamp-cad.webp" alt="Fusion 360 model of the desk clamp on screen, next to the printed PETG part held in hand" style="width:100%;max-height:480px;object-fit:cover;border-radius:8px;border:1px solid var(--border)">
+  <div class="decision-list" style="margin:0">
+    <div class="decision blue">
+      <div class="decision-title">Desk clamp — custom-designed, not part of the SO-ARM100 repo</div>
+      <div class="decision-body">The one structural part that isn't printed from TheRobotStudio's files. Modelled from scratch in <strong>Fusion 360</strong> and sized to survive the clamp screw's pinch force against the desk edge without cracking under the arm's own weight. Printed in <strong>PETG</strong> — not the PLA+ TheRobotStudio's own build guide recommends — for the extra toughness under that sustained clamping load, with a hexagonal infill pattern for added rigidity.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="software">
+<div class="section-header"><h2 class="section-title">LeRobot Software &amp; Calibration</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>Both arms are brought up and calibrated through Hugging Face's <strong>LeRobot</strong> Python library. A dedicated conda environment (<code style="font-family:var(--mono);background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:12.5px;">lerobot</code>) was set up with the Feetech servo backend, and both controller boards were found on <code style="font-family:var(--mono);background:var(--surface2);padding:1px 6px;border-radius:4px;font-size:12.5px;">/dev/ttyACM0</code> (one at a time, since both boards enumerate identically). Motor IDs were assigned 1–6 on each arm, followed by LeRobot's guided calibration routine, which walks each joint through its range and burns homing offsets directly into servo EEPROM — no recalibration is needed later on the ESP32 firmware, since the offsets travel with the hardware.</p>
+</div>
+<div class="decision-list">
+  <div class="decision red">
+    <div class="decision-title">Clone motor-controller board — voltage pass-through</div>
+    <div class="decision-body">The board bought alongside the servos was an AliExpress clone ("Bus Servo Adapter A"), not the official Waveshare board it was modelled on. It turned out to pass input voltage <strong>straight through</strong> to the servo bus with zero regulation — input range 9–12.6 V in, same voltage out to the servos. The STS3215 wants 4.5–8.4 V (ideally 7.4 V). <strong>Fix:</strong> power the board from a dedicated 7.4 V supply — not the 5 V or 12 V supplies already on hand. Teleoperation was blocked for a stretch waiting on a second 7.4 V supply for the leader arm.</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="wireless">
+<div class="section-header"><h2 class="section-title">The Wireless Upgrade</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>USB teleoperation works, but tethers both arms to a PC and to each other's cable runs — awkward for anything beyond a desk demo. The goal was to cut the cable and mirror the leader arm's 6 joints to the follower <strong>wirelessly</strong>, with low enough latency that it still feels like direct control.</p>
+</div>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step">Phase 1 — PC-Tethered Teleoperation (LeRobot)</div>
+    <div class="timeline-heading">Baseline: both arms on USB, driven directly by LeRobot on a PC</div>
+    <div class="timeline-body">The starting point and the one LeRobot ships out of the box: leader and follower both plugged into a PC over USB, with <code>lerobot-teleoperate</code> reading the leader's joint positions and writing them to the follower in a tight Python loop. This confirmed both arms, all 12 servos, and the calibration data were correct before touching any custom firmware.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot amber"></div>
+    <div class="timeline-step amber">Phase 2 — First Wired Attempt: Direct Data-Pin Tap</div>
+    <div class="timeline-heading">Tapping the servo bus data line directly caused interference with the board's own direction circuit</div>
+    <div class="timeline-body">The first idea was to tap the half-duplex data line of each arm's servo daisy chain directly from a GPIO pin. In practice this fought the motor controller board's own internal direction-switching circuit — the board expects to be the one driving that line's direction, and having an external GPIO also toggling it caused corrupted reads and dropped packets. <strong>Fix:</strong> go through the board's dedicated UART header instead (with its jumper set to UART mode), which lets the board handle half-duplex direction switching internally — the ESP32 just talks standard UART TX/RX to the header, no data-pin trickery required.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot blue"></div>
+    <div class="timeline-step blue">Phase 3 — ESP32-C3 Super Mini Wireless (ESP-NOW) — Working</div>
+    <div class="timeline-heading">Two ESP32-C3 Super Mini boards, one per arm, mirror joint positions wirelessly at 100 Hz</div>
+    <div class="timeline-body">The final architecture: a <strong>leader board</strong> reads all 6 STS3215 positions from the leader arm over UART (1 Mbps, half-duplex) and sends them as a 12-byte ESP-NOW packet. A <strong>follower board</strong> receives that packet, clamps each joint to safe position limits pulled straight from the LeRobot calibration JSON, and sync-writes all 6 goal positions to the follower arm in one broadcast instruction. Each arm was bring-up tested standalone first — a small <code>servo_test</code> sketch reads and wiggles all 6 joints, confirming the ESP32 can talk to that arm's servos before any ESP-NOW code goes near it. First-time pairing: flash the follower sketch first, read its MAC address off the Serial Monitor, paste it into the leader sketch, then flash the leader. Confirmed working end-to-end — moving the leader arm by hand drives the follower in real time with no perceptible lag.</div>
+    <div class="outcome-callout" style="margin-top:14px">
+      <span class="oc-label">Confirmed</span>
+      <span class="oc-text">Leader arm mirrors to follower arm wirelessly at 100 Hz — no PC in the loop, no router, ~1–2 ms ESP-NOW round trip.</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="electronics">
+<div class="section-header"><h2 class="section-title">Electronics &amp; Wiring</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>Both boards are wired identically. The motor controller board is powered from an external <strong>5 V</strong> supply, and the ESP32-C3 talks to it over the board's UART header rather than the raw servo data line.</p>
+</div>
+<table class="comp-table" style="margin-bottom:20px">
+<thead><tr><th>Signal</th><th>ESP32-C3 GPIO</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td class="part">Board 5V</td><td class="ref">5V pin</td><td style="font-size:12px;color:var(--text-muted)">Motor controller board power (external 5V supply)</td></tr>
+<tr><td class="part">Board GND</td><td class="ref">GND</td><td style="font-size:12px;color:var(--text-muted)">Common ground</td></tr>
+<tr><td class="part">Board RX (UART header)</td><td class="ref">GPIO 4</td><td style="font-size:12px;color:var(--text-muted)">ESP32 TX → board RX, jumper set to UART mode</td></tr>
+<tr><td class="part">Board TX (UART header)</td><td class="ref">GPIO 3</td><td style="font-size:12px;color:var(--text-muted)">Board TX → ESP32 RX</td></tr>
+</tbody>
+</table>
+<div class="decision-list">
+  <div class="decision amber">
+    <div class="decision-title">Power sequencing — never bridge board 5V and USB 5V</div>
+    <div class="decision-body">The ESP32-C3 is powered from USB only while programming, and from the board's 5V rail once standalone. Connecting both simultaneously risks backfeeding one supply into the other — always disconnect USB before powering from the board, and vice versa.</div>
+  </div>
+</div>
+<div class="two-col" style="margin-top:20px">
+  <div class="spec-block">
+    <div class="spec-block-header">Servo Bus Protocol</div>
+    <div class="spec-row"><span class="spec-key">Baud rate</span><span class="spec-val">1,000,000 (1 Mbps)</span></div>
+    <div class="spec-row"><span class="spec-key">Wire mode</span><span class="spec-val">Half-duplex, single-wire</span></div>
+    <div class="spec-row"><span class="spec-key">Read instruction</span><span class="spec-val">STS <code style="font-family:var(--mono);font-size:11px">0x02</code> — present position</span></div>
+    <div class="spec-row"><span class="spec-key">Write instruction</span><span class="spec-val">STS <code style="font-family:var(--mono);font-size:11px">0x83</code> — sync write, all 6 in one packet</span></div>
+    <div class="spec-row"><span class="spec-key">Loop rate</span><span class="spec-val ok">100 Hz (10 ms period)</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">ESP-NOW Link</div>
+    <div class="spec-row"><span class="spec-key">Payload</span><span class="spec-val">6× int16_t positions, 12 bytes</span></div>
+    <div class="spec-row"><span class="spec-key">Pairing</span><span class="spec-val">Static MAC address, unencrypted</span></div>
+    <div class="spec-row"><span class="spec-key">Observed latency</span><span class="spec-val ok">~1–2 ms round trip</span></div>
+    <div class="spec-row"><span class="spec-key">Safety clamp</span><span class="spec-val">Follower constrains to LeRobot calibration limits</span></div>
+    <div class="spec-row"><span class="spec-key">Board</span><span class="spec-val">ESP32C3 Dev Module, USB CDC On Boot: Enabled</span></div>
+  </div>
+</div>
+
+<div style="margin-top:28px;">
+  <div style="font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:18px;height:1px;background:var(--accent);flex-shrink:0;"></span>Firmware</div>
+  <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;">Both sketches are plain Arduino C++ using <code style="font-family:var(--mono);background:var(--surface2);padding:1px 6px;border-radius:4px;">esp_now.h</code> and the STS servo protocol implemented by hand over <code style="font-family:var(--mono);background:var(--surface2);padding:1px 6px;border-radius:4px;">HardwareSerial</code> — no external servo library. The follower's receive callback runs inside the FreeRTOS WiFi task, so it only copies the incoming packet into a buffer and flips a flag; the main loop does the actual servo write on its own schedule, avoiding any work inside the callback itself.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <button onclick="toggleArmFw('leader',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Leader board code</button>
+    <button onclick="toggleArmFw('follower',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Follower board code</button>
+  </div>
+  <div id="arm-fw-leader" style="display:none;margin-top:10px;">
+    <pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow:auto;max-height:420px;font-family:var(--mono);font-size:11px;color:var(--text-dim);line-height:1.65;margin:0;"><code id="arm-fw-leader-code"></code></pre>
+  </div>
+  <div id="arm-fw-follower" style="display:none;margin-top:10px;">
+    <pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 18px;overflow:auto;max-height:420px;font-family:var(--mono);font-size:11px;color:var(--text-dim);line-height:1.65;margin:0;"><code id="arm-fw-follower-code"></code></pre>
+  </div>
+</div>
+</div>
+
+<div class="section" id="demo">
+<div class="section-header"><h2 class="section-title">Demo</h2><div class="section-line"></div></div>
+<div class="portrait-demo">
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata">
+      <source src="IMAGES/Robotic Arm/arm-demo1.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">Both arms powered, wireless link active</div>
+  </div>
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata">
+      <source src="IMAGES/Robotic Arm/arm-demo2.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">Leader &amp; follower extended — full range of motion</div>
+  </div>
+  <div class="video-wrap">
+    <video controls playsinline preload="metadata">
+      <source src="IMAGES/Robotic Arm/arm-demo3.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">Wireless teleoperation — moving the leader by hand, follower mirrors live</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="next">
+<div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
+<div class="decision-list">
+  <div class="decision">
+    <div class="decision-title">Teleoperation Data Collection for Policy Training</div>
+    <div class="decision-body">With wireless teleoperation confirmed, the next step is recording demonstration episodes through LeRobot's data collection pipeline — moving the leader arm through repeated tasks while the follower's joint trajectories are logged, building a dataset toward training an imitation-learning policy.</div>
+  </div>
+  <div class="decision blue">
+    <div class="decision-title">Camera Integration</div>
+    <div class="decision-body">Add a camera stream (wrist-mounted or overhead) so recorded episodes include visual observations alongside joint positions — required for most LeRobot policy architectures, which condition on images, not just joint state.</div>
+  </div>
+</div>
+</div>
+
+<div class="proj-nav">
+  <a href="esp32-s3-project-main.html" class="pnav-btn pnav-prev">← ESP32-S3 Dev Board</a>
+  <a href="index.html" class="pnav-home">⌂ Portfolio</a>
+</div>
+</div>
+<div class="footer">
+<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>SO-ARM100 Robotic Arm &nbsp;·&nbsp; LeRobot &amp; ESP32-C3 / ESP-NOW &nbsp;·&nbsp; Jun–Jul 2026</div>
+<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a><br><a href="https://github.com/TheRobotStudio/SO-ARM100" target="_blank" rel="noopener" style="color:var(--ink-2);text-decoration:none;">Original SO-ARM100 repo →</a></div>
+</div>
+
+<div id="lb" style="display:none"><button id="lb-close">✕</button><img loading="lazy" id="lb-img" src="" alt=""></div>
+
+<script>
+const lb=document.getElementById('lb');
+const lbImg=document.getElementById('lb-img');
+document.getElementById('lb-close').addEventListener('click',()=>lb.style.display='none');
+lb.addEventListener('click',e=>{if(e.target===lb||e.target===document.getElementById('lb-close'))lb.style.display='none';});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.style.display='none';});
+function addLightbox(img){img.style.cursor='zoom-in';img.addEventListener('click',e=>{lbImg.src=img.src;lb.style.display='flex';e.stopPropagation();});}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.gallery-item img,.timeline-img img,.snap-photo-main img').forEach(img=>{
+    if(img.src&&!img.src.endsWith('/')){addLightbox(img);}
+  });
+
+  // Snapshot thumbnail switcher
+  const mainImg = document.getElementById('snapMainImg');
+  const mainCap = document.getElementById('snapMainCap');
+  document.querySelectorAll('.snap-thumb').forEach(thumb=>{
+    thumb.addEventListener('click',()=>{
+      document.querySelectorAll('.snap-thumb').forEach(t=>t.classList.remove('active'));
+      thumb.classList.add('active');
+      mainImg.src = thumb.dataset.src;
+      mainCap.textContent = thumb.dataset.cap || '';
+    });
+  });
+
+  // Counter animation
+  const counters = document.querySelectorAll('.snap-counter');
+  const co = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      co.unobserve(e.target);
+    });
+  },{threshold:0.5});
+  counters.forEach(c=>co.observe(c));
+});
+
+/* ── THEME TOGGLE ── */
+(()=>{
+  const html=document.documentElement;
+  const btn=document.getElementById('themeBtn');
+  const stored=localStorage.getItem('portfolio-theme');
+  if(stored) html.dataset.theme=stored;
+  else html.dataset.theme='dark';
+  btn.addEventListener('click',()=>{
+    const next=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=next;
+    localStorage.setItem('portfolio-theme',next);
+  });
+})();
+/* ── NAV SCROLL ── */
+addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('up',scrollY>40);
+},{passive:true});
+
+/* ── Scroll-active nav ── */
+(function(){
+  const links = document.querySelectorAll('nav a[href^="#"]');
+  if(!links.length) return;
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('on'));
+        const a = document.querySelector('nav a[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('on');
+      }
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section[id],div[id].section').forEach(s=>obs.observe(s));
+})();
+
+// ── Scroll Progress Bar ──
+(function(){
+  const bar = document.getElementById('progress-bar');
+  if(!bar) return;
+  window.addEventListener('scroll', function(){
+    const scrolled = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (scrolled/max)*100 : 0) + '%';
+  }, {passive: true});
+})();
+
+// ── Cursor Glow ──
+(function(){
+  const glow = document.getElementById('cursorGlow');
+  if(!glow) return;
+  let mx=window.innerWidth/2, my=window.innerHeight/2, cx=mx, cy=my, raf;
+  window.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; if(!glow._vis){glow.style.opacity='1';glow._vis=true;} }, {passive:true});
+  function tick(){ cx+=(mx-cx)*.09; cy+=(my-cy)*.09; glow.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; raf=requestAnimationFrame(tick); }
+  raf=requestAnimationFrame(tick);
+})();
+
+/* ── Firmware code toggles ── */
+const ARM_FW = {
+leader: `/*
+ * SO-ARM100 — LEADER board | ESP32-C3 Super Mini
+ * ─────────────────────────────────────────────────
+ * Reads all 6 joint positions from the leader arm and
+ * sends them wirelessly to the follower board via ESP-NOW.
+ *
+ * Wiring:
+ *   Motor controller 5V   → ESP32-C3 5V pin
+ *   Motor controller GND  → ESP32-C3 GND
+ *   Motor controller DATA → GPIO 4   (half-duplex servo bus)
+ *
+ * Board settings (Arduino IDE):
+ *   Board:            ESP32C3 Dev Module
+ *   USB CDC On Boot:  Enabled
+ *
+ * First-time setup:
+ *   Upload follower sketch first → Serial Monitor prints follower MAC →
+ *   paste it into FOLLOWER_MAC below → re-upload this sketch.
+ */
+
+#include <HardwareSerial.h>
+#include <esp_now.h>
+#include <WiFi.h>
+
+// ─── Test mode ────────────────────────────────────────────────────────────────
+// true  = send fake sweeping positions (no servos needed — for comms testing)
+// false = read real leader arm positions (set this when arms are wired up)
+#define TEST_MODE false
+
+// ─── Follower board MAC ───────────────────────────────────────────────────────
+// (redacted for this write-up — printed by the follower sketch on first boot)
+static uint8_t FOLLOWER_MAC[6] = { 0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX };
+
+// ─── Pins & protocol ─────────────────────────────────────────────────────────
+static constexpr int  SERVO_TX_PIN = 4;   // ESP32 TX → Board TX (UART header)
+static constexpr int  SERVO_RX_PIN = 3;   // ESP32 RX → Board RX (UART header)
+static constexpr long SERVO_BAUD     = 1000000;
+static constexpr int  NUM_SERVOS     = 6;
+
+static constexpr uint8_t REG_PRESENT_POS_L = 56;
+static constexpr uint8_t INST_READ         = 0x02;
+static constexpr uint8_t BROADCAST         = 0xFE;
+
+static constexpr uint32_t LOOP_MS = 10; // 100 Hz
+
+HardwareSerial servoBus(1); // UART1
+
+// ─── ESP-NOW payload ─────────────────────────────────────────────────────────
+typedef struct __attribute__((packed)) {
+    int16_t pos[NUM_SERVOS];
+} ArmPositions;
+
+// ─── STS protocol ────────────────────────────────────────────────────────────
+
+uint8_t sts_checksum(uint8_t id, uint8_t len, uint8_t inst,
+                     const uint8_t* p, uint8_t np) {
+    uint8_t s = id + len + inst;
+    for (int i = 0; i < np; i++) s += p[i];
+    return ~s & 0xFF;
+}
+
+void sendPacket(uint8_t id, uint8_t inst, const uint8_t* params, uint8_t np) {
+    uint8_t len = np + 2;
+    uint8_t cs  = sts_checksum(id, len, inst, params, np);
+    servoBus.write(0xFF); servoBus.write(0xFF);
+    servoBus.write(id);   servoBus.write(len); servoBus.write(inst);
+    servoBus.write(params, np);
+    servoBus.write(cs);
+    servoBus.flush(); // wait for TX to complete before listening
+}
+
+// Returns bytes received, -1 on timeout/error
+int recvPacket(uint8_t expectedId, uint8_t* out, uint8_t maxOut,
+               uint32_t timeoutMs = 5) {
+    uint32_t dl = millis() + timeoutMs;
+    int hdr = 0;
+
+    while (millis() < dl) {
+        if (!servoBus.available()) continue;
+        hdr = (servoBus.read() == 0xFF) ? hdr + 1 : 0;
+        if (hdr == 2) break;
+    }
+    if (hdr < 2) return -1;
+
+    while (servoBus.available() < 3 && millis() < dl);
+    if (servoBus.available() < 3) return -1;
+
+    uint8_t id  = servoBus.read();
+    uint8_t len = servoBus.read();
+    uint8_t err = servoBus.read();
+    if (id != expectedId || err != 0) return -1;
+
+    int nb = len - 2; // data bytes (len includes error + checksum)
+    while (servoBus.available() < nb + 1 && millis() < dl);
+
+    int n = min(nb, (int)maxOut);
+    for (int i = 0; i < n; i++)        out[i] = servoBus.read();
+    for (int i = n; i < nb; i++)       servoBus.read(); // discard overflow
+    servoBus.read();                                     // checksum byte
+    return n;
+}
+
+// Returns 0–4095 or -1 on failure
+int16_t readPosition(uint8_t servoId) {
+    uint8_t params[2] = { REG_PRESENT_POS_L, 2 };
+    sendPacket(servoId, INST_READ, params, 2);
+    uint8_t d[2] = {};
+    if (recvPacket(servoId, d, 2) < 2) return -1;
+    return (int16_t)(d[0] | (d[1] << 8));
+}
+
+// ─── ESP-NOW callback ─────────────────────────────────────────────────────────
+void onSent(const wifi_tx_info_t* info, esp_now_send_status_t status) {
+    // Uncomment to debug delivery in Serial Monitor:
+    // Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Sent OK" : "Send FAILED");
+}
+
+// ─── Setup ────────────────────────────────────────────────────────────────────
+void setup() {
+    Serial.begin(115200);
+    uint32_t t = millis();
+    while (!Serial && millis() - t < 3000) delay(10);
+    delay(100);
+
+    Serial.println("SO-ARM100 LEADER | ESP32-C3");
+
+    WiFi.mode(WIFI_STA);
+    Serial.print("Leader MAC: ");
+    Serial.println(WiFi.macAddress());
+
+    if (esp_now_init() != ESP_OK) {
+        Serial.println("ERROR: ESP-NOW init failed");
+        while (true) delay(1000);
+    }
+    esp_now_register_send_cb(onSent);
+
+    esp_now_peer_info_t peer = {};
+    memcpy(peer.peer_addr, FOLLOWER_MAC, 6);
+    peer.channel = 0;
+    peer.encrypt = false;
+    if (esp_now_add_peer(&peer) != ESP_OK) {
+        Serial.println("ERROR: Could not add follower peer");
+        while (true) delay(1000);
+    }
+
+    servoBus.begin(SERVO_BAUD, SERIAL_8N1, SERVO_RX_PIN, SERVO_TX_PIN);
+    delay(200);
+
+    Serial.println(TEST_MODE ? "TEST MODE — sending fake positions"
+                             : "Ready — reading leader arm");
+}
+
+// ─── Loop ─────────────────────────────────────────────────────────────────────
+void loop() {
+    uint32_t t0 = millis();
+    ArmPositions pkt;
+
+#if TEST_MODE
+    static int16_t testPos = 1000;
+    static int8_t  testDir = 5;
+    testPos += testDir;
+    if (testPos >= 3000 || testPos <= 1000) testDir = -testDir;
+    for (int i = 0; i < NUM_SERVOS; i++) pkt.pos[i] = testPos;
+    Serial.printf("TEST pos: %d\\n", testPos);
+    esp_now_send(FOLLOWER_MAC, (uint8_t*)&pkt, sizeof(pkt));
+
+#else
+    bool allOk = true;
+    for (int i = 0; i < NUM_SERVOS; i++) {
+        int16_t raw = readPosition(i + 1);
+        if (raw < 0) {
+            Serial.printf("[WARN] Timeout: leader servo %d\\n", i + 1);
+            allOk = false;
+            break;
+        }
+        pkt.pos[i] = raw;
+    }
+    if (allOk) {
+        esp_now_send(FOLLOWER_MAC, (uint8_t*)&pkt, sizeof(pkt));
+    }
+#endif
+
+    uint32_t elapsed = millis() - t0;
+    if (elapsed < LOOP_MS) delay(LOOP_MS - elapsed);
+}`,
+follower: `/*
+ * SO-ARM100 — FOLLOWER board | ESP32-C3 Super Mini
+ * ─────────────────────────────────────────────────
+ * Receives joint positions from the leader board via ESP-NOW
+ * and writes them to the follower arm servos.
+ *
+ * Wiring:
+ *   Motor controller 5V   → ESP32-C3 5V pin
+ *   Motor controller GND  → ESP32-C3 GND
+ *   Motor controller DATA → GPIO 4   (half-duplex servo bus)
+ *
+ * Board settings (Arduino IDE):
+ *   Board:            ESP32C3 Dev Module
+ *   USB CDC On Boot:  Enabled
+ *
+ * Upload this sketch first — Serial Monitor will print this board's MAC.
+ * Copy that MAC into FOLLOWER_MAC[] in the leader sketch.
+ *
+ * Calibration: homing offsets already burned into servo EEPROM by lerobot.
+ * FOLLOWER_MIN/MAX are the safe position limits from the lerobot JSON.
+ * drive_mode = 0 on all joints → straight 1:1 mirror, no inversion.
+ */
+
+#include <HardwareSerial.h>
+#include <esp_now.h>
+#include <WiFi.h>
+
+// ─── Pins & protocol ─────────────────────────────────────────────────────────
+static constexpr int  SERVO_TX_PIN = 4;   // ESP32 TX → Board TX (UART header)
+static constexpr int  SERVO_RX_PIN = 3;   // ESP32 RX → Board RX (UART header)
+static constexpr long SERVO_BAUD     = 1000000;
+static constexpr int  NUM_SERVOS     = 6;
+static constexpr uint8_t BROADCAST   = 0xFE;
+
+static constexpr uint8_t REG_TORQUE_EN   = 40;
+static constexpr uint8_t REG_GOAL_POS_L  = 42;
+static constexpr uint8_t INST_WRITE      = 0x03;
+static constexpr uint8_t INST_SYNC_WRITE = 0x83;
+
+// ─── Safe position limits (from lerobot calibration JSON) ────────────────────
+// shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll, gripper
+static constexpr int16_t FOLLOWER_MIN[NUM_SERVOS] = {  801,  767,  885,  869,    0, 2029 };
+static constexpr int16_t FOLLOWER_MAX[NUM_SERVOS] = { 3500, 3244, 3113, 3223, 4095, 3511 };
+
+HardwareSerial servoBus(1); // UART1
+
+// ─── ESP-NOW payload ─────────────────────────────────────────────────────────
+typedef struct __attribute__((packed)) {
+    int16_t pos[NUM_SERVOS];
+} ArmPositions;
+
+// ─── Double-buffer for safe data hand-off from WiFi task to main loop ─────────
+// ESP-NOW callback runs in the FreeRTOS WiFi task, not a hardware ISR.
+// noInterrupts() does NOT protect against task preemption on ESP32.
+// Solution: write to rxBuf in callback, flip a volatile flag, read in loop.
+// On single-core ESP32-C3 the flag flip is atomic enough for this use case —
+// worst outcome is one stale 12-byte packet at 100 Hz, which is harmless.
+static ArmPositions      rxBuf;
+static volatile bool     newData = false;
+static ArmPositions      workBuf; // used only in main loop
+
+// ─── STS protocol ────────────────────────────────────────────────────────────
+
+uint8_t sts_checksum(uint8_t id, uint8_t len, uint8_t inst,
+                     const uint8_t* p, uint8_t np) {
+    uint8_t s = id + len + inst;
+    for (int i = 0; i < np; i++) s += p[i];
+    return ~s & 0xFF;
+}
+
+void sendPacket(uint8_t id, uint8_t inst, const uint8_t* params, uint8_t np) {
+    uint8_t len = np + 2;
+    uint8_t cs  = sts_checksum(id, len, inst, params, np);
+    servoBus.write(0xFF); servoBus.write(0xFF);
+    servoBus.write(id);   servoBus.write(len); servoBus.write(inst);
+    servoBus.write(params, np);
+    servoBus.write(cs);
+    servoBus.flush();
+}
+
+void setTorque(uint8_t servoId, bool enable) {
+    uint8_t params[2] = { REG_TORQUE_EN, (uint8_t)(enable ? 1 : 0) };
+    sendPacket(servoId, INST_WRITE, params, 2);
+    delay(10);
+}
+
+void syncWritePositions(const int16_t* positions) {
+    // Sync write layout:
+    // [START_ADDR][BYTES_PER_SERVO][ID1][L][H][ID2][L][H]...[IDn][L][H]
+    const uint8_t BPS = 2;
+    uint8_t params[2 + NUM_SERVOS * 3]; // fixed size — no VLA
+    params[0] = REG_GOAL_POS_L;
+    params[1] = BPS;
+    for (int i = 0; i < NUM_SERVOS; i++) {
+        params[2 + i * 3]     = (uint8_t)(i + 1);                 // servo ID 1..6
+        params[2 + i * 3 + 1] = (uint8_t)(positions[i] & 0xFF);   // LSB
+        params[2 + i * 3 + 2] = (uint8_t)(positions[i] >> 8);     // MSB
+    }
+    // Broadcast — no status packet returned by servos
+    sendPacket(BROADCAST, INST_SYNC_WRITE, params, sizeof(params));
+}
+
+// ─── ESP-NOW receive callback ─────────────────────────────────────────────────
+// Runs in WiFi task — keep short, just copy and flag
+void onReceive(const esp_now_recv_info_t* info, const uint8_t* data, int len) {
+    if (len == sizeof(ArmPositions)) {
+        memcpy(&rxBuf, data, sizeof(ArmPositions));
+        newData = true;
+    }
+}
+
+// ─── Setup ────────────────────────────────────────────────────────────────────
+void setup() {
+    Serial.begin(115200);
+    uint32_t t = millis();
+    while (!Serial && millis() - t < 3000) delay(10);
+    delay(100);
+
+    Serial.println("SO-ARM100 FOLLOWER | ESP32-C3");
+
+    WiFi.mode(WIFI_STA);
+    Serial.print(">>> Follower MAC: ");
+    Serial.println(WiFi.macAddress());
+    Serial.println("    Paste this into FOLLOWER_MAC[] in the leader sketch.");
+
+    if (esp_now_init() != ESP_OK) {
+        Serial.println("ERROR: ESP-NOW init failed");
+        while (true) delay(1000);
+    }
+    esp_now_register_recv_cb(onReceive);
+
+    servoBus.begin(SERVO_BAUD, SERIAL_8N1, SERVO_RX_PIN, SERVO_TX_PIN);
+    delay(200);
+
+    Serial.println("Enabling torque...");
+    for (int id = 1; id <= NUM_SERVOS; id++) {
+        setTorque(id, true);
+        Serial.printf("  Servo %d ON  (safe: %d – %d)\\n",
+                      id, FOLLOWER_MIN[id - 1], FOLLOWER_MAX[id - 1]);
+    }
+    Serial.println("Waiting for leader...");
+}
+
+// ─── Loop ─────────────────────────────────────────────────────────────────────
+void loop() {
+    if (!newData) return;
+
+    // Grab the latest packet and clear the flag
+    // Main loop and WiFi task run on the same core (ESP32-C3 is single-core),
+    // so this memcpy won't be interrupted mid-copy by the callback.
+    memcpy(&workBuf, &rxBuf, sizeof(ArmPositions));
+    newData = false;
+
+    // Clamp to safe range and write to follower arm
+    int16_t clamped[NUM_SERVOS];
+    for (int i = 0; i < NUM_SERVOS; i++) {
+        clamped[i] = constrain(workBuf.pos[i], FOLLOWER_MIN[i], FOLLOWER_MAX[i]);
+    }
+
+    // Debug: print received positions (harmless when arms are wired)
+    Serial.print("Received: ");
+    for (int i = 0; i < NUM_SERVOS; i++) {
+        Serial.printf("J%d=%d ", i + 1, clamped[i]);
+    }
+    Serial.println();
+
+    syncWritePositions(clamped);
+}`
+};
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toggleArmFw(which, btn){
+  const wrap = document.getElementById('arm-fw-'+which);
+  const codeEl = document.getElementById('arm-fw-'+which+'-code');
+  const isOpen = wrap.style.display !== 'none';
+  if(isOpen){ wrap.style.display='none'; btn.textContent = btn.textContent.replace('▼','▶'); }
+  else {
+    if(!codeEl.textContent) codeEl.textContent = ARM_FW[which];
+    wrap.style.display='block'; btn.textContent = btn.textContent.replace('▶','▼');
+  }
+}
+</script>
+</body>
+</html>
