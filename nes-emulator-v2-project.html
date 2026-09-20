@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head>
+<script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#111214">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>RetroDS v2 — Custom-PCB Handheld · Andrés Moreno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── Scroll progress bar ── */
+#progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
+/* ── Cursor glow ── */
+.cursor-glow{position:fixed;pointer-events:none;z-index:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 65%);transform:translate(-50%,-50%);transition:opacity 0.5s ease;opacity:0;}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bg:          #f8f7f4;
+  --bg-2:        #f0efe9;
+  --ink:         #111110;
+  --ink-2:       #5a5a55;
+  --ink-3:       #9e9d96;
+  --line:        rgba(17,17,16,0.08);
+  --line-2:      rgba(17,17,16,0.18);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.09);
+  --card:        #ffffff;
+  --surface:     #f0efe9;
+  --surface2:    #e8e7e0;
+  --border:      rgba(17,17,16,0.08);
+  --border2:     rgba(17,17,16,0.18);
+  --text:        #111110;
+  --text-muted:  #9e9d96;
+  --text-dim:    #5a5a55;
+  --red:         #dc2626;
+  --green:       #16a34a;
+  --amber:       #d97706;
+  --accent2:     #2563eb;
+  --accent3:     #7c3aed;
+  --sans:        'Plus Jakarta Sans', system-ui, sans-serif;
+  --mono:        'DM Mono', 'JetBrains Mono', monospace;
+  --serif:       'Plus Jakarta Sans', system-ui, sans-serif;
+  --transition:  all 0.35s cubic-bezier(0.22,1,0.36,1);
+  --ease:        cubic-bezier(0.22,1,0.36,1);
+  --nav-bg:      rgba(248,247,244,.88);
+}
+[data-theme="dark"] {
+  --bg:          #111214;
+  --bg-2:        #17181c;
+  --ink:         #e8e7e3;
+  --ink-2:       #8c8c96;
+  --ink-3:       #50505a;
+  --line:        rgba(232,231,227,0.07);
+  --line-2:      rgba(232,231,227,0.16);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.12);
+  --card:        #17181c;
+  --surface:     #17181c;
+  --surface2:    #1d1e23;
+  --border:      rgba(232,231,227,0.07);
+  --border2:     rgba(232,231,227,0.16);
+  --text:        #e8e7e3;
+  --text-muted:  #8c8c96;
+  --text-dim:    #8c8c96;
+  --red:         #f87171;
+  --green:       #22c55e;
+  --amber:       #f59e0b;
+  --accent2:     #60a5fa;
+  --accent3:     #a78bfa;
+  --nav-bg:      rgba(17,18,20,.88);
+}
+[data-theme="light"] .hero::before{background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(37,99,235,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(37,99,235,.04) 0%,transparent 60%);}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .stat-card{background:var(--surface);border-color:var(--border);}
+[data-theme="light"] .spec-block{background:var(--surface);}
+[data-theme="light"] .decision{background:var(--surface);}
+[data-theme="light"] .hero-board img{border-color:var(--border2);}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
+.hero{position:relative;padding:110px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(59,130,246,.05) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(93,188,255,0.14) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.6;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
+[data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(0,102,204,0.10) 1.5px,transparent 0);}
+@keyframes grid-drift{from{background-position:0 0;}to{background-position:36px 36px;}}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 460px;gap:56px;align-items:center}
+.hero-board{display:flex;justify-content:center;align-items:center}
+.hero-board img{max-height:440px;width:100%;object-fit:contain;background:var(--surface);border-radius:12px;filter:drop-shadow(0 0 32px rgba(37,99,235,.18));border:1px solid var(--border2)}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+.hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:10px;position:relative;z-index:1;}
+.hero h1 span{color:var(--accent);font-style:italic;}
+.hero-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.badge{font-family:var(--mono);font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.badge-blue{color:var(--accent2);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.badge-amber{color:var(--accent3);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.badge-teal{color:var(--accent);border-color:rgba(37,99,235,.3);background:rgba(37,99,235,.06)}
+.content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.section{margin-top:64px;scroll-margin-top:72px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em;min-width:28px}
+.section-title{font-family:'Instrument Serif',serif;font-size:24px;font-weight:600;letter-spacing:-.01em}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
+.gallery-item{flex:0 0 auto;width:calc(33.333% - 12px);min-width:120px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;box-sizing:border-box;display:flex;flex-direction:column}
+.gallery-item.half{width:calc(50% - 8px)}
+.gallery-item.quarter{width:calc(25% - 12px)}
+.gallery-item.full{width:100%}
+.gallery-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.gallery-item img{width:100%;display:block;height:auto;max-height:600px;object-fit:contain;background:var(--surface2)}
+.gallery-item.wide{width:calc(66.666% - 8px)}
+.gallery-item.screenshot img{object-fit:contain;background:var(--surface2)}
+.gallery-caption{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
+.stat-card.blue::after{background:var(--accent2)}
+.stat-card.amber::after{background:var(--accent3)}
+.stat-card.red::after{background:var(--red)}
+.stat-card.green::after{background:var(--green)}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-sub{font-size:12px;color:var(--text-muted)}
+.prose{color:var(--text-dim);line-height:1.85}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--text);font-weight:500}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px}
+.comp-table th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.comp-table td{padding:12px 16px;border-bottom:1px solid rgba(30,45,61,.6);color:var(--text-dim);vertical-align:top}
+.comp-table tr:hover td{background:rgba(37,99,235,.02)}
+.ref{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.part{font-family:var(--mono);font-size:11px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.overview-split{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start}
+.spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(37,99,235,.04)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid rgba(30,45,61,.5);gap:20px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:13px;color:var(--text-muted);flex:1}
+.spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
+.spec-val.ok{color:var(--green)}
+.spec-val.warn{color:var(--accent3)}
+.spec-val.changed{color:var(--accent)}
+.decision-list{display:flex;flex-direction:column;gap:16px}
+.decision{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px}
+.decision.blue{border-left-color:var(--accent2)}
+.decision.amber{border-left-color:var(--accent3)}
+.decision.red{border-left-color:var(--red)}
+.decision.green{border-left-color:var(--green)}
+.decision-title{font-weight:500;color:var(--text);margin-bottom:6px;font-size:14px}
+.decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+.decision-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent)}
+.timeline-item{position:relative;margin-bottom:36px}
+.timeline-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
+.timeline-dot.amber{background:var(--accent3);box-shadow:0 0 0 2px var(--accent3)}
+.timeline-dot.red{background:var(--red);box-shadow:0 0 0 2px var(--red)}
+.timeline-dot.green{background:var(--green);box-shadow:0 0 0 2px var(--green)}
+.timeline-step{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.timeline-step.blue{color:var(--accent2)}
+.timeline-step.amber{color:var(--accent3)}
+.timeline-step.red{color:var(--red)}
+.timeline-step.green{color:var(--green)}
+.timeline-heading{font-weight:500;color:var(--text);margin-bottom:6px;font-size:15px}
+.timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
+.timeline-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border);max-width:640px}
+.timeline-img img{width:100%;display:block}
+.timeline-img-cap{padding:8px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
+.code-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;overflow-x:auto;margin-top:16px}
+.code-block pre{font-family:var(--mono);font-size:12px;color:var(--text-muted);line-height:1.7}
+.code-block .kw{color:var(--accent2)}
+.code-block .cm{color:#4a5a78}
+.code-block .def{color:var(--accent3)}
+.code-block .str{color:var(--green)}
+.pinout-preview{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;margin-top:24px}
+.pinout-preview p{font-size:13px;color:var(--text-muted);margin-bottom:16px}
+.pinout-preview a{font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid rgba(37,99,235,.3);padding:8px 18px;border-radius:4px;text-decoration:none;background:rgba(37,99,235,.06);display:inline-block}
+.pinout-preview a:hover{background:rgba(37,99,235,.12)}
+.footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-right{text-align:right}
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
+#lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;line-height:1;background:none;border:none}
+#lb-close:hover{opacity:1}
+.gallery-item img,.timeline-img img{cursor:zoom-in}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;
+  background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
+.nav-brand{font-size:14px;font-weight:800;letter-spacing:-.02em;cursor:pointer;
+  color:var(--text);text-decoration:none;font-family:var(--sans);}
+.nav-brand i{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text-muted);padding:4px 0;position:relative;transition:color .2s;text-decoration:none;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;
+  background:var(--accent);transition:width .3s var(--ease);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.thm{width:34px;height:34px;border:1.5px solid var(--border2);border-radius:50%;
+  background:transparent;color:var(--text-muted);cursor:pointer;
+  display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+.thm .ico-moon{display:block;}
+.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}
+[data-theme="light"] .thm .ico-sun{display:block;}
+.notes-btn{font-family:var(--mono);font-size:10px;color:var(--accent);background:var(--accent-soft);
+  border:1px solid var(--accent);border-radius:6px;padding:5px 12px;cursor:pointer;
+  transition:background .2s;letter-spacing:.04em;white-space:nowrap;}
+.notes-btn:hover{filter:brightness(1.2);}
+@media(max-width:860px){.nav-links{display:none;}}
+#notes-modal{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);align-items:flex-start;justify-content:center;padding:40px 24px;overflow-y:auto}
+#notes-modal.open{display:flex}
+#notes-inner{background:var(--surface);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:860px;flex-shrink:0;overflow:hidden}
+#notes-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:rgba(37,99,235,.04)}
+#notes-header span{font-family:var(--mono);font-size:12px;color:var(--text);letter-spacing:.06em}
+#notes-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1;padding:4px}
+#notes-close:hover{color:var(--text)}
+#notes-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.notes-tab{font-family:var(--mono);font-size:11px;padding:12px 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:color 0.2s,border-color 0.2s;letter-spacing:.04em}
+.notes-tab:hover{color:var(--text)}
+.notes-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.notes-pane{display:none;padding:24px}
+.notes-pane.active{display:block}
+.notes-pane h3{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.notes-pane p{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:16px}
+.notes-pane .code-block{margin-top:0}
+.inline-code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}.hero-board{display:none}
+  .overview-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .overview-split{grid-template-columns:1fr}
+  .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}
+  .footer{padding:20px 24px}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
+  .gallery-item{width:100%!important;max-width:100%!important;}
+  .comp-table{display:block;overflow-x:auto;}
+}
+</style>
+
+
+<style id="snap-enhanced">
+/* ── Enhanced Snapshot Styles ── */
+.snapshot {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.snapshot::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+.snap-quote {
+  max-width: 1200px; margin: 0 auto;
+  padding: 48px 56px 36px;
+  position: relative;
+}
+.snap-quote::before {
+  content: '';
+  position: absolute; left: 56px; top: 48px;
+  width: 3px; height: calc(100% - 84px);
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  border-radius: 2px;
+}
+.snap-quote p {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  line-height: 1.65; color: var(--text-dim);
+  padding-left: 28px; max-width: 72ch;
+}
+.snap-quote p em { color: var(--accent); font-style: italic; }
+.snapshot-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 40px; padding: 0 56px 48px; align-items: start;
+}
+.snap-photo-wrap { display: flex; flex-direction: column; gap: 12px; width: fit-content; }
+.snap-photo-main {
+  position: relative; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  height: 430px;
+  aspect-ratio: 3/4;
+  align-self: flex-start;
+  cursor: zoom-in;
+}
+.snap-photo-main img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.snap-photo-main:hover img { transform: scale(1.03); }
+.snap-photo-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 32px 14px 10px;
+  background: linear-gradient(to top, rgba(5,9,18,0.9) 0%, transparent 100%);
+  font-family: var(--mono); font-size: 10px; color: rgba(238,240,243,0.7);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.snap-thumbs {
+  display: grid;
+  align-self: flex-start;
+  width: 322.5px;
+  grid-template-columns: repeat(auto-fill, minmax(var(--thumb-min, 46px), 1fr));
+  gap: 8px;
+}
+.snap-thumb {
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer; aspect-ratio: 1/1;
+  background: var(--surface2);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.snap-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.snap-thumb:hover { border-color: var(--accent); transform: translateY(-2px); }
+.snap-thumb.active { border-color: var(--accent); border-width: 2px; }
+.snap-info { display: flex; flex-direction: column; gap: 24px; padding-top: 2px; }
+.snap-label {
+  font-family: var(--mono); font-size: 9.5px;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--text-muted); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.snap-label::before {
+  content: ''; display: inline-block;
+  width: 18px; height: 1px; background: var(--accent);
+}
+.snap-comp-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.snap-comp {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 12px 8px; border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  cursor: default; position: relative;
+}
+.snap-comp:hover {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+  transform: translateY(-2px);
+}
+.snap-comp-icon {
+  width: 32px; height: 32px;
+  color: var(--accent); flex-shrink: 0;
+}
+.snap-comp-icon svg { width: 100%; height: 100%; }
+.snap-comp-name {
+  font-family: var(--mono); font-size: 9px;
+  text-align: center; color: var(--text-muted);
+  letter-spacing: 0.04em; line-height: 1.3;
+}
+.snap-comp::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  background: color-mix(in oklab, var(--bg) 96%, transparent);
+  border: 1px solid var(--border2);
+  backdrop-filter: blur(12px);
+  color: var(--text); font-family: var(--mono); font-size: 10px;
+  padding: 8px 12px; border-radius: 8px; white-space: nowrap;
+  max-width: 260px; white-space: normal; width: max-content; max-width: 220px;
+  line-height: 1.5; z-index: 40; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.snap-comp:hover::after { opacity: 1; }
+.snap-journey {
+  display: flex; gap: 0; align-items: center;
+  flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px;
+}
+.snap-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 5px; flex: 1; min-width: 52px; position: relative;
+}
+.snap-step + .snap-step::before {
+  content: '';
+  position: absolute; left: -50%; right: 50%; top: 11px;
+  height: 2px; background: var(--border);
+}
+.snap-step.done + .snap-step::before { background: var(--accent); }
+.snap-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; position: relative; z-index: 1;
+}
+.snap-step.done .snap-dot {
+  background: var(--accent); color: var(--bg);
+  font-size: 11px;
+}
+.snap-step.now .snap-dot {
+  background: transparent; border: 2px solid var(--accent);
+  color: var(--accent); font-weight: 700;
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: snap-pulse 1.8s ease infinite;
+}
+.snap-step:not(.done):not(.now) .snap-dot {
+  background: var(--surface); border: 2px solid var(--border);
+  color: var(--text-muted); font-size: 9px;
+}
+@keyframes snap-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(93,188,255,0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(93,188,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(93,188,255,0); }
+}
+.snap-step-lbl {
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); text-align: center;
+}
+.snap-step.done .snap-step-lbl { color: var(--text); }
+.snap-step.now .snap-step-lbl { color: var(--accent); }
+.snap-learned {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+  border-left: 3px solid var(--accent);
+}
+.snap-learned ul {
+  list-style: none; display: flex; flex-direction: column; gap: 10px;
+}
+.snap-learned ul li {
+  font-size: 12.5px; color: var(--text-dim); line-height: 1.65;
+  padding-left: 14px; position: relative;
+}
+.snap-learned ul li::before {
+  content: '';
+  position: absolute; left: 0; top: 8px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+.snap-learned ul li code {
+  font-family: var(--mono); font-size: 10.5px;
+  background: var(--surface2); padding: 1px 5px;
+  border-radius: 4px; color: var(--accent);
+}
+.snap-stats {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  padding: 0 56px;
+}
+.snap-stat {
+  padding: 28px 0;
+  border-right: 1px solid var(--border);
+  padding-left: 32px; padding-right: 24px;
+  position: relative; overflow: hidden;
+}
+.snap-stat:first-child { padding-left: 0; }
+.snap-stat:last-child { border-right: none; }
+.snap-counter {
+  font-family: var(--mono); font-size: 2rem; font-weight: 500;
+  color: var(--accent); line-height: 1; margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.snap-stat-lbl {
+  font-family: var(--mono); font-size: 9.5px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.snap-scroll-cue {
+  max-width: 1200px; margin: 0 auto;
+  padding: 20px 56px 28px;
+  font-family: var(--mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.snap-arrow-anim {
+  animation: bounce-y 1.6s ease infinite;
+  display: inline-block; color: var(--accent);
+}
+@keyframes bounce-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(4px); }
+}
+/* photo notes */
+.photo-note {
+  position: absolute;
+  font-family: 'Caveat', cursive; font-weight: 500; font-size: 13px;
+  color: #f0f4ff;
+  background: rgba(4,8,20,0.82);
+  border-left: 2px solid var(--accent);
+  padding: 3px 8px; border-radius: 0 4px 4px 0;
+  pointer-events: none; z-index: 5;
+  backdrop-filter: blur(4px);
+}
+.photo-note.right { border-left: none; border-right: 2px solid var(--accent); border-radius: 4px 0 0 4px; }
+.photo-note.amber { border-color: #fbbf24; }
+.photo-note.green { border-color: #4ade80; }
+/* responsive */
+@media(max-width:900px) {
+  .snap-quote { padding: 28px 24px 20px; }
+  .snap-quote::before { left: 24px; }
+  .snap-quote p { padding-left: 18px; }
+  .snapshot-inner { grid-template-columns: 1fr; padding: 0 24px 32px; gap: 28px; }
+  .snap-stats { grid-template-columns: repeat(2,1fr); padding: 0 24px; }
+  .snap-stat { padding: 20px 16px; }
+  .snap-scroll-cue { padding: 14px 24px 20px; }
+  .photo-note { display: none; }
+  .snap-thumbs { grid-template-columns: repeat(3,1fr); }
+}
+</style>
+<style id="back-btn-css">/* merged into nav-links styles */</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style id="annotations">
+/* ── Handwritten photo annotations ── */
+.snap-photo-main { position: relative; }
+.photo-note {
+  position: absolute;
+  font-family: 'Caveat', cursive;
+  font-weight: 500;
+  font-size: 13.5px;
+  color: #f0f4ff;
+  background: rgba(4, 8, 20, 0.78);
+  padding: 3px 9px 4px;
+  border-radius: 3px;
+  line-height: 1.35;
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+  border-left: 2px solid var(--accent);
+  backdrop-filter: blur(4px);
+  transition: opacity .3s;
+}
+.photo-note.right  { border-left: none; border-right: 2px solid var(--accent); }
+.photo-note.amber  { border-color: #f59e0b; }
+.photo-note.green  { border-color: #4ade80; }
+/* tiny connector dot */
+.photo-note::before {
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.photo-note.arrow-br::before { bottom: -8px; right: 8px; }
+.photo-note.arrow-bl::before { bottom: -8px; left: 8px; }
+.photo-note.arrow-tr::before { top: -8px; right: 8px; }
+.photo-note.arrow-tl::before { top: -8px; left: 8px; }
+.photo-note.right::before { display: none; }
+/* hide on very small screens */
+@media(max-width:600px){ .photo-note{ display:none; } }
+
+.outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:66ch}
+.oc-label{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--green);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;padding-top:3px;line-height:1}
+.oc-text{font-size:14px;color:var(--ink-2);line-height:1.65}
+[data-theme="dark"] .outcome-callout{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.25)}
+
+.video-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);}
+.video-wrap video{width:100%;display:block;}
+.video-cap{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted,var(--ink-3));letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);}
+.demo-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}.demo-grid .video-wrap{flex:0 0 auto;width:min(300px,calc(50% - 10px))}
+@media(max-width:640px){.demo-grid{grid-template-columns:1fr}.snap-comp-grid{grid-template-columns:repeat(2,1fr);}nav{padding:0 1rem;}.notes-btn{padding:4px 8px;font-size:9px;}}
+
+.copy-btn{position:absolute;top:10px;right:10px;font-family:var(--mono,'JetBrains Mono',monospace);font-size:10px;padding:4px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.15);background:rgba(30,31,40,.9);color:#8c8c96;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .2s;z-index:10;}
+.copy-btn:hover{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.4);color:#60a5fa;}
+
+.proj-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:28px 0;border-top:1px solid var(--border,var(--bd));margin-top:48px;flex-wrap:wrap;}
+.pnav-btn{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2,var(--text2));padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border,var(--bd));text-decoration:none;transition:all .25s;}
+.pnav-btn:hover{background:var(--accent-soft,rgba(59,130,246,.1));border-color:var(--accent,#3b82f6);color:var(--accent,#3b82f6);}
+.pnav-home{font-family:var(--mono,'JetBrains Mono',monospace);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3,var(--text3));text-decoration:none;transition:color .2s;}
+.pnav-home:hover{color:var(--accent,#3b82f6);}
+.pnav-prev{margin-right:auto;}
+.pnav-next{margin-left:auto;}
+</style>
+</head>
+<body class="">
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-brand">AMN<i>.</i></a>
+  <div class="nav-links">
+    <a href="index.html">← Portfolio</a>
+    <a href="#overview">Overview</a>
+    <a href="#changes">v1 → v2</a>
+    <a href="#hardware">Hardware</a>
+    <a href="#usb">USB bring-up</a>
+    <a href="#short">The short</a>
+    <a href="#firmware">Firmware</a>
+    <a href="#results">Results</a>
+    <a href="#enclosure">Enclosure</a>
+    <a href="#code">Code</a>
+  </div>
+  <div class="nav-right">
+    <button class="notes-btn" id="notesBtn">📋 Code Notes</button>
+    <button class="thm" id="themeBtn" aria-label="Toggle theme">
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+<div class="hero-inner">
+  <div>
+    <div class="hero-tag">Engineering Design Portfolio — Embedded Systems</div>
+    <h1>RetroDS <span>v2</span><br>Custom-PCB Handheld</h1>
+    <div class="hero-sub">4-Layer PCB · ESP32-S3 · Arduino Framework &nbsp;/&nbsp; Design → Assembly → Bring-Up → Firmware &nbsp;/&nbsp; 2026</div>
+    <div class="hero-meta">
+      <span class="badge badge-teal">ESP32-S3-WROOM-1U · 240 MHz</span>
+      <span class="badge badge-blue">ST7789 · 240×320 IPS</span>
+      <span class="badge badge-amber">MCP73871 Li-ion charger</span>
+    </div>
+    <div class="hero-meta">
+      <span class="badge badge-green">Games running</span>
+      <span class="badge badge-green">Sound + volume</span>
+      <span class="badge badge-green">Battery saves</span>
+      <span class="badge badge-green">Portable case</span>
+    </div>
+  </div>
+  <div class="hero-board" style="gap:16px">
+    <img loading="lazy" style="width:auto;max-width:48%;background:none;border:none;border-radius:0" src="IMAGES/NES emulator v2/v2-hero-front-cutout.webp" alt="RetroDS v2, assembled and powered on, background removed">
+    <img loading="lazy" style="width:auto;max-width:48%;background:none;border:none;border-radius:0" src="IMAGES/NES emulator v2/v2-hero-board-cutout.webp" alt="RetroDS v2 bare PCB running Donkey Kong, background removed">
+  </div>
+</div>
+</div>
+
+<div class="snapshot">
+
+  <div class="snap-quote">
+    <p><a href="nes-emulator-project-main.html" style="color:var(--accent);text-decoration:none">RetroDS&nbsp;v1</a> proved the emulator worked on a hand-soldered perfboard. v2 takes it to a <em>custom 4-layer PCB</em> — a proper Li-ion charger, an audio amp, a dedicated SD slot, and an ESP32-S3. Bringing it up meant a full session of <em>structured fault-finding</em>: the board wouldn't enumerate over USB, and once that was fixed a 3.3&thinsp;V rail read a dead short to ground on a joint I could not see. Voltage-ladder and resistance measurements — not guesswork — located both. The firmware then needed a real rewrite: a new display driver, correct frame timing, and the two features v1 never had — <em>sound and save games</em>.</p>
+  </div>
+
+  <div class="snapshot-inner">
+
+    <div class="snap-photo-wrap">
+      <div class="snap-photo-main">
+        <img width="961" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-case-front-on.webp" alt="RetroDS v2 assembled in its 3D-printed case, powered on, game-select menu showing">
+        <div class="snap-photo-caption">Finished — game-select menu</div>
+      </div>
+      <div class="snap-thumbs">
+        <div class="snap-thumb active" data-src="IMAGES/NES emulator v2/v2-case-front-on.webp" data-cap="Finished — game-select menu">
+          <img width="961" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-case-front-on.webp" alt="v2 in its case, powered on" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-case-rear.webp" data-cap="Case rear">
+          <img width="961" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-case-rear.webp" alt="v2 case rear" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-case-battery.webp" data-cap="Battery compartment">
+          <img width="961" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-case-battery.webp" alt="v2 battery compartment" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-donkeykong.webp" data-cap="Running Donkey Kong">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-donkeykong.webp" alt="v2 running Donkey Kong" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-vs-v1-standing.webp" data-cap="v2 vs v1">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-vs-v1-standing.webp" alt="v1 vs v2" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-detail-6.webp" data-cap="Board detail">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-detail-6.webp" alt="v2 board detail" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-front-display.webp" data-cap="Front">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-front-display.webp" alt="v2 front" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-angled.webp" data-cap="Board — angled">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-angled.webp" alt="v2 angled" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-vs-v1-dk.webp" data-cap="v1 &amp; v2 — Donkey Kong">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-vs-v1-dk.webp" alt="v1 and v2" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-detail-3.webp" data-cap="v2 board — detail">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-detail-3.webp" alt="detail" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-detail-9.webp" data-cap="v2 board — detail">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-detail-9.webp" alt="detail" data-no-edit=""></div>
+        <div class="snap-thumb" data-src="IMAGES/NES emulator v2/v2-detail-10.webp" data-cap="v2 board — detail">
+          <img width="960" height="1280" loading="lazy" src="IMAGES/NES emulator v2/v2-detail-10.webp" alt="detail" data-no-edit=""></div>
+      </div>
+    </div>
+
+    <div class="snap-info">
+
+      <div>
+        <div class="snap-label">On the board</div>
+        <div class="snap-comp-grid">
+          <div class="snap-comp" data-tip="ESP32-S3-WROOM-1U-N8 — dual-core Xtensa LX7, 240 MHz, 8 MB flash, native USB. No PSRAM.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP32-S3</div>
+          </div>
+          <div class="snap-comp" data-tip="ST7789 240×320 IPS, 4-wire SPI, CS tied to GND. Driven by LovyanGFX over DMA.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="26" height="18" rx="2"/><rect x="7" y="9" width="18" height="10" rx="1"/><line x1="11" y1="23" x2="11" y2="27"/><line x1="21" y1="23" x2="21" y2="27"/><line x1="9" y1="27" x2="23" y2="27"/></svg></div>
+            <div class="snap-comp-name">ST7789 240×320</div>
+          </div>
+          <div class="snap-comp" data-tip="MCP73871 — USB / Li-ion load-sharing charge controller. Powers the system and charges the cell simultaneously; its PG / STAT pins are read by the MCU.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="11" width="22" height="10" rx="2"/><line x1="25" y1="14" x2="29" y2="14"/><line x1="25" y1="18" x2="29" y2="18"/><line x1="29" y1="14" x2="29" y2="18"/><line x1="10" y1="13" x2="10" y2="19"/><line x1="7" y1="16" x2="13" y2="16"/><line x1="16" y1="16" x2="20" y2="16"/></svg></div>
+            <div class="snap-comp-name">MCP73871</div>
+          </div>
+          <div class="snap-comp" data-tip="MAX98357A I2S class-D amplifier driving a 4&Omega; 3W speaker. v1 had no audio at all — v2 has a 15-step master volume and an on-screen volume bar.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 12 L7 20 L13 20 L20 25 L20 7 L13 12 Z"/><path d="M23 12 Q26 16 23 20"/><path d="M25 9 Q30 16 25 23"/></svg></div>
+            <div class="snap-comp-name">MAX98357A</div>
+          </div>
+          <div class="snap-comp" data-tip="Dedicated microSD on its own hardware SPI bus. FAT32. Detects a card inserted after power-on with no reset.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 28 L8 6 L20 6 L24 10 L24 28 Z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="16" y1="11" x2="16" y2="17"/><line x1="20" y1="13" x2="20" y2="17"/></svg></div>
+            <div class="snap-comp-name">microSD</div>
+          </div>
+          <div class="snap-comp" data-tip="USB-C, native ESP32-S3 USB — no separate UART bridge IC. There's a PRTR5V0U2X ESD-protection footprint on the data lines (D1), left unpopulated — USB ran fine without it, so it's stayed off.">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="10" y="4" width="12" height="18" rx="2"/><line x1="13" y1="9" x2="13" y2="13"/><line x1="19" y1="9" x2="19" y2="13"/><line x1="16" y1="22" x2="16" y2="28"/></svg></div>
+            <div class="snap-comp-name">USB-C</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="snap-label">Bring-up journey</div>
+        <div class="snap-journey">
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">PCB design</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Assembly</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">USB / power</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Display + SD</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Firmware</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Enclosure</div></div>
+        </div>
+      </div>
+
+      <div class="snap-learned">
+        <div class="snap-label">What this build taught me</div>
+        <ul>
+          <li>A dead short from a supply rail to ground does not have to be visible. This one sat under a plug-in module; the board looked perfect under a loupe. Measuring <strong>resistance</strong> rail-to-ground — both probe directions, watching whether it settled — and walking the <strong>voltage ladder</strong> from USB&nbsp;in to the regulated 3.3&thinsp;V is what found it.</li>
+          <li>"Same code, worked yesterday, black screen today" on a display is a <strong>firmware-completeness signal</strong>, not automatically a hardware one. A minimal ST7789 init half-works off the panel's power-on defaults; it needs the full power / VCOM / gamma sequence. Reach for the maintained library first.</li>
+          <li>The USB port re-enumerating on a fixed ~2&thinsp;s cycle is the ESP32-S3 <strong>brown-out-resetting in a loop</strong> — that points straight at the power path, not at USB or firmware, and saved a lot of wasted debugging.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="snap-stats">
+    <div class="snap-stat"><div class="snap-counter" data-target="4" data-suffix=" layers">4 layers</div><div class="snap-stat-lbl">PCB stack-up</div></div>
+    <div class="snap-stat"><div class="snap-counter" data-target="15" data-suffix=" steps">15 steps</div><div class="snap-stat-lbl">Master volume</div></div>
+    <div class="snap-stat"><div class="snap-counter" data-target="10" data-suffix="/10">10/10</div><div class="snap-stat-lbl">Buttons verified</div></div>
+    <div class="snap-stat"><div class="snap-counter" data-target="2" data-suffix=" parts">2 parts</div><div class="snap-stat-lbl">Left unpopulated (U4, D1)</div></div>
+  </div>
+
+  <div class="snap-scroll-cue">Overview, the bring-up log, and the firmware rewrite below <span class="snap-arrow-anim">↓</span></div>
+</div>
+<!-- ── End Snapshot ── -->
+
+<div class="content">
+
+<!-- ── 01  OVERVIEW ─────────────────────────────────────── -->
+<div class="section" id="overview">
+<div class="section-header">
+  <span class="section-num">01</span>
+  <h2 class="section-title">Project overview</h2>
+  <div class="section-line"></div>
+</div>
+<div class="overview-split">
+  <div class="prose">
+    <p>RetroDS is a handheld NES emulator I've been building on an ESP32. <a href="nes-emulator-project-main.html" style="color:var(--accent);text-decoration:none">Version 1</a> was a hand-soldered perfboard — a classic ESP32, a 240×240 display, ROMs from an SD card, USB power. It ran games, but the wiring was fragile, there was no sound, and there was no way to keep save-game progress.</p>
+    <p><strong>Version 2 is a custom 4-layer PCB.</strong> The emulator core carries straight across; almost everything around it is new hardware: an ESP32-S3 with native USB-C, a Li-ion charger with load sharing, an I²S audio amplifier, a dedicated SD interface, and silk-screened controls on the board itself.</p>
+    <p>This page covers the part that isn't the schematic: <strong>getting the assembled board to work</strong>. Two faults had to be found with a multimeter before a single line of firmware mattered, and then the firmware needed a rewrite for the new silicon.</p>
+  </div>
+  <div class="gallery-item" style="width:100%"><img loading="lazy" src="IMAGES/NES emulator v2/v2-vs-v1-standing.webp" alt="v2 custom PCB next to the v1 perfboard build" style="height:298px;object-fit:cover;object-position:center 100%"><div class="gallery-caption">v2 (single PCB) next to v1 (perfboard stack)</div></div>
+</div>
+</div>
+
+<!-- ── 02  WHAT CHANGED ─────────────────────────────────── -->
+<div class="section" id="changes">
+<div class="section-header">
+  <span class="section-num">02</span>
+  <h2 class="section-title">What changed from v1</h2>
+  <div class="section-line"></div>
+</div>
+<table class="comp-table">
+  <thead><tr><th>Subsystem</th><th>v1 — perfboard</th><th>v2 — custom PCB</th></tr></thead>
+  <tbody>
+    <tr><td class="ref">MCU</td><td>ESP32-WROOM-32 (D1 mini board), USB-UART bridge chip</td><td>ESP32-S3-WROOM-1U-N8 — native USB, 8&nbsp;MB flash</td></tr>
+    <tr><td class="ref">Display</td><td>ST7789 240×240, TFT_eSPI library</td><td>ST7789 240×320, LovyanGFX (DMA)</td></tr>
+    <tr><td class="ref">Audio</td><td>none</td><td>MAX98357A I²S class-D amp + 4&Omega; 3W speaker, 15-step volume</td></tr>
+    <tr><td class="ref">Power</td><td>LiPo 3.7&thinsp;V cell, TP4056 USB-C charger + IP5306 boost (2 chips)</td><td>MCP73871 — charger and boost in one chip, USB-C</td></tr>
+    <tr><td class="ref">SD card</td><td>bit-banged soft-SPI</td><td>dedicated hardware SPI bus, hot-insert detection</td></tr>
+    <tr><td class="ref">Save games</td><td>none</td><td>battery-backed SRAM &rarr; <code>/NES/&lt;rom&gt;.nes.sav</code>, autosave</td></tr>
+    <tr><td class="ref">ESD / protection</td><td>none</td><td>ESD-protection array on the USB data lines</td></tr>
+    <tr><td class="ref">Interconnect</td><td>point-to-point hand-run wiring</td><td>routed 4-layer board, GND plane, silk-screened controls</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ── 03  HARDWARE ARCHITECTURE ────────────────────────── -->
+<div class="section" id="hardware">
+<div class="section-header">
+  <span class="section-num">03</span>
+  <h2 class="section-title">Hardware architecture</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose">
+  <p>The power path is a load-sharing design: <span class="part">USB VBUS &rarr; MCP73871 &rarr; VOUT &rarr; SW3 &rarr; VSYS &rarr; AP2112K LDO &rarr; 3V3</span>. With USB connected the charger runs the system <em>and</em> tops up the cell, giving the system-load priority so the total never exceeds the USB current limit; unplug USB and it hands over to the battery through an internal ideal-diode MOSFET. The battery charges whether the power switch is on or off — the charge path doesn't pass through it.</p>
+  <p>The display and the SD card sit on <strong>separate SPI peripherals</strong> (SPI3 and SPI2) so neither blocks the other. All buttons are active-low to internal pull-ups.</p>
+  <p><strong>Component placement was also an assembly decision.</strong> Nearly everything that needs a hot-air station or a hotplate — the ESP32-S3 module, the MCP73871 and AP2112K QFNs, the MAX98357A amp, the SD connector — is on the back. The front carries only the through-hole buttons and switches, which hand-solder fine with an iron and don't fight for space against silicon. That split meant soldering the back first, while the board was easiest to handle and before any tall components were in the way, then finishing with the buttons — and it leaves the front face mechanically clean so the button caps sit flush against the 3D-printed case.</p>
+</div>
+<div class="gallery" style="margin-top:24px;justify-content:center">
+  <div class="gallery-item half"><img loading="lazy" src="IMAGES/NES emulator v2/v2-detail-6.webp" alt="v2 board — back side component layout, U4 fuel-gauge footprint left empty"><div class="gallery-caption">Back side — ESP32-S3, amp, SD module, charger</div></div>
+  <div class="gallery-item half"><img loading="lazy" src="IMAGES/NES emulator v2/v2-front-display.webp" alt="v2 front, display fitted"><div class="gallery-caption">Front — display and silk-screened controls</div></div>
+</div>
+<div class="two-col" style="margin-top:20px">
+  <div class="spec-block">
+    <div class="spec-block-header">Display — ST7789 (SPI3)</div>
+    <div class="spec-row"><span class="spec-key">SCLK</span><span class="spec-val">GPIO 18</span></div>
+    <div class="spec-row"><span class="spec-key">MOSI / SDA</span><span class="spec-val">GPIO 9</span></div>
+    <div class="spec-row"><span class="spec-key">DC</span><span class="spec-val">GPIO 5</span></div>
+    <div class="spec-row"><span class="spec-key">RST</span><span class="spec-val">GPIO 16</span></div>
+    <div class="spec-row"><span class="spec-key">CS</span><span class="spec-val warn">tied to GND on the board</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">SD (SPI2), audio &amp; charger sense</div>
+    <div class="spec-row"><span class="spec-key">SD SCK / MISO / MOSI / CS</span><span class="spec-val">14 / 13 / 17 / 42</span></div>
+    <div class="spec-row"><span class="spec-key">I²S BCLK / WS / DOUT</span><span class="spec-val">7 / 8 / 40</span></div>
+    <div class="spec-row"><span class="spec-key">MCP73871 PG / STAT1 / STAT2</span><span class="spec-val">10 / 11 / 12</span></div>
+  </div>
+</div>
+<div class="two-col" style="margin-top:16px">
+  <div class="spec-block">
+    <div class="spec-block-header">Controls — active-low</div>
+    <div class="spec-row"><span class="spec-key">UP / DOWN / LEFT / RIGHT</span><span class="spec-val ok">2 / 15 / 38 / 39</span></div>
+    <div class="spec-row"><span class="spec-key">A / B</span><span class="spec-val ok">21 / 41</span></div>
+    <div class="spec-row"><span class="spec-key">START / SELECT</span><span class="spec-val ok">47 / 4</span></div>
+    <div class="spec-row"><span class="spec-key">VOL + / VOL −</span><span class="spec-val ok">43 / 44 &mdash; UART0 pins, released in firmware</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Build target</div>
+    <div class="spec-row"><span class="spec-key">Board</span><span class="spec-val">ESP32S3 Dev Module <span style="color:var(--text-muted);font-size:11px">(esp32:esp32:esp32s3)</span></span></div>
+    <div class="spec-row"><span class="spec-key">Flash / PSRAM</span><span class="spec-val">8&nbsp;MB / <span class="warn">none (N8)</span></span></div>
+    <div class="spec-row"><span class="spec-key">USB CDC on boot</span><span class="spec-val">enabled</span></div>
+    <div class="spec-row"><span class="spec-key">Partition scheme</span><span class="spec-val">custom — dedicated <code>romdata</code></span></div>
+  </div>
+</div>
+<div class="gallery" style="margin-top:24px" id="schematic-gallery">
+  <div class="gallery-item half"><img loading="lazy" src="IMAGES/NES emulator v2/v2-schematic-sheet1.webp" alt="KiCad schematic — ESP32-S3, buttons, display and SD module"><div class="gallery-caption">Schematic — ESP32-S3 &amp; controls</div></div>
+  <div class="gallery-item half"><img loading="lazy" src="IMAGES/NES emulator v2/v2-schematic-sheet2.webp" alt="KiCad schematic — USB protection and MCP73871 Li-ion charger"><div class="gallery-caption">Schematic — power &amp; USB</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-pcb-top-copper.webp" alt="4-layer PCB layout — top copper and routing"><div class="gallery-caption">PCB — top copper</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-pcb-ground-plane.webp" alt="4-layer PCB — ground plane"><div class="gallery-caption">PCB — ground plane</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-3d-render-top.webp" alt="3D render — top side with display module fitted"><div class="gallery-caption">3D render — top</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-3d-render-bottom.webp" alt="3D render — bottom side with ESP32-S3, SD and charger"><div class="gallery-caption">3D render — bottom</div></div>
+</div>
+</div>
+
+<!-- ── 04  BRING-UP: USB ────────────────────────────────── -->
+<div class="section" id="usb">
+<div class="section-header">
+  <span class="section-num">04</span>
+  <h2 class="section-title">Bring-up — the board wouldn't enumerate</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose" style="max-width:780px">
+  <p>First power-up: the host would see a USB device attach and drop it a second later, repeating on a fixed cycle. <code>dmesg</code> showed the descriptor read failing (<code>error -71</code>) and <code>/dev/ttyACM0</code> appearing and vanishing every couple of seconds. No serial output ever arrived.</p>
+  <p>Rather than assume a bad solder joint on the USB connector, I read the cycle: the ESP32-S3's USB peripheral re-enumerates on <em>every</em> chip reset, and a fixed ~2&thinsp;s period means the chip is <strong>resetting in a loop</strong> — a brown-out. That moved the problem from "USB / firmware" to "power path", so I measured it, one node at a time, with USB connected:</p>
+</div>
+<div class="two-col" style="margin-top:20px">
+  <div class="spec-block">
+    <div class="spec-block-header">Voltage ladder — first measurement</div>
+    <div class="spec-row"><span class="spec-key">VBUS (charger input)</span><span class="spec-val ok">5.0 V</span></div>
+    <div class="spec-row"><span class="spec-key">VOUT (charger output)</span><span class="spec-val warn">0 V</span></div>
+    <div class="spec-row"><span class="spec-key">VSYS</span><span class="spec-val warn">0 V</span></div>
+    <div class="spec-row"><span class="spec-key">3V3 (regulated rail)</span><span class="spec-val warn">0 V</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Conclusion</div>
+    <div class="spec-row"><span class="spec-key">USB power reaches the board</span><span class="spec-val ok">yes — connector fine</span></div>
+    <div class="spec-row"><span class="spec-key">Charger conducting IN&rarr;OUT</span><span class="spec-val warn">no — U5</span></div>
+    <div class="spec-row"><span class="spec-key">Everything downstream</span><span class="spec-val">dead — no input</span></div>
+  </div>
+</div>
+<div class="prose" style="max-width:780px;margin-top:20px">
+  <p>The MCP73871 is a 20-pin QFN; its exposed centre pad carries the ground return and the charge-current heat. An unwetted centre pad or an open pin on the input/output side leaves it non-conducting. I reflowed the pad and the IN/OUT pins — VOUT went to ~5&thinsp;V, the 3.3&thinsp;V rail came up, and the board enumerated and took a firmware flash.</p>
+</div>
+</div>
+
+<!-- ── 05  BRING-UP: THE SHORT ──────────────────────────── -->
+<div class="section" id="short">
+<div class="section-header">
+  <span class="section-num">05</span>
+  <h2 class="section-title">Bring-up — a hidden 3.3&thinsp;V-to-ground short</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose" style="max-width:780px">
+  <p>With USB working I fitted the display, SD and volume-button modules — and the board went dark again. This time the 3.3&thinsp;V rail measured a <strong>dead short to ground</strong>. Under magnification the PCB was clean; nothing was bridged.</p>
+  <p>A continuity beep is not a short test — the display bus alone carries roughly 10&thinsp;µF, which beeps briefly while the capacitors charge. So I measured <strong>resistance</strong> instead: 3V3 to GND in ohms, both probe directions, watching whether the reading settled.</p>
+</div>
+<div class="decision-list" style="margin-top:20px">
+  <div class="decision red"><div class="decision-title">Measurement</div><div class="decision-body">0–3&thinsp;Ω, identical both directions, stable — a genuine dead short, not the module's internal path plus capacitance (which reads differently each way and creeps upward).</div></div>
+  <div class="decision blue"><div class="decision-title">Isolation</div><div class="decision-body">Lifting one plug-in module at a time cleared the short. It was <strong>between a module and its footprint</strong> — a joint on the underside I physically could not see. Reflowing that connector brought the rail back to 3.30&thinsp;V and the display started drawing.</div></div>
+  <div class="decision amber"><div class="decision-title">Takeaway</div><div class="decision-body">For short-hunting on a populated board, measure ohms with the meter, both directions, and read the trend. Then bisect — pull sections until it clears. It's faster and more certain than staring at joints.</div></div>
+</div>
+<div class="prose" style="max-width:780px;margin-top:16px">
+  <p>Two smaller issues fell out of the same session. The SD card mounted nothing and SdFat reported "check SD format" — the card responded fine over SPI but was formatted <strong>NTFS</strong>; reformatting FAT32 and restoring the ROMs to <code>/NES/</code> fixed it. And D1, the USB ESD array, was deliberately left unpopulated during bring-up as a check — the data lines pass straight through its footprint, so leaving it off first confirmed the USB routing itself was good, independent of the part. USB enumerated and ran fine without it, so it's stayed unpopulated: no functional loss, just less transient/ESD margin than the design allows for.</p>
+</div>
+</div>
+
+<!-- ── 06  FIRMWARE ─────────────────────────────────────── -->
+<div class="section" id="firmware">
+<div class="section-header">
+  <span class="section-num">06</span>
+  <h2 class="section-title">Firmware — the rewrite for the S3</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose" style="max-width:780px">
+  <p>The v1 firmware assumed the classic ESP32 and TFT_eSPI. On the ESP32-S3 with the current Arduino core that library crashes on <code>init()</code> — a known incompatibility. The display layer was re-done, and several things v1 never had were built in.</p>
+  <p><strong>On tooling:</strong> I worked through this rewrite with Claude, an AI coding assistant, as a pair-programmer — adapting the v1 code to the S3's APIs, working out the LovyanGFX and I²S configs, and using it as a second reader in code review. The hardware fault-finding, the design choices, and the testing on the bench were mine; every AI-suggested change was read, understood and checked on the target board before it stayed in.</p>
+</div>
+<div class="timeline" style="margin-top:20px">
+  <div class="timeline-item">
+    <div class="timeline-dot blue"></div>
+    <div class="timeline-step blue">Display driver</div>
+    <div class="timeline-heading">TFT_eSPI → Arduino_GFX → LovyanGFX</div>
+    <div class="timeline-body">TFT_eSPI crashes on core 3.x. Arduino_GFX ran but its SPI push held a full-frame blit at ~8&thinsp;fps. <strong>LovyanGFX with DMA</strong>, plus a large row-block buffer allocated at boot (before the emulator fragments the heap), does it in ~15&thinsp;fps. The 256-wide NES frame is scaled to 320 with a precomputed column map so it fills the whole panel.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step">Frame pacing</div>
+    <div class="timeline-heading">Capped to the real NES frame rate</div>
+    <div class="timeline-body">The render loop was free-running at ~82&thinsp;fps, so games and music played ~37% too fast. It's now paced with a <code>micros()</code> deadline to <code>NES_REFRESH_RATE</code> — 60&thinsp;Hz NTSC, to match the ROM set (the core it forked from defaulted to PAL/50, which ran these US and Japanese titles ~17% slow). The video task also yields after each blit so it stops starving the emulator of internal-RAM bandwidth — there's no PSRAM on this module.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot amber"></div>
+    <div class="timeline-step amber">Sound &amp; volume</div>
+    <div class="timeline-heading">v1 had none — v2 has a 15-step volume with an on-screen bar</div>
+    <div class="timeline-body">MAX98357A over I²S, driving a 4&Omega; 3W speaker. A perceptual (roughly exponential) volume curve — the amp's fixed +9&thinsp;dB gain makes a linear scale far too loud at the bottom. VOL&nbsp;+&nbsp;/&nbsp;− are edge-detected; a bar slides up on screen and fades after ~1.4&thinsp;s. Exiting a game stops the I²S peripheral so the amplifier self-mutes — an earlier attempt that cleared the audio callback raced the 60&thinsp;Hz timer interrupt and jumped to a null pointer.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot green"></div>
+    <div class="timeline-step green">Save games</div>
+    <div class="timeline-heading">Battery-backed SRAM mirrored to the card</div>
+    <div class="timeline-body">Games with a battery in the original cartridge (Zelda, Metroid, Kirby…) write their 8&thinsp;KB save RAM to <code>/NES/&lt;rom&gt;.nes.sav</code> — loaded on start, written on exit, and autosaved every 3&thinsp;minutes and the moment the charger reports a low battery.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot blue"></div>
+    <div class="timeline-step blue">Charge status</div>
+    <div class="timeline-heading">Read from the charger — no fuel gauge fitted</div>
+    <div class="timeline-body">U4 isn't populated and there's no analogue path from the battery to the MCU, so there's no percentage. The MCP73871's PG / STAT1 / STAT2 pins go to GPIO; decoded against the datasheet they give <code>CHARGING</code>&nbsp;/&nbsp;<code>FULL</code>&nbsp;/&nbsp;<code>BATTERY</code>&nbsp;/&nbsp;<code>LOW&nbsp;BATT</code>, shown in the menu and as an in-game low-battery banner.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step">Robustness</div>
+    <div class="timeline-heading">No more hard freezes</div>
+    <div class="timeline-body">A code review found an 8–16&thinsp;KB-per-game-switch memory leak (the ROM-info structure was reused without freeing its buffers) that would exhaust the heap after a dozen game changes, and five <code>while(1)</code> lock-ups on recoverable errors — a bad ROM, an unsupported mapper, a missing <code>/NES/</code> folder. All are now an on-screen message and a return to the menu.</div>
+  </div>
+</div>
+</div>
+
+<!-- ── 07  RESULTS ──────────────────────────────────────── -->
+<div class="section" id="results">
+<div class="section-header">
+  <span class="section-num">07</span>
+  <h2 class="section-title">Results &amp; what's left</h2>
+  <div class="section-line"></div>
+</div>
+<div class="overview-grid">
+  <div class="stat-card green"><div class="stat-label">Games</div><div class="stat-value">Running</div><div class="stat-sub">from FAT32 SD, with saves</div></div>
+  <div class="stat-card blue"><div class="stat-label">Display blit</div><div class="stat-value">~15 fps</div><div class="stat-sub">emulator + input paced to 60 Hz NTSC</div></div>
+  <div class="stat-card"><div class="stat-label">Buttons</div><div class="stat-value">10 / 10</div><div class="stat-sub">incl. the two UART0-pin ones</div></div>
+  <div class="stat-card amber"><div class="stat-label">Unpopulated</div><div class="stat-value">U4, D1</div><div class="stat-sub">fuel gauge (stock) &amp; ESD array (by choice)</div></div>
+</div>
+<div class="decision-list" style="margin-top:8px">
+  <div class="decision amber"><div class="decision-title">Battery percentage — U4 not populated</div><div class="decision-body">A nice-to-have, not a core feature — leaving it off doesn't break anything else. Out of stock everywhere at build time with no direct replacement (see <a href="#firmware" style="color:inherit;text-decoration:underline">Firmware</a> for how charge status is covered without it). A future revision would add a VBAT-to-ADC divider as a fallback state-of-charge estimate.</div></div>
+  <div class="decision blue"><div class="decision-title">USB ESD protection — D1 not populated</div><div class="decision-body">Left unpopulated by choice, not oversight (see <a href="#short" style="color:inherit;text-decoration:underline">Bring-up</a>) — USB has run fine without it. Populating it would only add transient/ESD margin the board hasn't needed so far.</div></div>
+  <div class="decision green"><div class="decision-title">Enclosure</div><div class="decision-body">The 3D-printed case is finished — board seated, every button registers cleanly, battery fitted. It runs as a self-contained portable.</div></div>
+  <div class="decision"><div class="decision-title">Display framerate</div><div class="decision-body">The blit is the ceiling at ~15&thinsp;fps while the emulator and input logic hold the 60&thinsp;Hz NTSC cap. Async double-buffered DMA in the video task should roughly double the visual rate.</div></div>
+</div>
+</div>
+
+<!-- ── 08  ENCLOSURE ────────────────────────────────────── -->
+<div class="section" id="enclosure">
+<div class="section-header">
+  <span class="section-num">08</span>
+  <h2 class="section-title">Enclosure &amp; final build</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose" style="max-width:780px">
+  <p>The board was designed to fit a 3D-printed handheld shell. The case is printed, the PCB seats in it, and every button presses cleanly through the front face. It runs as a self-contained portable — a 3.7&thinsp;V 1500&thinsp;mAh Li-ion pouch cell, speaker, SD and screen all on the one board, no bench leads.</p>
+</div>
+<div class="gallery" style="margin-top:24px" id="enclosure-gallery">
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-front-on.webp" alt="Assembled RetroDS v2 in its 3D-printed case, powered on, game-select menu showing"><div class="gallery-caption">Powered on</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-front-off.webp" alt="Assembled RetroDS v2 case, front view, screen off"><div class="gallery-caption">Case front</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-rear.webp" alt="RetroDS v2 case rear, showing microSD slot and speaker grille"><div class="gallery-caption">Case rear</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-battery.webp" alt="RetroDS v2 battery compartment open, showing the Li-ion pouch cell"><div class="gallery-caption">Battery compartment</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-render-front.webp" alt="3D-printed case CAD render, front angled view"><div class="gallery-caption">Case — front (CAD)</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-render-side.webp" alt="3D-printed case CAD render, side/rear angled view"><div class="gallery-caption">Case — side (CAD)</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-render-angle.webp" alt="3D-printed case CAD render, three-quarter view"><div class="gallery-caption">Case — 3/4 view (CAD)</div></div>
+  <div class="gallery-item quarter"><img loading="lazy" src="IMAGES/NES emulator v2/v2-case-render-exploded.webp" alt="3D-printed case CAD render, front and back shells side by side"><div class="gallery-caption">Case — shells (CAD)</div></div>
+</div>
+</div>
+
+<!-- ── 09  CODE ─────────────────────────────────────────── -->
+<div class="section" id="code">
+<div class="section-header">
+  <span class="section-num">09</span>
+  <h2 class="section-title">The code</h2>
+  <div class="section-line"></div>
+</div>
+<div class="prose" style="max-width:780px"><p>v1 (perfboard) and v2 (this board) share the emulator core and are kept in separate folders with a code map. Key v2 snippets — the display config, the frame blit, the save path, the charge-status decode — are in the <strong>📋&nbsp;Code&nbsp;Notes</strong> panel (top right).</p>
+  <p>One quirk cost an afternoon: the Arduino build step auto-generates function prototypes and hoists them above your <code>typedef</code>s and <code>enum</code>s. Any function that took the new <code>enum</code> charge-state type got a prototype placed before the type existed, and the sketch wouldn't compile. The fix was to drop the <code>enum</code> for plain integer constants and pass buffers by raw pointer — undramatic, but the kind of thing that only bites once you know to expect it.</p></div>
+<div class="pinout-preview" style="text-align:left">
+  <p>v2 firmware — <code>NES EMULATOR CODE/NesCat/</code>: <code>NesCat.ino</code> · <code>LGFX_RetroDS.h</code> · <code>v2_pins.h</code> · <code>partitions.csv</code> · <code>BUILD_v2.md</code></p>
+  <p style="margin-top:12px">v1 firmware (archived) — <code>NES EMULATOR CODE/v1-perfboard/</code></p>
+  <a href="#" onclick="document.getElementById('notes-modal').classList.add('open');return false">View key code &rarr;</a>
+  <p style="margin-top:14px;font-size:11px;color:var(--text-muted)">Full repository link will be added when it's public.</p>
+</div>
+</div>
+
+</div><!-- /content -->
+
+<div class="proj-nav">
+  <a href="nes-emulator-project-main.html" class="pnav-btn pnav-prev">← RetroDS v1</a>
+  <a href="index.html" class="pnav-home">⌂ Portfolio</a>
+  <a href="esp32-s3-project-main.html" class="pnav-btn pnav-next">ESP32-S3 Dev Board →</a>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <a href="index.html" style="color:var(--accent);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">← Back to Portfolio</a><br>
+    Andrés Moreno Navarro &nbsp;/&nbsp; EE Student · University of Western Australia<br>
+    RetroDS v2 — Custom PCB · design, bring-up &amp; firmware, 2026
+  </div>
+  <div class="footer-right">
+    <span style="font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;">RetroDS v2</span><br>
+    Custom 4-layer PCB &nbsp;·&nbsp; 2026<br>
+    <a href="nes-emulator-project-main.html" style="color:var(--accent);font-family:var(--mono);font-size:10px;text-decoration:none;letter-spacing:0.08em;">← RetroDS v1</a>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lb" style="display: none;"><button id="lb-close">✕</button><img loading="lazy" id="lb-img" src="" alt=""></div>
+
+<!-- Code Notes Modal -->
+<div id="notes-modal">
+  <div id="notes-inner">
+    <div id="notes-header">
+      <span>CODE NOTES — RetroDS v2</span>
+      <button id="notes-close">✕</button>
+    </div>
+    <div id="notes-tabs">
+      <button class="notes-tab active" data-tab="display">Display config</button>
+      <button class="notes-tab" data-tab="blit">Frame blit</button>
+      <button class="notes-tab" data-tab="save">Save games</button>
+      <button class="notes-tab" data-tab="charge">Charge status</button>
+    </div>
+    <div id="notes-content">
+
+      <div class="notes-pane active" id="tab-display">
+        <h3>LovyanGFX display config &mdash; <span class="inline-code">LGFX_RetroDS.h</span></h3>
+        <p>No User_Setup file to hand-edit. The panel config lives next to the sketch; pins come from the schematic.</p>
+        <div class="code-block">
+<pre><span class="kw">class</span> <span class="def">LGFX_RetroDS</span> : <span class="kw">public</span> lgfx::LGFX_Device {
+  lgfx::Panel_ST7789 _panel;
+  lgfx::Bus_SPI      _bus;
+<span class="kw">public</span>:
+  LGFX_RetroDS() {
+    { <span class="kw">auto</span> c = _bus.config();
+      c.spi_host    = SPI3_HOST;      <span class="cm">// SD card keeps SPI2</span>
+      c.spi_mode    = 3;             <span class="cm">// ST7789 on ESP32 wants mode 3</span>
+      c.freq_write  = 80000000;
+      c.pin_sclk = 18; c.pin_mosi = 9; c.pin_miso = -1; c.pin_dc = 5;
+      _bus.config(c); _panel.setBus(&_bus); }
+    { <span class="kw">auto</span> c = _panel.config();
+      c.pin_cs = -1;   <span class="cm">// tied to GND on the PCB</span>
+      c.pin_rst = 16;
+      c.panel_width = 240; c.panel_height = 320;
+      c.invert = <span class="kw">true</span>;   <span class="cm">// IPS</span>
+      _panel.config(c); }
+    setPanel(&_panel);
+  }
+};</pre>
+        </div>
+      </div>
+
+      <div class="notes-pane" id="tab-blit">
+        <h3>Frame blit &mdash; scale 256&rarr;320, DMA row-blocks</h3>
+        <div class="code-block">
+<pre><span class="cm">// column map + block buffer, allocated at boot before the heap fragments</span>
+<span class="kw">for</span> (<span class="kw">int</span> xd = 0; xd &lt; 320; xd++)
+    xmap[xd] = (<span class="kw">uint8_t</span>)((xd * 256) / 320);   <span class="cm">// 0..255</span>
+
+gfx-&gt;startWrite();
+<span class="kw">for</span> (i = 0; i &lt; height; i += g_fb_rows) {
+  <span class="kw">int</span> rows = min(g_fb_rows, height - i);
+  <span class="kw">uint16_t</span> *out = g_fb;
+  <span class="kw">for</span> (<span class="kw">int</span> r = 0; r &lt; rows; r++) {
+    <span class="kw">const</span> <span class="kw">uint8_t</span> *src = (<span class="kw">const</span> <span class="kw">uint8_t</span>*)SCREENMEMORY[i + r];
+    <span class="kw">for</span> (X_ = 0; X_ &lt; 320; X_++)
+      *out++ = nes_16bit[0x3F &amp; src[xmap[X_]]];   <span class="cm">// scale + palette</span>
+  }
+  gfx-&gt;pushImage(0, i, 320, rows, g_fb);          <span class="cm">// DMA</span>
+}
+gfx-&gt;endWrite();</pre>
+        </div>
+      </div>
+
+      <div class="notes-pane" id="tab-save">
+        <h3>Battery-backed save &mdash; SRAM &harr; <span class="inline-code">/NES/&lt;rom&gt;.nes.sav</span></h3>
+        <div class="code-block">
+<pre><span class="cm">// on game start, after the ROM loads:</span>
+sram_load(rominfo, ROMFILENAME);   <span class="cm">// read 8 KB if a .sav exists</span>
+
+<span class="cm">// on exit, every 3 min, and on the first low-battery event:</span>
+sram_save(rominfo, ROMFILENAME);   <span class="cm">// only if the iNES header has the battery flag</span>
+
+<span class="cm">// exit path - stop I2S so the amp self-mutes; do NOT null the</span>
+<span class="cm">// audio callback (races the 60 Hz timer ISR -&gt; jump to PC=0):</span>
+g_sound_on = <span class="kw">false</span>;
+i2s_zero_dma_buffer(I2S_NUM_1);
+i2s_stop(I2S_NUM_1);</pre>
+        </div>
+      </div>
+
+      <div class="notes-pane" id="tab-charge">
+        <h3>Charge status &mdash; MCP73871 PG/STAT pins</h3>
+        <div class="code-block">
+<pre><span class="kw">int</span> <span class="def">read_charge_state</span>() {
+  <span class="kw">bool</span> pg = digitalRead(CHG_PG_PIN);      <span class="cm">// 0 = USB power present</span>
+  <span class="kw">bool</span> s1 = digitalRead(CHG_STAT1_PIN);
+  <span class="kw">bool</span> s2 = digitalRead(CHG_STAT2_PIN);
+  <span class="kw">if</span> (!pg) {
+    <span class="kw">if</span> (!s1 &amp;&amp;  s2) <span class="kw">return</span> CHG_CHARGING;   <span class="cm">// datasheet TABLE 5-1</span>
+    <span class="kw">if</span> ( s1 &amp;&amp; !s2) <span class="kw">return</span> CHG_FULL;
+    <span class="kw">return</span> CHG_USB;
+  }
+  <span class="kw">if</span> (!s1 &amp;&amp; s2) <span class="kw">return</span> CHG_LOW_BATTERY;
+  <span class="kw">return</span> CHG_ON_BATTERY;
+}</pre>
+        </div>
+      </div>
+
+    </div><!-- /notes-content -->
+  </div><!-- /notes-inner -->
+</div><!-- /notes-modal -->
+
+<script>
+// ── Lightbox ──────────────────────────────────────────────
+const lb = document.getElementById('lb');
+const lbImg = document.getElementById('lb-img');
+document.getElementById('lb-close').addEventListener('click', () => lb.style.display = 'none');
+lb.addEventListener('click', e => { if (e.target === lb || e.target === document.getElementById('lb-close')) lb.style.display = 'none'; });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    lb.style.display = 'none';
+    document.getElementById('notes-modal').classList.remove('open');
+  }
+});
+function addLightbox(img) {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', e => { lbImg.src = img.src; lb.style.display = 'flex'; e.stopPropagation(); });
+}
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.gallery-item img, .timeline-img img').forEach(img => {
+    if (img.src && !img.src.endsWith('/')) addLightbox(img);
+  });
+});
+
+/* ── THEME TOGGLE ── */
+(()=>{
+  const html=document.documentElement;
+  const btn=document.getElementById('themeBtn');
+  const stored=localStorage.getItem('portfolio-theme');
+  if(stored) html.dataset.theme=stored;
+  else html.dataset.theme='dark';
+  btn.addEventListener('click',()=>{
+    const next=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=next;
+    localStorage.setItem('portfolio-theme',next);
+  });
+})();
+/* ── NAV SCROLL ── */
+addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('up',scrollY>40);
+},{passive:true});
+
+// ── Scroll progress bar ──────────────────────────────────
+window.addEventListener('scroll', function() {
+  var doc = document.documentElement;
+  var scrolled = doc.scrollTop || document.body.scrollTop;
+  var max = (doc.scrollHeight || document.body.scrollHeight) - doc.clientHeight;
+  var bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = (max > 0 ? (scrolled / max * 100) : 0) + '%';
+}, { passive: true });
+// ── Cursor glow ──────────────────────────────────────────
+(function(){
+  var glow = document.getElementById('cursorGlow');
+  if (!glow) return;
+  var glowX=0,glowY=0,cx=0,cy=0;
+  document.addEventListener('mousemove',function(e){glowX=e.clientX;glowY=e.clientY;glow.style.opacity='1';});
+  document.addEventListener('mouseleave',function(){glow.style.opacity='0';});
+  (function animGlow(){cx+=(glowX-cx)*0.07;cy+=(glowY-cy)*0.07;glow.style.left=cx+'px';glow.style.top=cy+'px';requestAnimationFrame(animGlow);})();
+})();
+
+// ── Code Notes Modal ──────────────────────────────────────
+const notesModal = document.getElementById('notes-modal');
+document.getElementById('notesBtn').addEventListener('click', () => notesModal.classList.add('open'));
+document.getElementById('notes-close').addEventListener('click', () => notesModal.classList.remove('open'));
+notesModal.addEventListener('click', e => { if (e.target === notesModal) notesModal.classList.remove('open'); });
+document.querySelectorAll('.notes-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.notes-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.notes-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+</script>
+
+
+<script id="snap-js">
+(function(){
+  // ── Photo carousel ──
+  document.querySelectorAll('.snap-thumb').forEach(function(thumb){
+    thumb.addEventListener('click', function(){
+      var wrap = thumb.closest('.snap-photo-wrap');
+      var main = wrap.querySelector('.snap-photo-main img');
+      var cap  = wrap.querySelector('.snap-photo-caption');
+      main.style.opacity = '0';
+      main.style.transition = 'opacity 0.18s ease';
+      setTimeout(function(){
+        main.src = thumb.dataset.src;
+        main.style.cssText = '';
+        var ezH = parseFloat(thumb.dataset.ezH);
+        if (isFinite(ezH) && ezH > 0) {
+          main.style.height = ezH + 'px'; main.style.width = 'auto';
+          main.style.objectFit = 'fill';
+          main.style.top  = (parseFloat(thumb.dataset.ezCy) || 0) + 'px';
+          main.style.left = (parseFloat(thumb.dataset.ezCx) || 0) + 'px';
+          main.style.maxWidth = 'none'; main.style.maxHeight = 'none';
+          main.style.aspectRatio = 'unset'; main.style.display = 'block';
+          main.style.position = 'relative'; main.style.flex = '0 0 auto';
+        } else {
+          main.style.objectPosition = thumb.dataset.pos || 'center center';
+        }
+        if(cap && thumb.dataset.cap) cap.textContent = thumb.dataset.cap;
+      }, 180);
+      wrap.querySelectorAll('.snap-thumb').forEach(function(t){ t.classList.remove('active'); });
+      thumb.classList.add('active');
+    });
+  });
+  // Apply position for the initially active thumb on page load
+  document.querySelectorAll('.snap-thumb.active').forEach(function(active){
+    var wrap = active.closest('.snap-photo-wrap');
+    if(wrap && active.dataset.pos){
+      var main = wrap.querySelector('.snap-photo-main img');
+      if(main) main.style.objectPosition = active.dataset.pos;
+    }
+  });
+
+  // ── Click main photo to open lightbox ──
+  document.querySelectorAll('.snap-photo-main').forEach(function(el){
+    el.addEventListener('click', function(){
+      var img = el.querySelector('img');
+      if(img && window.openLightbox) { window.openLightbox(img.src); return; }
+      // Fallback: open in #lb if present
+      var lb = document.getElementById('lb');
+      if(lb && img) {
+        var lbImg = lb.querySelector('img');
+        if(lbImg) lbImg.src = img.src;
+        lb.style.display = 'flex';
+      }
+    });
+  });
+
+  // ── Animated counters ──
+  function animCount(el){
+    var target   = parseFloat(el.dataset.target) || 0;
+    var prefix   = el.dataset.prefix  || '';
+    var suffix   = el.dataset.suffix  || '';
+    var decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
+    var dur = 1000, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var prog = Math.min((ts - start)/dur, 1);
+      var ease = 1 - Math.pow(1-prog, 3);
+      el.textContent = prefix + (ease*target).toFixed(decimals) + suffix;
+      if(prog < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var cio = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !e.target.dataset.counted){
+        e.target.dataset.counted = '1';
+        animCount(e.target);
+      }
+    });
+  },{threshold:0.5});
+  document.querySelectorAll('.snap-counter').forEach(function(el){ cio.observe(el); });
+})();
+</script>
+
+
+<script>
+// Copy code buttons
+document.querySelectorAll('pre').forEach(pre=>{
+  if(pre.parentElement.style.position !== 'relative') pre.parentElement.style.position='relative';
+  const btn = document.createElement('button');
+  btn.className='copy-btn';
+  btn.textContent='Copy';
+  btn.addEventListener('click',()=>{
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(()=>{
+      btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent='Copy',1800);
+    }).catch(()=>{btn.textContent='Error';setTimeout(()=>btn.textContent='Copy',1800);});
+  });
+  pre.parentElement.insertBefore(btn,pre);
+});
+</script>
+
+<!-- editor.js not used on this page -->
+</body></html>
