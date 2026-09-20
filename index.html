@@ -581,7 +581,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     <div class="hero-right rv" style="transition-delay:.15s">
       <p class="hero-desc">
         I design custom <b>PCBs</b> in KiCad, build hardware around <b>ESP32</b>, and model enclosures in <b>Fusion 360</b> — all self-taught, picked up from scratch as each project demanded it.
-        Currently routing <b>RetroDS v2</b> — adding audio.
+        Most recently shipped <b>RetroDS v2</b> — a custom 4-layer PCB with audio and battery-backed save games.
       </p>
       <div class="hero-btns">
         <a href="#projects" class="btn btn-fill">View Projects <span class="arr">→</span></a>
@@ -590,7 +590,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     </div>
   </div>
   <div class="hero-stats rv" style="transition-delay:.25s">
-    <div class="hst"><div class="n">6</div><div class="l">Projects</div></div>
+    <div class="hst"><div class="n">7</div><div class="l">Projects</div></div>
     <div class="hst"><div class="n">UWA</div><div class="l">Engineering</div></div>
   </div>
 </header>
@@ -598,9 +598,9 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <!-- NOW -->
 <div class="now">
   <div class="now-in">
-    <div class="now-badge"><span class="live"></span>Right now</div>
-    <span class="now-txt"><b>RetroDS PCB v2</b> — routing the MAX98357A audio amp in KiCad, migrating to ESP32-S3-WROOM-1U. Finally adding sound.</span>
-    <span class="now-dt">May 2026 · Perth WA</span>
+    <div class="now-badge"><span class="live"></span>Just shipped</div>
+    <span class="now-txt"><b>RetroDS PCB v2</b> — custom 4-layer PCB, fully built and working: ESP32-S3, Li-ion charging, audio, save games, 3D-printed case.</span>
+    <span class="now-dt">Sep 2026 · Perth WA</span>
   </div>
 </div>
 
@@ -781,7 +781,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <section class="sec" id="projects">
   <div class="sec-hd rv">
     <div class="sec-title">Selected <i>Work</i></div>
-    <div class="sec-sub">06 Projects</div>
+    <div class="sec-sub">07 Projects</div>
   </div>
 
   <!-- Featured -->
@@ -947,6 +947,16 @@ const P=[
    desc:'Hand-soldered handheld NES emulator. Full 6502+PPU core on ESP32, 240×240 IPS display via 27 MHz SPI, MicroSD ROM loading, 8 buttons.',
    stats:[{n:'240MHz',l:'ESP32 Core'},{n:'27MHz',l:'SPI Display'},{n:'8',l:'Buttons'}],
    hl:['NES 6502 + PPU emulation in C++ — cycle-accurate for most games','ST7789 240×240 at 27 MHz SPI (30 MHz caused corruption)','MicroSD FAT32 ROM loading up to 512 kB','Every perfboard wire resoldered at least once','PCB revision: ESP32-S3-WROOM-1U + MAX98357A audio']},
+  {id:'retro2',title:'RetroDS v2 — Custom PCB',
+   name:'RetroDS <i>v2</i> — Custom PCB',
+   status:'wip',meta:'Embedded Systems · 2026',link:'nes-emulator-v2-project.html',
+   img:'IMAGES/NES emulator v2/retro2-card.webp',imgFit:'cover',imgPos:{s:1,px:50,py:40},cat:'Embedded Systems',glyph:'▦',
+   tldr:'RetroDS on a custom 4-layer PCB: ESP32-S3, MCP73871 Li-ion charger, MAX98357A audio, dedicated SD. Bring-up meant meter-driven fault-finding — a charger that would not conduct, then a hidden 3.3 V-to-ground short — then a firmware rewrite for the S3 that finally adds sound and save games.',
+   comps:['ESP32-S3-WROOM-1U','ST7789 240×320','MCP73871','MAX98357A','LovyanGFX'],
+   tags:['ESP32-S3','KiCad','4-Layer PCB','Li-ion','LovyanGFX','Fault-finding'],
+   desc:'Custom-PCB revision of the RetroDS NES handheld. 4-layer board with a Li-ion load-sharing charger, I2S audio amp and a dedicated SD interface. Documents the hardware bring-up (voltage-ladder and resistance measurement to locate a non-conducting charger and a hidden rail-to-ground short) and the firmware rewrite for the ESP32-S3.',
+   stats:[{n:'4',l:'PCB Layers'},{n:'15',l:'Volume Steps'},{n:'10/10',l:'Buttons OK'}],
+   hl:['Located a non-conducting MCP73871 charger by walking the USB→3V3 voltage ladder','Found a hidden 3.3 V-to-ground short by measuring resistance (not continuity) and bisecting the modules','TFT_eSPI → Arduino_GFX → LovyanGFX: DMA blit, from ~8 fps to ~15 fps','Added sound + 15-step perceptual volume and battery-backed save games (v1 had neither)','Charge status read from the charger STAT pins — no fuel gauge fitted (U4 out of stock)','Code review: fixed an 8–16 KB/game memory leak and five hard lock-ups on recoverable errors']},
   {id:'rccar',title:'Wireless RC Car',
    name:'Wireless <i>RC Car</i>',
    status:'wip',meta:'Embedded Systems · Ongoing',link:'rc-car-project-main.html',
