@@ -26,6 +26,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://andresmoreno2702-gif.github.io/nes-emulator-v2-project.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://andresmoreno2702-gif.github.io/vhdl-project-main.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
