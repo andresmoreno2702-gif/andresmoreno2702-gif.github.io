@@ -146,7 +146,7 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
 .hero-title .ln2{color:var(--text);}
 .hero-title .ln3{color:var(--text);font-weight:400;}
 .hero-right{display:flex;flex-direction:column;gap:2rem;}
-.hero-desc{font-size:1.05rem;line-height:1.82;color:var(--text2);max-width:38ch;}
+.hero-desc{font-size:1.05rem;line-height:1.82;color:var(--text2);max-width:46ch;}
 .hero-desc b{color:var(--text);font-weight:600;}
 .hero-btns{display:flex;gap:.6rem;flex-wrap:wrap;}
 .btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);
@@ -179,15 +179,6 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
 .now-txt b{color:var(--text);}
 .now-dt{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.08em;flex-shrink:0;}
 
-/* ─── MARQUEE ─── */
-.mq{border-bottom:1px solid var(--bd);overflow:hidden;padding:.9rem 0;
-  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
-.mq-t{display:inline-flex;animation:mqsc 40s linear infinite;
-  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;}
-.mq:hover .mq-t{animation-play-state:paused;}
-.mi{padding:0 2rem;color:var(--text3);white-space:nowrap;}
-.ms{color:var(--blue);opacity:.4;}
-@keyframes mqsc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ─── SECTIONS ─── */
 .sec{max-width:1440px;margin:0 auto;padding:6rem 2.5rem;}
@@ -330,7 +321,8 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
 
 /* ─── ABOUT ─── */
 .about-wrap{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);}
-.agrid{display:grid;grid-template-columns:1.15fr 1fr;gap:5rem;align-items:start;}
+.agrid{display:flex;flex-direction:column;gap:2rem;}
+.agrid2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:stretch;}
 .aprose{font-size:1.05rem;line-height:1.85;color:var(--text2);}
 .aprose p{margin-bottom:1.1rem;}
 .aprose b{color:var(--text);font-weight:600;}
@@ -350,6 +342,12 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
   background:linear-gradient(90deg,var(--blue),var(--purp));
   transition:width 1.1s var(--ease);}
 .skill-fill.go{width:var(--w,0%);}
+.prof-btn{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text3);background:var(--bg4);border:1px solid var(--bd);border-radius:6px;
+  padding:4px 9px;cursor:pointer;transition:all .2s;}
+.prof-btn:hover{color:var(--blue2);border-color:var(--blue2);}
+.skill-track.editable{cursor:ew-resize;outline:1.5px dashed var(--blue2);outline-offset:3px;}
+.skill-pct-live{font-family:var(--mono);font-size:10px;color:var(--blue2);font-weight:700;margin-left:8px;}
 
 /* timeline */
 .tl{position:relative;padding-left:1.8rem;margin-top:2.5rem;}
@@ -361,8 +359,8 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
   box-shadow:0 0 0 2px rgba(59,130,246,.3),0 0 8px rgba(59,130,246,.25);}
 .tdate{font-family:var(--mono);font-size:9px;text-transform:uppercase;
   letter-spacing:.12em;color:var(--blue2);margin-bottom:3px;}
-.ttl{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
-.tds{font-size:12px;color:var(--text3);line-height:1.65;}
+.ttl{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;max-width:62ch;}
+.tds{font-size:12px;color:var(--text3);line-height:1.65;max-width:62ch;}
 
 /* right cards */
 .ar{display:flex;flex-direction:column;gap:1.2rem;}
@@ -494,7 +492,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 @media(max-width:1100px){
   #pl{grid-template-columns:repeat(2,1fr);}
   .feat-card{grid-template-columns:1fr;}
-  .agrid{grid-template-columns:1fr;gap:3rem;}
+  .agrid2{grid-template-columns:1fr;gap:1.5rem;}
 }
 @media(max-width:860px){
   .nl,.nbadge{display:none;}
@@ -511,6 +509,9 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
   .flinks{display:none;}
 }
 @media(max-width:640px){.hero-title{font-size:clamp(1.2rem,5vw,2rem);white-space:normal;}}
+@media(max-width:480px){
+  .skill-row{flex-direction:column;align-items:flex-start;gap:2px;}
+}
 
 .pstats{display:flex;gap:16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);}
 .pstat{display:flex;flex-direction:column;gap:1px;}
@@ -567,7 +568,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <!-- HERO -->
 <header class="hero">
   <div class="hero-ey rv">
-    <span class="tag">EE Student (Part-time) · UWA Perth</span>
+    <span class="tag">PCB Design · Embedded Systems</span>
   </div>
   <div class="hero-grid">
     <div>
@@ -580,8 +581,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     </div>
     <div class="hero-right rv" style="transition-delay:.15s">
       <p class="hero-desc">
-        I design custom <b>PCBs</b> in KiCad, build hardware around <b>ESP32</b>, and model enclosures in <b>Fusion 360</b> — all self-taught, picked up from scratch as each project demanded it.
-        Most recently shipped <b>RetroDS v2</b> — a custom 4-layer PCB with audio and battery-backed save games.
+        Part-time <b>Electrical and Electronic Engineering</b> student at UWA, based in Perth. I design custom <b>PCBs</b> in KiCad, build hardware around <b>ESP32</b>, and model enclosures in <b>Fusion 360</b> — self-taught, picked up from scratch as each project demanded it.
       </p>
       <div class="hero-btns">
         <a href="#projects" class="btn btn-fill">View Projects <span class="arr">→</span></a>
@@ -591,48 +591,19 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
   </div>
   <div class="hero-stats rv" style="transition-delay:.25s">
     <div class="hst"><div class="n">8</div><div class="l">Projects</div></div>
-    <div class="hst"><div class="n">UWA</div><div class="l">Engineering</div></div>
+    <div class="hst"><div class="n">2</div><div class="l">PCBs Built</div></div>
   </div>
 </header>
 
 <!-- NOW -->
 <div class="now">
   <div class="now-in">
-    <div class="now-badge"><span class="live"></span>Just shipped</div>
-    <span class="now-txt"><b>RetroDS PCB v2</b> — custom 4-layer PCB, fully built and working: ESP32-S3, Li-ion charging, audio, save games, 3D-printed case.</span>
+    <div class="now-badge"><span class="live"></span>Just completed <b>RetroDS v2</b></div>
+    <span class="now-txt">Custom 4-layer PCB, fully built and working: ESP32-S3, Li-ion charging, audio, save games, 3D-printed case.</span>
     <span class="now-dt">Sep 2026 · Perth WA</span>
   </div>
 </div>
 
-<!-- MARQUEE -->
-<div class="mq" aria-hidden="true">
-  <div class="mq-t">
-    <span class="mi">KiCad 9</span><span class="ms"> · </span>
-    <span class="mi">ESP32 Firmware</span><span class="ms"> · </span>
-    <span class="mi">PCB Design</span><span class="ms"> · </span>
-    <span class="mi">Fusion 360</span><span class="ms"> · </span>
-    <span class="mi">VHDL · FPGAs</span><span class="ms"> · </span>
-    <span class="mi">3D Printing</span><span class="ms"> · </span>
-    <span class="mi">Power Electronics</span><span class="ms"> · </span>
-    <span class="mi">JLCPCB Assembly</span><span class="ms"> · </span>
-    <span class="mi">Arduino / C++</span><span class="ms"> · </span>
-    <span class="mi">SPI · I²C · UART</span><span class="ms"> · </span>
-    <span class="mi">Impedance Matching</span><span class="ms"> · </span>
-    <span class="mi">Oscilloscope Debug</span><span class="ms"> · </span>
-    <span class="mi">KiCad 9</span><span class="ms"> · </span>
-    <span class="mi">ESP32 Firmware</span><span class="ms"> · </span>
-    <span class="mi">PCB Design</span><span class="ms"> · </span>
-    <span class="mi">Fusion 360</span><span class="ms"> · </span>
-    <span class="mi">VHDL · FPGAs</span><span class="ms"> · </span>
-    <span class="mi">3D Printing</span><span class="ms"> · </span>
-    <span class="mi">Power Electronics</span><span class="ms"> · </span>
-    <span class="mi">JLCPCB Assembly</span><span class="ms"> · </span>
-    <span class="mi">Arduino / C++</span><span class="ms"> · </span>
-    <span class="mi">SPI · I²C · UART</span><span class="ms"> · </span>
-    <span class="mi">Impedance Matching</span><span class="ms"> · </span>
-    <span class="mi">Oscilloscope Debug</span><span class="ms"> · </span>
-  </div>
-</div>
 
 <!-- ABOUT -->
 <div class="about-wrap">
@@ -642,71 +613,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
       <div class="sec-sub">About</div>
     </div>
     <div class="agrid">
-      <div>
-        <div class="aprose rv">
-          <p>Part-time <b>Electrical and Electronic Engineering</b> student at the University of Western Australia, based in Perth. My evenings tend to involve datasheets, a soldering iron, and at least one thing that isn't working yet.</p>
-          <p>I do the whole build myself — schematic capture and PCB layout in KiCad, enclosures in Fusion 360, and getting microcontrollers to do what I want on ESP32. I build things to understand how they actually work, not to end up with something I'm afraid to open.</p>
-        </div>
-
-        <!-- SKILL BARS -->
-        <div class="skill-section rv" style="transition-delay:.1s">
-          <div class="skill-sec-lbl">Proficiency</div>
-          <div class="skills-list" id="skillBars">
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">KiCad / PCB Design</span>
-                <span class="skill-pct">KiCad 9 · 4-layer</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:65%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">ESP32 / Arduino Firmware</span>
-                <span class="skill-pct">ESP32 · C++ · 4 projects</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:60%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">Fusion 360 / CAD</span>
-                <span class="skill-pct">Parametric · Assemblies</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:75%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">VHDL / Digital Design</span>
-                <span class="skill-pct">DE10-Lite · Quartus · ModelSim</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:60%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">3D Printing / Slicing</span>
-                <span class="skill-pct">FDM · Creality · Ender-3</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:80%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">Power Electronics</span>
-                <span class="skill-pct">Buck · Boost · LDO</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:65%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-row">
-                <span class="skill-name">C / C++</span>
-                <span class="skill-pct">Firmware · Arduino IDE</span>
-              </div>
-              <div class="skill-track"><div class="skill-fill" style="--w:70%"></div></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="ar">
+      <div class="agrid2">
         <div class="acard rv" style="transition-delay:.0s">
           <div class="ac-lbl" style="margin-bottom:.85rem">How I got here</div>
           <div class="tl" style="margin-top:0">
@@ -737,7 +644,65 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
             </div>
           </div>
         </div>
-        <div class="acard rv">
+
+        <div class="acard rv" style="transition-delay:.05s">
+          <div class="ac-lbl" style="margin-bottom:1.2rem">Proficiency</div>
+          <div class="skills-list" id="skillBars">
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">KiCad / PCB Design</span>
+                <span class="skill-pct">KiCad 9 · 4-layer</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:60%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">ESP32 / Arduino Firmware</span>
+                <span class="skill-pct">ESP32 · C++ · 4 projects</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:55%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">Fusion 360 / CAD</span>
+                <span class="skill-pct">Parametric · Assemblies</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:80%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">VHDL / Digital Design</span>
+                <span class="skill-pct">DE10-Lite · Quartus · ModelSim</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:45%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">3D Printing / Slicing</span>
+                <span class="skill-pct">FDM · Creality · Ender-3</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:80%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">Power Electronics</span>
+                <span class="skill-pct">Buck · Boost · LDO</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:60%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-row">
+                <span class="skill-name">C / C++</span>
+                <span class="skill-pct">Firmware · Arduino IDE</span>
+              </div>
+              <div class="skill-track"><div class="skill-fill" style="--w:45%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agrid2">
+        <div class="acard rv" style="transition-delay:.1s">
           <div class="ac-lbl">Education</div>
           <div class="edu">
             <div class="edu-ic">UWA</div>
@@ -748,22 +713,18 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
             </div>
           </div>
         </div>
-        <div class="acard rv" style="transition-delay:.08s">
-          <div class="ac-lbl">Skills & Tools</div>
+        <div class="acard rv" style="transition-delay:.15s">
+          <div class="ac-lbl">Also Worked With</div>
           <div class="scloud">
-            <span class="spill">KiCad · PCB Design</span>
-            <span class="spill">ESP32 · Arduino</span>
-            <span class="spill">Fusion 360</span>
-            <span class="spill">VHDL · FPGAs</span>
-            <span class="spill">3D Printing</span>
-            <span class="spill">Power Electronics</span>
             <span class="spill">SPI · I²C · UART</span>
             <span class="spill">JLCPCB Assembly</span>
             <span class="spill">Oscilloscope Debug</span>
-            <span class="spill">C / C++</span>
+            <span class="spill">Impedance Matching</span>
+            <span class="spill">Multimeter Diagnostics</span>
+            <span class="spill">Git · GitHub</span>
+            <span class="spill">Python · LeRobot</span>
           </div>
         </div>
-
       </div>
     </div>
   </section>
