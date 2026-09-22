@@ -181,7 +181,7 @@ nav.up{border-color:var(--bd);box-shadow:0 1px 30px rgba(0,0,0,.4);}
 
 
 /* ─── SECTIONS ─── */
-.sec{max-width:1440px;margin:0 auto;padding:6rem 2.5rem;}
+.sec{max-width:1440px;margin:0 auto;padding:6rem 2.5rem;scroll-margin-top:58px;}
 .sec-hd{display:flex;align-items:flex-end;justify-content:space-between;
   border-bottom:1.5px solid var(--bd2);padding-bottom:.65rem;margin-bottom:2.5rem;gap:1rem;}
 .sec-title{font-size:clamp(1.7rem,3.2vw,2.8rem);font-weight:800;
@@ -1037,6 +1037,24 @@ const nls=document.querySelectorAll('.nl a');
 const ham=document.getElementById('ham'),mn=document.getElementById('mnav');
 ham.addEventListener('click',()=>{ham.classList.toggle('x');mn.classList.toggle('show');});
 mn.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('x');mn.classList.remove('show');}));
+
+/* ── FONT-SAFE ANCHOR SCROLL ──
+   Fonts load with display:swap, so clicking a #anchor link before they've
+   swapped in computes the scroll target against the (shorter) fallback-font
+   layout, then the page grows once fonts load and the scroll lands short.
+   Wait for fonts to be ready before scrolling. */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  const id=a.getAttribute('href').slice(1);
+  if(!id)return;
+  a.addEventListener('click',e=>{
+    const target=document.getElementById(id);
+    if(!target)return;
+    e.preventDefault();
+    const go=()=>target.scrollIntoView({behavior:'smooth',block:'start'});
+    if(document.fonts&&document.fonts.status!=='loaded'){document.fonts.ready.then(go);}
+    else{go();}
+  });
+});
 
 /* ── REVEAL + SKILL BARS ── */
 const rvIO=new IntersectionObserver(ents=>ents.forEach(e=>{
