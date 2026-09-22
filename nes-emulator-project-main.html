@@ -1196,17 +1196,17 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
   <div class="section-line"></div>
 </div>
 <div class="prose">
-  <p>With the perfboard prototype validated, the next step was a custom 4-layer PCB in <strong>KiCad</strong> — a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgraded the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB PSRAM, and improved performance for emulation and audio. That board is built, brought up, and working — see <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none">RetroDS v2</a> for the full PCB design, the fault-finding session that got it running, and the firmware rewrite that added sound, volume control, save games, and an on-screen game-select menu.</p>
+  <p>With the perfboard prototype validated, the next step was a custom 4-layer PCB in <strong>KiCad</strong> — a dedicated ground plane, separated analogue and digital ground zones for cleaner audio, and a single compact board replacing the two-board perfboard stack. The PCB design also upgraded the microcontroller to the <strong>ESP32-S3-WROOM-1U</strong> — adding native USB, 8 MB flash, and improved performance for emulation and audio. That board is built, brought up, and working — see <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none">RetroDS v2</a> for the full PCB design, the fault-finding session that got it running, and the firmware rewrite that added sound, volume control, save games, and an on-screen game-select menu.</p>
 </div>
 <div class="decision-list">
   <div class="decision green">
     <div class="decision-title">Component Upgrades — Prototype → PCB</div>
     <div class="decision-body">
       A few components were upgraded or swapped for the PCB build:<br><br>
-      <strong>Microcontroller:</strong> ESP32-WROOM-32E → <strong>ESP32-S3-WROOM-1U</strong>. The S3 has native USB (connects directly to the USB-C port — no extra chip needed), 8 MB of PSRAM for larger data buffers, and a faster processor.<br><br>
+      <strong>Microcontroller:</strong> ESP32-WROOM-32E → <strong>ESP32-S3-WROOM-1U</strong>. The S3 has native USB (connects directly to the USB-C port — no extra chip needed), 8 MB of flash (this N8 module has no PSRAM), and a faster processor.<br><br>
       <strong>Audio:</strong> No audio in the prototype. The PCB adds a <strong>MAX98357A</strong> — a single chip that handles both digital-to-analog conversion and amplification, driving a speaker directly from the I2S bus, with a 15-step volume control.<br><br>
       <strong>Power management:</strong> The prototype used two off-the-shelf breakout modules (IP5306 boost converter + TP4056 charger). The PCB replaces these with dedicated ICs: <strong>MCP73871</strong> (proper LiPo charger with charge status outputs) and <strong>AP2112K</strong> (clean 3.3 V regulator).<br><br>
-      <strong>USB protection:</strong> Added <strong>USBLC6-2SC6</strong> ESD protection on the USB data lines — important for a finished PCB connected to real USB ports.<br><br>
+      <strong>USB protection:</strong> Added <strong>PRTR5V0U2X</strong> ESD protection on the USB data lines — important for a finished PCB connected to real USB ports.<br><br>
       <strong>SD card bus:</strong> The prototype bit-banged a software SPI to avoid sharing the hardware bus with the display. The PCB has two dedicated hardware SPI buses — one for the display, one for the SD card — no workaround needed.
     </div>
   </div>

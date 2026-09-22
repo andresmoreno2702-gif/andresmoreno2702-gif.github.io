@@ -5,10 +5,10 @@
 <meta name="theme-color" content="#111214">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>SO-ARM100 Robotic Arm · Andrés Moreno</title>
-<meta name="description" content="SO-ARM100 leader-follower robotic arm — 12x STS3215 servos, LeRobot teleoperation, and a wireless upgrade replacing the USB tether with two ESP32-C3 boards over ESP-NOW.">
-<meta property="og:title" content="SO-ARM100 Robotic Arm · Andrés Moreno">
-<meta property="og:description" content="Leader-follower robotic arm pair built from TheRobotStudio's SO-ARM100 — LeRobot teleoperation, then a wireless ESP32-C3 / ESP-NOW upgrade to cut the USB tether.">
+<title>SO-101 Robotic Arm · Andrés Moreno</title>
+<meta name="description" content="SO-101 leader-follower robotic arm — 12x STS3215 servos, LeRobot teleoperation, and a wireless upgrade replacing the USB tether with two ESP32-C3 boards over ESP-NOW.">
+<meta property="og:title" content="SO-101 Robotic Arm · Andrés Moreno">
+<meta property="og:description" content="Leader-follower robotic arm pair built from TheRobotStudio's SO-101 (via their SO-ARM100 repo) — LeRobot teleoperation, then a wireless ESP32-C3 / ESP-NOW upgrade to cut the USB tether.">
 <meta property="og:image" content="https://andresmoreno2702-gif.github.io/IMAGES/Robotic%20Arm/arm-01-both-front.webp">
 <meta property="og:url" content="https://andresmoreno2702-gif.github.io/robotic-arm-project.html">
 <meta property="og:type" content="website">
@@ -333,10 +333,10 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="hero-inner">
   <div>
     <div class="hero-tag">Engineering Design Portfolio — Robotics &amp; Embedded Systems</div>
-    <h1>SO-ARM100 <span>Robotic Arm</span></h1>
+    <h1>SO-101 <span>Robotic Arm</span></h1>
     <div class="hero-sub">Leader-Follower Teleoperation · 12× STS3215 Servos · ESP32-C3 Wireless Upgrade · Jun–Jul 2026</div>
     <div class="hero-meta">
-      <span class="badge badge-teal">TheRobotStudio SO-ARM100</span>
+      <span class="badge badge-teal">TheRobotStudio SO-101</span>
       <span class="badge badge-blue">12× Feetech STS3215 Servos</span>
       <span class="badge badge-amber">LeRobot Teleoperation</span>
       <span class="badge badge-green">ESP-NOW Wireless · ~100 Hz</span>
@@ -349,7 +349,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="outcome-callout">
       <span class="oc-label">Result</span>
-      <span class="oc-text">TheRobotStudio's SO-ARM100 is an open-source design (Apache-2.0) — the parts were sourced, both arms 3D printed and assembled, and everything calibrated through LeRobot. The one piece that isn't in the official repo: two ESP32-C3 boards added afterward to mirror all 6 joints wirelessly over ESP-NOW, cutting the USB tether to the PC.</span>
+      <span class="oc-text">TheRobotStudio's SO-101 (built from their SO-ARM100 repo) is an open-source design (Apache-2.0) — the parts were sourced, both arms 3D printed and assembled, and everything calibrated through LeRobot. The one piece that isn't in the official repo: two ESP32-C3 boards added afterward to mirror all 6 joints wirelessly over ESP-NOW, cutting the USB tether to the PC.</span>
     </div>
 
     <div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:10px">
@@ -370,7 +370,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="snapshot">
 
   <div class="snap-quote">
-    <p>Picked the SO-ARM100 over the pricier AM-ARM200 mostly on servo cost — same LeRobot-compatible teleoperation, cheaper parts. Sourced the 12 STS3215 servos as an Alibaba bundle, calibrated both arms in LeRobot, and had it working over USB in a day. The real project started after that: a cheap clone motor-controller board turned out to pass input voltage straight through to the servos with zero regulation, and the first attempt to wire an ESP32 directly onto the servo bus's data line fought the board's own direction-switching circuit. Routing through the board's dedicated UART header instead — and moving to <em>two</em> ESP32-C3 Super Minis talking ESP-NOW — is what finally cut the USB cable for good.</p>
+    <p>Picked the SO-101 over the pricier AM-ARM200 mostly on servo cost — same LeRobot-compatible teleoperation, cheaper parts. Sourced the 12 STS3215 servos as an Alibaba bundle, calibrated both arms in LeRobot, and had it working over USB in a day. The real project started after that: a cheap clone motor-controller board turned out to pass input voltage straight through to the servos with zero regulation, and the first attempt to wire an ESP32 directly onto the servo bus's data line fought the board's own direction-switching circuit. Routing through the board's dedicated UART header instead — and moving to <em>two</em> ESP32-C3 Super Minis talking ESP-NOW — is what finally cut the USB cable for good.</p>
   </div>
 
   <div class="snapshot-inner">
@@ -490,8 +490,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Working</div><div class="stat-sub">Wireless teleop confirmed end-to-end</div></div>
 </div>
 <div class="prose">
-  <p>The <strong>SO-ARM100</strong> is TheRobotStudio's open-source leader-follower robotic arm (Apache-2.0), built for the Hugging Face <strong>LeRobot</strong> ecosystem — you physically move the leader arm, and the follower mirrors it in real time, the standard way to collect teleoperation data for training robot learning policies. It was chosen over the pricier AM-ARM200 mainly on servo economics — full comparison in the sourcing section below.</p>
-  <p>Everything through this point is stock SO-ARM100: the 12 <strong>Feetech STS3215</strong> servos and both motor-controller boards were bought as parts, the arm links were 3D printed from TheRobotStudio's original files on a <strong>Prusa</strong> printer, and both arms were assembled and calibrated through LeRobot's Python tooling — homing offsets and safe position limits get burned straight into each servo's EEPROM. The one part that isn't stock: the desk clamps, custom-modelled from scratch — more on that below.</p>
+  <p>The <strong>SO-101</strong> is TheRobotStudio's open-source leader-follower robotic arm (Apache-2.0) — the current version of their SO-ARM100 design — built for the Hugging Face <strong>LeRobot</strong> ecosystem — you physically move the leader arm, and the follower mirrors it in real time, the standard way to collect teleoperation data for training robot learning policies. It was chosen over the pricier AM-ARM200 mainly on servo economics — full comparison in the sourcing section below.</p>
+  <p>Everything through this point is stock SO-101: the 12 <strong>Feetech STS3215</strong> servos and both motor-controller boards were bought as parts, the arm links were 3D printed from TheRobotStudio's original files on a <strong>Prusa</strong> printer, and both arms were assembled and calibrated through LeRobot's Python tooling — homing offsets and safe position limits get burned straight into each servo's EEPROM. The one part that isn't stock: the desk clamps, custom-modelled from scratch — more on that below.</p>
   <p>What isn't in the official repo is the wireless link. The arm pair worked over USB from day one; built on top of that are two <strong>ESP32-C3 Super Mini</strong> boards that read the leader's joints and mirror them to the follower over <strong>ESP-NOW</strong>, no PC in the loop. Full breakdown in the Wireless Upgrade section below.</p>
 </div>
 <div class="gallery">
@@ -509,7 +509,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="section" id="servos">
 <div class="section-header"><h2 class="section-title">Servos, Sourcing &amp; Mechanical</h2><div class="section-line"></div></div>
 <div class="prose">
-  <p>The SO-ARM100 has one real drop-in constraint: the <strong>Feetech STS3215</strong> serial bus servo. It's a proprietary 45.2 × 24.7 × 35 mm form factor with position feedback over a single-wire half-duplex bus — no cheaper PWM servo (MG996R and similar) can substitute, because those have no feedback and can't support LeRobot's teleoperation or policy-learning pipeline. The correct variant is the <strong>C001</strong>: 7.4 V, 19.5 kg·cm torque, 1:345 gear ratio. The 12 V/30 kg <strong>C018</strong> variant exists but is more expensive and isn't what the official BOM specifies.</p>
+  <p>The SO-101 has one real drop-in constraint: the <strong>Feetech STS3215</strong> serial bus servo. It's a proprietary 45.2 × 24.7 × 35 mm form factor with position feedback over a single-wire half-duplex bus — no cheaper PWM servo (MG996R and similar) can substitute, because those have no feedback and can't support LeRobot's teleoperation or policy-learning pipeline. The correct variant is the <strong>C001</strong>: 7.4 V, 19.5 kg·cm torque, 1:345 gear ratio. The 12 V/30 kg <strong>C018</strong> variant exists but is more expensive and isn't what the official BOM specifies.</p>
   <p>Building a cheaper DIY equivalent — DC motor, gearbox, AS5048 magnetic encoder, custom driver PCB — was seriously considered and ruled out: at roughly $20–30 per joint plus hours of engineering per axis, it lands close to the STS3215's $13.89/unit Alibaba price without any of the reliability or drop-in compatibility.</p>
 </div>
 <div class="two-col">
@@ -696,7 +696,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 </div>
 </div>
 <div class="footer">
-<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>SO-ARM100 Robotic Arm &nbsp;·&nbsp; LeRobot &amp; ESP32-C3 / ESP-NOW &nbsp;·&nbsp; Jun–Jul 2026</div>
+<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>SO-101 Robotic Arm &nbsp;·&nbsp; LeRobot &amp; ESP32-C3 / ESP-NOW &nbsp;·&nbsp; Jun–Jul 2026</div>
 <div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a><br><a href="https://github.com/TheRobotStudio/SO-ARM100" target="_blank" rel="noopener" style="color:var(--ink-2);text-decoration:none;">Original SO-ARM100 repo →</a></div>
 </div>
 

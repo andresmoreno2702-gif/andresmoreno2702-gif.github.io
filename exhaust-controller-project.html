@@ -273,7 +273,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">First Ever Project · June 2025</div>
+    <div class="hero-tag">First Ever Project · 2024</div>
     <h1>Exhaust Cutout<br><span>Controller</span></h1>
     <div class="hero-sub">Arduino Nano · MD13S Cytron · Fusion 360 · 12V Car Power</div>
     <div class="hero-meta">
@@ -304,7 +304,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="snap-thumb active" data-src="IMAGES/Exhaust Controller/finished-unit.webp" data-cap="Finished unit — louvred enclosure &amp; panel-mount switch">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/finished-unit.webp" alt="Finished unit">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-open.webp" data-cap="Enclosure halves — moulded screw posts">
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-open.webp" data-cap="Enclosure halves — screw posts">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-open.webp" alt="Enclosure open">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/electronics-installed.webp" data-cap="Internals — MD13S, buck converter, Arduino mounted">
@@ -325,7 +325,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-parts.webp" data-cap="Enclosure parts — before assembly">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-parts.webp" alt="Enclosure parts">
         </div>
-        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-parts2.webp" data-cap="Enclosure — moulded screw posts detail">
+        <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/enclosure-parts2.webp" data-cap="Enclosure — screw posts detail">
           <img width="1350" height="1800" loading="lazy" src="IMAGES/Exhaust Controller/enclosure-parts2.webp" alt="Enclosure detail">
         </div>
         <div class="snap-thumb" data-src="IMAGES/Exhaust Controller/exhaust-new.webp" data-cap="Exhaust cutout controller — installed view">
@@ -363,7 +363,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="10" y="12" width="12" height="8" rx="2"/><line x1="4" y1="16" x2="10" y2="16"/><line x1="22" y1="16" x2="28" y2="16"/><line x1="13" y1="14" x2="13" y2="18"/><line x1="19" y1="14" x2="19" y2="18"/></svg></div>
             <div class="snap-comp-name">Fuse Holder</div>
           </div>
-          <div class="snap-comp" data-tip="Fusion 360 — custom enclosure with moulded screw posts, louvred top cover, grommet cable exit">
+          <div class="snap-comp" data-tip="Fusion 360 — custom enclosure with screw posts, louvred top cover, grommet cable exit">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
             <div class="snap-comp-name">Fusion 360</div>
           </div>
@@ -453,7 +453,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="prose">
       <p>Exhaust cutout valves are butterfly valves fitted in the exhaust pipe — open them and the exhaust bypasses the silencer, giving a much louder tone. Normally these are controlled by a simple toggle switch wired directly to a relay. I decided to put an Arduino in the middle of that, which in hindsight added complexity for no real benefit. But I learned a lot doing it.</p>
       <p>The car runs 12V. I needed 5V for the Arduino Nano and a logic-level signal to drive the MD13S motor driver controlling the valve actuator. I used a 3A DC-DC buck converter to step the 12V down to 5V, which was the right call. I also used a <strong>voltage divider to get 3.3V</strong> for a reference signal — I later confirmed through university coursework that this is not the correct approach for powering a circuit; the output voltage drops under load. A proper LDO regulator is the right answer, and it does work in this project only because the 3.3V line carries very little current.</p>
-      <p>The enclosure was the part I put the most thought into. Designed entirely in Fusion 360, printed in black PLA — the box has moulded posts so every PCB and module screws in at a fixed position. The top cover has ventilation louvres. The wiring exits through a grommet hole. For a first project, it looked properly finished.</p>
+      <p>The enclosure was the part I put the most thought into. Designed entirely in Fusion 360, printed in black PLA — the box has internal posts so every PCB and module screws in at a fixed position. The top cover has ventilation louvres. The wiring exits through a grommet hole. For a first project, it looked properly finished.</p>
     </div>
   </section>
 
@@ -596,7 +596,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div>
         <div class="next-card-label">Project 02</div>
         <div class="next-card-title">Large RC Car — v1</div>
-        <div class="next-card-body">First big self-designed project. Fusion 360 chassis, custom ESP32-NOW remote — same over-engineering instincts, but on a bigger scale.</div>
+        <div class="next-card-body">First big self-designed project. Fusion 360 chassis, custom ESP-NOW remote — same over-engineering instincts, but on a bigger scale.</div>
       </div>
       <div class="next-card-arrow">→</div>
     </a>
@@ -611,7 +611,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <a href="large-rc-car-project.html" class="pnav-btn pnav-next">Large RC Car →</a>
 </div>
 <footer class="footer">
-  <div class="footer-left">Exhaust Cutout Controller<br>Arduino Nano · MD13S · Fusion 360 · 2025</div>
+  <div class="footer-left">Exhaust Cutout Controller<br>Arduino Nano · MD13S · Fusion 360 · 2024</div>
   <div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to portfolio</a><br>Andrés Moreno Navarro</div>
 </footer>
 

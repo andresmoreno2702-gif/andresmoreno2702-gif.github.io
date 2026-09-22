@@ -275,7 +275,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="design-card blue">
         <div class="design-icon">◉</div>
         <div class="design-title">D Flip-Flop with Testbench</div>
-        <div class="design-body">Edge-triggered D flip-flop with full testbench. The testbench drives D and CLK with a 50 ns clock period and checks Q at each rising edge. Waveform verified in ModelSim.</div>
+        <div class="design-body">Edge-triggered D flip-flop with full testbench. The testbench drives D and CLK with a 20 ns clock period and checks Q at each rising edge. Waveform verified in ModelSim.</div>
       </div>
       <div class="design-card green">
         <div class="design-icon">▦</div>
@@ -285,7 +285,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="design-card amber">
         <div class="design-icon">⌁</div>
         <div class="design-title">8-bit Synchronous Counter</div>
-        <div class="design-body">Up counter with synchronous reset driven from the 50 MHz board clock. Uses an integer signal and increments on each rising edge. Reset holds count at 0 when asserted.</div>
+        <div class="design-body">Structural up counter built from 8 T flip-flops instantiated in a generate loop, clocked from the 50 MHz board clock with asynchronous active-low clear. Each flip-flop's T input is gated by Enable and every lower-order bit, so all 8 stages toggle on the same clock edge.</div>
       </div>
       <div class="design-card">
         <div class="design-icon">∿</div>
@@ -295,7 +295,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="design-card blue">
         <div class="design-icon">+</div>
         <div class="design-title">1-bit Full Adder</div>
-        <div class="design-body">Structural full adder with carry-in and carry-out. Uses a concurrent XOR for the sum signal and a process for carry propagation. Written for the mid-unit mock test — shows mixed concurrent and sequential modelling.</div>
+        <div class="design-body">1-bit full adder with carry-in and carry-out, written as a behavioural process. A concurrent XOR (a⊕b) computes an intermediate select signal that muxes the carry-out between carry-in and b; the sum is computed inside the same process. Written for the mid-unit mock test.</div>
       </div>
     </div>
   </section>
@@ -409,7 +409,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="spec-block">
         <div class="spec-block-header">ModelSim — Simulation</div>
         <div class="spec-row"><span class="spec-key">Testbench style</span><span class="spec-val">Separate _tb entity</span></div>
-        <div class="spec-row"><span class="spec-key">Clock period</span><span class="spec-val ok">50 ns (20 MHz sim clock)</span></div>
+        <div class="spec-row"><span class="spec-key">Clock period</span><span class="spec-val ok">20 ns (50 MHz sim clock)</span></div>
         <div class="spec-row"><span class="spec-key">Verification</span><span class="spec-val">Waveform visual inspection</span></div>
         <div class="spec-row"><span class="spec-key">DUT instantiation</span><span class="spec-val">PORT MAP in testbench</span></div>
         <div class="spec-row"><span class="spec-key">Stimulus</span><span class="spec-val">Signal assignments + wait statements</span></div>
