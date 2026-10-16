@@ -832,7 +832,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
   </div>
 </div>
 <div class="prose">
-  <p>RetroDS is a battery-powered handheld NES emulator I designed and built from scratch on an <strong>ESP32-WROOM-32E</strong>. The firmware runs a C++ NES engine with a full 6502 CPU emulator, PPU graphics renderer, and APU audio synthesiser. Game output goes to a <strong>240×240 IPS TFT display</strong>. ROMs are loaded from a MicroSD card at runtime. Audio was written in firmware but not wired into the prototype — it is implemented on the PCB.</p>
+  <p>RetroDS is a battery-powered handheld NES emulator I designed and built on an <strong>ESP32-WROOM-32E</strong>. The firmware is based on the open-source <strong>NESCAT</strong> emulator by Nathalis (GPL-3.0), which provides the 6502 CPU emulator, PPU graphics renderer and APU audio; I adapted it to my hardware. Game output goes to a <strong>240×240 IPS TFT display</strong>. ROMs are loaded from a MicroSD card at runtime. Audio was written in firmware but not wired into the prototype — it is implemented on the PCB.</p>
   <p>The build progressed from a breadboard prototype to a hand-soldered perfboard console. The front board carries the ST7789 display, D-pad, and action buttons; the back carries the ESP32, MicroSD breakout, and power management ICs. That perfboard stack has since been consolidated onto a single custom 4-layer KiCad PCB, shipped as <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none">RetroDS v2</a>.</p>
 </div>
 <div class="gallery" id="overviewGallery">

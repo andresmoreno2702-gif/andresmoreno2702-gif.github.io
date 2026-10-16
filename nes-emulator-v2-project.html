@@ -762,7 +762,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="overview-split">
   <div class="prose">
     <p>RetroDS is a handheld NES emulator I've been building on an ESP32. <a href="nes-emulator-project-main.html" style="color:var(--accent);text-decoration:none">Version 1</a> was a hand-soldered perfboard — a classic ESP32, a 240×240 display, ROMs from an SD card, USB power. It ran games, but the wiring was fragile, there was no sound, and there was no way to keep save-game progress.</p>
-    <p><strong>Version 2 is a custom 4-layer PCB.</strong> The emulator core carries straight across; almost everything around it is new hardware: an ESP32-S3 with native USB-C, a Li-ion charger with load sharing, an I²S audio amplifier, a dedicated SD interface, and silk-screened controls on the board itself.</p>
+    <p><strong>Version 2 is a custom 4-layer PCB.</strong> The emulator core (the open-source <strong>NESCAT</strong> emulator by Nathalis, GPL-3.0) carries straight across; almost everything around it is new hardware: an ESP32-S3 with native USB-C, a Li-ion charger with load sharing, an I²S audio amplifier, a dedicated SD interface, and silk-screened controls on the board itself.</p>
     <p>This page covers the part that isn't the schematic: <strong>getting the assembled board to work</strong>. Two faults had to be found with a multimeter before a single line of firmware mattered, and then the firmware needed a rewrite for the new silicon.</p>
   </div>
   <div class="gallery-item" style="width:100%"><img loading="lazy" src="IMAGES/NES emulator v2/v2-vs-v1-standing.webp" alt="v2 custom PCB next to the v1 perfboard build" style="height:298px;object-fit:cover;object-position:center 100%"><div class="gallery-caption">v2 (single PCB) next to v1 (perfboard stack)</div></div>
@@ -785,7 +785,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <tr><td class="ref">Power</td><td>LiPo 3.7&thinsp;V cell, TP4056 USB-C charger + IP5306 boost (2 chips)</td><td>MCP73871 — charger and boost in one chip, USB-C</td></tr>
     <tr><td class="ref">SD card</td><td>bit-banged soft-SPI</td><td>dedicated hardware SPI bus, hot-insert detection</td></tr>
     <tr><td class="ref">Save games</td><td>none</td><td>battery-backed SRAM &rarr; <code>/NES/&lt;rom&gt;.nes.sav</code>, autosave</td></tr>
-    <tr><td class="ref">ESD / protection</td><td>none</td><td>ESD-protection array on the USB data lines</td></tr>
+    <tr><td class="ref">ESD / protection</td><td>none</td><td>ESD-protection footprint on the USB data lines (D1, left unpopulated)</td></tr>
     <tr><td class="ref">Interconnect</td><td>point-to-point hand-run wiring</td><td>routed 4-layer board, GND plane, silk-screened controls</td></tr>
   </tbody>
 </table>
