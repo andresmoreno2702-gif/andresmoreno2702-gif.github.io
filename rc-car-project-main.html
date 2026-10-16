@@ -710,7 +710,7 @@ body.edit-mode #eb-hint{display:block}
         <div class="snap-label">What I Learned</div>
         <ul>
           <li>ESP-NOW requires both devices on the same WiFi channel — there's no error message when it's wrong, just silence. Took me embarrassingly long to find in the docs.</li>
-          <li>Nobody tells you joystick ADCs are noisy. Without dead zones (~8% on each axis) the car creeps and twitches at rest. Spent an afternoon thinking the motor driver was faulty.</li>
+          <li>Nobody tells you joystick ADCs are noisy. Without a dead zone around the centre (140 ADC counts on the throttle) the car creeps and twitches at rest. Spent an afternoon thinking the motor driver was faulty.</li>
           <li>LEDC PWM in Arduino Core v3+ needs explicit channel assignment. The old <code>analogWrite()</code> approach silently stopped working — nowhere obvious in the changelog. Cost me a full day.</li>
           <li>The XIAO ESP32-C3's built-in LiPo connector and onboard 3.3 V regulator eliminated an entire buck converter compared to v1. Battery connects directly to the XIAO, motor module, and servo — three connections, no conversion stage, one less thing to fail.</li>
         </ul>
@@ -837,7 +837,7 @@ body.edit-mode #eb-hint{display:block}
     <div class="spec-block-header">Firmware — Motor Control</div>
     <div class="spec-row"><span class="spec-key">Framework</span><span class="spec-val">Arduino / ESP32-C3 Core</span></div>
     <div class="spec-row"><span class="spec-key">PWM API</span><span class="spec-val">LEDC (ESP32-Arduino v3+)</span></div>
-    <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">~8% per axis (configurable)</span></div>
+    <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">140 ADC counts (throttle)</span></div>
     <div class="spec-row"><span class="spec-key">Direction control</span><span class="spec-val">BIN1/BIN2 + PWMB</span></div>
     <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">Micro servo via D7</span></div>
     <div class="spec-row"><span class="spec-key">Wireless</span><span class="spec-val">ESP-NOW P2P · ~2 ms RTT</span></div>
@@ -865,7 +865,7 @@ body.edit-mode #eb-hint{display:block}
 
 <div style="margin-top:28px;">
   <div style="font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.15em;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:18px;height:1px;background:var(--accent);flex-shrink:0;"></span>Firmware</div>
-  <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;">Written in Arduino C++ using the ESP-NOW API and the LEDC driver directly. The receiver auto-calibrates joystick centres on power-up (~60 packets at 50 Hz) and requires the throttle to sit at centre briefly before arming — preventing a motor spin on connect. Motor PWM runs at 20 kHz on an 11-bit timer; servo outputs 50 Hz with pulse width constrained to 1000–2000 µs. A 400 ms failsafe cuts the motor if packets stop arriving.</p>
+  <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;">Written in Arduino C++ using the ESP-NOW API and the LEDC driver directly. The receiver auto-calibrates joystick centres on power-up (averages the first 60 readings) and requires the throttle to sit at centre briefly before arming — preventing a motor spin on connect. Motor PWM runs at 20 kHz on an 11-bit timer; servo outputs 50 Hz with pulse width constrained to 1000–2000 µs. A 400 ms failsafe cuts the motor if packets stop arriving.</p>
   <div style="display:flex;gap:8px;flex-wrap:wrap;">
     <button onclick="toggleRCFw('receiver',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Car receiver code</button>
     <button onclick="toggleRCFw('sender',this)" style="font-family:var(--mono);font-size:11px;padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;letter-spacing:.04em;">▶ Remote sender code</button>
