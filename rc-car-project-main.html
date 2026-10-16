@@ -606,7 +606,7 @@ body.edit-mode #eb-hint{display:block}
     </div>
     <div class="hero-meta">
       <span class="badge badge-blue">Fusion 360 Chassis</span>
-      <span class="badge badge-amber">Creality Ender-3 S1 Pro</span>
+      <span class="badge badge-amber">Creality K1C</span>
       <span class="badge badge-blue">Custom PCB — KiCad</span>
     </div>
   
@@ -753,7 +753,7 @@ body.edit-mode #eb-hint{display:block}
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Built</div><div class="stat-sub">Assembled &amp; bench-tested</div></div>
 </div>
 <div class="prose">
-  <p>A custom-designed, 3D-printed RC car — including the wheels — built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed on a Creality Ender-3 S1 Pro. Drive is handled by a DC 130 dual-shaft motor (3V–6V, 12,000 RPM, direct drive) controlled via a <strong>TB6612FNG H-bridge module</strong>, while steering uses a Surpass Hobby micro digital servo (13.5 g, plastic gear) for Ackermann-style front-wheel control.</p>
+  <p>A custom-designed, 3D-printed RC car — including the wheels — built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed in PLA: first on a Creality Ender-3 S1 Pro, then on a Creality K1C after bed-levelling and heated-bed problems on the Ender. Drive is handled by a DC 130 dual-shaft motor (3V–6V, 12,000 RPM, direct drive) controlled via a <strong>TB6612FNG H-bridge module</strong>, while steering uses a Surpass Hobby micro digital servo (13.5 g, plastic gear) for Ackermann-style front-wheel control.</p>
   <p>Wireless control runs over <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on a breadboard transmitter: an ESP32-C3 SuperMini with two KY-023 analog joystick modules. Motor speed is controlled with LEDC PWM and joystick dead zones to keep low-speed movement stable.</p>
   <p>The XIAO's built-in LiPo connector and onboard 3.3 V regulator eliminates the need for an external buck converter — the 3.7 V battery connects directly to the XIAO, motor module, and servo. A custom PCB is in progress to replace the current protoboard wiring — targeting JLCPCB manufacture in the coming weeks.</p>
 </div>
@@ -779,13 +779,13 @@ body.edit-mode #eb-hint{display:block}
     <div class="timeline-dot"></div>
     <div class="timeline-step">Phase 1 — Fusion 360 Design</div>
     <div class="timeline-heading">Full chassis assembly with 4 wheels, motor mount, servo bracket, and electronics bay</div>
-    <div class="timeline-body">The chassis was designed as a complete parametric assembly in Fusion 360. Components include: main chassis plate, front axle steering knuckles for Ackermann geometry, rear motor bracket sized to the DC 130 dual-shaft motor, servo bracket with horn clearance, four wheel mounts, and a top electronics bay for the PCB and LiPo cell. The wheels were also designed and printed, keeping the entire build self-made. All tolerances were set to account for FDM dimensional variation on the Ender-3 S1 Pro.</div>
+    <div class="timeline-body">The chassis was designed as a complete parametric assembly in Fusion 360. Components include: main chassis plate, front axle steering knuckles for Ackermann geometry, rear motor bracket sized to the DC 130 dual-shaft motor, servo bracket with horn clearance, four wheel mounts, and a top electronics bay for the PCB and LiPo cell. The wheels were also designed and printed, keeping the entire build self-made. All tolerances were set to account for FDM dimensional variation.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
-    <div class="timeline-step blue">Phase 2 — 3D Printing on Ender-3 S1 Pro</div>
+    <div class="timeline-step blue">Phase 2 — 3D Printing (Ender-3 S1 Pro, then K1C)</div>
     <div class="timeline-heading">PLA print with focus on front steering section and wheel cutout geometry</div>
-    <div class="timeline-body">All chassis parts printed in PLA on the Creality Ender-3 S1 Pro. The front steering section with wheel cutouts required careful orientation to print without supports while maintaining dimensional accuracy for the servo horn interface. Layer height set to 0.2 mm for structural parts, 0.15 mm for steering knuckles requiring tighter tolerances. Parts were test-fitted before electronics installation.</div>
+    <div class="timeline-body">All chassis parts printed in PLA. I started on a Creality Ender-3 S1 Pro, but bed calibration and the heated bed kept causing problems, so I bought a Creality K1C and finished the parts on it. The front steering section with wheel cutouts required careful orientation to print without supports while maintaining dimensional accuracy for the servo horn interface. Layer height set to 0.2 mm for structural parts, 0.15 mm for steering knuckles requiring tighter tolerances. Parts were test-fitted before electronics installation.</div>
   </div>
 </div>
 <div class="two-col">
@@ -798,8 +798,8 @@ body.edit-mode #eb-hint{display:block}
     <div class="spec-row"><span class="spec-key">Motor mount</span><span class="spec-val">DC 130 dual-shaft motor</span></div>
   </div>
   <div class="spec-block">
-    <div class="spec-block-header">3D Printing — Ender-3 S1 Pro</div>
-    <div class="spec-row"><span class="spec-key">Printer</span><span class="spec-val">Creality Ender-3 S1 Pro</span></div>
+    <div class="spec-block-header">3D Printing</div>
+    <div class="spec-row"><span class="spec-key">Printer</span><span class="spec-val">Ender-3 S1 Pro → Creality K1C</span></div>
     <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">PLA filament</span></div>
     <div class="spec-row"><span class="spec-key">Layer height (body)</span><span class="spec-val">0.2 mm</span></div>
     <div class="spec-row"><span class="spec-key">Layer height (steering)</span><span class="spec-val">0.15 mm</span></div>
