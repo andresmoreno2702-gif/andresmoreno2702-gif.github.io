@@ -665,7 +665,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
 <div class="snapshot">
 
   <div class="snap-quote">
-    <p>This started as "how hard can an NES emulator be" and turned into a three-month project. The 6502 core wasn't the hard part — <em>PPU scanline timing</em> is where things get complicated. Lost about a week to a display corruption bug that turned out to be my SPI clock running 3&thinsp;MHz too fast for my specific display module. Built on <em>perfboard first</em> because I didn't trust my PCB skills yet — and I'm glad I did. <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none"><strong>Version 2</strong></a> takes it to a custom 4-layer PCB — built, working, and documented.</p>
+    <p>This started as "how hard can an NES emulator be" and turned into a three-month project. The emulator core came from the open-source <em>NESCAT</em> project — the hard part was getting it running on my own hardware. Lost about a week to a display corruption bug that turned out to be my SPI clock running 3&thinsp;MHz too fast for my specific display module. Built on <em>perfboard first</em> because I didn't trust my PCB skills yet — and I'm glad I did. <a href="nes-emulator-v2-project.html" style="color:var(--accent);text-decoration:none"><strong>Version 2</strong></a> takes it to a custom 4-layer PCB — built, working, and documented.</p>
   </div>
 
   <div class="snapshot-inner">
@@ -768,7 +768,7 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
       <div class="snap-learned">
         <div class="snap-label">What I Learned</div>
         <ul>
-          <li>Cycle-accurate NES timing is not optional — an off-by-one in the PPU scanline counter made certain sprites glitch in specific games, took three days of adding logging statements to pin down.</li>
+          
           <li>My ST7789 display refused to work above 27&thinsp;MHz SPI even though the datasheet claims 80&thinsp;MHz. Different display, different silicon, different actual limits. Always test your specific module, not the spec sheet.</li>
           <li>Perfboard cold joints are invisible and crash under vibration, not under button presses — so I spent a week thinking my firmware had a bug. Good flux and patience is the fix. And a magnifying glass.</li>
         </ul>
@@ -996,8 +996,8 @@ body.edit-mode .hero-board.eb-hero-dragging{outline:2px solid #5dbcff;opacity:.8
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-step">NES Emulation Core</div>
-    <div class="timeline-heading">Full 6502 CPU + PPU graphics with cycle-accurate timing</div>
-    <div class="timeline-body">Implements a complete 6502 CPU emulator with cycle-accurate timing and interrupt handling (NMI, IRQ). The PPU renders background tiles and sprites to a 256×240 framebuffer using the NES 64-colour palette. ROM data is loaded from MicroSD into SPI Flash at address <code>0x00300000</code> and memory-mapped via <code>spi_flash_mmap()</code> — the emulator reads ROM as a <code>const uint8_t*</code> pointer without consuming DRAM.</div>
+    <div class="timeline-heading">NESCAT core: 6502 CPU + PPU graphics</div>
+    <div class="timeline-body">The open-source NESCAT core (by Nathalis, GPL-3.0) provides a complete 6502 CPU emulator with cycle-accurate timing and interrupt handling (NMI, IRQ). The PPU renders background tiles and sprites to a 256×240 framebuffer using the NES 64-colour palette. ROM data is loaded from MicroSD into SPI Flash at address <code>0x00300000</code> and memory-mapped via <code>spi_flash_mmap()</code> — the emulator reads ROM as a <code>const uint8_t*</code> pointer without consuming DRAM.</div>
   </div>
   <div class="timeline-item">
     <div class="timeline-dot blue"></div>
