@@ -590,7 +590,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
     </div>
   </div>
   <div class="hero-stats rv" style="transition-delay:.25s">
-    <div class="hst"><div class="n">8</div><div class="l">Projects</div></div>
+    <div class="hst"><div class="n">9</div><div class="l">Projects</div></div>
     <div class="hst"><div class="n">2</div><div class="l">PCBs Built</div></div>
   </div>
 </header>
@@ -734,7 +734,7 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <section class="sec" id="projects">
   <div class="sec-hd rv">
     <div class="sec-title">Selected <i>Work</i></div>
-    <div class="sec-sub">08 Projects</div>
+    <div class="sec-sub">09 Projects</div>
   </div>
 
   <!-- Grid -->
@@ -768,6 +768,49 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
           <span>Fusion 360</span><span>3D Print</span><span>4 Iterations</span>
         </div>
       </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── ELSEWHERE: 3D models, write-ups, freelance ── -->
+<section class="sec" id="elsewhere" style="padding-top:0">
+  <div class="sec-hd rv">
+    <div class="sec-title">Find my <i>work</i> elsewhere</div>
+    <div class="sec-sub">Models &amp; profiles</div>
+  </div>
+  <p class="rv" style="font-size:1rem;color:var(--text2);line-height:1.7;max-width:52ch;margin-bottom:2rem;">
+    My printable designs (some paid, some free), full build write-ups, and where to hire me for ESP32 firmware, KiCad PCBs or Fusion 360 parts.
+  </p>
+  <div class="cgrid rv">
+    <a href="https://cults3d.com/en/users/andresmoreno4/3d-models" target="_blank" class="cc" rel="noopener noreferrer">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div>
+      <div class="cb"><div class="clbl">Cults3D · designs for sale</div><div class="chdl">andresmoreno4</div></div>
+      <span class="carr">↗</span>
+    </a>
+    <a href="https://makerworld.com/en/@morenavaa" target="_blank" class="cc" rel="noopener noreferrer">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div>
+      <div class="cb"><div class="clbl">MakerWorld · free models</div><div class="chdl">@morenavaa</div></div>
+      <span class="carr">↗</span>
+    </a>
+    <a href="https://www.printables.com/@AndresMoreno_5531715" target="_blank" class="cc" rel="noopener noreferrer">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div>
+      <div class="cb"><div class="clbl">Printables · free models</div><div class="chdl">Andres Moreno</div></div>
+      <span class="carr">↗</span>
+    </a>
+    <a href="https://www.hackster.io/andresmoreno2702" target="_blank" class="cc" rel="noopener noreferrer">
+      <div class="cicon"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div>
+      <div class="cb"><div class="clbl">Hackster.io · build write-ups</div><div class="chdl">andresmoreno2702</div></div>
+      <span class="carr">↗</span>
+    </a>
+    <a href="https://www.upwork.com/freelancers/~01b5b20549841b77e0" target="_blank" class="cc" rel="noopener noreferrer">
+      <div class="cicon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+      <div class="cb"><div class="clbl">Upwork · hire me</div><div class="chdl">Andres M.</div></div>
+      <span class="carr">↗</span>
+    </a>
+    <a href="https://www.freelancer.com/u/morenavaa" target="_blank" class="cc" rel="noopener noreferrer">
+      <div class="cicon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+      <div class="cb"><div class="clbl">Freelancer · hire me</div><div class="chdl">@morenavaa</div></div>
+      <span class="carr">↗</span>
     </a>
   </div>
 </section>
@@ -847,6 +890,16 @@ footer{border-top:1.5px solid var(--bd);max-width:1440px;margin:0 auto;
 <script>
 /* ── DATA ── */
 const P=[
+  {id:'bip',title:'Bip — Biped Robot',
+   name:'Bip — Biped <i>Robot</i>',
+   status:'wip',meta:'Embedded Systems · 2026',link:'bip-robot-project.html',
+   img:'IMAGES/Bip/bip-on-desk.webp',imgPos:{s:1,px:50,py:8},cat:'Embedded Systems',glyph:'◇',
+   tldr:'Two-legged robot I\'m designing and building: Fusion 360 printed body, 10 MG996R leg servos, MPU-6050 balance, animated face, camera and voice. It stands and takes short walks on the table, but still falls when it starts or stops. Work in progress.',
+   comps:['ESP32-S3','PCA9685','MPU-6050','ESP32-C3 face','XIAO ESP32-S3 Sense'],
+   tags:['ESP32-S3','Robotics','MuJoCo','Fusion 360','3D Print'],
+   desc:'Two-legged robot, work in progress. 10 leg servos, IMU balance, animated face, camera, microphones and speaker.',
+   stats:[{n:'10',l:'Leg Servos'},{n:'50Hz',l:'Gait Loop'},{n:'WIP',l:'Status'}],
+   hl:['Leg IK + gait on the ESP32-S3 at 50 Hz','MuJoCo digital twin runs the same gait code','Stands and walks short distances; not reliable yet']},
   {id:'esp32',title:'ESP32-S3-MINI Dev Board',
    name:'ESP32-S3-MINI <i>Dev Board</i>',
    status:'done',meta:'PCB Design · 2026',link:'esp32-s3-project-main.html',
