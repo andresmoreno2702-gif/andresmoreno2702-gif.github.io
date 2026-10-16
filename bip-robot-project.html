@@ -1,332 +1,741 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
+<html lang="en" data-theme="dark"><head>
 <script>!function(){var t=localStorage.getItem("portfolio-theme");if(t)document.documentElement.dataset.theme=t;}();</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bip Walking Robot · Andrés Moreno</title>
-<meta name="description" content="Bip, a small two-legged robot I am building: printed body, 10 servos, IMU balance, animated face, camera and voice. Work in progress: it stands and takes short walks.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#111214">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Bip Biped Robot · Andrés Moreno</title>
+<meta name="description" content="Bip, a two-legged robot I am designing and building: Fusion 360 printed body, 10 MG996R leg servos, MPU-6050 balance, animated face, camera and voice. Work in progress: it stands and takes short walks.">
+<meta property="og:title" content="Bip Biped Robot · Andrés Moreno">
+<meta property="og:description" content="Two-legged robot, work in progress: 10 leg servos, IMU balance, animated face, camera, microphones and voice chat.">
+<meta property="og:image" content="https://andresmoreno2702-gif.github.io/IMAGES/Bip/bip-standing.webp">
+<meta property="og:url" content="https://andresmoreno2702-gif.github.io/robotic-arm-project.html">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f8f9fb;--surface:#fff;--border:#e4e7ec;--text:#111827;--text-muted:#6b7280;--text-dim:#9ca3af;
-  --accent:#3b82f6;--accent2:#a78bfa;--accent3:#f59e0b;--green:#22c55e;--red:#ef4444;
-  --nav-h:60px;--mono:'DM Mono',monospace;--ease:cubic-bezier(.4,0,.2,1);
+#progress-bar{position:fixed;top:0;left:0;z-index:999;height:2px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width 0.05s linear;pointer-events:none;}
+.cursor-glow{position:fixed;pointer-events:none;z-index:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft) 0%,transparent 65%);transform:translate(-50%,-50%);transition:opacity 0.5s ease;opacity:0;}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bg:          #f8f7f4;
+  --bg-2:        #f0efe9;
+  --ink:         #111110;
+  --ink-2:       #5a5a55;
+  --ink-3:       #9e9d96;
+  --line:        rgba(17,17,16,0.08);
+  --line-2:      rgba(17,17,16,0.18);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.09);
+  --card:        #ffffff;
+  --surface:     #f0efe9;
+  --surface2:    #e8e7e0;
+  --border:      rgba(17,17,16,0.08);
+  --border2:     rgba(17,17,16,0.18);
+  --text:        #111110;
+  --text-muted:  #9e9d96;
+  --text-dim:    #5a5a55;
+  --red:         #dc2626;
+  --green:       #16a34a;
+  --amber:       #d97706;
+  --accent2:     #2563eb;
+  --accent3:     #7c3aed;
+  --sans:        'Plus Jakarta Sans', system-ui, sans-serif;
+  --mono:        'DM Mono', 'JetBrains Mono', monospace;
+  --serif:       'Plus Jakarta Sans', system-ui, sans-serif;
+  --transition:  all 0.35s cubic-bezier(0.22,1,0.36,1);
+  --ease:        cubic-bezier(0.22,1,0.36,1);
+  --nav-bg:      rgba(248,247,244,.88);
 }
-[data-theme="dark"]{
-  --bg:#0a0e1a;--surface:#111827;--border:#1f2937;--text:#f1f5f9;--text-muted:#94a3b8;--text-dim:#475569;
-  --accent:#60a5fa;--accent2:#c4b5fd;--accent3:#fbbf24;--green:#4ade80;--red:#f87171;
+[data-theme="dark"] {
+  --bg:          #111214;
+  --bg-2:        #17181c;
+  --ink:         #e8e7e3;
+  --ink-2:       #8c8c96;
+  --ink-3:       #50505a;
+  --line:        rgba(232,231,227,0.07);
+  --line-2:      rgba(232,231,227,0.16);
+  --accent:      #3b82f6;
+  --accent-soft: rgba(59,130,246,0.12);
+  --card:        #17181c;
+  --surface:     #17181c;
+  --surface2:    #1d1e23;
+  --border:      rgba(232,231,227,0.07);
+  --border2:     rgba(232,231,227,0.16);
+  --text:        #e8e7e3;
+  --text-muted:  #8c8c96;
+  --text-dim:    #8c8c96;
+  --red:         #f87171;
+  --green:       #22c55e;
+  --amber:       #f59e0b;
+  --accent2:     #60a5fa;
+  --accent3:     #a78bfa;
+  --nav-bg:      rgba(17,18,20,.88);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
-
-/* NAV */
-#nav{position:sticky;top:0;z-index:100;height:var(--nav-h);backdrop-filter:blur(12px);background:rgba(10,14,26,.85);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem}
-[data-theme="light"] #nav{background:rgba(248,249,251,.88)}
-.nav-brand{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--text);text-decoration:none;letter-spacing:.04em}
-.nav-brand i{color:var(--accent)}
-.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%)}
-.nav-links a{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .2s}
-.nav-links a:hover,.nav-links a.on{color:var(--text)}
-.nav-right{display:flex;align-items:center}
-.thm{background:none;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;cursor:pointer;display:grid;place-items:center;transition:all .3s var(--ease)}
-.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}
-.thm .ico-moon{display:block}.thm .ico-sun{display:none}
-[data-theme="light"] .thm .ico-moon{display:none}[data-theme="light"] .thm .ico-sun{display:block}
-@media(max-width:860px){.nav-links{display:none}}
-
-/* HERO */
-.hero{padding:56px 2.5rem 40px;max-width:960px;margin:0 auto}
-.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+[data-theme="light"] .hero::before{background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,102,204,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(0,102,204,.04) 0%,transparent 60%);}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .stat-card{background:var(--surface);border-color:var(--border);}
+[data-theme="light"] .spec-block{background:var(--surface);}
+[data-theme="light"] .decision{background:var(--surface);}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:15px;line-height:1.7;transition:background .4s var(--ease),color .4s var(--ease);}
+.hero{position:relative;padding:110px 56px 64px;border-bottom:1px solid var(--border);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(93,188,255,.08) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(93,188,255,.05) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 1px 1px,rgba(93,188,255,0.13) 1.5px,transparent 0);background-size:36px 36px;animation:grid-drift 80s linear infinite;opacity:0.6;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 100%);}
+[data-theme="light"] .hero::after{background-image:radial-gradient(circle at 1px 1px,rgba(0,102,204,0.09) 1.5px,transparent 0);}
+@keyframes grid-drift{from{background-position:0 0;}to{background-position:36px 36px;}}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:center}
+.hero-photo{display:flex;justify-content:center;align-items:center}
+.hero-photo img{width:100%;height:420px;object-fit:cover;object-position:center 30%;border-radius:12px;border:1px solid var(--border2);box-shadow:0 24px 60px rgba(0,0,0,.25)}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-photo{display:none}}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
 .hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
-.hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
-.hero h1 span{color:var(--accent)}
-.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-.badge{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:4px;letter-spacing:.06em}
-.badge-blue{background:rgba(96,165,250,.12);color:var(--accent);border:1px solid rgba(96,165,250,.25)}
-.badge-amber{background:rgba(251,191,36,.1);color:var(--accent3);border:1px solid rgba(251,191,36,.2)}
-.badge-green{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2)}
-.badge-purple{background:rgba(196,181,253,.1);color:var(--accent2);border:1px solid rgba(196,181,253,.2)}
-.hero-desc{font-size:15px;color:var(--text-muted);max-width:60ch;line-height:1.75}
-
-/* LAYOUT */
-.content{max-width:960px;margin:0 auto;padding:0 2.5rem 80px}
-.section{margin-bottom:52px}
-.section-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.section-title{font-size:18px;font-weight:700}
-.section-line{flex:1;height:1px;background:var(--border)}
-.prose p{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
-.prose p:last-child{margin-bottom:0}
-.prose strong{color:var(--text);font-weight:600}
-
-/* HERO COMPARISON PHOTO */
-.hero-photo{max-width:960px;margin:0 auto;padding:0 2.5rem 36px}
-.hero-photo-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--border);position:relative;background:var(--surface)}
-.hero-photo-wrap img{width:100%;display:block;max-height:480px;object-fit:cover;object-position:center 55%;cursor:zoom-in}
-.hero-photo-caption{font-family:var(--mono);font-size:11px;color:var(--text-dim);padding:10px 16px;text-align:center;border-top:1px solid var(--border)}
-
-/* SNAP PHOTO SELECTOR */
-.snap-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:0 auto 48px;max-width:540px}
-.snap-photo-main{position:relative;aspect-ratio:1/1;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.snap-photo-main img{width:100%;height:100%;object-fit:contain;transition:opacity .15s;cursor:zoom-in}
-.snap-photo-main video{width:100%;height:100%;object-fit:contain}
-.snap-cap{font-family:var(--mono);font-size:10px;color:#fff;padding:7px 14px;background:rgba(0,0,0,.5);position:absolute;bottom:0;left:0;right:0;text-align:center;backdrop-filter:blur(4px)}
-.snap-thumbs{display:flex;gap:6px;padding:10px;overflow-x:auto;background:var(--bg);border-top:1px solid var(--border)}
-.snap-thumb{flex:0 0 68px;height:50px;border-radius:5px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
-.snap-thumb img,.snap-thumb video{width:100%;height:100%;object-fit:cover}
-.snap-thumb.active{border-color:var(--accent)}
-.snap-thumb.is-video::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;background:rgba(0,0,0,.45);pointer-events:none}
-
-/* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:36px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;position:relative;overflow:hidden}
+.hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:10px}
+.hero h1 span{color:var(--accent);font-style:italic;}
+.hero-sub{font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:28px;letter-spacing:.04em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.badge{font-family:var(--mono);font-size:11px;padding:5px 13px;border-radius:4px;letter-spacing:.04em;border:1px solid}
+.badge-green{color:var(--green);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.badge-blue{color:var(--accent2);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
+.badge-amber{color:var(--accent3);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.badge-teal{color:var(--accent);border-color:rgba(93,188,255,.3);background:rgba(93,188,255,.06)}
+.content{max-width:1200px;margin:0 auto;padding:0 56px 80px}
+.section{margin-top:64px;scroll-margin-top:72px}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.section-title{font-family:'Instrument Serif',serif;font-size:24px;font-weight:600;letter-spacing:-.01em}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.gallery{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px;align-items:flex-start}
+.gallery-item{flex:0 0 auto;width:calc(33.333% - 12px);min-width:120px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:border-color .2s,transform .2s;box-sizing:border-box;display:flex;flex-direction:column}
+.gallery-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.gallery-item img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.gallery-item.wide{width:calc(66.666% - 8px)}
+.gallery-item.half{width:calc(50% - 8px)}
+.gallery-item.screenshot img{object-fit:contain;background:var(--surface2)}
+.gallery-caption{padding:10px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:auto;flex-shrink:0}
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;overflow:hidden}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.7}
 .stat-card.blue::after{background:var(--accent2)}
 .stat-card.amber::after{background:var(--accent3)}
-.stat-card.green::after{background:var(--green)}
-.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
-.stat-value{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text);line-height:1;margin-bottom:3px}
-.stat-sub{font-size:11px;color:var(--text-muted)}
-
-/* INSIGHT */
-.insight{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.2);border-radius:10px;padding:22px 26px;margin-bottom:44px;position:relative}
-.insight::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--accent);border-radius:3px 0 0 3px}
-.insight-label{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
-.insight-title{font-size:15px;font-weight:700;margin-bottom:7px}
-.insight-body{font-size:13px;color:var(--text-muted);line-height:1.75}
-.insight-body strong{color:var(--text);font-weight:600}
-
-/* TIMELINE */
-.timeline{display:flex;flex-direction:column;gap:0}
-.tl-item{display:grid;grid-template-columns:72px 1fr;position:relative}
-.tl-item:not(:last-child)::before{content:'';position:absolute;left:35px;top:40px;bottom:0;width:2px;background:var(--border)}
-.tl-left{display:flex;flex-direction:column;align-items:center;padding-top:4px}
-.tl-num{font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:6px;line-height:1.4}
-.tl-dot{width:26px;height:26px;border-radius:50%;background:var(--surface);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-muted);flex-shrink:0;z-index:1}
-.tl-dot.c1{background:rgba(96,165,250,.12);border-color:var(--accent);color:var(--accent)}
-.tl-dot.c2{background:rgba(196,181,253,.12);border-color:var(--accent2);color:var(--accent2)}
-.tl-dot.c3{background:rgba(251,191,36,.1);border-color:var(--accent3);color:var(--accent3)}
-.tl-dot.c4{background:rgba(74,222,128,.1);border-color:var(--green);color:var(--green)}
-.tl-body{padding:0 0 40px 20px}
-.tl-heading{font-size:15px;font-weight:700;margin-bottom:4px;padding-top:2px}
-.tl-sub{font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:.07em;margin-bottom:10px}
-.tl-text{font-size:13px;color:var(--text-muted);line-height:1.75}
-.tl-text strong{color:var(--text);font-weight:600}
-.tl-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.tl-img img{width:100%;display:block;max-height:300px;object-fit:contain;background:var(--bg);cursor:zoom-in}
-.tl-img video{width:100%;display:block;max-height:300px;object-fit:contain;background:#000}
-.tl-img-cap{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:6px 12px;border-top:1px solid var(--border);text-align:center}
-.tl-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.tl-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
-.tl-no-img{margin-top:12px;padding:12px 16px;background:rgba(96,165,250,.03);border:1px dashed var(--border);border-radius:6px;font-family:var(--mono);font-size:10px;color:var(--text-dim);text-align:center}
-
-/* VIDEO GRID */
-.vid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-.vid-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--border);background:#000}
-.vid-wrap video{width:100%;display:block;aspect-ratio:9/16;object-fit:contain}
-.vid-wrap.wide video{aspect-ratio:16/9}
-.vid-cap{font-family:var(--mono);font-size:10px;color:var(--text-dim);padding:5px 10px;text-align:center;border-top:1px solid var(--border);background:var(--surface)}
-
-/* SPEC */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-card.red::after{background:var(--red)}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+.stat-sub{font-size:12px;color:var(--text-muted)}
+.prose{color:var(--text-dim);line-height:1.85}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--text);font-weight:500}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px}
+.comp-table th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.comp-table td{padding:12px 16px;border-bottom:1px solid rgba(30,45,61,.6);color:var(--text-dim);vertical-align:top}
+.comp-table tr:hover td{background:rgba(93,188,255,.02)}
+.ref{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.part{font-family:var(--mono);font-size:11px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .spec-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.spec-block-header{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);padding:9px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.04)}
-.spec-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);gap:12px;font-size:13px}
+.spec-block-header{padding:14px 20px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(93,188,255,.04)}
+.spec-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid rgba(30,45,61,.5);gap:20px}
 .spec-row:last-child{border-bottom:none}
-.spec-key{color:var(--text-muted)}
+.spec-key{font-size:13px;color:var(--text-muted);flex:1}
 .spec-val{font-family:var(--mono);font-size:12px;color:var(--text);text-align:right}
 .spec-val.ok{color:var(--green)}
 .spec-val.warn{color:var(--accent3)}
-
-/* PROJ NAV + FOOTER */
-.proj-nav{border-top:1px solid var(--border);display:flex;justify-content:center;padding:28px 2.5rem}
-.proj-nav a{font-family:var(--mono);font-size:12px;padding:8px 22px;border-radius:6px;text-decoration:none;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);color:var(--accent);transition:all .2s}
-.proj-nav a:hover{background:rgba(96,165,250,.15)}
-.footer{padding:22px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:960px;margin:0 auto}
-.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
-.footer a{color:var(--text-dim);text-decoration:none}
-.footer a:hover{color:var(--accent)}
-
-/* LIGHTBOX */
-#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
-#lb.open{display:flex}
-#lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:4px}
-
-@media(max-width:640px){
-  .hero,.content,.footer{padding-left:1.25rem;padding-right:1.25rem}
-  .stat-grid{grid-template-columns:repeat(2,1fr)}
-  .tl-item{grid-template-columns:52px 1fr}
-  .tl-item::before{left:25px}
-  .tl-2col,.tl-3col,.vid-grid,.two-col{grid-template-columns:1fr}
-  .spec-block table{display:block;overflow-x:auto;min-width:0;}
+.decision-list{display:flex;flex-direction:column;gap:16px}
+.decision{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px}
+.decision.blue{border-left-color:var(--accent2)}
+.decision.amber{border-left-color:var(--accent3)}
+.decision.red{border-left-color:var(--red)}
+.decision-title{font-weight:500;color:var(--text);margin-bottom:6px;font-size:14px}
+.decision-body{font-size:13px;color:var(--text-muted);line-height:1.7}
+.decision-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),transparent)}
+.timeline-item{position:relative;margin-bottom:36px}
+.timeline-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline-dot.blue{background:var(--accent2);box-shadow:0 0 0 2px var(--accent2)}
+.timeline-dot.amber{background:var(--accent3);box-shadow:0 0 0 2px var(--accent3)}
+.timeline-dot.red{background:var(--red);box-shadow:0 0 0 2px var(--red)}
+.timeline-step{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.timeline-step.blue{color:var(--accent2)}
+.timeline-step.amber{color:var(--accent3)}
+.timeline-step.red{color:var(--red)}
+.timeline-heading{font-weight:500;color:var(--text);margin-bottom:6px;font-size:15px}
+.timeline-body{font-size:13px;color:var(--text-muted);line-height:1.75}
+.timeline-body code{font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:3px;color:var(--accent)}
+.timeline-img{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border);max-width:640px}
+.timeline-img img{width:100%;display:block}
+.timeline-img-cap{padding:8px 14px;font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border)}
+.footer{margin-top:64px;padding:28px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-muted);line-height:1.8}
+.footer-right{text-align:right}
+#lb{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;cursor:zoom-out;padding:24px}
+#lb img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.6);pointer-events:none}
+#lb-close{position:absolute;top:16px;right:20px;color:#fff;font-size:24px;cursor:pointer;opacity:0.7;line-height:1;background:none;border:none}
+#lb-close:hover{opacity:1}
+.gallery-item img,.timeline-img img{cursor:zoom-in}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;
+  background:var(--nav-bg);backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .4s;}
+nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
+.nav-brand{font-size:14px;font-weight:800;letter-spacing:-.02em;cursor:pointer;
+  color:var(--text);text-decoration:none;font-family:var(--sans);}
+.nav-brand i{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.5rem;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text-muted);padding:4px 0;position:relative;transition:color .2s;text-decoration:none;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1.5px;
+  background:var(--accent);transition:width .3s var(--ease);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.thm{width:34px;height:34px;border:1.5px solid var(--border2);border-radius:50%;
+  background:transparent;color:var(--text-muted);cursor:pointer;
+  display:grid;place-items:center;transition:all .3s var(--ease);flex-shrink:0;}
+.thm:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:rotate(22deg);}
+.thm svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none;}
+.thm .ico-moon{display:block;}
+.thm .ico-sun{display:none;}
+[data-theme="light"] .thm .ico-moon{display:none;}
+[data-theme="light"] .thm .ico-sun{display:block;}
+@media(max-width:860px){.nav-links{display:none;}}
+@media(max-width:900px){
+  .overview-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .content{padding:0 24px 60px}.hero{padding:80px 24px 40px}
+  .footer{padding:20px 24px}
+  .gallery{flex-direction:column}.gallery-item,.gallery-item.wide{width:100%}
+  .gallery-item{width:100%!important;max-width:100%!important;}
+  .comp-table{display:block;overflow-x:auto;}
 }
+</style>
+
+<style id="snap-enhanced">
+.snapshot { border-bottom: 1px solid var(--border); background: var(--bg); position: relative; overflow: hidden; }
+.snapshot::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%); pointer-events: none; opacity: 0.5; }
+.snap-quote { max-width: 1200px; margin: 0 auto; padding: 48px 56px 36px; position: relative; }
+.snap-quote::before { content: ''; position: absolute; left: 56px; top: 48px; width: 3px; height: calc(100% - 84px); background: linear-gradient(to bottom, var(--accent), transparent); border-radius: 2px; }
+.snap-quote p { font-family: var(--serif); font-size: clamp(1.1rem, 1.8vw, 1.5rem); line-height: 1.65; color: var(--text-dim); padding-left: 28px; max-width: 74ch; }
+.snap-quote p em { color: var(--accent); font-style: italic; }
+.snapshot-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding: 0 56px 48px; align-items: start; }
+.snap-photo-wrap { display: flex; flex-direction: column; gap: 12px; }
+.snap-photo-main { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); aspect-ratio: 4/3; cursor: zoom-in; }
+.snap-photo-main img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.snap-photo-main:hover img { transform: scale(1.03); }
+.snap-photo-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px 14px 10px; background: linear-gradient(to top, rgba(5,9,18,0.9) 0%, transparent 100%); font-family: var(--mono); font-size: 10px; color: rgba(238,240,243,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
+.snap-thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.snap-thumb { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 4/3; transition: border-color 0.2s, transform 0.2s; }
+.snap-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.snap-thumb:hover { border-color: var(--accent); transform: translateY(-2px); }
+.snap-thumb.active { border-color: var(--accent); border-width: 2px; }
+.snap-info { display: flex; flex-direction: column; gap: 24px; padding-top: 2px; }
+.snap-label { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.snap-label::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--accent); }
+.snap-comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.snap-comp { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); transition: border-color 0.2s, background 0.2s, transform 0.2s; cursor: default; position: relative; }
+.snap-comp:hover { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 6%, var(--surface)); transform: translateY(-2px); }
+.snap-comp-icon { width: 32px; height: 32px; color: var(--accent); flex-shrink: 0; }
+.snap-comp-icon svg { width: 100%; height: 100%; }
+.snap-comp-name { font-family: var(--mono); font-size: 9px; text-align: center; color: var(--text-muted); letter-spacing: 0.04em; line-height: 1.3; }
+.snap-comp::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: color-mix(in oklab, var(--bg) 96%, transparent); border: 1px solid var(--border2); backdrop-filter: blur(12px); color: var(--text); font-family: var(--mono); font-size: 10px; padding: 8px 12px; border-radius: 8px; white-space: nowrap; max-width: 260px; white-space: normal; width: max-content; max-width: 220px; line-height: 1.5; z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.2s; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.snap-comp:hover::after { opacity: 1; }
+.snap-journey { display: flex; gap: 0; align-items: center; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+.snap-step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; min-width: 62px; position: relative; }
+.snap-step + .snap-step::before { content: ''; position: absolute; left: -50%; right: 50%; top: 11px; height: 2px; background: var(--border); }
+.snap-step.done + .snap-step::before { background: var(--accent); }
+.snap-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; position: relative; z-index: 1; }
+.snap-step.done .snap-dot { background: var(--accent); color: var(--bg); font-size: 11px; }
+.snap-step.now .snap-dot { background: transparent; border: 2px solid var(--accent); color: var(--accent); font-weight: 700; box-shadow: 0 0 0 0 var(--accent); animation: snap-pulse 1.8s ease infinite; }
+.snap-step:not(.done):not(.now) .snap-dot { background: var(--surface); border: 2px solid var(--border); color: var(--text-muted); font-size: 9px; }
+@keyframes snap-pulse { 0% { box-shadow: 0 0 0 0 rgba(93,188,255,0.55); } 70% { box-shadow: 0 0 0 8px rgba(93,188,255,0); } 100% { box-shadow: 0 0 0 0 rgba(93,188,255,0); } }
+.snap-step-lbl { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); text-align: center; }
+.snap-step.done .snap-step-lbl { color: var(--text); }
+.snap-step.now .snap-step-lbl { color: var(--accent); }
+.snap-learned { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; border-left: 3px solid var(--accent); }
+.snap-learned ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.snap-learned ul li { font-size: 12.5px; color: var(--text-dim); line-height: 1.65; padding-left: 14px; position: relative; }
+.snap-learned ul li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.snap-learned ul li code { font-family: var(--mono); font-size: 10.5px; background: var(--surface2); padding: 1px 5px; border-radius: 4px; color: var(--accent); }
+.snap-stats { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); padding: 0 56px; }
+.snap-stat { padding: 28px 0; border-right: 1px solid var(--border); padding-left: 32px; padding-right: 24px; position: relative; overflow: hidden; }
+.snap-stat:first-child { padding-left: 0; }
+.snap-stat:last-child { border-right: none; }
+.snap-counter { font-family: var(--mono); font-size: 2rem; font-weight: 500; color: var(--accent); line-height: 1; margin-bottom: 6px; letter-spacing: -0.02em; }
+.snap-stat-lbl { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
+.snap-scroll-cue { max-width: 1200px; margin: 0 auto; padding: 20px 56px 28px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+.snap-arrow-anim { animation: bounce-y 1.6s ease infinite; display: inline-block; color: var(--accent); }
+@keyframes bounce-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+@media(max-width:900px) {
+  .snap-quote { padding: 28px 24px 20px; }
+  .snap-quote::before { left: 24px; }
+  .snap-quote p { padding-left: 18px; }
+  .snapshot-inner { grid-template-columns: 1fr; padding: 0 24px 32px; gap: 28px; }
+  .snap-stats { grid-template-columns: repeat(2,1fr); padding: 0 24px; }
+  .snap-stat { padding: 20px 16px; }
+  .snap-scroll-cue { padding: 14px 24px 20px; }
+  .snap-thumbs { grid-template-columns: repeat(3,1fr); }
+}
+</style>
+
+<style id="annotations">
+.outcome-callout{display:flex;align-items:flex-start;gap:14px;background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.22);border-radius:6px;padding:13px 17px;margin-top:18px;max-width:70ch}
+.oc-label{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--green);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;padding-top:3px;line-height:1}
+.oc-text{font-size:14px;color:var(--ink-2);line-height:1.65}
+[data-theme="dark"] .outcome-callout{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.25)}
+.video-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface2);}
+.video-cap{padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--border);}
+.video-wrap video{width:100%;display:block;}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}.snap-comp-grid{grid-template-columns:repeat(2,1fr);}}
+.portrait-demo{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.portrait-demo .video-wrap{flex:0 0 auto;width:min(300px,calc(50% - 10px))}
+.proj-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:28px 0;border-top:1px solid var(--border);margin-top:48px;flex-wrap:wrap;}
+.pnav-btn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-2);padding:8px 16px;border-radius:6px;
+  border:1px solid var(--border);text-decoration:none;transition:all .25s;}
+.pnav-btn:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+.pnav-home{font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3);text-decoration:none;transition:color .2s;}
+.pnav-home:hover{color:var(--accent);}
+.pnav-prev{margin-right:auto;}
+.pnav-next{margin-left:auto;}
+.gh-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--accent);text-decoration:none;letter-spacing:.02em}
+.gh-link:hover{text-decoration:underline}
 </style>
 </head>
 <body>
+<div id="progress-bar"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <nav id="nav">
   <a href="index.html" class="nav-brand">AMN<i>.</i></a>
   <div class="nav-links">
     <a href="index.html">← Portfolio</a>
     <a href="#overview">Overview</a>
-    <a href="#status">Status</a>
     <a href="#build">Build</a>
+    <a href="#walking">Walking &amp; Sim</a>
+    <a href="#face">Face &amp; Senses</a>
+    <a href="#status">Status</a>
+    <a href="#demo">Demo</a>
+    <a href="#next">Next Steps</a>
   </div>
   <div class="nav-right">
     <button class="thm" id="themeBtn" aria-label="Toggle theme">
-      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
-      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
     </button>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-tag">Robotics · Work in progress</div>
-  <h1>Bip, a small<br><span>walking robot</span></h1>
-  <div class="hero-meta">
-    <span class="badge badge-amber">Work in progress</span>
-    <span class="badge badge-blue">ESP32-S3</span>
-    <span class="badge badge-purple">Fusion 360</span>
-    <span class="badge badge-green">MuJoCo sim</span>
+<div class="hero-inner">
+  <div>
+    <div class="hero-tag">Engineering Design Portfolio — Robotics &amp; Embedded Systems</div>
+    <h1>Bip <span>Biped Robot</span></h1>
+    <div class="hero-sub">Two-Legged Robot · 10× MG996R Servos · ESP32-S3 Gait &amp; Balance · MuJoCo Digital Twin · 2026 – present</div>
+    <div class="hero-meta">
+      <span class="badge badge-amber">Work in Progress</span>
+      <span class="badge badge-blue">ESP32-S3 + PCA9685</span>
+      <span class="badge badge-teal">Fusion 360 · 3D Printed</span>
+      <span class="badge badge-green">MPU-6050 Balance</span>
+    </div>
+    <div class="hero-meta">
+      <span class="badge badge-blue">ESP32-C3 Face</span>
+      <span class="badge badge-teal">XIAO ESP32-S3 Camera + Mics</span>
+      <span class="badge badge-green">MuJoCo Sim Twin</span>
+    </div>
+
+    <div class="outcome-callout">
+      <span class="oc-label">Status</span>
+      <span class="oc-text">Bip stands with IMU balance, takes steps and walks short distances on my desk, talks, and shows feelings on its face. It doesn't walk reliably yet: most falls happen when it starts or stops walking. This page shows where it really is.</span>
+    </div>
   </div>
-  <p class="hero-desc">
-    A two-legged robot I'm designing and building from scratch: printed body, 10 leg servos, an IMU for balance, an animated face, and a camera and microphones so it can see and talk. It stands and takes steps on my desk, but it doesn't walk reliably yet. This page shows where it really is.
-  </p>
+  <div class="hero-photo">
+    <img loading="lazy" src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk">
+  </div>
 </div>
+</div>
+
+<!-- ── Project Snapshot ── -->
+<div class="snapshot">
+
+  <div class="snap-quote">
+    <p>I wanted a small robot with a personality that could actually walk, not a kit. Every structural part is my own Fusion 360 design, printed and assembled at home, and the main controller is my own ESP32-S3 dev board. Getting it to stand and talk was the easy half. Walking is the hard half: what works in my simulator doesn't always work on the real table, so most of the work now is making the digital twin match the real robot.</p>
+  </div>
+
+  <div class="snapshot-inner">
+
+    <div class="snap-photo-wrap">
+      <div class="snap-photo-main">
+        <img loading="lazy" src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk" id="snapMainImg">
+        <div class="snap-photo-caption" id="snapMainCap">Bip standing on the desk</div>
+      </div>
+      <div class="snap-thumbs">
+        <div class="snap-thumb active" data-src="IMAGES/Bip/bip-standing.webp" data-cap="Bip standing on the desk">
+          <img loading="lazy" src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Bip/bip-front.webp" data-cap="Front: round eyes, OLED mouth, camera, speaker grille and the sonar">
+          <img loading="lazy" src="IMAGES/Bip/bip-front.webp" alt="Front: round eyes, OLED mouth, camera, speaker grille and the sonar">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Bip/bip-face-open.webp" data-cap="Face without its cover: two GC9A01 eye displays and the SSD1306 mouth">
+          <img loading="lazy" src="IMAGES/Bip/bip-face-open.webp" alt="Face without its cover: two GC9A01 eye displays and the SSD1306 mouth">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Bip/bip-wiring-torso.webp" data-cap="Inside the torso during bring-up">
+          <img loading="lazy" src="IMAGES/Bip/bip-wiring-torso.webp" alt="Inside the torso during bring-up">
+        </div>
+        <div class="snap-thumb" data-src="IMAGES/Bip/bip-big-feet.webp" data-cap="Testing much bigger printed feet for a steadier stance">
+          <img loading="lazy" src="IMAGES/Bip/bip-big-feet.webp" alt="Testing much bigger printed feet for a steadier stance">
+        </div>
+      </div>
+    </div>
+
+    <div class="snap-info">
+
+      <div>
+        <div class="snap-label">Key Components</div>
+        <div class="snap-comp-grid">
+          <div class="snap-comp" data-tip="Five per leg: hip yaw, hip, knee, ankle pitch, ankle roll">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"/><circle cx="13" cy="16" r="4"/><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"/><line x1="22" y1="13" x2="27" y2="13"/><line x1="22" y1="16" x2="27" y2="16"/><line x1="22" y1="19" x2="27" y2="19"/></svg></div>
+            <div class="snap-comp-name">MG996R ×10</div>
+          </div>
+          <div class="snap-comp" data-tip="My own ESP32-S3-MINI dev board: IK, gait and balance at 50 Hz">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">ESP32-S3</div>
+          </div>
+          <div class="snap-comp" data-tip="16-channel PWM driver for the leg servos, over I²C">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="snap-comp-name">PCA9685</div>
+          </div>
+          <div class="snap-comp" data-tip="IMU for balance and heading hold">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M16 4v24M4 16h24"/><path d="M16 4l-3 4M16 4l3 4M28 16l-4-3M28 16l-4 3"/><circle cx="16" cy="16" r="3"/></svg></div>
+            <div class="snap-comp-name">MPU-6050</div>
+          </div>
+          <div class="snap-comp" data-tip="Two GC9A01 round eye displays and an SSD1306 OLED mouth, procedurally animated">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="14" r="5"/><circle cx="22" cy="14" r="5"/><path d="M11 24h10"/></svg></div>
+            <div class="snap-comp-name">ESP32-C3 face</div>
+          </div>
+          <div class="snap-comp" data-tip="Camera and microphones in the head">
+            <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="9" width="24" height="16" rx="2"/><circle cx="16" cy="17" r="5"/><path d="M11 9l2-3h6l2 3"/></svg></div>
+            <div class="snap-comp-name">XIAO ESP32-S3 Sense</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="snap-label">Build Progress</div>
+        <div class="snap-journey">
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">CAD &amp; Print</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Servo Calib</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Face &amp; Voice</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Sim Twin</div></div>
+          <div class="snap-step done"><div class="snap-dot">✓</div><div class="snap-step-lbl">Standing</div></div>
+          <div class="snap-step now"><div class="snap-dot">→</div><div class="snap-step-lbl">Reliable Walking</div></div>
+        </div>
+      </div>
+
+      <div class="snap-learned">
+        <div class="snap-label">What I Learned</div>
+        <ul>
+          <li>MG996R servos have <strong>no position feedback</strong>. On one early power-up the servos jumped straight to their stored angles and snapped a joint. Now outputs start limp, and every move is ramped from where the leg actually is.</li>
+          <li>When the "dead" eye displays turned out to be a broken jumper and a chip-select wire in the wrong pin, I learned to check <strong>wiring first</strong> (swap test, continuity per wire) before blaming a module or the code.</li>
+          <li>A gait that looks great in the simulator can fall on the real robot within a few steps. The twin was wrong in pitch, and the <strong>real servo lag and weight distribution</strong> are its biggest unknowns.</li>
+          <li>Falls cluster at the <strong>start and stop</strong> of walking, when the stride changes, not in the middle of a walk.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="snap-stats">
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="10" data-suffix="">10</div>
+      <div class="snap-stat-lbl">Leg Servos</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="50" data-suffix=" Hz">50 Hz</div>
+      <div class="snap-stat-lbl">Gait &amp; Balance Loop</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="3" data-suffix="">3</div>
+      <div class="snap-stat-lbl">ESP32 Boards</div>
+    </div>
+    <div class="snap-stat">
+      <div class="snap-counter" data-target="5" data-suffix=" DOF">5 DOF</div>
+      <div class="snap-stat-lbl">Per Leg</div>
+    </div>
+  </div>
+
+  <div class="snap-scroll-cue">Mechanical build, walking and the simulator, face and senses below <span class="snap-arrow-anim">↓</span></div>
+</div>
+<!-- ── End Snapshot ── -->
 
 <div class="content">
 
-  <section class="section" id="overview">
-    <div class="tl-2col" style="margin-top:0;margin-bottom:28px">
-      <div class="tl-img" style="margin-top:0">
-        <img src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk" onclick="openLb(this)" style="max-height:420px;object-fit:contain;background:#000">
-        <div class="tl-img-cap">Bip standing on the desk</div>
-      </div>
-      <div class="tl-img" style="margin-top:0">
-        <video controls playsinline muted preload="metadata" style="max-height:420px;width:100%;display:block;object-fit:contain;background:#000">
-          <source src="IMAGES/Bip/bip-table-walk.mp4" type="video/mp4">
-        </video>
-        <div class="tl-img-cap">A short walk on the table (stride 20). My hand stays close in case it falls.</div>
-      </div>
-    </div>
-
-
-    <div class="tl-2col" style="margin-top:0;margin-bottom:28px">
-      <div class="tl-img" style="margin-top:0"><img src="IMAGES/Bip/bip-front.webp" alt="Bip front view" onclick="openLb(this)" style="max-height:360px;object-fit:contain;background:#000"><div class="tl-img-cap">Front: round GC9A01 eyes, OLED mouth, camera, speaker grille and the sonar</div></div>
-      <div class="tl-img" style="margin-top:0"><img src="IMAGES/Bip/bip-face-open.webp" alt="Face displays without the cover" onclick="openLb(this)" style="max-height:360px;object-fit:contain;background:#000"><div class="tl-img-cap">Face without its cover: two GC9A01 eye displays and the SSD1306 mouth</div></div>
-      <div class="tl-img" style="margin-top:0"><img src="IMAGES/Bip/bip-wiring-torso.webp" alt="Torso wiring" onclick="openLb(this)" style="max-height:360px;object-fit:contain;background:#000"><div class="tl-img-cap">Inside the torso during bring-up (wiring tidy-up is on the list)</div></div>
-      <div class="tl-img" style="margin-top:0"><img src="IMAGES/Bip/bip-big-feet.webp" alt="Bip with big printed feet" onclick="openLb(this)" style="max-height:360px;object-fit:contain;background:#000"><div class="tl-img-cap">Testing much bigger printed feet for a steadier stance</div></div>
-    </div>
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-label">Leg servos</div>
-        <div class="stat-value">10</div>
-        <div class="stat-sub">MG996R, 5 per leg</div>
-      </div>
-      <div class="stat-card blue">
-        <div class="stat-label">Boards</div>
-        <div class="stat-value">3</div>
-        <div class="stat-sub">ESP32-S3, C3, XIAO S3</div>
-      </div>
-      <div class="stat-card amber">
-        <div class="stat-label">Gait loop</div>
-        <div class="stat-value">50 Hz</div>
-        <div class="stat-sub">IK + IMU balance</div>
-      </div>
-      <div class="stat-card green">
-        <div class="stat-label">Status</div>
-        <div class="stat-value">WIP</div>
-        <div class="stat-sub">Stands, short walks</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="status">
-    <div class="section-header">
-      <h2 class="section-title">Where it is now</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="two-col">
-      <div class="spec-block">
-        <div class="spec-block-header">Working</div>
-        <div class="spec-row"><span class="spec-key">Standing with IMU balance</span><span class="spec-val ok">yes</span></div>
-        <div class="spec-row"><span class="spec-key">Steps and short walks on the table</span><span class="spec-val ok">yes</span></div>
-        <div class="spec-row"><span class="spec-key">Animated face (2 round eyes + mouth)</span><span class="spec-val ok">yes</span></div>
-        <div class="spec-row"><span class="spec-key">Head pan / tilt</span><span class="spec-val ok">yes</span></div>
-        <div class="spec-row"><span class="spec-key">Voice chat, camera, microphones</span><span class="spec-val ok">yes</span></div>
-        <div class="spec-row"><span class="spec-key">Firmware updates over Wi-Fi</span><span class="spec-val ok">yes</span></div>
-      </div>
-      <div class="spec-block">
-        <div class="spec-block-header">Not yet</div>
-        <div class="spec-row"><span class="spec-key">Walks without falling</span><span class="spec-val warn">no, falls at start / stop</span></div>
-        <div class="spec-row"><span class="spec-key">Real walking speed</span><span class="spec-val warn">~15 mm per step cycle</span></div>
-        <div class="spec-row"><span class="spec-key">Gait learned in the sim</span><span class="spec-val warn">doesn't transfer yet</span></div>
-        <div class="spec-row"><span class="spec-key">Feet grip</span><span class="spec-val warn">feet still slide</span></div>
-        <div class="spec-row"><span class="spec-key">Servo power at 6 V</span><span class="spec-val warn">parts ordered</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="build">
-    <div class="section-header">
-      <h2 class="section-title">How it's built</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="prose">
-      <p><strong>Mechanical.</strong> Every structural part is designed in Fusion 360 and 3D printed. Each leg has five joints (hip yaw, hip, knee, ankle pitch, ankle roll) on MG996R servos. Hip yaw is limited in firmware so the toes can't collide when the feet turn in.</p>
-      <p><strong>Walking.</strong> The main ESP32-S3 drives the leg servos through a PCA9685 and runs the inverse kinematics and gait at 50 Hz, with an MPU-6050 for balance and heading hold. Every servo is calibrated (zero, direction, limits) and the values are saved on the board. Servos start limp and every move is ramped, because these hobby servos have no position feedback and jumping to a stored angle can break a joint.</p>
-      <p><strong>Simulation.</strong> I built a MuJoCo digital twin that runs the same C++ gait code as the robot. The gait on the ESP32 matches the simulator to within 0.0005°. I use it to test gait settings and balance gains before trying them on the real robot. The latest real tests showed the twin is still wrong in pitch, so a gait that works in the sim doesn't work on Bip yet.</p>
-      <p><strong>Face and senses.</strong> An ESP32-C3 draws the face: two GC9A01 round displays for the eyes and an SSD1306 OLED mouth, all procedurally animated. A XIAO ESP32-S3 Sense provides the camera and microphones, a MAX98357A amp drives the speaker, and an HC-SR04 sonar sits in the chest. Speech recognition and the conversation run on my laptop, using Claude as the brain.</p>
-    </div>
-  </section>
-
-  <div class="insight">
-    <div class="insight-label">What I've learned so far</div>
-    <div class="insight-title">The hard part is the gap between the sim and the real robot</div>
-    <div class="insight-body">In the simulator Bip walks with a lot less sway, but on the real table the same settings fall within a few steps. Most falls happen when it starts or stops walking. The next steps are to <strong>measure the real servo lag and its real weight and balance point</strong> so the twin matches, add bigger feet, and give the servos a proper 6 V supply.</div>
+<div class="section" id="overview">
+<div class="section-header"><h2 class="section-title">Project Overview</h2><div class="section-line"></div></div>
+<div class="overview-grid">
+  <div class="stat-card"><div class="stat-label">Leg Servos</div><div class="stat-value" style="font-size:18px;">10×</div><div class="stat-sub">MG996R, 5 per leg</div></div>
+  <div class="stat-card blue"><div class="stat-label">Main MCU</div><div class="stat-value" style="font-size:18px;">ESP32-S3</div><div class="stat-sub">My own dev board + PCA9685</div></div>
+  <div class="stat-card amber"><div class="stat-label">Sim vs Firmware</div><div class="stat-value">0.0005°</div><div class="stat-sub">worst gait mismatch</div></div>
+  <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--amber, #f59e0b)">In Progress</div><div class="stat-sub">Stands, short walks</div></div>
+</div>
+<div class="prose">
+  <p><strong>Bip</strong> is a small two-legged robot I'm designing and building from scratch: a printed body, 10 leg servos, an IMU for balance, an animated face, and a camera and microphones so it can see and talk.</p>
+  <p>The robot is split across three boards. The main <strong>ESP32-S3</strong> (my own dev board) runs the legs, the walking and the balance. An <strong>ESP32-C3</strong> draws the face, and a <strong>XIAO ESP32-S3 Sense</strong> in the head handles the camera and microphones. Speech recognition and conversation run on my laptop, using Claude as the brain, and Bip's firmware updates over Wi-Fi.</p>
+</div>
+<div class="gallery">
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Bip/bip-front.webp" alt="Bip front view" style="object-position:center 30%">
+    <div class="gallery-caption">Front: round eyes, OLED mouth, camera, speaker grille and the sonar</div>
   </div>
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Bip/bip-big-feet.webp" alt="Bip with big printed feet" style="object-position:center 40%">
+    <div class="gallery-caption">Testing much bigger printed feet for a steadier stance</div>
+  </div>
+</div>
+</div>
 
+<div class="section" id="build">
+<div class="section-header"><h2 class="section-title">Mechanical &amp; Electronics</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>Every structural part is designed in <strong>Fusion 360</strong> and 3D printed. Each leg has five joints: hip yaw, hip, knee, ankle pitch and ankle roll, all on <strong>MG996R</strong> servos driven by a <strong>PCA9685</strong>. Hip yaw is limited in firmware (10° toes-in, 30° toes-out) so the feet can't hit each other when they turn.</p>
+</div>
+<div class="two-col">
+  <div class="spec-block">
+    <div class="spec-block-header">Legs &amp; Motion</div>
+    <div class="spec-row"><span class="spec-key">Servos</span><span class="spec-val">10× MG996R (5 per leg)</span></div>
+    <div class="spec-row"><span class="spec-key">Servo driver</span><span class="spec-val">PCA9685 over I²C</span></div>
+    <div class="spec-row"><span class="spec-key">Balance sensor</span><span class="spec-val">MPU-6050</span></div>
+    <div class="spec-row"><span class="spec-key">Control loop</span><span class="spec-val">50 Hz IK + gait</span></div>
+    <div class="spec-row"><span class="spec-key">Head</span><span class="spec-val">Pan / tilt servos</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Boards &amp; Senses</div>
+    <div class="spec-row"><span class="spec-key">Main</span><span class="spec-val">ESP32-S3 (own dev board)</span></div>
+    <div class="spec-row"><span class="spec-key">Face</span><span class="spec-val">ESP32-C3, 2× GC9A01 + SSD1306</span></div>
+    <div class="spec-row"><span class="spec-key">Camera + mics</span><span class="spec-val">XIAO ESP32-S3 Sense</span></div>
+    <div class="spec-row"><span class="spec-key">Speaker</span><span class="spec-val">MAX98357A I²S amp</span></div>
+    <div class="spec-row"><span class="spec-key">Distance</span><span class="spec-val">HC-SR04 sonar</span></div>
+  </div>
+</div>
+<div class="decision-list" style="margin-top:20px">
+  <div class="decision red">
+    <div class="decision-title">Servos with no feedback: start limp, ramp every move</div>
+    <div class="decision-body">Hobby servos don't report where they are. Driving straight to a stored angle at power-on snapped a joint once. Now every servo is calibrated (zero, direction, limits, saved on the board), outputs start <strong>off</strong> until commanded, every move is ramped and clamped to its limits, and <code>x</code> is an instant emergency stop.</div>
+  </div>
+</div>
+<div class="gallery">
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Bip/bip-wiring-torso.webp" alt="Torso wiring" style="object-position:center 40%">
+    <div class="gallery-caption">Inside the torso during bring-up (wiring tidy-up is on the list)</div>
+  </div>
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Bip/bip-wiring-head.webp" alt="Head wiring" style="object-position:center 40%">
+    <div class="gallery-caption">Head wiring from the back: face board, camera and the pan/tilt mount</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="walking">
+<div class="section-header"><h2 class="section-title">Walking &amp; the Digital Twin</h2><div class="section-line"></div></div>
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step">Phase 1 — Gait on the ESP32</div>
+    <div class="timeline-heading">Inverse kinematics and a walking gait in C++</div>
+    <div class="timeline-body">The leg IK and gait run on the ESP32-S3 at 50 Hz: stand → crouch → walk → graceful stop, with stride, lift, lean and period tunable live over serial. The C++ gait matches my browser walking simulator to within 0.0005° on 24 test cases.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step blue">Phase 2 — MuJoCo Digital Twin</div>
+    <div class="timeline-heading">A physics simulation that runs the same code</div>
+    <div class="timeline-body">I built a MuJoCo model from the real Fusion 360 CAD that runs the robot's own gait and balance code. I use it to test gait settings and balance gains before trying them on the robot, including runs with random servo errors, lag and friction to see which settings stay robust.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-step amber">Phase 3 — Real Table Tests</div>
+    <div class="timeline-heading">Stands and walks short distances, falls at start and stop</div>
+    <div class="timeline-body">On the real table the hand-tuned gait walks short distances (about 15 mm per step cycle, as the feet still slide). A gait learned in the simulator fell within a few steps on the real robot: the twin is still wrong in pitch. Most falls happen when walking starts or stops.</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="face">
+<div class="section-header"><h2 class="section-title">Face &amp; Senses</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p>An <strong>ESP32-C3</strong> draws the face: two <strong>GC9A01</strong> round displays for the eyes and an <strong>SSD1306</strong> OLED for the mouth, all procedurally animated. A <strong>XIAO ESP32-S3 Sense</strong> provides the camera and microphones, a <strong>MAX98357A</strong> amp drives the speaker, and an <strong>HC-SR04</strong> sonar sits in the chest. Speech recognition and the conversation run on my laptop, using Claude as the brain.</p>
+</div>
+<div class="gallery">
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Bip/bip-face-open.webp" alt="Face displays without the cover" style="object-position:center 50%">
+    <div class="gallery-caption">Face without its cover: two GC9A01 eye displays and the SSD1306 mouth</div>
+  </div>
+  <div class="gallery-item half">
+    <img loading="lazy" src="IMAGES/Bip/bip-front.webp" alt="Bip front view" style="object-position:center 20%">
+    <div class="gallery-caption">Assembled face with the cover on</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="status">
+<div class="section-header"><h2 class="section-title">Where It Is Now</h2><div class="section-line"></div></div>
+<div class="two-col">
+  <div class="spec-block">
+    <div class="spec-block-header">Working</div>
+    <div class="spec-row"><span class="spec-key">Standing with IMU balance</span><span class="spec-val ok">yes</span></div>
+    <div class="spec-row"><span class="spec-key">Steps and short walks on the table</span><span class="spec-val ok">yes</span></div>
+    <div class="spec-row"><span class="spec-key">Animated face</span><span class="spec-val ok">yes</span></div>
+    <div class="spec-row"><span class="spec-key">Head pan / tilt</span><span class="spec-val ok">yes</span></div>
+    <div class="spec-row"><span class="spec-key">Voice chat, camera, microphones</span><span class="spec-val ok">yes</span></div>
+    <div class="spec-row"><span class="spec-key">Firmware updates over Wi-Fi</span><span class="spec-val ok">yes</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Not Yet</div>
+    <div class="spec-row"><span class="spec-key">Walks without falling</span><span class="spec-val warn">falls at start / stop</span></div>
+    <div class="spec-row"><span class="spec-key">Real walking speed</span><span class="spec-val warn">~15 mm per cycle</span></div>
+    <div class="spec-row"><span class="spec-key">Gait learned in the sim</span><span class="spec-val warn">doesn't transfer yet</span></div>
+    <div class="spec-row"><span class="spec-key">Feet grip</span><span class="spec-val warn">feet still slide</span></div>
+    <div class="spec-row"><span class="spec-key">Servo power at 6 V</span><span class="spec-val warn">parts ordered</span></div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="demo">
+<div class="section-header"><h2 class="section-title">Demo</h2><div class="section-line"></div></div>
+<div class="portrait-demo">
+  <div class="video-wrap">
+    <video controls playsinline muted preload="metadata">
+      <source src="IMAGES/Bip/bip-table-walk.mp4" type="video/mp4">
+    </video>
+    <div class="video-cap">A short walk on the table (stride 20). My hand stays close in case it falls.</div>
+  </div>
+</div>
+</div>
+
+<div class="section" id="next">
+<div class="section-header"><h2 class="section-title">Next Steps</h2><div class="section-line"></div></div>
+<div class="decision-list">
+  <div class="decision">
+    <div class="decision-title">Make the twin match the real robot</div>
+    <div class="decision-body">Measure the real servo lag (slow-motion video of a commanded step), weigh Bip and find its balance point, then update the simulator so tuned gaits transfer to the table.</div>
+  </div>
+  <div class="decision blue">
+    <div class="decision-title">Bigger feet and a proper 6 V servo supply</div>
+    <div class="decision-body">Larger printed feet for a steadier stance, and a 6 V UBEC with bulk capacitors on the servo rail so the legs don't sag under load.</div>
+  </div>
+  <div class="decision amber">
+    <div class="decision-title">Gentler starts and stops</div>
+    <div class="decision-body">Ramp the stride more slowly at the start and end of a walk, since that is where nearly all the falls happen.</div>
+  </div>
+</div>
 </div>
 
 <div class="proj-nav">
-  <a href="index.html">← Back to Portfolio</a>
+  <a href="index.html" class="pnav-home">⌂ Portfolio</a>
+  <a href="esp32-s3-project-main.html" class="pnav-btn pnav-next">ESP32-S3 Dev Board →</a>
+</div>
+</div>
+<div class="footer">
+<div class="footer-left">Andrés Moreno Navarro &nbsp;/&nbsp; Electrical and Electronic Engineering Student<br>University of Western Australia &nbsp;·&nbsp; Perth, Western Australia<br>Bip Biped Robot &nbsp;·&nbsp; ESP32-S3, MuJoCo &amp; Fusion 360 &nbsp;·&nbsp; 2026 – present</div>
+<div class="footer-right"><a href="index.html" style="color:var(--accent);text-decoration:none;">← Back to Portfolio</a></div>
 </div>
 
-<footer class="footer">
-  <div class="footer-left">Bip · Biped robot · Work in progress</div>
-  <div class="footer-right"><a href="index.html">andresmoreno.dev</a></div>
-</footer>
-
-<div id="lb" onclick="closeLb()"><img id="lb-img" src="" alt=""></div>
+<div id="lb" style="display:none"><button id="lb-close">✕</button><img loading="lazy" id="lb-img" src="" alt=""></div>
 
 <script>
-// Theme
-(function(){
+const lb=document.getElementById('lb');
+const lbImg=document.getElementById('lb-img');
+document.getElementById('lb-close').addEventListener('click',()=>lb.style.display='none');
+lb.addEventListener('click',e=>{if(e.target===lb||e.target===document.getElementById('lb-close'))lb.style.display='none';});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.style.display='none';});
+function addLightbox(img){img.style.cursor='zoom-in';img.addEventListener('click',e=>{lbImg.src=img.src;lb.style.display='flex';e.stopPropagation();});}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.gallery-item img,.timeline-img img,.snap-photo-main img').forEach(img=>{
+    if(img.src&&!img.src.endsWith('/')){addLightbox(img);}
+  });
+
+  // Snapshot thumbnail switcher
+  const mainImg = document.getElementById('snapMainImg');
+  const mainCap = document.getElementById('snapMainCap');
+  document.querySelectorAll('.snap-thumb').forEach(thumb=>{
+    thumb.addEventListener('click',()=>{
+      document.querySelectorAll('.snap-thumb').forEach(t=>t.classList.remove('active'));
+      thumb.classList.add('active');
+      mainImg.src = thumb.dataset.src;
+      mainCap.textContent = thumb.dataset.cap || '';
+    });
+  });
+
+  // Counter animation
+  const counters = document.querySelectorAll('.snap-counter');
+  const co = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      co.unobserve(e.target);
+    });
+  },{threshold:0.5});
+  counters.forEach(c=>co.observe(c));
+});
+
+/* ── THEME TOGGLE ── */
+(()=>{
+  const html=document.documentElement;
   const btn=document.getElementById('themeBtn');
-  if(!btn) return;
+  const stored=localStorage.getItem('portfolio-theme');
+  if(stored) html.dataset.theme=stored;
+  else html.dataset.theme='dark';
   btn.addEventListener('click',()=>{
-    const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
-    document.documentElement.dataset.theme=next;
+    const next=html.dataset.theme==='dark'?'light':'dark';
+    html.dataset.theme=next;
     localStorage.setItem('portfolio-theme',next);
   });
 })();
+/* ── NAV SCROLL ── */
+addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('up',scrollY>40);
+},{passive:true});
 
-// Lightbox
-function openLb(img){document.getElementById('lb').classList.add('open');document.getElementById('lb-img').src=img.src;}
-function closeLb(){document.getElementById('lb').classList.remove('open');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
-
-// Scroll-active nav
+/* ── Scroll-active nav ── */
 (function(){
-  const links=document.querySelectorAll('nav a[href^="#"]');
+  const links = document.querySelectorAll('nav a[href^="#"]');
   if(!links.length) return;
-  const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.remove('on'));const a=document.querySelector('nav a[href="#'+en.target.id+'"]');if(a)a.classList.add('on');}});},{rootMargin:'-30% 0px -60% 0px'});
-  document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('on'));
+        const a = document.querySelector('nav a[href="#'+e.target.id+'"]');
+        if(a) a.classList.add('on');
+      }
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section[id],div[id].section').forEach(s=>obs.observe(s));
 })();
+
+// ── Scroll Progress Bar ──
+(function(){
+  const bar = document.getElementById('progress-bar');
+  if(!bar) return;
+  window.addEventListener('scroll', function(){
+    const scrolled = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (scrolled/max)*100 : 0) + '%';
+  }, {passive: true});
+})();
+
+// ── Cursor Glow ──
+(function(){
+  const glow = document.getElementById('cursorGlow');
+  if(!glow) return;
+  let mx=window.innerWidth/2, my=window.innerHeight/2, cx=mx, cy=my, raf;
+  window.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; if(!glow._vis){glow.style.opacity='1';glow._vis=true;} }, {passive:true});
+  function tick(){ cx+=(mx-cx)*.09; cy+=(my-cy)*.09; glow.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)'; raf=requestAnimationFrame(tick); }
+  raf=requestAnimationFrame(tick);
+})();
+
 </script>
 </body>
 </html>
