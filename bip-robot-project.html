@@ -480,7 +480,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="overview-grid">
   <div class="stat-card"><div class="stat-label">Leg Servos</div><div class="stat-value" style="font-size:18px;">10×</div><div class="stat-sub">MG996R, 5 per leg</div></div>
   <div class="stat-card blue"><div class="stat-label">Main MCU</div><div class="stat-value" style="font-size:18px;">ESP32-S3</div><div class="stat-sub">My own dev board + PCA9685</div></div>
-  <div class="stat-card amber"><div class="stat-label">Sim vs Firmware</div><div class="stat-value">0.0005°</div><div class="stat-sub">worst gait mismatch</div></div>
+  <div class="stat-card amber"><div class="stat-label">Power</div><div class="stat-value" style="font-size:18px;">2S LiPo</div><div class="stat-sub">5 V 7 A UBEC (6 V servo rail planned)</div></div>
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--amber, #f59e0b)">In Progress</div><div class="stat-sub">Stands, short walks</div></div>
 </div>
 <div class="prose">
@@ -492,8 +492,10 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="spec-block">
     <div class="spec-block-header">At a Glance</div>
     <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Personal project</span></div>
-    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: CAD, electronics, firmware, simulation</span></div>
+    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: design, CAD, wiring, testing</span></div>
+    <div class="spec-row"><span class="spec-key">Code</span><span class="spec-val">Written with AI coding help (Claude Code)</span></div>
     <div class="spec-row"><span class="spec-key">Timeline</span><span class="spec-val">2026 – present</span></div>
+    <div class="spec-row"><span class="spec-key">Skills</span><span class="spec-val">Kinematics · control · embedded C++ · simulation · CAD</span></div>
     <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">Fusion 360 · Arduino C++ · Python · MuJoCo</span></div>
     <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val warn">In progress</span></div>
   </div>
@@ -504,6 +506,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="spec-row"><span class="spec-key">Physics engine</span><span class="spec-val">MuJoCo</span></div>
     <div class="spec-row"><span class="spec-key">Speech in / out</span><span class="spec-val">Whisper, Piper</span></div>
     <div class="spec-row"><span class="spec-key">Conversation</span><span class="spec-val">Claude (Anthropic)</span></div>
+    <div class="spec-row"><span class="spec-key">Coding assistant</span><span class="spec-val">Claude Code</span></div>
   </div>
 </div>
 <div class="gallery">
@@ -584,7 +587,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="timeline-dot"></div>
     <div class="timeline-step amber">Phase 3 — Real Table Tests</div>
     <div class="timeline-heading">Stands and walks short distances, falls at start and stop</div>
-    <div class="timeline-body">On the real table the hand-tuned gait walks short distances (about 15 mm per step cycle, as the feet still slide). A gait learned in the simulator fell within a few steps on the real robot: the twin is still wrong in pitch. Most falls happen when walking starts or stops.</div>
+    <div class="timeline-body">In October 2026 I started recorded walk trials on the table: a hand-tuned gait against the gait learned in simulation, each filmed and logged. The results are in <a href="#testing" style="color:inherit;text-decoration:underline">Testing &amp; Results</a> below.</div>
   </div>
 </div>
 </div>
@@ -606,7 +609,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="section" id="face">
 <div class="section-header"><h2 class="section-title">Face &amp; Senses</h2><div class="section-line"></div></div>
 <div class="prose">
-  <p>An <strong>ESP32-C3</strong> draws the face: two <strong>GC9A01</strong> round displays for the eyes and an <strong>SSD1306</strong> OLED for the mouth, all procedurally animated. A <strong>XIAO ESP32-S3 Sense</strong> provides the camera and microphones, a <strong>MAX98357A</strong> amp drives the speaker, and an <strong>HC-SR04</strong> sonar sits in the chest. Speech recognition and the conversation run on my laptop, using Claude as the brain.</p>
+  <p>An <strong>ESP32-C3</strong> draws the face: two <strong>GC9A01</strong> round displays for the eyes and an <strong>SSD1306</strong> OLED for the mouth, all procedurally animated. A <strong>XIAO ESP32-S3 Sense</strong> provides the camera and microphones, a <strong>MAX98357A</strong> amp drives the speaker, and an <strong>HC-SR04</strong> sonar sits in the chest. Voice and conversation are handled on the laptop (see Key Engineering Decisions).</p>
 </div>
 <div class="gallery">
   <div class="gallery-item half">
@@ -635,10 +638,9 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="spec-block">
     <div class="spec-block-header">Not Yet</div>
     <div class="spec-row"><span class="spec-key">Walks without falling</span><span class="spec-val warn">falls at start / stop</span></div>
-    <div class="spec-row"><span class="spec-key">Real walking speed</span><span class="spec-val warn">~15 mm per cycle</span></div>
     <div class="spec-row"><span class="spec-key">Gait learned in the sim</span><span class="spec-val warn">doesn't transfer yet</span></div>
     <div class="spec-row"><span class="spec-key">Feet grip</span><span class="spec-val warn">feet still slide</span></div>
-    <div class="spec-row"><span class="spec-key">Servo power at 6 V</span><span class="spec-val warn">parts ordered</span></div>
+    <div class="spec-row"><span class="spec-key">Servo power at 6 V</span><span class="spec-val warn">planned</span></div>
   </div>
 </div>
 </div>
