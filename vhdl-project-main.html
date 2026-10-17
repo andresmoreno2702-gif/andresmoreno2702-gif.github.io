@@ -218,7 +218,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="hero-inner">
     <div class="hero-tag">ELEC2311 · UWA · 2025</div>
     <h1>VHDL Digital<br><span>System Design</span></h1>
-    <div class="hero-sub">DE10-Lite FPGA · Quartus Prime · ModelSim · Intel Cyclone V</div>
+    <div class="hero-sub">DE10-Lite FPGA · Quartus Prime · ModelSim · Intel MAX 10</div>
     <div class="hero-meta">
       <span class="badge badge-green">✓ Complete</span>
       <span class="badge badge-purple">VHDL</span>
@@ -226,11 +226,11 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <span class="badge badge-amber">Quartus Prime</span>
     </div>
     <div class="prose" style="max-width:66ch;margin-top:8px;">
-      <p>Second-year digital design unit at UWA. Designed and synthesised a series of VHDL modules on the Intel DE10-Lite FPGA — D-latches, flip-flops, 7-segment decoders, 8-bit counters, and a clock divider. Everything written from scratch, simulated in ModelSim, and verified on real hardware.</p>
+      <p>Second-year digital design unit at UWA. Designed and synthesised a series of VHDL modules on the Intel DE10-Lite FPGA — D-latches, flip-flops, 7-segment decoders, 8-bit counters, and a clock divider. The D-latch and the clock divider started from files supplied by the unit; the flip-flops and their testbenches, the 7-segment decoder, the counter and the full adder are my own. Simulated in ModelSim and tested on the board.</p>
     </div>
     <div class="outcome-callout">
       <span class="oc-label">Result</span>
-      <span class="oc-text">Designed and synthesised 6 digital circuits on Intel DE10-Lite FPGA — D-latch, flip-flop, 7-segment decoder, 8-bit counter, clock divider, and full adder — all verified with ModelSim waveforms.</span>
+      <span class="oc-text">Designed and synthesised 6 digital circuits on Intel DE10-Lite FPGA — D-latch, flip-flop, 7-segment decoder, 8-bit counter, clock divider, and full adder — simulated in ModelSim and tested on the board.</span>
     </div>
   </div>
 </section>
@@ -242,7 +242,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="stat-card">
         <div class="stat-label">Platform</div>
         <div class="stat-value" style="font-size:15px;">DE10-Lite</div>
-        <div class="stat-sub">Intel Cyclone V FPGA</div>
+        <div class="stat-sub">Intel MAX 10 FPGA (10M50DAF484C7G)</div>
       </div>
       <div class="stat-card blue">
         <div class="stat-label">Language</div>
@@ -260,22 +260,34 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
         <div class="stat-sub">Testbench-driven</div>
       </div>
     </div>
+<div style="margin:0 0 24px;max-width:640px">
+  <div class="spec-block">
+    <div class="spec-block-header">At a Glance</div>
+    <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">University unit: ELEC2311 Digital System Design, UWA</span></div>
+    <div class="spec-row"><span class="spec-key">Year</span><span class="spec-val">2025</span></div>
+    <div class="spec-row"><span class="spec-key">My work</span><span class="spec-val">Lab and mock-test designs; two starting files supplied by the unit</span></div>
+    <div class="spec-row"><span class="spec-key">Skills</span><span class="spec-val">VHDL · testbenches · synthesis · FPGA pin mapping</span></div>
+    <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">Quartus Prime · ModelSim · DE10-Lite</span></div>
+    <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val ok">Complete</span></div>
+  </div>
+</div>
+
 
     <div class="prose" style="margin-bottom:32px;">
-      <p>ELEC2311 introduces digital design as a hardware description problem, not just circuit drawing. VHDL is used to describe hardware behaviour which is then synthesised into gate-level netlists by Quartus Prime and programmed onto the DE10-Lite's Cyclone V FPGA. The board runs a 50 MHz onboard clock and exposes switches, push buttons, LEDs, and HEX displays for I/O.</p>
-      <p>The unit covered three modelling styles — <strong>dataflow</strong> (concurrent signal assignments), <strong>behavioural</strong> (processes with sequential logic), and <strong>structural</strong> (component instantiation). Every design was first verified with a testbench in ModelSim before being targeted to hardware.</p>
+      <p>ELEC2311 introduces digital design as a hardware description problem, not just circuit drawing. VHDL is used to describe hardware behaviour which is then synthesised into gate-level netlists by Quartus Prime and programmed onto the DE10-Lite's MAX 10 FPGA. The board runs a 50 MHz onboard clock and exposes switches, push buttons, LEDs, and HEX displays for I/O.</p>
+      <p>The unit covered three modelling styles — <strong>dataflow</strong> (concurrent signal assignments), <strong>behavioural</strong> (processes with sequential logic), and <strong>structural</strong> (component instantiation). Designs were checked with ModelSim testbenches before being loaded onto the board.</p>
     </div>
 
     <div class="design-grid">
       <div class="design-card">
         <div class="design-icon">▣</div>
         <div class="design-title">D-Latch (positive level)</div>
-        <div class="design-body">Level-sensitive latch — transparent when CLK=1, holds when CLK=0. Written as a behavioural process with an intentional incomplete if-else to infer latch behaviour. RTL verified in Quartus viewer.</div>
+        <div class="design-body">Level-sensitive latch — transparent when CLK=1, holds when CLK=0. Written as a behavioural process with an intentional incomplete if-else to infer latch behaviour. Starting file and testbench supplied in Lab 3; RTL checked in the Quartus viewer.</div>
       </div>
       <div class="design-card blue">
         <div class="design-icon">◉</div>
         <div class="design-title">D Flip-Flop with Testbench</div>
-        <div class="design-body">Edge-triggered D flip-flop with full testbench. The testbench drives D and CLK with a 20 ns clock period and checks Q at each rising edge. Waveform verified in ModelSim.</div>
+        <div class="design-body">Edge-triggered D flip-flop with full testbench. The testbench drives D and CLK with a 20 ns clock period (50 MHz); Q was checked on the ModelSim waveform at each rising edge.</div>
       </div>
       <div class="design-card green">
         <div class="design-icon">▦</div>
@@ -290,7 +302,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="design-card">
         <div class="design-icon">∿</div>
         <div class="design-title">Clock Divider to 1 Hz</div>
-        <div class="design-body">Divides the 50 MHz DE10-Lite clock down to 1 Hz using a parameterised counter. The generic Freq_in allows the divisor to be changed at elaboration time without editing the architecture. Used to drive visible LED blink rates.</div>
+        <div class="design-body">Divides the 50 MHz DE10-Lite clock down to 1 Hz using a parameterised counter. The generic Freq_in allows the divisor to be changed at elaboration time without editing the architecture. Supplied by the unit in Lab 4; I used it to drive visible LED blink rates.</div>
       </div>
       <div class="design-card blue">
         <div class="design-icon">+</div>
@@ -307,7 +319,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     </div>
 
     <div class="prose" style="margin-bottom:24px;">
-      <p>Two representative designs — the 7-segment decoder (combinational dataflow/behavioural) and the clock divider (sequential behavioural with a generic). Both target the DE10-Lite's standard port names directly.</p>
+      <p>Two representative designs — the 7-segment decoder (combinational dataflow/behavioural) and the clock divider (sequential behavioural with a generic, supplied by the unit). Both target the DE10-Lite's standard port names directly.</p>
     </div>
 
     <div style="display:flex;flex-direction:column;gap:20px;">
@@ -400,7 +412,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="two-col" style="margin-bottom:24px;">
       <div class="spec-block">
         <div class="spec-block-header">Quartus Prime — Synthesis</div>
-        <div class="spec-row"><span class="spec-key">Target device</span><span class="spec-val">Intel Cyclone V (DE10-Lite)</span></div>
+        <div class="spec-row"><span class="spec-key">Target device</span><span class="spec-val">Intel MAX 10, 10M50DAF484C7G (DE10-Lite)</span></div>
         <div class="spec-row"><span class="spec-key">Entry method</span><span class="spec-val">VHDL source files</span></div>
         <div class="spec-row"><span class="spec-key">Verification</span><span class="spec-val ok">RTL Viewer — netlist inspection</span></div>
         <div class="spec-row"><span class="spec-key">Pin assignment</span><span class="spec-val">DE10-Lite Qsf file (standard)</span></div>

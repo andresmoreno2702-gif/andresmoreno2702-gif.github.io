@@ -601,7 +601,7 @@ body.edit-mode #eb-hint{display:block}
       <span class="badge badge-teal">XIAO ESP32-C3</span>
       <span class="badge badge-blue">TB6612FNG Dual H-Bridge</span>
       <span class="badge badge-amber">Micro Digital Servo Steering</span>
-      <span class="badge badge-teal">ESP-NOW · ~2 ms RTT</span>
+      <span class="badge badge-teal">ESP-NOW · No Router</span>
       <span class="badge badge-green">Assembled &amp; Tested</span>
     </div>
     <div class="hero-meta">
@@ -683,7 +683,7 @@ body.edit-mode #eb-hint{display:block}
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="10" width="18" height="12" rx="2"/><circle cx="13" cy="16" r="4"/><circle cx="13" cy="16" r="1.5" fill="currentColor" stroke="none"/><line x1="22" y1="13" x2="27" y2="13"/><line x1="22" y1="16" x2="27" y2="16"/><line x1="22" y1="19" x2="27" y2="19"/><path d="M13 12 L18 7" stroke-width="2"/></svg></div>
             <div class="snap-comp-name">Micro Servo</div>
           </div>
-          <div class="snap-comp" data-tip="ESP-NOW 2.4 GHz peer-to-peer, ~30 m range, &lt;2 ms latency">
+          <div class="snap-comp" data-tip="ESP-NOW 2.4 GHz peer-to-peer, no router, joystick packet every 20 ms (50 Hz)">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
             <div class="snap-comp-name">ESP-NOW</div>
           </div>
@@ -721,8 +721,8 @@ body.edit-mode #eb-hint{display:block}
 
   <div class="snap-stats">
     <div class="snap-stat">
-      <div class="snap-counter" data-target="2" data-suffix=" ms">2 ms</div>
-      <div class="snap-stat-lbl">ESP-NOW RTT</div>
+      <div class="snap-counter" data-target="400" data-suffix=" ms">400 ms</div>
+      <div class="snap-stat-lbl">Failsafe Cut-off</div>
     </div>
     <div class="snap-stat">
       <div class="snap-counter" data-target="30" data-suffix=" m">30 m</div>
@@ -749,13 +749,25 @@ body.edit-mode #eb-hint{display:block}
 <div class="overview-grid">
   <div class="stat-card"><div class="stat-label">MCU</div><div class="stat-value" style="font-size:18px;">XIAO</div><div class="stat-sub">Seeed ESP32-C3</div></div>
   <div class="stat-card blue"><div class="stat-label">Motor Driver</div><div class="stat-value" style="font-size:18px;">H-Bridge</div><div class="stat-sub">TB6612FNG dual channel</div></div>
-  <div class="stat-card amber"><div class="stat-label">Wireless RTT</div><div class="stat-value">~2</div><div class="stat-sub">ms via ESP-NOW P2P</div></div>
+  <div class="stat-card amber"><div class="stat-label">Wireless</div><div class="stat-value">50</div><div class="stat-sub">Hz ESP-NOW joystick packets</div></div>
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Built</div><div class="stat-sub">Assembled &amp; bench-tested</div></div>
 </div>
+<div style="margin:0 0 24px;max-width:640px">
+  <div class="spec-block">
+    <div class="spec-block-header">At a Glance</div>
+    <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Personal project</span></div>
+    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: CAD, 3D printing, wiring, testing</span></div>
+    <div class="spec-row"><span class="spec-key">Timeline</span><span class="spec-val">Feb – Mar 2026</span></div>
+    <div class="spec-row"><span class="spec-key">Skills</span><span class="spec-val">Motor control · PWM · ESP-NOW · mechanical CAD</span></div>
+    <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">Fusion 360 · Arduino C++ · Ender-3 S1 Pro → K1C · KiCad</span></div>
+    <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val ok">Driving · custom PCB in progress</span></div>
+  </div>
+</div>
+
 <div class="prose">
   <p>A custom-designed, 3D-printed RC car — including the wheels — built around the <strong>Seeed Studio XIAO ESP32-C3</strong>. The chassis was modelled from scratch in <strong>Fusion 360</strong> and printed in PLA: first on a Creality Ender-3 S1 Pro, then on a Creality K1C after bed-levelling and heated-bed problems on the Ender. Drive is handled by a DC 130 dual-shaft motor (3V–6V, 12,000 RPM, direct drive) controlled via a <strong>TB6612FNG H-bridge module</strong>, while steering uses a Surpass Hobby micro digital servo (13.5 g, plastic gear) for Ackermann-style front-wheel control.</p>
   <p>Wireless control runs over <strong>ESP-NOW</strong> between two ESP32-C3 boards — one on the car (receiver) and one on a breadboard transmitter: an ESP32-C3 SuperMini with two KY-023 analog joystick modules. Motor speed is controlled with LEDC PWM and joystick dead zones to keep low-speed movement stable.</p>
-  <p>The XIAO's built-in LiPo connector and onboard 3.3 V regulator eliminates the need for an external buck converter — the 3.7 V battery connects directly to the XIAO, motor module, and servo. A custom PCB is in progress to replace the current protoboard wiring — targeting JLCPCB manufacture in the coming weeks.</p>
+  <p>The XIAO's built-in LiPo connector and onboard 3.3 V regulator eliminates the need for an external buck converter — the 3.7 V battery connects directly to the XIAO, motor module, and servo. A custom PCB to replace the protoboard wiring is in progress: the schematic is drawn in KiCad, and the board layout is the next step.</p>
 </div>
 <div class="gallery">
   <div class="gallery-item" style="width: 433px; height: 395px; overflow: hidden; position: relative; flex: 0 0 auto; box-sizing: border-box; display: flex; flex-direction: column;">
@@ -840,7 +852,7 @@ body.edit-mode #eb-hint{display:block}
     <div class="spec-row"><span class="spec-key">Joystick dead zone</span><span class="spec-val ok">140 ADC counts (throttle)</span></div>
     <div class="spec-row"><span class="spec-key">Direction control</span><span class="spec-val">BIN1/BIN2 + PWMB</span></div>
     <div class="spec-row"><span class="spec-key">Steering control</span><span class="spec-val">Micro servo via D7</span></div>
-    <div class="spec-row"><span class="spec-key">Wireless</span><span class="spec-val">ESP-NOW P2P · ~2 ms RTT</span></div>
+    <div class="spec-row"><span class="spec-key">Wireless</span><span class="spec-val">ESP-NOW P2P · 50 Hz packets</span></div>
   </div>
   <div class="spec-block">
     <div class="spec-block-header">PCB — KiCad Design</div>

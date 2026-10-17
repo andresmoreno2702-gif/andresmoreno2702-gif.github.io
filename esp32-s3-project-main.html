@@ -574,6 +574,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
     <a href="#specs">Specs</a>
     <a href="#decisions">Decisions</a>
     <a href="#verification">Verification</a>
+    <a href="#bringup">Bring-Up</a>
     <a href="#rev2">Rev 2</a>
   </div>
   <div class="nav-right">
@@ -783,6 +784,25 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
   <p>The entire design was done in <strong>KiCad 9</strong>, from schematic capture through to manufacturing-ready Gerber files, targeting <strong>JLCPCB's 4-layer process</strong> with the JLC04161H-3313 stackup. The USB differential pair was analysed for impedance using <strong>IPC-2141</strong> calculations matched to that specific stackup, and all design rules were verified clean before ordering.</p>
   <p>This was completed as an independent project during second year Electrical and Electronic Engineering at the <strong>University of Western Australia</strong>. It was also my first multi-layer PCB — prior hands-on work had been breadboards and single-layer designs, so KiCad, manufacturing tolerances, and impedance-controlled routing were all learned from scratch alongside the design.</p>
   <p style="margin-top:12px;padding:10px 14px;border-left:3px solid var(--accent3);background:rgba(245,158,11,.07);border-radius:0 6px 6px 0;font-size:13px;color:var(--accent3);"><strong>⚠ Note:</strong> The <code style="font-size:11px;background:rgba(0,0,0,.3);padding:2px 5px;border-radius:3px;">3V3</code> header pin is a <strong>regulated output only</strong> — do not apply external voltage to it. The TLV75801 LDO has no back-drive protection; powering through 3V3 with USB disconnected will damage the IC. Power the board via USB-C only. See Rev 2 for a planned fix.</p>
+</div>
+<div class="two-col" style="margin-bottom:20px">
+  <div class="spec-block">
+    <div class="spec-block-header">At a Glance</div>
+    <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Personal project</span></div>
+    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: schematic, layout, hand assembly, bring-up</span></div>
+    <div class="spec-row"><span class="spec-key">Timeline</span><span class="spec-val">Apr – May 2026</span></div>
+    <div class="spec-row"><span class="spec-key">Skills</span><span class="spec-val">4-layer PCB design · impedance control · SMD reflow · board bring-up</span></div>
+    <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">KiCad 9 · JLCPCB · hotplate reflow · Arduino IDE</span></div>
+    <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val ok">Working · now the main controller in my Bip robot</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Built On (Credits)</div>
+    <div class="spec-row"><span class="spec-key">Module</span><span class="spec-val">Espressif ESP32-S3-MINI-1-N8</span></div>
+    <div class="spec-row"><span class="spec-key">PCB fabrication</span><span class="spec-val">JLCPCB (JLC04161H-3313 stack-up)</span></div>
+    <div class="spec-row"><span class="spec-key">Pin data</span><span class="spec-val">ESP32-S3-MINI-1 datasheet v1.2</span></div>
+    <div class="spec-row"><span class="spec-key">Test library</span><span class="spec-val">Adafruit NeoPixel (LED test)</span></div>
+    <div class="spec-row"><span class="spec-key">My work</span><span class="spec-val ok">Everything on the board: circuit, layout, assembly, testing</span></div>
+  </div>
 </div>
 <div class="gallery">
   <div class="gallery-item wide" style="width: 714px; height: 409px; min-height: unset;">
@@ -1014,6 +1034,27 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
 </div>
 </div>
 
+<div class="section" id="bringup">
+<div class="section-header"><h2 class="section-title">Assembly &amp; Bring-Up</h2><div class="section-line"></div></div>
+<div class="prose">
+  <p><strong>Assembly.</strong> JLCPCB made the bare 4-layer board; I placed the SMD parts by hand and reflowed them on a hotplate.</p>
+  <p><strong>Bring-up tests.</strong> Two small test sketches checked the board one block at a time:</p>
+  <p>1. <strong>Sensor and LED:</strong> reads the ENS210 temperature/humidity sensor over I²C (GPIO17/18, address 0x43, with the datasheet's CRC check on every reading) and cycles the WS2812B LED on GPIO48.<br>
+  2. <strong>Solder-joint check:</strong> drives every header GPIO high then low so each pin can be probed with a multimeter, then turns on the internal pull-up and pull-down on each pin and reads it back. A pin stuck high or low points to a short to 3V3 or GND.</p>
+  <p><strong>Result.</strong> The board flashes over its own USB-C port (no USB-serial chip) and is now the main controller in my <a href="bip-robot-project.html" style="color:var(--accent)">Bip biped robot</a>, running its servos, IMU and WiFi updates.</p>
+</div>
+<div class="gallery">
+  <div class="gallery-item" style="width:calc(50% - 8px)">
+    <img loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-04.webp" alt="The assembled board on a breadboard while being flashed over USB-C" style="max-height:340px;aspect-ratio:3/4;object-position:center 70%">
+    <div class="gallery-caption">Flashing over USB-C: "Hash of data verified"</div>
+  </div>
+  <div class="gallery-item" style="width:calc(50% - 8px)">
+    <img loading="lazy" src="IMAGES/ESP32 S3 Board/esp32-real-05.webp" alt="Soldering bench with the board on the hotplate and the KiCad design on screen" style="max-height:340px;aspect-ratio:3/4;object-position:center 80%">
+    <div class="gallery-caption">Assembly bench: hotplate, paste and the KiCad design</div>
+  </div>
+</div>
+</div>
+
 <div class="section" id="rev2">
 <div class="section-header"><h2 class="section-title">Future Improvements — Rev 2</h2><div class="section-line"></div></div>
 <div class="decision-list">
@@ -1057,7 +1098,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('.section-num').forEach(el=>el.remove());
 
   // 2. Add IDs to sections for nav anchor links
-  const sectionIds=['overview','pinout','bom','specs','process','decisions','verification','rev2'];
+  const sectionIds=['overview','pinout','bom','specs','process','decisions','verification','bringup','rev2'];
   document.querySelectorAll('.section').forEach((sec,i)=>{if(sectionIds[i])sec.id=sectionIds[i];});
 
   // Helper: swap img src but fall back to original base64 if file missing

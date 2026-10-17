@@ -343,7 +343,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     </div>
     <div class="hero-meta">
       <span class="badge badge-blue">2× ESP32-C3 Super Mini</span>
-      <span class="badge badge-teal">Prusa 3D-Printed Links</span>
+      <span class="badge badge-teal">3D-Printed Links</span>
       <span class="badge badge-green">Working — Wireless Teleop</span>
     </div>
 
@@ -416,7 +416,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="14" height="14" rx="1.5"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="16" y1="9" x2="16" y2="5"/><line x1="20" y1="9" x2="20" y2="5"/><line x1="12" y1="23" x2="12" y2="27"/><line x1="16" y1="23" x2="16" y2="27"/><line x1="20" y1="23" x2="20" y2="27"/><line x1="9" y1="13" x2="5" y2="13"/><line x1="9" y1="19" x2="5" y2="19"/><line x1="23" y1="13" x2="27" y2="13"/><line x1="23" y1="19" x2="27" y2="19"/><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></div>
             <div class="snap-comp-name">ESP32-C3 (Follower)</div>
           </div>
-          <div class="snap-comp" data-tip="2.4 GHz peer-to-peer, no router/AP needed, ~1-2 ms round trip observed">
+          <div class="snap-comp" data-tip="2.4 GHz peer-to-peer, no router/AP needed, 12-byte packet per update">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 22 Q7 13 16 13 Q25 13 27 22"/><path d="M8.5 19.5 Q10 14 16 14 Q22 14 23.5 19.5"/><path d="M12 17 Q13.5 14.5 16 14.5 Q18.5 14.5 20 17"/><circle cx="16" cy="26.5" r="2" fill="currentColor" stroke="none"/></svg></div>
             <div class="snap-comp-name">ESP-NOW</div>
           </div>
@@ -424,9 +424,9 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="6" width="20" height="16" rx="2"/><circle cx="12" cy="13" r="1.8" fill="currentColor" stroke="none"/><circle cx="20" cy="13" r="1.8" fill="currentColor" stroke="none"/><path d="M11 18h10"/><path d="M9 6V3M23 6V3"/></svg></div>
             <div class="snap-comp-name">LeRobot</div>
           </div>
-          <div class="snap-comp" data-tip="Arm links printed from TheRobotStudio's STL files on a Prusa — the desk clamps are a custom Fusion 360 design, not from the repo">
+          <div class="snap-comp" data-tip="Arm links printed from TheRobotStudio's STL files — the desk clamps are a custom Fusion 360 design, not from the repo">
             <div class="snap-comp-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="26" height="26" rx="2"/><circle cx="7" cy="7" r="2"/><circle cx="25" cy="7" r="2"/><circle cx="7" cy="25" r="2"/><circle cx="25" cy="25" r="2"/><path d="M7 9 L7 16 L16 16"/><path d="M16 16 L16 9 L25 9"/><path d="M16 16 L16 25"/></svg></div>
-            <div class="snap-comp-name">Prusa 3D Print</div>
+            <div class="snap-comp-name">3D Print</div>
           </div>
         </div>
       </div>
@@ -462,8 +462,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
       <div class="snap-stat-lbl">STS3215 Servos</div>
     </div>
     <div class="snap-stat">
-      <div class="snap-counter" data-target="2" data-suffix=" ms">~2 ms</div>
-      <div class="snap-stat-lbl">ESP-NOW Latency</div>
+      <div class="snap-counter" data-target="12" data-suffix=" B">12 B</div>
+      <div class="snap-stat-lbl">ESP-NOW Packet</div>
     </div>
     <div class="snap-stat">
       <div class="snap-counter" data-target="100" data-suffix=" Hz">100 Hz</div>
@@ -486,13 +486,32 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="overview-grid">
   <div class="stat-card"><div class="stat-label">Servos</div><div class="stat-value" style="font-size:18px;">12×</div><div class="stat-sub">Feetech STS3215 C001, 7.4V</div></div>
   <div class="stat-card blue"><div class="stat-label">Control MCU</div><div class="stat-value" style="font-size:18px;">ESP32-C3</div><div class="stat-sub">×2, Super Mini form factor</div></div>
-  <div class="stat-card amber"><div class="stat-label">Wireless Link</div><div class="stat-value">~2</div><div class="stat-sub">ms ESP-NOW round trip</div></div>
+  <div class="stat-card amber"><div class="stat-label">Wireless Link</div><div class="stat-value" style="font-size:18px;">ESP-NOW</div><div class="stat-sub">Peer-to-peer, no router or PC</div></div>
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--green)">Working</div><div class="stat-sub">Wireless teleop confirmed end-to-end</div></div>
 </div>
 <div class="prose">
   <p>The <strong>SO-101</strong> is TheRobotStudio's open-source leader-follower robotic arm (Apache-2.0) — the current version of their SO-ARM100 design — built for the Hugging Face <strong>LeRobot</strong> ecosystem — you physically move the leader arm, and the follower mirrors it in real time, the standard way to collect teleoperation data for training robot learning policies. It was chosen over the pricier AM-ARM200 mainly on servo economics — full comparison in the sourcing section below.</p>
-  <p>Everything through this point is stock SO-101: the 12 <strong>Feetech STS3215</strong> servos and both motor-controller boards were bought as parts, the arm links were 3D printed from TheRobotStudio's original files on a <strong>Prusa</strong> printer, and both arms were assembled and calibrated through LeRobot's Python tooling — homing offsets and safe position limits get burned straight into each servo's EEPROM. The one part that isn't stock: the desk clamps, custom-modelled from scratch — more on that below.</p>
+  <p>Everything through this point is stock SO-101: the 12 <strong>Feetech STS3215</strong> servos and both motor-controller boards were bought as parts, the arm links were 3D printed from TheRobotStudio's original files, and both arms were assembled and calibrated through LeRobot's Python tooling — homing offsets and safe position limits get burned straight into each servo's EEPROM. The one part that isn't stock: the desk clamps, custom-modelled from scratch — more on that below.</p>
   <p>What isn't in the official repo is the wireless link. The arm pair worked over USB from day one; built on top of that are two <strong>ESP32-C3 Super Mini</strong> boards that read the leader's joints and mirror them to the follower over <strong>ESP-NOW</strong>, no PC in the loop. Full breakdown in the Wireless Upgrade section below.</p>
+</div>
+<div class="two-col" style="margin-bottom:20px">
+  <div class="spec-block">
+    <div class="spec-block-header">At a Glance</div>
+    <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Personal project</span></div>
+    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Sourcing, printing, assembly, calibration; designed the desk clamps and the wireless link</span></div>
+    <div class="spec-row"><span class="spec-key">Timeline</span><span class="spec-val">Jun 2026 – present</span></div>
+    <div class="spec-row"><span class="spec-key">Skills</span><span class="spec-val">Servo bus protocols · ESP-NOW · calibration · fault-finding</span></div>
+    <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">LeRobot (Python) · Arduino C++ · Fusion 360 · MuJoCo</span></div>
+    <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val ok">Teleop working · dataset recording next</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Built On (Credits)</div>
+    <div class="spec-row"><span class="spec-key">Arm design</span><span class="spec-val">SO-101 by TheRobotStudio (Apache-2.0)</span></div>
+    <div class="spec-row"><span class="spec-key">Robot software</span><span class="spec-val">LeRobot (Hugging Face)</span></div>
+    <div class="spec-row"><span class="spec-key">Servos</span><span class="spec-val">Feetech STS3215</span></div>
+    <div class="spec-row"><span class="spec-key">Simulation model</span><span class="spec-val">Official SO-101 MuJoCo model (TheRobotStudio)</span></div>
+    <div class="spec-row"><span class="spec-key">My additions</span><span class="spec-val ok">Desk clamps, ESP32-C3 wireless link, dual-gripper setup</span></div>
+  </div>
 </div>
 <div class="gallery">
   <div class="gallery-item half">
@@ -528,7 +547,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="spec-row"><span class="spec-key">Chosen: Alibaba bundle</span><span class="spec-val ok">$289.80 (12 servos + board + cables)</span></div>
     <div class="spec-row"><span class="spec-key">AliExpress (separate)</span><span class="spec-val warn">~$325</span></div>
     <div class="spec-row"><span class="spec-key">Amazon / eBay 12-pack</span><span class="spec-val warn">~$285–312</span></div>
-    <div class="spec-row"><span class="spec-key">Arm links</span><span class="spec-val">Prusa-printed, TheRobotStudio's STL files</span></div>
+    <div class="spec-row"><span class="spec-key">Arm links</span><span class="spec-val">3D printed, TheRobotStudio's STL files</span></div>
     <div class="spec-row"><span class="spec-key">Desk clamps</span><span class="spec-val ok">Custom-designed, PETG</span></div>
   </div>
 </div>
@@ -591,8 +610,14 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="timeline-body">The final architecture: a <strong>leader board</strong> reads all 6 STS3215 positions from the leader arm over UART (1 Mbps, half-duplex) and sends them as a 12-byte ESP-NOW packet. A <strong>follower board</strong> receives that packet, clamps each joint to safe position limits pulled straight from the LeRobot calibration JSON, and sync-writes all 6 goal positions to the follower arm in one broadcast instruction. Each arm was bring-up tested standalone first — a small <code>servo_test</code> sketch reads and wiggles all 6 joints, confirming the ESP32 can talk to that arm's servos before any ESP-NOW code goes near it. First-time pairing: flash the follower sketch first, read its MAC address off the Serial Monitor, paste it into the leader sketch, then flash the leader. Confirmed working end-to-end — moving the leader arm by hand drives the follower in real time with no perceptible lag.</div>
     <div class="outcome-callout" style="margin-top:14px">
       <span class="oc-label">Confirmed</span>
-      <span class="oc-text">Leader arm mirrors to follower arm wirelessly at 100 Hz — no PC in the loop, no router, ~1–2 ms ESP-NOW round trip.</span>
+      <span class="oc-text">Leader arm mirrors to follower arm wirelessly at 100 Hz — no PC in the loop, no router.</span>
     </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-dot amber"></div>
+    <div class="timeline-step amber">Phase 4 — Two Grippers, Back to USB for Training — Sep 2026</div>
+    <div class="timeline-heading">Leader arm given a real gripper; both arms on USB so LeRobot can record</div>
+    <div class="timeline-body">To train a policy, LeRobot's recorder has to log both arms on the PC, which the ESP-NOW mirror can't do, so the arms went back to USB. The leader's passive handle was swapped for a printed copy of the follower's gripper, making both arms identical, and both were recalibrated. Two faults came up and were fixed: the follower board found no servos (a loose connector at the board, found by swapping boards and servo chains between arms), and one leader joint made the follower snap to its opposite limit (the encoder's wrap point sat inside the joint's travel because the joint wasn't centred during calibration; recalibrating at the true midpoint fixed it). Teleop is smooth again, and a first test episode recorded to disk correctly.</div>
   </div>
 </div>
 </div>
@@ -630,7 +655,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="spec-block-header">ESP-NOW Link</div>
     <div class="spec-row"><span class="spec-key">Payload</span><span class="spec-val">6× int16_t positions, 12 bytes</span></div>
     <div class="spec-row"><span class="spec-key">Pairing</span><span class="spec-val">Static MAC address, unencrypted</span></div>
-    <div class="spec-row"><span class="spec-key">Observed latency</span><span class="spec-val ok">~1–2 ms round trip</span></div>
+    <div class="spec-row"><span class="spec-key">Lag</span><span class="spec-val ok">None noticeable by hand (not timed)</span></div>
     <div class="spec-row"><span class="spec-key">Safety clamp</span><span class="spec-val">Follower constrains to LeRobot calibration limits</span></div>
     <div class="spec-row"><span class="spec-key">Board</span><span class="spec-val">ESP32C3 Dev Module, USB CDC On Boot: Enabled</span></div>
   </div>
@@ -681,11 +706,11 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="decision-list">
   <div class="decision">
     <div class="decision-title">Teleoperation Data Collection for Policy Training</div>
-    <div class="decision-body">With wireless teleoperation confirmed, the next step is recording demonstration episodes through LeRobot's data collection pipeline — moving the leader arm through repeated tasks while the follower's joint trajectories are logged, building a dataset toward training an imitation-learning policy.</div>
+    <div class="decision-body">The recording pipeline works (first test episode saved). Next: screw both arms to a wooden base so they sit in the same place every session, record around 20 demonstrations with the object in different spots, then train LeRobot's ACT imitation-learning policy (CPU only on this laptop, so training will be slow).</div>
   </div>
   <div class="decision blue">
     <div class="decision-title">Camera Integration</div>
-    <div class="decision-body">Add a camera stream (wrist-mounted or overhead) so recorded episodes include visual observations alongside joint positions — required for most LeRobot policy architectures, which condition on images, not just joint state.</div>
+    <div class="decision-body">Add an overhead camera on TheRobotStudio's own camera mount so recorded episodes include images alongside joint positions — ACT and most LeRobot policies need to see the object, not just the joint angles.</div>
   </div>
 </div>
 </div>
