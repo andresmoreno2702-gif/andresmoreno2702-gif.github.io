@@ -795,7 +795,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
   <div class="spec-block">
     <div class="spec-block-header">At a Glance</div>
     <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Personal project</span></div>
-    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: schematic, layout, hand assembly, bring-up</span></div>
+    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: schematic, layout, hand assembly, bring-up</span></div> <div class="spec-row"><span class="spec-key">Code</span><span class="spec-val">Bring-up test sketches written with AI coding help</span></div>
     <div class="spec-row"><span class="spec-key">Timeline</span><span class="spec-val">Apr – May 2026</span></div>
     <div class="spec-row"><span class="spec-key">Skills</span><span class="spec-val">4-layer PCB design · impedance control · SMD reflow · board bring-up</span></div>
     <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">KiCad 9 · JLCPCB · hotplate reflow · Arduino IDE</span></div>
@@ -1048,6 +1048,7 @@ model-viewer{width:100%;flex:1;min-height:320px;background:transparent;border-ra
   <p>1. <strong>Sensor and LED:</strong> reads the ENS210 temperature/humidity sensor over I²C (GPIO17/18, address 0x43, with the datasheet's CRC check on every reading) and cycles the WS2812B LED on GPIO48.<br>
   2. <strong>Solder-joint check:</strong> drives every header GPIO high then low so each pin can be probed with a multimeter, then turns on the internal pull-up and pull-down on each pin and reads it back. A pin stuck high or low points to a short to 3V3 or GND.</p>
   <p><strong>Result.</strong> The board flashes over its own USB-C port (no USB-serial chip) and is now the main controller in my <a href="bip-robot-project.html" style="color:var(--accent)">Bip biped robot</a>, running its servos, IMU and WiFi updates.</p>
+<p>The WS2812B and the red LED (D2) both worked. The ENS210 answered on the I²C scan, but I have not yet checked its readings against a thermometer.</p>
 </div>
 <div class="gallery">
   <div class="gallery-item" style="width:calc(50% - 8px)">
