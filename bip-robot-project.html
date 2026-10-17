@@ -10,7 +10,7 @@
 <meta property="og:title" content="Bip Biped Robot · Andrés Moreno">
 <meta property="og:description" content="Two-legged robot, work in progress: 10 leg servos, IMU balance, animated face, camera, microphones and voice chat.">
 <meta property="og:image" content="https://andresmoreno2702-gif.github.io/IMAGES/Bip/bip-standing.webp">
-<meta property="og:url" content="https://andresmoreno2702-gif.github.io/robotic-arm-project.html">
+<meta property="og:url" content="https://andresmoreno2702-gif.github.io/bip-robot-project.html">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -355,7 +355,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     </div>
   </div>
   <div class="hero-photo">
-    <img loading="lazy" src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk">
+    <img src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk">
   </div>
 </div>
 </div>
@@ -371,7 +371,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 
     <div class="snap-photo-wrap">
       <div class="snap-photo-main">
-        <img loading="lazy" src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk" id="snapMainImg">
+        <img src="IMAGES/Bip/bip-standing.webp" alt="Bip standing on the desk" id="snapMainImg">
         <div class="snap-photo-caption" id="snapMainCap">Bip standing on the desk</div>
       </div>
       <div class="snap-thumbs">
@@ -504,15 +504,16 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="spec-row"><span class="spec-key">Servo driver library</span><span class="spec-val">Adafruit PWM Servo Driver</span></div>
     <div class="spec-row"><span class="spec-key">Display libraries</span><span class="spec-val">Arduino_GFX, U8g2</span></div>
     <div class="spec-row"><span class="spec-key">Physics engine</span><span class="spec-val">MuJoCo</span></div>
-    <div class="spec-row"><span class="spec-key">Speech in / out</span><span class="spec-val">Whisper, Piper</span></div>
-    <div class="spec-row"><span class="spec-key">Conversation</span><span class="spec-val">Claude (Anthropic)</span></div>
+    <div class="spec-row"><span class="spec-key">Speech</span><span class="spec-val">Whisper (Groq + local), Silero, Piper</span></div>
+    <div class="spec-row"><span class="spec-key">Vision &amp; sound</span><span class="spec-val">YOLOX, YuNet, SFace, MediaPipe, YAMNet</span></div>
+    <div class="spec-row"><span class="spec-key">Conversation</span><span class="spec-val">Claude Haiku (Anthropic)</span></div>
     <div class="spec-row"><span class="spec-key">Coding assistant</span><span class="spec-val">Claude Code</span></div>
   </div>
 </div>
 <div class="gallery">
   <div class="gallery-item half">
     <img loading="lazy" src="IMAGES/Bip/bip-front.webp" alt="Bip front view" style="object-position:center 30%">
-    <div class="gallery-caption">Front: round eyes, OLED mouth, camera, speaker grille and the sonar</div>
+    <div class="gallery-caption">Front: round eyes, OLED mouth, camera, speaker grille, and the sonar under the torso</div>
   </div>
   <div class="gallery-item half">
     <img loading="lazy" src="IMAGES/Bip/bip-big-feet.webp" alt="Bip with big printed feet" style="object-position:center 40%">
@@ -561,7 +562,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="decision-list">
   <div class="decision"><div class="decision-title">PCA9685 for the 10 leg servos</div><div class="decision-body">Ten servos need a steady 50 Hz pulse each. A PCA9685 generates all of them in hardware over I²C (the same bus as the IMU), which leaves the ESP32-S3 free for the kinematics, gait and balance maths every 20 ms.</div></div>
   <div class="decision blue"><div class="decision-title">A separate board for the face</div><div class="decision-body">Animating two round displays and an OLED takes a lot of SPI and I²C traffic. Putting the face on its own <strong>ESP32-C3</strong> means drawing never delays the 50 Hz walking loop; the main board just sends it short commands.</div></div>
-  <div class="decision amber"><div class="decision-title">Heavy AI work on the laptop, not the robot</div><div class="decision-body">Speech recognition, the voice and the conversation need far more memory and compute than an ESP32 has. They run on my laptop over Wi-Fi, which keeps the robot light and its batteries for the motors.</div></div>
+  <div class="decision amber"><div class="decision-title">Heavy AI work on the laptop, not the robot</div><div class="decision-body">Recognising speech, faces, gestures and sounds, and holding a conversation, need far more memory and compute than an ESP32 has. The robot streams camera and microphone data to my laptop over Wi-Fi: vision runs offline on the laptop CPU (about 50 ms per frame), speech-to-text uses Whisper with a local fallback, and Claude Haiku writes the replies. The robot stays light and its battery goes to the motors.</div></div>
   <div class="decision"><div class="decision-title">Simulation first, with a deliberately "wrong" twin</div><div class="decision-body">Every gait or balance change is tried in the MuJoCo twin before the real robot. To avoid tuning for a perfect model, I test with random servo lag (40–80 ms), weak servos, ±2° zero errors, different friction and a shifted centre of mass. Example: a standing balance gain of 0.9 fell in 13 of 60 randomised runs, 0.3 in 0 of 60, so 0.3 is the next setting to try on the robot.</div></div>
   <div class="decision blue"><div class="decision-title">Joint limits from the CAD</div><div class="decision-body">In the CAD the feet touch when both turn in by about 12.75°, so the firmware limits hip yaw to 10° toes-in and 30° toes-out, protecting the feet even before calibration.</div></div>
   <div class="decision red"><div class="decision-title">Safety around unpredictable hardware</div><div class="decision-body">Servo outputs stay off until enabled, every move is ramped and clamped to calibrated limits, <code>x</code> is an instant emergency stop, and the 2S LiPo voltage is monitored with low-battery warnings (filtered, because servo current briefly pulls the voltage down).</div></div>
@@ -609,7 +610,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 <div class="section" id="face">
 <div class="section-header"><h2 class="section-title">Face &amp; Senses</h2><div class="section-line"></div></div>
 <div class="prose">
-  <p>An <strong>ESP32-C3</strong> draws the face: two <strong>GC9A01</strong> round displays for the eyes and an <strong>SSD1306</strong> OLED for the mouth, all procedurally animated. A <strong>XIAO ESP32-S3 Sense</strong> provides the camera and microphones, a <strong>MAX98357A</strong> amp drives the speaker, and an <strong>HC-SR04</strong> sonar sits in the chest. Voice and conversation are handled on the laptop (see Key Engineering Decisions).</p>
+  <p>An <strong>ESP32-C3</strong> draws the face: two <strong>GC9A01</strong> round displays for the eyes and an <strong>SSD1306</strong> OLED for the mouth, all procedurally animated. A <strong>XIAO ESP32-S3 Sense</strong> provides the camera and microphones, a <strong>MAX98357A</strong> amp drives the speaker, and an <strong>HC-SR04</strong> sonar sits under the torso. Voice and conversation are handled on the laptop (see Key Engineering Decisions).</p>
+  <p><strong>What it does with them.</strong> Bip recognises my face, and its eyes follow the nearest face. It reacts straight away to hand gestures (wave, thumbs up, open palm for stop) and to everyday sounds such as a knock or a clap. It knows what objects are in front of it and, with the sonar, how far away they are, and it can answer "what do you see?" from a camera photo.</p>
 </div>
 <div class="gallery">
   <div class="gallery-item half">
@@ -633,6 +635,7 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="spec-row"><span class="spec-key">Animated face</span><span class="spec-val ok">yes</span></div>
     <div class="spec-row"><span class="spec-key">Head pan / tilt</span><span class="spec-val ok">yes</span></div>
     <div class="spec-row"><span class="spec-key">Voice chat, camera, microphones</span><span class="spec-val ok">yes</span></div>
+    <div class="spec-row"><span class="spec-key">Face recognition, gestures, sounds</span><span class="spec-val ok">yes</span></div>
     <div class="spec-row"><span class="spec-key">Firmware updates over Wi-Fi</span><span class="spec-val ok">yes</span></div>
   </div>
   <div class="spec-block">
