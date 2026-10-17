@@ -316,9 +316,10 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <a href="index.html">← Portfolio</a>
     <a href="#overview">Overview</a>
     <a href="#build">Build</a>
+    <a href="#decisions">Decisions</a>
     <a href="#walking">Walking &amp; Sim</a>
+    <a href="#testing">Testing</a>
     <a href="#face">Face &amp; Senses</a>
-    <a href="#status">Status</a>
     <a href="#demo">Demo</a>
     <a href="#next">Next Steps</a>
   </div>
@@ -483,8 +484,27 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
   <div class="stat-card"><div class="stat-label">Build Status</div><div class="stat-value" style="font-size:16px;color:var(--amber, #f59e0b)">In Progress</div><div class="stat-sub">Stands, short walks</div></div>
 </div>
 <div class="prose">
-  <p><strong>Bip</strong> is a small two-legged robot I'm designing and building from scratch: a printed body, 10 leg servos, an IMU for balance, an animated face, and a camera and microphones so it can see and talk.</p>
-  <p>The robot is split across three boards. The main <strong>ESP32-S3</strong> (my own dev board) runs the legs, the walking and the balance. An <strong>ESP32-C3</strong> draws the face, and a <strong>XIAO ESP32-S3 Sense</strong> in the head handles the camera and microphones. Speech recognition and conversation run on my laptop, using Claude as the brain, and Bip's firmware updates over Wi-Fi.</p>
+  <p><strong>Goal.</strong> A small, friendly two-legged robot that can walk, see, listen and talk, built from my own design rather than a kit.</p>
+  <p><strong>Approach.</strong> A Fusion 360 printed body with 10 leg servos, an ESP32-S3 running the kinematics, gait and IMU balance, separate boards for the face and the camera/microphones, and a MuJoCo digital twin that runs the same gait code so new settings are tried in simulation before they risk the hardware.</p>
+  <p><strong>Result so far.</strong> Bip stands, walks short distances on the table, talks and reacts with its face. Reliable walking is the current focus.</p>
+</div>
+<div class="two-col" style="margin-bottom:20px">
+  <div class="spec-block">
+    <div class="spec-block-header">At a Glance</div>
+    <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Personal project</span></div>
+    <div class="spec-row"><span class="spec-key">My role</span><span class="spec-val">Solo: CAD, electronics, firmware, simulation</span></div>
+    <div class="spec-row"><span class="spec-key">Timeline</span><span class="spec-val">2026 – present</span></div>
+    <div class="spec-row"><span class="spec-key">Tools</span><span class="spec-val">Fusion 360 · Arduino C++ · Python · MuJoCo</span></div>
+    <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val warn">In progress</span></div>
+  </div>
+  <div class="spec-block">
+    <div class="spec-block-header">Built On (Credits)</div>
+    <div class="spec-row"><span class="spec-key">Servo driver library</span><span class="spec-val">Adafruit PWM Servo Driver</span></div>
+    <div class="spec-row"><span class="spec-key">Display libraries</span><span class="spec-val">Arduino_GFX, U8g2</span></div>
+    <div class="spec-row"><span class="spec-key">Physics engine</span><span class="spec-val">MuJoCo</span></div>
+    <div class="spec-row"><span class="spec-key">Speech in / out</span><span class="spec-val">Whisper, Piper</span></div>
+    <div class="spec-row"><span class="spec-key">Conversation</span><span class="spec-val">Claude (Anthropic)</span></div>
+  </div>
 </div>
 <div class="gallery">
   <div class="gallery-item half">
@@ -521,12 +541,6 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="spec-row"><span class="spec-key">Distance</span><span class="spec-val">HC-SR04 sonar</span></div>
   </div>
 </div>
-<div class="decision-list" style="margin-top:20px">
-  <div class="decision red">
-    <div class="decision-title">Servos with no feedback: start limp, ramp every move</div>
-    <div class="decision-body">Hobby servos don't report where they are. Driving straight to a stored angle at power-on snapped a joint once. Now every servo is calibrated (zero, direction, limits, saved on the board), outputs start <strong>off</strong> until commanded, every move is ramped and clamped to its limits, and <code>x</code> is an instant emergency stop.</div>
-  </div>
-</div>
 <div class="gallery">
   <div class="gallery-item half">
     <img loading="lazy" src="IMAGES/Bip/bip-wiring-torso.webp" alt="Torso wiring" style="object-position:center 40%">
@@ -536,6 +550,18 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <img loading="lazy" src="IMAGES/Bip/bip-wiring-head.webp" alt="Head wiring" style="object-position:center 40%">
     <div class="gallery-caption">Head wiring from the back: face board, camera and the pan/tilt mount</div>
   </div>
+</div>
+</div>
+
+<div class="section" id="decisions">
+<div class="section-header"><h2 class="section-title">Key Engineering Decisions</h2><div class="section-line"></div></div>
+<div class="decision-list">
+  <div class="decision"><div class="decision-title">PCA9685 for the 10 leg servos</div><div class="decision-body">Ten servos need a steady 50 Hz pulse each. A PCA9685 generates all of them in hardware over I²C (the same bus as the IMU), which leaves the ESP32-S3 free for the kinematics, gait and balance maths every 20 ms.</div></div>
+  <div class="decision blue"><div class="decision-title">A separate board for the face</div><div class="decision-body">Animating two round displays and an OLED takes a lot of SPI and I²C traffic. Putting the face on its own <strong>ESP32-C3</strong> means drawing never delays the 50 Hz walking loop; the main board just sends it short commands.</div></div>
+  <div class="decision amber"><div class="decision-title">Heavy AI work on the laptop, not the robot</div><div class="decision-body">Speech recognition, the voice and the conversation need far more memory and compute than an ESP32 has. They run on my laptop over Wi-Fi, which keeps the robot light and its batteries for the motors.</div></div>
+  <div class="decision"><div class="decision-title">Simulation first, with a deliberately "wrong" twin</div><div class="decision-body">Every gait or balance change is tried in the MuJoCo twin before the real robot. To avoid tuning for a perfect model, I test with random servo lag (40–80 ms), weak servos, ±2° zero errors, different friction and a shifted centre of mass. Example: a standing balance gain of 0.9 fell in 13 of 60 randomised runs, 0.3 in 0 of 60, so 0.3 is the next setting to try on the robot.</div></div>
+  <div class="decision blue"><div class="decision-title">Joint limits from the CAD</div><div class="decision-body">In the CAD the feet touch when both turn in by about 12.75°, so the firmware limits hip yaw to 10° toes-in and 30° toes-out, protecting the feet even before calibration.</div></div>
+  <div class="decision red"><div class="decision-title">Safety around unpredictable hardware</div><div class="decision-body">Servo outputs stay off until enabled, every move is ramped and clamped to calibrated limits, <code>x</code> is an instant emergency stop, and the 2S LiPo voltage is monitored with low-battery warnings (filtered, because servo current briefly pulls the voltage down).</div></div>
 </div>
 </div>
 
@@ -563,6 +589,20 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
 </div>
 </div>
 
+<div class="section" id="testing">
+<div class="section-header"><h2 class="section-title">Testing &amp; Results</h2><div class="section-line"></div></div>
+<div class="overview-grid">
+  <div class="stat-card"><div class="stat-label">Firmware vs simulator</div><div class="stat-value">0.0005°</div><div class="stat-sub">worst error, 24 test cases</div></div>
+  <div class="stat-card blue"><div class="stat-label">Hand-tuned gait</div><div class="stat-value">3 walks</div><div class="stat-sub">completed; 2 falls while stopping</div></div>
+  <div class="stat-card amber"><div class="stat-label">Real speed</div><div class="stat-value">~15 mm</div><div class="stat-sub">per step cycle (feet slide)</div></div>
+  <div class="stat-card red"><div class="stat-label">Sim-learned gait</div><div class="stat-value">3 / 3</div><div class="stat-sub">trials fell on the real robot</div></div>
+</div>
+<div class="prose">
+  <p><strong>How I measure it.</strong> I built a small gait camera: ArUco markers on the feet and torso, tracked by a webcam with Python and OpenCV, plus the robot's own IMU log. Each trial records speed, sway and heading, and each clip is saved with its result.</p>
+  <p><strong>What the tests show.</strong> The firmware does exactly what the simulator does, so the gap is in the model, not the code. On the table the hand-tuned gait walks but drifts, the feet slide, and most falls happen when the stride changes at the start or stop. The gait learned in simulation fell every time, which showed the twin is wrong in pitch. The next step is to measure the real servo lag and weight distribution and feed them back into the model.</p>
+</div>
+</div>
+
 <div class="section" id="face">
 <div class="section-header"><h2 class="section-title">Face &amp; Senses</h2><div class="section-line"></div></div>
 <div class="prose">
@@ -574,8 +614,8 @@ nav.up{border-color:var(--line-2);box-shadow:0 1px 30px rgba(0,0,0,.15);}
     <div class="gallery-caption">Face without its cover: two GC9A01 eye displays and the SSD1306 mouth</div>
   </div>
   <div class="gallery-item half">
-    <img loading="lazy" src="IMAGES/Bip/bip-front.webp" alt="Bip front view" style="object-position:center 20%">
-    <div class="gallery-caption">Assembled face with the cover on</div>
+    <img loading="lazy" src="IMAGES/Bip/bip-face-closeup.webp" alt="Bip face close-up" style="object-position:center 25%">
+    <div class="gallery-caption">Assembled face: eyes, mouth, camera above, speaker grille in the chest</div>
   </div>
 </div>
 </div>
